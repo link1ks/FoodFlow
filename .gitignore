@@ -1,0 +1,14 @@
+.cache/
+web/node_modules/
+web/dist/
+web/tsconfig.tsbuildinfo
+.env
+data/
+.idea/
+.env.*
+!.env.example
+*.log
+*.exe
+*.dump
+coverage.out
+reports/local/

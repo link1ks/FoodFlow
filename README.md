@@ -83,7 +83,7 @@ flowchart LR
 
 ## 启动与配置
 
-> 当前 GitHub 仓库仅包含项目说明；以下命令适用于完整源码。
+仓库包含完整源码、数据库迁移、自动化测试与部署配置。
 
 开发环境：Go 1.26、Node.js 24、pnpm 11、Docker Compose。
 
@@ -153,6 +153,12 @@ Testcontainers 依赖 Docker；请检查集成测试是否被跳过。`TEST_DATA
 | 真实短信送达、S3、完整 Compose 部署 | 待端到端验证 |
 
 ## 部署与维护
+
+- [本地部署与备份恢复验收](docs/LOCAL_DEPLOYMENT.md)
+- [可复现验证与性能记录](docs/VALIDATION_REPORT.md)
+- [核心设计与技术复盘](docs/ENGINEERING_STORIES.md)
+
+前端按页面拆分到 `web/src/pages`，共享状态与应用入口位于 `web/src/app`。烹饪与调味品事务服务分别位于 `internal/app/cooking_service.go` 和 `pantry_service.go`，由调用方统一控制事务提交与幂等响应。
 
 - 生产环境启用 HTTPS，密钥通过部署平台管理，不提交 `.env`、运行数据和日志。
 - 升级前使用 `pg_dump` 备份数据库，图片目录或 S3 对象单独备份；恢复到空目标数据库。

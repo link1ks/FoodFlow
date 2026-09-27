@@ -1,0 +1,44 @@
+name: CI
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: {go-version-file: go.mod, cache: true}
+      - run: go vet ./...
+      # Each integration test uses an isolated PostgreSQL container.
+      - run: go test -race -count=1 -coverprofile=coverage.out ./...
+        env: {REQUIRE_INTEGRATION: 'true'}
+      - run: go install github.com/sqlc-dev/sqlc/cmd/sqlc@v1.30.0
+      - run: sqlc generate && git diff --exit-code -- internal/dbgen
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: go-coverage, path: coverage.out}
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 11}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24', cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml}
+      - run: pnpm install --frozen-lockfile
+        working-directory: web
+      - run: pnpm test && pnpm build
+        working-directory: web
+  images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t foodflow-api:ci .
+      - run: docker build -t foodflow-web:ci web
