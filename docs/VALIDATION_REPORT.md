@@ -43,6 +43,31 @@ pnpm --dir web build
 
 ## 部署验收状态
 
-镜像下载的失效代理已修复；正在验证独立 Compose 构建、主流程、重启、备份恢复及 HTTP 负载。GitHub Actions 以实际运行结果为准，尚未完成的项目不标记通过。
+- 独立 Compose 镜像构建成功，27 个迁移完成，API/Worker/Web/数据库正常运行。
+- Smoke 两次通过：注册、家庭隔离、邀请、幂等入库、Worker 菜单、采购入库、烹饪扣库。
+- 重启 API/Worker/Web 后 ready 返回 200，随后再次通过主流程。
+- PostgreSQL 自定义格式备份成功，恢复到全新数据库；不可变流水逐行 JSON 聚合指纹、用户数、迁移版本与源库一致。验收恢复过程暂停 API/Worker，避免并发写入影响对比。
+- 图片卷 tar 备份已生成；本轮没有图片对象恢复与 S3 验证。
+- `tests/worker-recovery.ps1` 通过：SIGKILL 独立 Worker，停机期间创建任务保持 queued，重启后恢复为待确认草稿。运行中任务的租约 fencing 由数据库集成测试单独验证；未模拟模型调用途中强杀。
+- 完整源码已同步 GitHub；[CI #1](https://github.com/link1ks/FoodFlow/actions/runs/36311723228) 三项全部成功：backend 6 分 9 秒、frontend 32 秒、images 1 分 53 秒。后端执行 `go vet`、`go test -race`、强制数据库集成测试与 sqlc 生成一致性检查，并上传覆盖率产物。对应源码提交 `74c0c89`。
+
+### HTTP 负载冒烟
+
+同一台主机运行客户端及 Docker Desktop 服务。每组新建 1 个家庭、20 种食材与 20 个批次，10 次预热，500 次带鉴权库存 GET；闭环并发模型。
+
+| 并发 | 请求/秒 | P50 ms | P95 ms | P99 ms | 最大 ms | 失败 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 663.99 | 1.554 | 2.092 | 2.573 | 3.328 | 0/500 |
+| 8 | 3355.32 | 2.102 | 3.202 | 9.524 | 14.037 | 0/500 |
+| 32 | 4855.49 | 5.772 | 11.549 | 21.063 | 25.211 | 0/500 |
+
+```powershell
+go run ./cmd/loadcheck -requests 500 -concurrency 1 -out .cache/load-c1.json
+go run ./cmd/loadcheck -requests 500 -concurrency 8 -out .cache/load-c8.json
+go run ./cmd/loadcheck -requests 500 -concurrency 32 -out .cache/load-c32.json
+pwsh -File tests/worker-recovery.ps1
+```
+
+每组持续约 0.10–0.75 秒，仅用于验证负载工具与 API 路径；数据量小且缓存热，不覆盖持续压力、资源饱和、多家庭混合读写或真实网络。不能将瞬时吞吐当作稳定 QPS、SLO 或生产性能承诺。原始脱敏结果保存于 `docs/validation/`。
 
 复现操作见 [本地部署验收](LOCAL_DEPLOYMENT.md)。公网部署、真实短信送达、S3 与生产流量尚未验证。

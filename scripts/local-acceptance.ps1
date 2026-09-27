@@ -25,10 +25,17 @@ switch($Action){
   restore-check {
     # Restore only to a fresh database; never overwrite the live acceptance database.
     $name='restore_check_'+(Get-Date -Format yyyyMMddHHmmss)
+    dc stop api worker
+    try {
+    $fingerprint="SELECT md5(coalesce(string_agg(row_to_json(t)::text, '' ORDER BY id), '')) FROM stock_ledger t; SELECT count(*) FROM users; SELECT max(version_id) FROM goose_db_version;"
+    $before=dc exec -T db psql -U foodflow -d foodflow -At -c $fingerprint
     dc exec -T db pg_dump -U foodflow -d foodflow -Fc -f /tmp/acceptance-restore.dump
     dc exec -T db createdb -U foodflow $name
     dc exec -T db pg_restore -U foodflow -d $name --exit-on-error /tmp/acceptance-restore.dump
-    dc exec -T db psql -U foodflow -d $name -c 'SELECT max(version_id) AS migration FROM goose_db_version; SELECT count(*) AS users FROM users; SELECT count(*) AS ledger FROM stock_ledger;'
+    $after=dc exec -T db psql -U foodflow -d $name -At -c $fingerprint
+    if(($before -join "`n") -ne ($after -join "`n")){throw 'Restored ledger fingerprint, user count or migration version differs'}
+    Write-Output 'PASS: restored ledger fingerprint, user count and migration version match'
     Write-Output "Restored into $name; retained for inspection."
+    } finally { dc start api worker }
   }
 }

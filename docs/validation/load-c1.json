@@ -1,0 +1,18 @@
+{
+  "arch": "amd64",
+  "concurrency": 1,
+  "elapsed_seconds": 0.7530242,
+  "failures": 0,
+  "go": "go1.26.0",
+  "limitations": "closed-loop local read workload; excludes model calls and writes; not a capacity or SLO claim",
+  "logical_cpus": 20,
+  "max_ms": 3.328,
+  "os": "windows",
+  "p50_ms": 1.554,
+  "p95_ms": 2.092,
+  "p99_ms": 2.573,
+  "recorded_at": "2026-09-27T10:15:44.5099913Z",
+  "requests": 500,
+  "requests_per_second": 663.9892848065175,
+  "workload": "authenticated inventory GET, one household, 20 ingredients and 20 batches, 10 warmups"
+}
