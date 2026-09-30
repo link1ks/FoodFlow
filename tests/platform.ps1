@@ -1,5 +1,6 @@
 $ErrorActionPreference='Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
+. (Join-Path $PSScriptRoot 'read-model-helper.ps1')
 $base='http://127.0.0.1:18080/api'
 $config=Join-Path $PWD '.cache/acceptance.env'
 function dc { & docker compose --env-file $config -f compose.acceptance.yaml -f compose.platform.yaml @args; if($LASTEXITCODE -ne 0){throw 'Platform compose failed'} }
@@ -10,8 +11,7 @@ function Call($method,$path,$body=$null,$token='',$key='') {
 }
 function Check($ok,$message){if(!$ok){throw $message}}
 function WaitSummary($predicate){
- for($i=0;$i -lt 90;$i++){$value=Call GET ($root+'/insights') $null $user.token;if(&$predicate $value){return $value};Start-Sleep -Milliseconds 500}
- throw 'Projection did not converge before deadline'
+ Wait-ReadModel -Read {Call GET ($root+'/insights') $null $user.token} -Ready $predicate
 }
 $suffix=[guid]::NewGuid().ToString('N')
 $user=Call POST /register @{email="platform-$suffix@example.test";password='Platform-Test-2026!';name='Platform test'}

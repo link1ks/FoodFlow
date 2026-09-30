@@ -179,6 +179,7 @@ func main() {
 		run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
 	}
 	if *mode == "acceptance" {
+		run("read-recovery-regression", func() (string, error) { return command("pwsh", "-File", "tests/read-model-recovery.ps1") })
 		if !*skipBuild {
 			run("acceptance-stack", func() (string, error) { return command("pwsh", "-File", "scripts/local-acceptance.ps1", "up") })
 		}
