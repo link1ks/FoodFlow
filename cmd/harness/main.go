@@ -71,6 +71,9 @@ func importViolation(path, value string) string {
 // Preserve no user-controlled shell execution; all subprocess argument vectors
 // are fixed in code and environment is sanitized to prevent touching live data.
 func command(name string, args ...string) (string, error) {
+	if name == "pwsh" {
+		args = append([]string{"-NoProfile", "-NonInteractive"}, args...)
+	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Minute)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, name, args...)

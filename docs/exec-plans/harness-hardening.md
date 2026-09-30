@@ -23,6 +23,8 @@ Requested on 2026-09-30: resolve knowledge freshness, fragmented runtime feedbac
 
 ## Evidence
 
+Second cloud run (`64bb209`, Actions 36717601863) passed real platform, kitchen flow, gateway, browsers and diagnosis. The synthetic read-recovery regression failed because its PowerShell web exception assembly was not loaded. The fixture now imports/resolves the web module explicitly. Harness invokes PowerShell without profiles or interactive prompts so personal setup cannot conceal required dependencies.
+
 - Knowledge regression tests reject changed route group prefixes, new configuration keys, broken/escaping links, stale/incomplete task evidence and outcome overwrite. Configuration values are excluded from generated documentation.
 - First full run passed business/frontend checks but correctly failed the source-stability gate because a new script was added during verification. A subsequent stable full run passed all checks.
 - First desktop browser run observed an empty asynchronous projection within the default 10-second assertion window; mobile and gateway cases passed. The projection assertion now explicitly waits up to 30 seconds across its 10-second UI refresh interval. All four desktop/mobile cases passed afterward, with screenshots and no runtime/API 5xx errors. Local browser used installed Edge while Chromium download proceeded; CI uses bundled Chromium.

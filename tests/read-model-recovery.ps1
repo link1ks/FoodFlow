@@ -1,4 +1,7 @@
 $ErrorActionPreference='Stop'
+Import-Module Microsoft.PowerShell.Utility -ErrorAction Stop
+# Resolve the web cmdlet assembly explicitly on hosts with lazy module loading.
+$null=Get-Command Invoke-RestMethod -ErrorAction Stop
 . (Join-Path $PSScriptRoot 'read-model-helper.ps1')
 function HttpError([int]$code){
   $response=[Net.Http.HttpResponseMessage]::new([Net.HttpStatusCode]$code)
