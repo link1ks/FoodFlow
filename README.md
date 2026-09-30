@@ -2,7 +2,9 @@
 
 **家庭食材管理与 AI 膳食规划平台**
 
-FoodFlow 围绕家庭食材的采购、存储与消耗，提供批次库存管理、协同采购及基于真实库存的膳食规划。项目采用 Go 模块化单体 API 与独立 Worker 架构，以事务一致性、任务可靠性和模型执行边界为核心设计约束。
+[![CI](https://github.com/link1ks/FoodFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/link1ks/FoodFlow/actions/workflows/ci.yml)
+
+FoodFlow 将家庭库存、菜单、采购与烹饪记录连接成完整流程。模型基于真实库存提出建议，用户确认后由 Go 业务服务执行数量计算与库存变更。
 
 ```mermaid
 flowchart LR
@@ -14,7 +16,7 @@ flowchart LR
     F --> A
 ```
 
-## 功能概览
+## 功能
 
 | 模块 | 功能 |
 | --- | --- |
@@ -31,47 +33,44 @@ flowchart LR
 
 食材目录包含 **91 种食材**，其中 **79 种**提供 USDA SR Legacy 营养参考值，按每 100 克可食部展示。
 
-### 使用路径
+## 架构与技术栈
 
-1. **食材库存**：按图片添加食材，填写数量和保质期；勾选食材后查看可做的菜。
-2. **安排菜单**：选择一顿饭或连续几餐，查看方案并确认。
-3. **采购清单**：核对缺少的食材，买好后确认实际数量并入库。
-4. **我的厨房**：按今日菜单备餐，完成烹饪后更新库存。
-
-AI 生成进度与识别结果统一放在「营养与建议」，家庭营养记录单独分栏展示。
-
-## 系统架构
-
-API 承载鉴权与事务业务，Worker 执行异步模型任务。PostgreSQL 同时保存业务数据与任务状态；前端通过 HTTP 查询和 SSE 通知同步状态。
+核心业务采用 **Go 模块化单体 API + 独立 Worker**，库存写入保留在同一 PostgreSQL 事务边界内。可选平台扩展引入公共目录缓存、库存事件与独立统计服务，统计服务拥有自己的数据库。
 
 | 层次 | 技术 |
 | --- | --- |
 | 前端 | React、TypeScript、Vite、Tailwind CSS、Radix |
 | 状态管理 | TanStack Query、Zustand |
-| 后端 | Go、Gin、OpenAPI |
+| API 与任务 | Go、Gin、OpenAPI、PostgreSQL 任务队列、SSE |
 | 数据层 | PostgreSQL、pgx、sqlc、goose |
 | Agent | Eino、Chat Completions 兼容适配器、结构化输出校验 |
 | 存储与部署 | 本地目录 / S3、Docker Compose、GitHub Actions |
-| 测试 | Go testing、Testcontainers、Vitest |
-| 可选服务扩展 | Redis 公共目录缓存、Kafka 库存事件、独立厨房统计服务 |
+| 测试 | Go testing、Testcontainers、Vitest、Playwright |
+| 可选平台扩展 | Redis、Kafka / franz-go、独立 Insights 服务 |
 | 工程反馈 | 仓库导航、AST 架构检查、隔离验收与 JSON 证据 harness |
 
 ```mermaid
 flowchart LR
-    Web[React 前端] -->|HTTP / SSE| API[Gin API]
-    API --> DB[(PostgreSQL)]
-    Worker[独立 Worker] --> DB
+    Web[React 前端] -->|HTTP / SSE| API[Kitchen API]
+    API --> DB[(业务 PostgreSQL)]
+    Worker[模型 Worker] --> DB
     Worker --> Model[Eino / 模型适配器]
     API --> Storage[本地目录 / S3]
     Worker --> Storage
+    API -.公共目录缓存.-> Redis[(Redis)]
+    DB -.事务 Outbox.-> Relay[事件 Relay]
+    Relay --> Kafka[Kafka 库存事件]
+    Kafka --> Insights[Insights 服务]
+    Insights --> IPG[(统计 PostgreSQL)]
+    API -.鉴权后查询.-> Insights
 ```
 
-## 关键工程设计
+### 关键设计
 
 | 关注点 | 实现方式 |
 | --- | --- |
 | 家庭权限隔离 | 服务端校验家庭成员身份与角色，Agent 工具沿用业务权限边界 |
-| 库存一致性 | 事务、批次行锁、条件更新与非负约束；扣减不足时整体回滚 |
+| 库存一致性 | 批次行锁、条件更新与非负约束；库存、不可变流水及 Outbox 在同一事务提交，扣减不足时整体回滚 |
 | 幂等与审计 | 幂等键绑定请求摘要；库存纠正追加补偿流水，保留历史变动 |
 | 精确计量 | 数量精度 0.001，份数缩放向上舍入；仅在同一计量维度内换算 |
 | 批次分配 | 按最早到期优先（FEFO）跨批次扣减，执行时重新校验可用库存 |
@@ -81,22 +80,18 @@ flowchart LR
 | Agent 执行 | 结构化输出校验、调用预算和超时控制；模型提出方案，业务代码计算数量，库存写入需用户确认 |
 | 后台任务 | `FOR UPDATE SKIP LOCKED` 并发领取、租约续期及过期恢复；有效租约与取消状态共同约束结果写入 |
 | 会话与验证码 | JWT 配合服务端会话撤销；验证码采用 HMAC、用途隔离、限流与单次消费 |
+| 缓存降级 | Redis 仅缓存公共目录；超时或不可用时回源，权限与库存以 PostgreSQL 为准 |
+| 事件可靠性 | Outbox 至少一次投递；稳定事件 ID、统计服务 Inbox 去重、非法事件隔离，提交数据库后再提交消费位点 |
 
-菜单推荐不预留库存。SSE 断线后重新读取服务端状态；可能产生费用的模型调用失败后由用户手动重试。
+菜单推荐不预留库存。SSE 断线后重新读取服务端状态；可能产生费用的模型调用失败后由用户手动重试。独立统计是最终一致的读取结果，不参与库存扣减。
 
-## 启动与配置
+## 快速启动
 
-仓库包含完整源码、数据库迁移、自动化测试与部署配置。
-
-开发环境：Go 1.26、Node.js 24、pnpm 11、Docker Compose。
+依赖：Docker Compose。开发与验证另需 Go 1.26、Node.js 24、pnpm 11；平台验收脚本需要 PowerShell 7（`pwsh`）。
 
 ### Docker Compose
 
-1. 复制配置文件：
-
-   ```bash
-   cp .env.example .env
-   ```
+1. 将 `.env.example` 复制为 `.env`。
 
 2. 在 `.env` 中设置至少 32 字节的随机 `JWT_SECRET`，可用以下命令生成：
 
@@ -118,75 +113,90 @@ flowchart LR
 | 健康检查 | `/health/live`、`/health/ready`（API 服务） |
 | 指标 | `http://localhost:8080/metrics` |
 
+注册后创建家庭即可使用。未配置模型时，界面明确显示演示模式。
+
 ### 可选集成
 
 | 配置 | 说明 |
 | --- | --- |
-| `MODEL_ENDPOINT`、`MODEL_NAME`、`MODEL_API_KEY` | 文字模型；未配置时显示演示模式 |
-| `VISION_MODEL_NAME` | 视觉模型，可单独配置端点与密钥 |
+| `MODEL_ENDPOINT`、`MODEL_NAME`、`MODEL_API_KEY` | 文字模型，可接入 DeepSeek 等兼容服务 |
+| `VISION_MODEL_NAME` | 视觉模型，可单独配置端点与密钥，需服务商支持图片输入 |
 | `SMS_PROVIDER=aliyun` | 需 AccessKey、已审核签名及验证码模板 |
 | `STORAGE_BACKEND` | `local` 或 `s3`；S3 需配置端点、区域、桶和凭证 |
 | `MARKET_PRICE_SYNC=true` | Worker 启动及每 6 小时同步官方价格 |
 
-API 与 Worker 共用配置，环境变量优先于 `.env`；修改后需重启。短信未配置时可使用邮箱注册与密码登录。
+完整配置见 [.env.example](.env.example)。环境变量优先于 `.env`，修改后需重启。短信未配置时可使用邮箱注册与密码登录。
 
-## 测试与验证
+### Redis / Kafka 平台验收
 
-项目使用 [工程 Harness](docs/HARNESS.md) 统一执行架构约束、文档一致性检查与隔离验收。[自动生成的源码清单](docs/generated/contracts.md) 随接口、配置及事件契约更新；验证结果记录代码摘要，并可查询本地历史。平台验收包含桌面与手机浏览器测试、故障恢复及脱敏运行诊断。
+```powershell
+pwsh -File scripts/local-acceptance.ps1 up
+pwsh -File scripts/platform-acceptance.ps1
+```
+
+此流程在独立验收环境中叠加 `compose.platform.yaml`，页面地址为 `http://127.0.0.1:15173`。验收环境与 5173 开发环境的数据库、账号独立；服务边界与恢复方式见 [平台说明](docs/PLATFORM.md)。
+
+## 工程 Harness 与验证
+
+Harness 将仓库导航、架构约束、源码清单、测试、运行诊断和任务证据连接为可重复执行的流程。
 
 ```bash
+# 安装前端依赖与验收浏览器
+pnpm --dir web install --frozen-lockfile
+pnpm --dir web exec playwright install chromium
+
+# 静态约束、必需的数据库集成测试、前端测试与构建
 go run ./cmd/harness -mode full
+
+# 隔离部署、平台故障恢复、厨房主流程与桌面 / 手机浏览器
 go run ./cmd/harness -mode acceptance
+
+# 健康、队列、消费延迟与脱敏日志诊断
 go run ./cmd/harness -mode diagnose
 ```
 
-```bash
-go test ./...
-go vet ./...
-cd web
-pnpm test
-pnpm build
-```
+Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成功；测试不使用生产模型凭证。结果保存在 `.cache/harness`，包含代码摘要、运行环境及各项检查结果。
 
-Testcontainers 依赖 Docker；请检查集成测试是否被跳过。`TEST_DATABASE_URL` 必须指向专用测试数据库。
+架构检查约束纯算法与服务边界；[生成清单](docs/generated/contracts.md) 检查接口、配置及事件契约是否过期。任务完成记录必须引用当前代码的完整验证报告，运行期间修改源码会被拒绝。详见 [Harness 工作流](docs/HARNESS.md)。
 
-验证记录截至 **2026-09-27**：
+### 已验证范围
 
-| 范围 | 验证状态 |
+截至 **2026-09-30**，本地完整验证与隔离验收已通过，GitHub Actions 四个任务均通过。提交与结果可在 [CI 运行记录](https://github.com/link1ks/FoodFlow/actions/runs/36720824638) 核对；具体实现证据见 [验证记录](docs/exec-plans/harness-hardening.md)。
+
+| 范围 | 验证内容 |
 | --- | --- |
-| 并发扣库、重复入库、跨家庭访问、单位约束与份数缩放 | PostgreSQL 集成测试通过 |
-| Worker 租约恢复、旧 Worker 写入拦截、取消控制 | 自动化测试通过 |
-| JWT 会话与短信验证码流程 | 自动化测试通过；短信使用测试发送器 |
-| 备餐流水线、跨餐规划、调味品扣减与校准 | 自动化测试及本地浏览器流程验收通过 |
-| 家庭营养统计 | 历史快照、份数折算、日期窗口、缺失数据及家庭隔离测试通过 |
-| DeepSeek 菜单、营养建议与图片识别 | 真实接口检查通过；未评测识别准确率 |
-| 前端 | Vitest、TypeScript 检查与生产构建通过 |
-| 独立 Compose 部署、服务重启、数据库恢复、Worker 强杀后队列恢复 | 本地验收通过，见验证报告 |
-| 真实短信送达、S3 | 待端到端验证 |
+| 库存与权限 | 并发扣减、重复入库、跨家庭拒绝、单位约束、份数缩放 |
+| 后台任务与 Agent | 租约恢复、旧 Worker 写入拦截、取消与确认边界、确定性模型测试 |
+| 业务统计 | 家庭营养快照、份数折算、日期窗口与缺失数据；调味品扣减、校准与补货 |
+| 平台恢复 | Redis 失效回源、Kafka 中断期间业务写入、消费恢复与去重、非法事件隔离 |
+| 网关与页面 | API 地址变化后网关恢复；11 项前端单元测试、4 项桌面 / 手机 Chromium 验收 |
+| 云端质量门禁 | Go race 检查、sqlc 生成一致性、前端构建、容器构建、完整 Harness 与平台验收 |
+| 本地运维 | 服务重启、数据库备份恢复与 Worker 强杀后的队列恢复，见部署报告 |
 
-## 部署与维护
+## 文档与目录
 
-新增服务与开发验收入口见 [Harness](docs/HARNESS.md) 和 [服务边界](docs/PLATFORM.md)。启用 Redis / Kafka 扩展请使用隔离的 `compose.platform.yaml`，库存与采购仍由同一事务服务管理。
+| 入口 | 内容 |
+| --- | --- |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | 业务约束与重要设计选择 |
+| [OpenAPI](openapi.yaml) | HTTP 接口契约 |
+| [AGENTS.md](AGENTS.md) / [源码清单](docs/generated/contracts.md) | 仓库导航、模块边界、生成的接口与配置清单 |
+| [Harness](docs/HARNESS.md) / [平台说明](docs/PLATFORM.md) | 开发反馈流程、服务归属与事件恢复 |
+| [本地部署](docs/LOCAL_DEPLOYMENT.md) | 启动、备份恢复与排错 |
+| [验证报告](docs/VALIDATION_REPORT.md) / [平台验收](docs/PLATFORM_VALIDATION.md) | 测试环境、性能记录、恢复结果与限制 |
+| [技术复盘](docs/ENGINEERING_STORIES.md) | 并发库存、Worker 租约与模型确认边界 |
 
-- [本地部署与备份恢复验收](docs/LOCAL_DEPLOYMENT.md)
-- [可复现验证与性能记录](docs/VALIDATION_REPORT.md)
-- [核心设计与技术复盘](docs/ENGINEERING_STORIES.md)
+主要目录：`cmd` 为进程入口，`internal/app` 为事务业务，`internal/engine` 为纯内存算法，`internal/insights` 为独立统计，`sql` 为迁移与查询，`web/src/pages` 为页面，`tests` 与 `scripts` 为验收工具。
 
-前端按页面拆分到 `web/src/pages`，共享状态与应用入口位于 `web/src/app`。烹饪与调味品事务服务分别位于 `internal/app/cooking_service.go` 和 `pantry_service.go`，由调用方统一控制事务提交与幂等响应。
+部署时通过安全配置管理密钥并启用 HTTPS。业务数据库、统计数据库与图片对象分别备份；恢复到空目标后验证数据与投影。具体命令见上述部署与平台文档。
 
-- 生产环境启用 HTTPS，密钥通过部署平台管理，不提交 `.env`、运行数据和日志。
-- 升级前使用 `pg_dump` 备份数据库，图片目录或 S3 对象单独备份；恢复到空目标数据库。
-- 任务排队时检查 Worker 和数据库连接；模型鉴权失败时检查密钥、端点及环境变量覆盖。
+## 当前边界
 
-## 已知限制
-
-- 营养雷达为已记录原料的组成估算；缺少重量换算的条目单独列出，不代表实际摄入，不生成医学健康评分。重要忌口需人工核对。
-- 图片识别提供一种主要食材建议，入库前需确认；尚未评测识别准确率。
-- 菜谱组合筛选按耗时相加，备餐时间轴单独考虑设备与工序并行；自编步骤与调味品估算目前覆盖四道示例菜。
-- 深色蔬菜分类尚未覆盖全部品种；历史缺少快照的数据不回填。月度经营战报与长图导出尚未实现。
-- 官方价格覆盖日监测及月均数据，部分城市、食材没有当天报价。
-- 真实短信送达、S3 与公网部署尚未完成端到端验证。
-- 手机号换绑、邮箱绑定、账号合并及短信找回密码尚未实现。
+- 营养值是记录原料的组成估算，不等于实际摄入；缺少重量换算的数据单独列出，不生成医学健康评分，深色蔬菜分类尚未覆盖全部品种。
+- 图片识别结果需人工确认，尚未完成准确率评测；真实短信送达、S3 与公网部署尚未完成端到端验收。
+- 菜谱组合筛选按耗时相加，备餐时间轴另行考虑工序并行；示例步骤与调味品估算覆盖四道菜。
+- 官方数据包含日监测与月均价格，部分城市、食材没有当天报价；缺少历史快照的数据不回填。
+- 月度统计目前汇总数量，完整金额浪费账单与长图导出尚未实现；账号换绑、绑定、合并及短信找回密码尚未实现。
+- 平台验收使用单节点 Kafka 与内部明文通信，尚不具备生产高可用、安全加固与持续告警配置。本地 Harness 记录与单次成功结果不构成效率提升证明。
 
 ## 许可证
 
