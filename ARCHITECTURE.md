@@ -1,5 +1,7 @@
 # 架构与设计边界
 
+厨房核心采用模块化单体 API + Worker；可选平台扩展增加 Redis 公共目录缓存、Kafka 库存事件和拥有独立数据库的 Insights 微服务。服务所有权、事件交付与恢复边界见 [PLATFORM](docs/PLATFORM.md)，可执行工程约束见 [HARNESS](docs/HARNESS.md)。
+
 ```text
 React + TanStack Query ──HTTP/SSE──> Gin API ──pgx/sqlc──> PostgreSQL
                                       │                  ↑

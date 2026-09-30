@@ -1,5 +1,6 @@
 import {
   Boxes,
+  BarChart3,
   CalendarDays,
   Home,
   LogOut,
@@ -31,6 +32,7 @@ import {
   Settings,
 } from "../pages/Settings";
 import { Week } from "../pages/Week";
+import { KitchenInsights } from "../pages/KitchenInsights";
 import { useUI } from "../store";
 import { Button, Card, Field, Notice } from "../ui";
 export function HouseholdGate() {
@@ -142,6 +144,7 @@ export const nav = [
   ["shopping", "采购清单", ShoppingBasket, "缺什么 · 买什么"],
   ["prices", "查菜价", MapPin, "城市参考价格"],
   ["jobs", "营养与建议", Sparkles, "AI结果 · 营养记录"],
+  ["insights", "厨房收支", BarChart3, "买入 · 吃掉 · 报损"],
   ["settings", "家庭设置", Users, "成员 · 忌口"],
 ] as const;
 
@@ -314,6 +317,8 @@ export function AppShell({ household }: { household: Household }) {
           <Prices />
         ) : page === "jobs" ? (
           <Jobs />
+        ) : page === "insights" ? (
+          <KitchenInsights />
         ) : page === "profile" ? (
           <div className="mx-auto max-w-3xl">
             <Title

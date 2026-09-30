@@ -434,6 +434,17 @@ type StockLedgerSnapshot struct {
 	CapturedAt       pgtype.Timestamptz
 }
 
+type StockOutbox struct {
+	EventID     pgtype.UUID
+	HouseholdID pgtype.UUID
+	Payload     []byte
+	CreatedAt   pgtype.Timestamptz
+	PublishedAt pgtype.Timestamptz
+	Attempts    int32
+	RetryAt     pgtype.Timestamptz
+	LastError   pgtype.Text
+}
+
 type User struct {
 	ID            pgtype.UUID
 	Email         pgtype.Text

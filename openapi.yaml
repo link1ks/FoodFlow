@@ -534,6 +534,44 @@ paths:
                 percent: {type: integer, minimum: 0, maximum: 100, description: 校准时使用}
                 threshold: {type: integer, minimum: 1, maximum: 50, description: 修改补货线时使用}
       responses: {'200': {description: 已完成}, '400': {description: 参数无效}, '403': {description: 只读成员}, '404': {description: 不可访问}, '409': {description: 当前余量变化、已停用或幂等冲突}}
+  /households/{household}/insights:
+    parameters:
+      - {$ref: '#/components/parameters/household'}
+    get:
+      summary: 厨房收支统计（独立服务投影）
+      description: 服务端校验当前家庭权限后请求统计服务；事件最终一致，按食材与原单位分组，数量毫单位以字符串返回。不合并质量、体积与计数。仅覆盖有历史快照的库存流水。
+      parameters:
+        - {name: month, in: query, schema: {type: string, pattern: '^\d{4}-\d{2}$'}, description: 默认家庭时区的当前月份}
+      responses:
+        '200':
+          description: 月份、时区、最后事件接收时间与收支明细
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [month, timezone, items, consistency, coverage]
+                properties:
+                  month: {type: string}
+                  timezone: {type: string}
+                  consistency: {type: string, enum: [eventual]}
+                  coverage: {type: string}
+                  last_received_at: {type: string, format: date-time, nullable: true}
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ingredient: {type: string}
+                        category: {type: string}
+                        unit: {type: string}
+                        inbound_milli: {type: string}
+                        consumed_milli: {type: string}
+                        wasted_milli: {type: string}
+                        adjusted_milli: {type: string}
+        '400': {description: 月份无效}
+        '401': {description: 需要登录}
+        '404': {description: 家庭不可访问}
+        '503': {description: 统计服务未启用或暂不可用，可重试}
   /households/{household}/nutrition:
     parameters:
       - {$ref: '#/components/parameters/household'}

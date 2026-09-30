@@ -27,6 +27,7 @@ flowchart LR
 | 烹饪管理 | 多菜备餐时间轴、厨房专注模式、步骤打卡、按餐次扣库与不可变流水 |
 | 调味品 | 已有批次启用免称重、瓶装余量显示、滑动校准与低水位补货 |
 | 官方价格 | 37 城市选择，展示官方监测价格、规格、来源与日期 |
+| 厨房收支 | 按月份查看买入、消耗与报损，独立统计服务异步汇总 |
 
 食材目录包含 **91 种食材**，其中 **79 种**提供 USDA SR Legacy 营养参考值，按每 100 克可食部展示。
 
@@ -52,6 +53,8 @@ API 承载鉴权与事务业务，Worker 执行异步模型任务。PostgreSQL �
 | Agent | Eino、Chat Completions 兼容适配器、结构化输出校验 |
 | 存储与部署 | 本地目录 / S3、Docker Compose、GitHub Actions |
 | 测试 | Go testing、Testcontainers、Vitest |
+| 可选服务扩展 | Redis 公共目录缓存、Kafka 库存事件、独立厨房统计服务 |
+| 工程反馈 | 仓库导航、AST 架构检查、隔离验收与 JSON 证据 harness |
 
 ```mermaid
 flowchart LR
@@ -129,6 +132,14 @@ API 与 Worker 共用配置，环境变量优先于 `.env`；修改后需重启�
 
 ## 测试与验证
 
+项目使用 [工程 Harness](docs/HARNESS.md) 统一执行架构约束、文档一致性检查与隔离验收。[自动生成的源码清单](docs/generated/contracts.md) 随接口、配置及事件契约更新；验证结果记录代码摘要，并可查询本地历史。平台验收包含桌面与手机浏览器测试、故障恢复及脱敏运行诊断。
+
+```bash
+go run ./cmd/harness -mode full
+go run ./cmd/harness -mode acceptance
+go run ./cmd/harness -mode diagnose
+```
+
 ```bash
 go test ./...
 go vet ./...
@@ -154,6 +165,8 @@ Testcontainers 依赖 Docker；请检查集成测试是否被跳过。`TEST_DATA
 | 真实短信送达、S3 | 待端到端验证 |
 
 ## 部署与维护
+
+新增服务与开发验收入口见 [Harness](docs/HARNESS.md) 和 [服务边界](docs/PLATFORM.md)。启用 Redis / Kafka 扩展请使用隔离的 `compose.platform.yaml`，库存与采购仍由同一事务服务管理。
 
 - [本地部署与备份恢复验收](docs/LOCAL_DEPLOYMENT.md)
 - [可复现验证与性能记录](docs/VALIDATION_REPORT.md)

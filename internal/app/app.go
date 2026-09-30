@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"foodflow/internal/cache"
 	"foodflow/internal/core"
 	"foodflow/internal/dbgen"
 	"foodflow/internal/sms"
@@ -23,9 +24,10 @@ import (
 )
 
 type App struct {
-	DB     *pgxpool.Pool
-	jwtKey []byte
-	sms    sms.Sender
+	DB           *pgxpool.Pool
+	jwtKey       []byte
+	sms          sms.Sender
+	catalogCache *cache.Catalog
 }
 
 var requestCount atomic.Uint64
@@ -35,7 +37,20 @@ func New(db *pgxpool.Pool) *App {
 	if len(key) < 32 {
 		panic("JWT_SECRET must contain at least 32 bytes")
 	}
-	return &App{DB: db, jwtKey: []byte(key), sms: sms.FromEnv()}
+	a := &App{DB: db, jwtKey: []byte(key), sms: sms.FromEnv()}
+	if url := os.Getenv("REDIS_URL"); url != "" {
+		var err error
+		a.catalogCache, err = cache.New(url)
+		if err != nil {
+			panic("invalid REDIS_URL")
+		}
+	}
+	return a
+}
+func (a *App) Close() {
+	if a.catalogCache != nil {
+		_ = a.catalogCache.Client.Close()
+	}
 }
 func fail(c *gin.Context, code int, msg string) { c.AbortWithStatusJSON(code, gin.H{"error": msg}) }
 func input(c *gin.Context, v any) bool {
@@ -79,7 +94,11 @@ func (a *App) Router() *gin.Engine {
 		c.JSON(200, gin.H{"status": "ok"})
 	})
 	r.GET("/metrics", func(c *gin.Context) {
-		c.Data(200, "text/plain; version=0.0.4", []byte(fmt.Sprintf("# HELP foodflow_http_requests_total HTTP requests handled.\n# TYPE foodflow_http_requests_total counter\nfoodflow_http_requests_total %d\n", requestCount.Load())))
+		metrics := fmt.Sprintf("# HELP foodflow_http_requests_total HTTP requests handled.\n# TYPE foodflow_http_requests_total counter\nfoodflow_http_requests_total %d\n", requestCount.Load())
+		if a.catalogCache != nil {
+			metrics += fmt.Sprintf("foodflow_catalog_cache_hits_total %d\nfoodflow_catalog_cache_misses_total %d\nfoodflow_catalog_cache_errors_total %d\n", a.catalogCache.Hits.Load(), a.catalogCache.Misses.Load(), a.catalogCache.Errors.Load())
+		}
+		c.Data(200, "text/plain; version=0.0.4", []byte(metrics))
 	})
 	r.POST("/api/register", a.limitAuth, a.register)
 	r.POST("/api/login", a.limitAuth, a.login)
@@ -128,6 +147,7 @@ func (a *App) Router() *gin.Engine {
 	h.POST("/multi-meal", a.createMultiMeal)
 	h.POST("/multi-meal/:proposal", a.actMultiMeal)
 	h.GET("/nutrition", a.nutritionRadar)
+	h.GET("/insights", a.kitchenInsights)
 	h.GET("/pantry", a.pantry)
 	h.POST("/pantry", a.enablePantry)
 	h.POST("/pantry/:pantry", a.updatePantry)

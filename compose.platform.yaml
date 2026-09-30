@@ -1,0 +1,96 @@
+# Overlay for the independent local acceptance deployment.
+services:
+  api:
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      INSIGHTS_URL: http://insights:8090
+      INSIGHTS_SERVICE_TOKEN: ${INSIGHTS_SERVICE_TOKEN:?Run scripts/platform-acceptance.ps1}
+  redis:
+    image: redis:7.4-alpine
+    command: [redis-server, --maxmemory, 64mb, --maxmemory-policy, allkeys-lru]
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 3s
+      retries: 30
+    restart: unless-stopped
+  kafka-volume-init:
+    image: alpine:3.21
+    user: '0:0'
+    command: [chown, '1000:1000', /kafka-data]
+    volumes: [platform_kafka:/kafka-data]
+  kafka:
+    image: apache/kafka:3.9.1
+    hostname: kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENERS: CONTROLLER://:9093,PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      KAFKA_HEAP_OPTS: -Xms256m -Xmx512m
+    volumes: [platform_kafka:/tmp/kraft-combined-logs]
+    depends_on:
+      kafka-volume-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, /opt/kafka/bin/kafka-topics.sh, --bootstrap-server, kafka:9092, --list]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+    restart: unless-stopped
+  kafka-init:
+    image: apache/kafka:3.9.1
+    entrypoint: [/opt/kafka/bin/kafka-topics.sh]
+    command: [--bootstrap-server, kafka:9092, --create, --if-not-exists, --topic, foodflow.stock.v1, --partitions, '3', --replication-factor, '1']
+    depends_on:
+      kafka: {condition: service_healthy}
+  insights-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: insights
+      POSTGRES_DB: insights
+      POSTGRES_PASSWORD: ${INSIGHTS_DB_PASSWORD:?Run scripts/platform-acceptance.ps1}
+    volumes: [platform_insights_db:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U insights -d insights]
+      interval: 3s
+      retries: 30
+  insights:
+    image: foodflow-api:acceptance
+    command: [/app/insights]
+    init: true
+    restart: unless-stopped
+    environment:
+      INSIGHTS_DATABASE_URL: postgres://insights:${INSIGHTS_DB_PASSWORD}@insights-db:5432/insights?sslmode=disable
+      INSIGHTS_SERVICE_TOKEN: ${INSIGHTS_SERVICE_TOKEN}
+      KAFKA_BROKERS: kafka:9092
+    depends_on:
+      insights-db: {condition: service_healthy}
+      kafka-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, wget, -qO-, 'http://127.0.0.1:8090/health/ready']
+      interval: 3s
+      retries: 30
+  relay:
+    image: foodflow-api:acceptance
+    command: [/app/relay]
+    init: true
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://foodflow:${POSTGRES_PASSWORD}@db:5432/foodflow?sslmode=disable
+      KAFKA_BROKERS: kafka:9092
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      kafka-init: {condition: service_completed_successfully}
+volumes:
+  platform_kafka:
+  platform_insights_db:

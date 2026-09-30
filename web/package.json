@@ -1,1 +1,38 @@
-{"name":"foodflow-web","private":true,"version":"0.1.0","type":"module","packageManager":"pnpm@11.19.0","scripts":{"dev":"vite --host 0.0.0.0","build":"tsc -b && vite build","test":"vitest run"},"dependencies":{"@radix-ui/react-dialog":"^1.1.14","@radix-ui/react-select":"^2.2.5","@radix-ui/react-slot":"^1.2.3","@tanstack/react-query":"^5.83.0","class-variance-authority":"^0.7.1","clsx":"^2.1.1","lucide-react":"^0.468.0","react":"^19.1.0","react-dom":"^19.1.0","tailwind-merge":"^3.3.1","zustand":"^5.0.6"},"devDependencies":{"@tailwindcss/vite":"^4.1.11","@types/react":"^19.1.8","@types/react-dom":"^19.1.6","@vitejs/plugin-react":"^4.7.0","prettier":"3.9.9","tailwindcss":"^4.1.11","typescript":"^5.8.3","vite":"^7.0.4","vitest":"^3.2.4"}}
+{
+  "name": "foodflow-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "test": "vitest run src",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tanstack/react-query": "^5.83.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.7.0",
+    "prettier": "3.9.9",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.4",
+    "vitest": "^3.2.4"
+  }
+}

@@ -14,6 +14,9 @@ jobs:
       - uses: actions/setup-go@v5
         with: {go-version-file: go.mod, cache: true}
       - run: go vet ./...
+      - run: go run ./cmd/harness -mode architecture
+      - run: go run ./cmd/harness -mode knowledge
+      - run: test -z "$(gofmt -l cmd internal)"
       # Each integration test uses an isolated PostgreSQL container.
       - run: go test -race -count=1 -coverprofile=coverage.out ./...
         env: {REQUIRE_INTEGRATION: 'true'}
@@ -42,3 +45,40 @@ jobs:
       - uses: actions/checkout@v4
       - run: docker build -t foodflow-api:ci .
       - run: docker build -t foodflow-web:ci web
+  platform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: {go-version-file: go.mod, cache: true}
+      - uses: pnpm/action-setup@v4
+        with: {version: 11}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24', cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml}
+      - run: pnpm install --frozen-lockfile
+        working-directory: web
+      - run: pnpm exec playwright install --with-deps chromium
+        working-directory: web
+      - name: Build isolated acceptance stack
+        shell: pwsh
+        run: ./scripts/local-acceptance.ps1 up
+      - name: Verify full development feedback loop
+        run: go run ./cmd/harness -mode full -out .cache/harness/ci-full.json
+      - name: Verify platform, kitchen flow, browser and diagnosis
+        shell: pwsh
+        run: go run ./cmd/harness -mode acceptance -skip-build -out .cache/harness/ci-acceptance.json
+      - name: Upload bounded acceptance evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harness-acceptance
+          retention-days: 14
+          include-hidden-files: true
+          path: |
+            .cache/harness/ci-full.json
+            .cache/harness/ci-acceptance.json
+            .cache/harness/diagnostics.json
+            .cache/harness/browser.json
+            .cache/harness/browser-artifacts/**/*.png
+            .cache/platform-evidence.json

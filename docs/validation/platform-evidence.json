@@ -1,0 +1,15 @@
+{
+  "projection_fact_count": 3,
+  "scenarios": [
+    "redis-hit",
+    "cached-auth",
+    "redis-fallback",
+    "broker-outage-stock-write",
+    "consumer-restart",
+    "duplicate-delivery",
+    "invalid-event-quarantine",
+    "household-isolation"
+  ],
+  "passed": true,
+  "recorded_at": "2026-09-30T11:30:31.1961384+00:00"
+}

@@ -70,6 +70,13 @@ func (a *App) addIngredient(c *gin.Context) {
 	c.JSON(201, gin.H{"id": id})
 }
 func (a *App) ingredientCatalog(c *gin.Context) {
+	if a.catalogCache != nil {
+		if raw, ok := a.catalogCache.Get(c.Request.Context()); ok && json.Valid(raw) {
+			c.Header("X-Catalog-Cache", "hit")
+			c.Data(200, "application/json", raw)
+			return
+		}
+	}
 	rows, e := a.DB.Query(c, "SELECT id,name,category,default_unit,aliases FROM ingredient_catalog ORDER BY category,name")
 	if e != nil {
 		fail(c, 500, "catalog unavailable")
@@ -90,7 +97,16 @@ func (a *App) ingredientCatalog(c *gin.Context) {
 		fail(c, 500, "catalog unavailable")
 		return
 	}
-	c.JSON(200, items)
+	raw, err := json.Marshal(items)
+	if err != nil {
+		fail(c, 500, "catalog unavailable")
+		return
+	}
+	if a.catalogCache != nil {
+		a.catalogCache.Set(c.Request.Context(), raw)
+	}
+	c.Header("X-Catalog-Cache", "database")
+	c.Data(200, "application/json", raw)
 }
 
 func (a *App) catalogStock(c *gin.Context) {

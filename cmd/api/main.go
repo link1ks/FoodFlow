@@ -30,6 +30,7 @@ func main() {
 		panic(e)
 	}
 	a := app.New(db)
+	defer a.Close()
 	addr := os.Getenv("HTTP_ADDR")
 	if addr == "" {
 		addr = ":8080"

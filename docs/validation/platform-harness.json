@@ -1,0 +1,39 @@
+{
+  "scope": "local working tree implementation",
+  "integration_required": true,
+  "mode": "full",
+  "base_revision": "41ee8726aa5ebb7df6f9fd98fa6fa8daf3df3fac",
+  "recorded_at": "2026-09-30T11:30:22.9680851Z",
+  "checks": [
+    {
+      "name": "architecture",
+      "passed": true,
+      "duration_ms": 2
+    },
+    {
+      "name": "format",
+      "passed": true,
+      "duration_ms": 26
+    },
+    {
+      "name": "vet",
+      "passed": true,
+      "duration_ms": 522
+    },
+    {
+      "name": "go-tests",
+      "passed": true,
+      "duration_ms": 75359
+    },
+    {
+      "name": "web-test",
+      "passed": true,
+      "duration_ms": 1194
+    },
+    {
+      "name": "web-build",
+      "passed": true,
+      "duration_ms": 3836
+    }
+  ]
+}
