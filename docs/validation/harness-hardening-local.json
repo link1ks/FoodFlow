@@ -1,27 +1,137 @@
 {
+  "diagnosis": {
+    "kafka_lag": [
+      {
+        "partition": "0",
+        "lag": "0",
+        "committed_offset": "83",
+        "end_offset": "83"
+      },
+      {
+        "partition": "1",
+        "lag": "0",
+        "committed_offset": "19",
+        "end_offset": "19"
+      },
+      {
+        "partition": "2",
+        "lag": "0",
+        "committed_offset": "36",
+        "end_offset": "36"
+      }
+    ],
+    "checks": [
+      {
+        "name": "services",
+        "passed": true
+      },
+      {
+        "name": "gateway_ready",
+        "passed": true
+      },
+      {
+        "name": "api_ready",
+        "passed": true
+      },
+      {
+        "name": "api_metrics",
+        "passed": true
+      },
+      {
+        "name": "outbox",
+        "passed": true
+      },
+      {
+        "name": "jobs",
+        "passed": true
+      },
+      {
+        "name": "projection",
+        "passed": true
+      },
+      {
+        "name": "kafka_lag",
+        "passed": true
+      },
+      {
+        "name": "structured_logs",
+        "passed": true
+      }
+    ]
+  },
+  "acceptance": {
+    "source_digest": "29a345ee2761d1067d3f3db79d8c98680f55887cea2e18dd15a56a01c79e08d5",
+    "run_id": "bc159f9e7cb81211d9b1cf6aa63aebe9",
+    "recorded_at": "2026-09-30T13:09:03.4429662Z",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 1
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true,
+        "duration_ms": 633
+      },
+      {
+        "name": "platform",
+        "passed": true,
+        "duration_ms": 26060
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true,
+        "duration_ms": 1965
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true,
+        "duration_ms": 8644
+      },
+      {
+        "name": "browser",
+        "passed": true,
+        "duration_ms": 4912
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true,
+        "duration_ms": 4954
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 8
+      }
+    ]
+  },
   "limits": [
-    "Single local task sample cannot establish productivity gains",
+    "Initial delivery samples cannot establish productivity gains",
     "Point-in-time diagnostics; no production tracing/alerts",
     "Generated inventory checks selected facts; prose requires review"
   ],
   "browser": {
-    "engine": "Installed Edge (Chromium)",
+    "engine": "Bundled Chromium 153",
     "projects": [
       "desktop",
       "mobile"
     ],
     "stats": {
-      "startTime": "2026-09-30T12:26:27.31Z",
-      "duration": 4649.26,
+      "startTime": "2026-09-30T13:08:53.853Z",
+      "duration": 4196.571,
       "expected": 4,
       "skipped": 0,
       "unexpected": 0,
       "flaky": 0
     }
   },
-  "acceptance": {
-    "source_digest": "4e548a8f0f2be35f707fec8bbea878b4f34dc38cf81092684a310f1eff350249",
-    "run_id": "2ca5c4899dc6e7b643b75c278fd36c24",
+  "full": {
     "checks": [
       {
         "name": "architecture",
@@ -31,105 +141,40 @@
       {
         "name": "knowledge",
         "passed": true,
-        "duration_ms": 3
+        "duration_ms": 4
       },
       {
-        "name": "platform",
+        "name": "format",
         "passed": true,
-        "duration_ms": 26424
+        "duration_ms": 33
       },
       {
-        "name": "kitchen-flow",
+        "name": "vet",
         "passed": true,
-        "duration_ms": 2002
+        "duration_ms": 442
       },
       {
-        "name": "gateway-recovery",
+        "name": "go-tests",
         "passed": true,
-        "duration_ms": 5859
+        "duration_ms": 70447
       },
       {
-        "name": "browser",
+        "name": "web-test",
         "passed": true,
-        "duration_ms": 5389
+        "duration_ms": 1251
       },
       {
-        "name": "runtime-diagnostics",
+        "name": "web-build",
         "passed": true,
-        "duration_ms": 5075
+        "duration_ms": 3953
       },
       {
         "name": "source-stable",
         "passed": true,
-        "duration_ms": 11
+        "duration_ms": 8
       }
     ],
-    "recorded_at": "2026-09-30T12:26:37.4703205Z"
-  },
-  "diagnosis": {
-    "kafka_lag": [
-      {
-        "end_offset": "71",
-        "partition": "0",
-        "lag": "0",
-        "committed_offset": "71"
-      },
-      {
-        "end_offset": "10",
-        "partition": "1",
-        "lag": "0",
-        "committed_offset": "10"
-      },
-      {
-        "end_offset": "24",
-        "partition": "2",
-        "lag": "0",
-        "committed_offset": "24"
-      }
-    ],
-    "checks": [
-      {
-        "passed": true,
-        "name": "services"
-      },
-      {
-        "passed": true,
-        "name": "gateway_ready"
-      },
-      {
-        "passed": true,
-        "name": "api_ready"
-      },
-      {
-        "passed": true,
-        "name": "api_metrics"
-      },
-      {
-        "passed": true,
-        "name": "outbox"
-      },
-      {
-        "passed": true,
-        "name": "jobs"
-      },
-      {
-        "passed": true,
-        "name": "projection"
-      },
-      {
-        "passed": true,
-        "name": "kafka_lag"
-      },
-      {
-        "passed": true,
-        "name": "structured_logs"
-      }
-    ]
-  },
-  "scope": "Local working tree; cloud CI evidence recorded separately",
-  "full": {
-    "worktree_dirty": true,
-    "base_revision": "41ee8726aa5ebb7df6f9fd98fa6fa8daf3df3fac",
+    "source_digest": "29a345ee2761d1067d3f3db79d8c98680f55887cea2e18dd15a56a01c79e08d5",
     "toolchain": {
       "arch": "amd64",
       "go": "go1.26.0",
@@ -137,50 +182,11 @@
       "os": "windows",
       "pnpm": "11.19.0"
     },
-    "source_digest": "4e548a8f0f2be35f707fec8bbea878b4f34dc38cf81092684a310f1eff350249",
-    "checks": [
-      {
-        "name": "architecture",
-        "passed": true,
-        "duration_ms": 2
-      },
-      {
-        "name": "knowledge",
-        "passed": true,
-        "duration_ms": 3
-      },
-      {
-        "name": "format",
-        "passed": true,
-        "duration_ms": 31
-      },
-      {
-        "name": "vet",
-        "passed": true,
-        "duration_ms": 448
-      },
-      {
-        "name": "go-tests",
-        "passed": true,
-        "duration_ms": 71926
-      },
-      {
-        "name": "web-test",
-        "passed": true,
-        "duration_ms": 1369
-      },
-      {
-        "name": "web-build",
-        "passed": true,
-        "duration_ms": 3938
-      },
-      {
-        "name": "source-stable",
-        "passed": true,
-        "duration_ms": 9
-      }
-    ],
-    "run_id": "e41646fe805f432e96df14e1cb617540",
-    "recorded_at": "2026-09-30T12:26:56.370764Z"
-  }
+    "revision": "e4ec2e572a20ee7300f05446cfc15649d4dc8bcb",
+    "run_id": "ab822aa0de62f2a9b4157ad4d967f71d",
+    "worktree_dirty": false,
+    "recorded_at": "2026-09-30T13:09:18.4318592Z"
+  },
+  "scope": "Final committed implementation; cloud CI evidence recorded separately",
+  "cloud_source_digest": "29a345ee2761d1067d3f3db79d8c98680f55887cea2e18dd15a56a01c79e08d5"
 }

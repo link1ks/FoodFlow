@@ -29,7 +29,7 @@ Implementation and final local verification completed on 2026-09-30. No external
 - Current deployment is local single-node middleware and one extracted projection service. Production HA, TLS/SASL, sustained-load performance and fully distributed kitchen writes are not claimed.
 - Final full harness passed after canonical event hashing: semantically identical JSON replays deduplicate, conflicting event content is rejected. JSON evidence is summarized in `docs/validation/platform-harness.json`.
 - Final real Kafka acceptance also passed malformed-event quarantine. Evidence: `docs/validation/platform-evidence.json`.
-- sqlc v1.30.0 generated the outbox model successfully. The CI workflow now includes architecture/format rules and a real platform integration job; this new workflow has not yet run on GitHub for the current working-tree changes.
+- sqlc v1.30.0 generated the outbox model successfully. At initial local delivery the new CI workflow had not yet run. Subsequent implementation `e4ec2e5` passed all jobs in [CI 36719457050](https://github.com/link1ks/FoodFlow/actions/runs/36719457050), including the real platform and browser harness. [Hardening evidence](harness-hardening.md) records failures, fixes and final source verification.
 
 ## Login regression correction
 

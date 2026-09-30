@@ -37,6 +37,10 @@ Redis and Kafka were real containers, not replacement mocks. Projection has its 
 
 ## Limits
 
-Single-node broker configuration is for local acceptance. No production HA, TLS/SASL, long-duration throughput, network partition/rebalance stress or external model accuracy result is implied. Failure tests cover stopped broker/cache/consumer and direct transactional failure; they do not assert exactly-once external delivery. The new CI job is configured but has not been observed on GitHub for these working-tree changes.
+Single-node broker configuration is for local acceptance. No production HA, TLS/SASL, long-duration throughput, network partition/rebalance stress or external model accuracy result is implied. Failure tests cover stopped broker/cache/consumer and direct transactional failure; they do not assert exactly-once external delivery.
+
+## Subsequent committed verification
+
+The original local report above has been followed by [successful GitHub CI](https://github.com/link1ks/FoodFlow/actions/runs/36719457050) for implementation `e4ec2e5`. Backend/race/sqlc, frontend (11 tests), images, and the complete platform harness passed. The platform job additionally verified four desktop/mobile Chromium cases, gateway replacement and redacted diagnostics. [Hardening plan](exec-plans/harness-hardening.md) records the actual cloud failures and fixes; [cloud metadata](validation/harness-hardening-cloud.json) and [final local summary](validation/harness-hardening-local.json) identify the tested source. Original report numbers remain historical, not current test totals.
 
 The extracted service reports snapshot-backed stock quantities. Nutrition statistics remain in the kitchen application; cost loss, financial utilization rates and long-image monthly export remain separate work. Before production use, add authenticated/encrypted transport configuration, replication, operational alerts and a tested independent projection backup/rebuild procedure.
