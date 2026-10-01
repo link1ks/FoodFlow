@@ -80,6 +80,444 @@ components:
     Error:
       type: object
       properties: {error: {type: string}}
+      required:
+        - error
+    HouseholdCreated:
+      properties:
+        id:
+          format: uuid
+          type: string
+      required:
+        - id
+      type: object
+    InventoryItem:
+      properties:
+        category:
+          type: string
+        dimension:
+          type: string
+        has_image:
+          type: boolean
+        id:
+          format: uuid
+          type: string
+        image_version:
+          minimum: 0
+          type: integer
+        low:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        low_stock:
+          type: boolean
+        name:
+          type: string
+        nutrition:
+          $ref: '#/components/schemas/NutritionProfile'
+        quantity:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        unit:
+          type: string
+      required:
+        - id
+        - name
+        - category
+        - unit
+        - dimension
+        - quantity
+        - low
+        - low_stock
+        - has_image
+        - image_version
+      type: object
+    InventoryBatch:
+      properties:
+        bought_on:
+          type: string
+        condition:
+          type: string
+        expires_at:
+          type: string
+        expires_on:
+          type: string
+        expiry_kind:
+          enum:
+            - unknown
+            - user
+            - label
+            - estimate
+          type: string
+        id:
+          format: uuid
+          type: string
+        ingredient_id:
+          format: uuid
+          type: string
+        location:
+          type: string
+        quantity:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        source:
+          type: string
+      required:
+        - id
+        - ingredient_id
+        - quantity
+        - location
+        - bought_on
+        - expires_on
+        - expires_at
+        - expiry_kind
+        - source
+        - condition
+      type: object
+    CatalogItem:
+      properties:
+        aliases:
+          items:
+            type: string
+          type: array
+        category:
+          type: string
+        default_unit:
+          type: string
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        nutrition:
+          $ref: '#/components/schemas/NutritionProfile'
+      required:
+        - id
+        - name
+        - category
+        - default_unit
+        - aliases
+        - nutrition
+      type: object
+    MealCompleted:
+      properties:
+        day:
+          format: date
+          type: string
+        meal:
+          type: string
+        plan_id:
+          format: uuid
+          type: string
+        plan_meal_id:
+          format: uuid
+          type: string
+        status:
+          enum:
+            - consumed
+          type: string
+      required:
+        - plan_id
+        - plan_meal_id
+        - day
+        - meal
+        - status
+      type: object
+    Session:
+      properties:
+        expires_at:
+          format: date-time
+          type: string
+        token:
+          type: string
+        token_type:
+          type: string
+        user_id:
+          format: uuid
+          type: string
+      required:
+        - user_id
+        - token
+        - token_type
+        - expires_at
+      type: object
+    StockCreated:
+      properties:
+        batch_id:
+          format: uuid
+          type: string
+        ingredient_id:
+          format: uuid
+          type: string
+      required:
+        - ingredient_id
+        - batch_id
+      type: object
+    Inventory:
+      properties:
+        batches:
+          items:
+            $ref: '#/components/schemas/InventoryBatch'
+          type: array
+        items:
+          items:
+            $ref: '#/components/schemas/InventoryItem'
+          type: array
+      required:
+        - items
+        - batches
+      type: object
+    RecipeIngredient:
+      properties:
+        name:
+          type: string
+        quantity:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        unit:
+          type: string
+      required:
+        - name
+        - quantity
+        - unit
+      type: object
+    PlanCreated:
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          enum:
+            - draft
+          type: string
+      required:
+        - id
+        - status
+      type: object
+    Dish:
+      properties:
+        id:
+          format: uuid
+          type: string
+        minutes:
+          minimum: 0
+          type: integer
+        title:
+          type: string
+      required:
+        - id
+        - title
+        - minutes
+      type: object
+    PlanDemand:
+      properties:
+        available:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        conversion_needs_confirmation:
+          type: boolean
+        name:
+          type: string
+        needed:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        shortage:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        unit:
+          type: string
+      required:
+        - name
+        - unit
+        - needed
+        - available
+        - shortage
+        - conversion_needs_confirmation
+      type: object
+    PlanConfirmed:
+      properties:
+        shopping_list_id:
+          format: uuid
+          type: string
+        shortages_rechecked:
+          type: boolean
+      required:
+        - shopping_list_id
+        - shortages_rechecked
+      type: object
+    Recipe:
+      properties:
+        id:
+          format: uuid
+          type: string
+        ingredients:
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+          type: array
+        minutes:
+          minimum: 0
+          type: integer
+        servings:
+          minimum: 0
+          type: integer
+        source:
+          type: string
+        steps:
+          items:
+            type: string
+          type: array
+        tags:
+          items:
+            type: string
+          type: array
+        title:
+          type: string
+      required:
+        - id
+        - title
+        - servings
+        - minutes
+        - tags
+        - steps
+        - source
+        - ingredients
+      type: object
+    PlanMeal:
+      properties:
+        additional_recipes:
+          items:
+            $ref: '#/components/schemas/Dish'
+          type: array
+        day:
+          type: string
+        id:
+          format: uuid
+          type: string
+        meal:
+          type: string
+        minutes:
+          minimum: 0
+          type: integer
+        recipe_id:
+          format: uuid
+          type: string
+        servings:
+          minimum: 0
+          type: integer
+        title:
+          type: string
+      required:
+        - id
+        - day
+        - meal
+        - servings
+        - recipe_id
+        - title
+        - minutes
+        - additional_recipes
+      type: object
+    Plan:
+      properties:
+        id:
+          format: uuid
+          type: string
+        ingredients:
+          items:
+            $ref: '#/components/schemas/PlanDemand'
+          type: array
+        inventory_rechecked_at:
+          format: date-time
+          type: string
+        meals:
+          items:
+            $ref: '#/components/schemas/PlanMeal'
+          type: array
+        revision:
+          minimum: 0
+          type: integer
+        status:
+          type: string
+      required:
+        - id
+        - status
+        - revision
+        - meals
+        - ingredients
+        - inventory_rechecked_at
+      type: object
+    ShoppingItem:
+      properties:
+        bought:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        checked:
+          type: boolean
+        id:
+          format: uuid
+          type: string
+        list_id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        needed:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        origin:
+          type: string
+        plan_id:
+          type: string
+        stocked:
+          type: boolean
+        unit:
+          type: string
+      required:
+        - id
+        - list_id
+        - plan_id
+        - name
+        - unit
+        - needed
+        - bought
+        - checked
+        - stocked
+        - origin
+      type: object
+    ShoppingStocked:
+      properties:
+        batch_id:
+          format: uuid
+          type: string
+        quantity:
+          pattern: ^[0-9]+(\.[0-9]{1,3})?$
+          type: string
+      required:
+        - batch_id
+        - quantity
+      type: object
+    LedgerEntry:
+      properties:
+        created_at:
+          format: date-time
+          type: string
+        id:
+          format: uuid
+          type: string
+        ingredient:
+          type: string
+        quantity:
+          pattern: ^-?[0-9]+(\.[0-9]{1,3})?$
+          type: string
+        reason:
+          type: string
+        unit:
+          type: string
+      required:
+        - id
+        - ingredient
+        - unit
+        - quantity
+        - reason
+        - created_at
+      type: object
 paths:
   /auth/capabilities:
     get:
@@ -90,35 +528,35 @@ paths:
       security: []
       summary: 发送注册或登录验证码
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone, purpose], properties: {phone: {type: string}, purpose: {type: string, enum: [register, login]}}}}}}
-      responses: {'200': {description: challenge_id和expires_in及retry_after}, '429': {description: 发送限额或间隔限制}, '503': {description: 短信未配置}, '502': {description: 发送未成功确认}}
+      responses: {'200': {description: challenge_id和expires_in及retry_after}, '429': {description: 发送限额或间隔限制, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '503': {description: 短信未配置, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '502': {description: 发送未成功确认, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /auth/sms/login:
     post:
       security: []
       summary: 验证短信并为已验证手机号账号签发JWT
       requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/SMSProof'}}}}
-      responses: {'200': {description: JWT会话}, '401': {description: 验证失败或手机号尚未验证}}
+      responses: {'200': {description: JWT会话}, '401': {description: 验证失败或手机号尚未验证, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /me/phone/code:
     post:
       summary: 为当前用户发送绑定验证码
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone], properties: {phone: {type: string}}}}}}
-      responses: {'200': {description: challenge_id和expires_in及retry_after}, '429': {description: 发送限额}, '503': {description: 短信未配置}}
+      responses: {'200': {description: challenge_id和expires_in及retry_after}, '429': {description: 发送限额, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '503': {description: 短信未配置, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /me/phone:
     post:
       summary: 当前密码和绑定验证码验证后添加手机号，拒绝换绑及其他账号占用的号码
       requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/SMSProof'}}}}
-      responses: {'204': {description: 绑定成功}, '400': {description: 验证码无效}, '401': {description: 当前密码错误}, '409': {description: 手机号不可绑定}}
+      responses: {'204': {description: 绑定成功}, '400': {description: 验证码无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '401': {description: 当前密码错误, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 手机号不可绑定, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /register:
     post:
       security: []
       summary: 手机号或邮箱注册并返回7天有效JWT
       requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/Credentials'}}}}
-      responses: {'200': {description: 已注册}, '400': {description: 输入错误}}
+      responses: {'200': {description: 已注册, content: {application/json: {schema: {$ref: '#/components/schemas/Session'}}}}, '400': {description: 输入错误, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /login:
     post:
       security: []
       summary: 手机号或邮箱加密码登录（每IP每15分钟最多60次注册与登录）
       requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/Credentials'}}}}
-      responses: {'200': {description: 令牌}, '401': {description: 凭证错误}}
+      responses: {'200': {description: 令牌, content: {application/json: {schema: {$ref: '#/components/schemas/Session'}}}}, '401': {description: 凭证错误, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /logout:
     post: {summary: 退出登录, responses: {'204': {description: 已退出}}}
   /me:
@@ -132,7 +570,7 @@ paths:
     post:
       summary: 创建家庭
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [name, servings], properties: {name: {type: string}, servings: {type: integer, minimum: 1, maximum: 20}, preferences: {type: string}, excluded_ingredients: {type: array, items: {type: string}}}}}}}
-      responses: {'201': {description: 家庭已创建}}
+      responses: {'201': {description: 家庭已创建, content: {application/json: {schema: {$ref: '#/components/schemas/HouseholdCreated'}}}}}
   /invites/accept:
     post:
       summary: 接受指定邮箱的邀请
@@ -142,12 +580,12 @@ paths:
     get:
       summary: 筛选项目自编示例菜谱
       parameters: [{name: ingredient, in: query, schema: {type: string}}, {name: tag, in: query, schema: {type: string}}, {name: max_minutes, in: query, schema: {type: integer}}]
-      responses: {'200': {description: 菜谱列表}}
+      responses: {'200': {description: 菜谱列表, content: {application/json: {schema: {items: {$ref: '#/components/schemas/Recipe'}, type: array}}}}}
   /ingredient-catalog:
     get:
       summary: 列出分类食材目录
       description: 需登录。返回规范名称、分类、默认单位与搜索别名，供页面单字即时提示。
-      responses: {'200': {description: 食材目录}, '401': {description: 未登录}}
+      responses: {'200': {description: 食材目录, content: {application/json: {schema: {items: {$ref: '#/components/schemas/CatalogItem'}, type: array}}}}, '401': {description: 未登录, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /capabilities:
     get:
       summary: 查询当前环境的功能配置
@@ -173,21 +611,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
                 items:
-                  type: object
-                  properties:
-                    id: {type: string}
-                    ingredient: {type: string}
-                    unit: {type: string}
-                    quantity: {type: string}
-                    reason: {type: string}
-                    created_at: {type: string, format: date-time}
-        '401': {description: 未登录}
-        '404': {description: 非家庭成员}
+                  $ref: '#/components/schemas/LedgerEntry'
+                type: array
+        '401': {description: 未登录, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 非家庭成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}:
     parameters: [{$ref: '#/components/parameters/household'}]
-    get: {summary: 家庭设置, responses: {'200': {description: 家庭详情}, '404': {description: 无访问权限}}}
+    get: {summary: 家庭设置, responses: {'200': {description: 家庭详情}, '404': {description: 无访问权限, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}}
     patch: {summary: 修改家庭设置（仅户主）, responses: {'204': {description: 已保存}}}
   /households/{household}/members:
     parameters: [{$ref: '#/components/parameters/household'}]
@@ -200,13 +631,13 @@ paths:
     post: {summary: 创建邀请码（仅户主）, responses: {'201': {description: 邀请码}}}
   /households/{household}/inventory:
     parameters: [{$ref: '#/components/parameters/household'}]
-    get: {summary: 食材汇总与批次, responses: {'200': {description: 含批次 expires_at、condition、有效余额与安全线状态}}}
+    get: {summary: 食材汇总与批次, responses: {'200': {description: 含批次 expires_at、condition、有效余额与安全线状态, content: {application/json: {schema: {$ref: '#/components/schemas/Inventory'}}}}}}
   /households/{household}/today:
     parameters: [{$ref: '#/components/parameters/household'}]
     get:
       summary: 指定日期的已确认餐次
       parameters: [{name: day, in: query, required: true, schema: {type: string, format: date}}]
-      responses: {'200': {description: 含 plan_id、meal_id 和逐餐完成状态的当日菜单}, '400': {description: 日期无效}}
+      responses: {'200': {description: 含 plan_id、meal_id 和逐餐完成状态的当日菜单}, '400': {description: 日期无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/ingredients:
     parameters: [{$ref: '#/components/parameters/household'}]
     post: {summary: 创建或更新食材, responses: {'201': {description: 食材 ID}}}
@@ -215,66 +646,66 @@ paths:
     delete:
       summary: 从当前库存移除食材并审计剩余数量
       description: 在事务中锁定食材及批次，对剩余库存追加补偿流水并归零，然后将食材归档。历史批次、流水和照片保留；从目录再次入库会恢复同一食材。重复使用同一幂等键只返回原结果。
-      responses: {'200': {description: 已归档及移除数量}, '403': {description: 只读成员}, '404': {description: 不属于当前家庭}, '409': {description: 幂等键内容冲突}}
+      responses: {'200': {description: 已归档及移除数量}, '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '404': {description: 不属于当前家庭, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 幂等键内容冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/catalog-stock:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/idempotency'}]
     post:
       summary: 选择目录食材并一次性创建批次入库
       description: 服务端以 catalog_id 读取规范名称、分类和单位；重放相同幂等键只返回原批次。
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [catalog_id, quantity], properties: {catalog_id: {type: string, format: uuid}, quantity: {$ref: '#/components/schemas/Quantity'}, low: {$ref: '#/components/schemas/Quantity'}, location: {type: string}, bought_on: {type: string, format: date}, expires_on: {type: string, format: date}}}}}}
-      responses: {'200': {description: 食材与批次 ID}, '400': {description: 目录项或数量无效}, '409': {description: 幂等键内容冲突}}
+      responses: {'200': {description: 食材与批次 ID, content: {application/json: {schema: {$ref: '#/components/schemas/StockCreated'}}}}, '400': {description: 目录项或数量无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 幂等键内容冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/ingredients/{ingredient}/image:
     parameters: [{$ref: '#/components/parameters/household'}, {name: ingredient, in: path, required: true, schema: {type: string, format: uuid}}]
-    get: {summary: 读取家庭食材图片（需家庭成员权限）, responses: {'200': {description: JPEG、PNG 或 WebP 图片}, '404': {description: 无图片或无权限}}}
+    get: {summary: 读取家庭食材图片（需家庭成员权限）, responses: {'200': {description: JPEG、PNG 或 WebP 图片}, '404': {description: 无图片或无权限, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}}
     post:
       summary: 为食材上传或更换图片（编辑者）
       requestBody: {required: true, content: {multipart/form-data: {schema: {type: object, required: [image], properties: {image: {type: string, format: binary}}}}}}
-      responses: {'200': {description: 图片已保存}, '400': {description: 格式或大小无效}, '403': {description: 只读成员}}
-    delete: {summary: 移除食材图片（编辑者）, responses: {'204': {description: 已移除}, '403': {description: 只读成员}}}
+      responses: {'200': {description: 图片已保存}, '400': {description: 格式或大小无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
+    delete: {summary: 移除食材图片（编辑者）, responses: {'204': {description: 已移除}, '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}}
   /households/{household}/recipe-options:
     parameters: [{$ref: '#/components/parameters/household'}]
     post:
       summary: 按所选库存食材计算可做菜谱与依赖缺口
       description: 仅将所选食材的库存计入可用量，返回完全可做或缺 1–2 种原料的菜谱；不兼容单位返回待确认状态，不生成精确缺口。只读计算，不创建菜单或扣库存。
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [selected_ingredient_ids, servings, max_minutes], properties: {selected_ingredient_ids: {type: array, maxItems: 50, items: {type: string, format: uuid}}, servings: {type: integer, minimum: 1, maximum: 20}, max_minutes: {type: integer, minimum: 1, maximum: 240}}}}}}
-      responses: {'200': {description: 按可做程度排序的菜谱与逐项需求}, '404': {description: 食材不属于该家庭}, '409': {description: 选中食材已无库存}}
+      responses: {'200': {description: 按可做程度排序的菜谱与逐项需求}, '404': {description: 食材不属于该家庭, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 选中食材已无库存, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/clear-fridge:
     parameters: [{$ref: '#/components/parameters/household'}]
     post:
       summary: 清冰箱多菜组合建议
       description: 在授权家庭的库存与菜谱快照上，用位集匹配、到期堆与有界组合搜索给出无共享原料超分配的建议；不预留或扣减库存，提交菜单时必须重新校验。
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [selected_ingredient_ids, servings, max_minutes], properties: {selected_ingredient_ids: {type: array, minItems: 1, maxItems: 50, items: {type: string, format: uuid}}, servings: {type: integer, minimum: 1, maximum: 20}, max_minutes: {type: integer, minimum: 1, maximum: 240}}}}}}
-      responses: {'200': {description: 菜谱组合、批次使用建议、原料冲突与单位疑义}, '404': {description: 食材不属于当前家庭}}
+      responses: {'200': {description: 菜谱组合、批次使用建议、原料冲突与单位疑义}, '404': {description: 食材不属于当前家庭, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/stock:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/idempotency'}]
     post:
       summary: 采购、手工录入、消耗、报损或补偿纠正
       description: batch_id 留空只适用于增加库存。扣减需要批次 ID，余额不足返回 409。
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [ingredient_id, quantity, reason], properties: {ingredient_id: {type: string, format: uuid}, batch_id: {type: string, format: uuid}, quantity: {$ref: '#/components/schemas/Quantity'}, reason: {type: string, enum: [purchase, manual, consume, waste, correction]}, note: {type: string, enum: [spoiled, expired]}, direction: {type: string, enum: [increase, decrease]}, expires_on: {type: string, format: date}, expiry_kind: {type: string, enum: [label, user, estimate, unknown]}}}}}}
-      responses: {'200': {description: 库存变更}, '409': {description: 库存不足或幂等冲突}}
+      responses: {'200': {description: 库存变更}, '409': {description: 库存不足或幂等冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/batches/{batch}/quantity:
     parameters: [{$ref: '#/components/parameters/household'}, {name: batch, in: path, required: true, schema: {type: string, format: uuid}}, {$ref: '#/components/parameters/idempotency'}]
     patch:
       summary: 根据当前余额纠正批次实际余量
       description: 使用预期余额作并发检查；余额变化写入不可变的补偿流水。
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [expected_quantity, target_quantity], properties: {expected_quantity: {type: string}, target_quantity: {type: string}}}}}}
-      responses: {'200': {description: 纠正后余量}, '409': {description: 批次余额已变化或幂等冲突}}
+      responses: {'200': {description: 纠正后余量}, '409': {description: 批次余额已变化或幂等冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/batches/{batch}/cost:
     parameters: [{$ref: '#/components/parameters/household'}, {name: batch, in: path, required: true, schema: {type: string, format: uuid}}]
     get:
       summary: 查看批次采购成本
-      responses: {'200': {description: 已登记成本或 recorded=false}, '404': {description: 批次不可访问}}
+      responses: {'200': {description: 已登记成本或 recorded=false}, '404': {description: 批次不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
     post:
       parameters: [{$ref: '#/components/parameters/idempotency'}]
       summary: 登记批次实付成本（人民币）
       description: 编辑成员确认采购成本，保存为不可变事实。后续流水按原始入库量分摊成本；此前出库不追溯定价。已有成本返回冲突，同键重试返回原结果。
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [total_cost], properties: {total_cost: {type: string, pattern: '^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$'}}}}}}
-      responses: {'200': {description: 成本已登记}, '400': {description: 金额格式或幂等键无效}, '404': {description: 批次不存在或不属于当前家庭}, '409': {description: 成本已记录或幂等冲突}}
+      responses: {'200': {description: 成本已登记}, '400': {description: 金额格式或幂等键无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '404': {description: 批次不存在或不属于当前家庭, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 成本已记录或幂等冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/meals/{meal}/record:
     parameters: [{$ref: '#/components/parameters/household'}, {name: meal, in: path, required: true, schema: {type: string, format: uuid}}]
     get:
       summary: 查看烹饪时固化的菜谱、人数与家庭时区
-      responses: {'200': {description: 不可变的烹饪快照}, '404': {description: 无访问权限、未完成或历史快照缺失}}
+      responses: {'200': {description: 不可变的烹饪快照}, '404': {description: 无访问权限、未完成或历史快照缺失, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/expiring:
     parameters: [{$ref: '#/components/parameters/household'}]
     get: {summary: 七天内临期批次, responses: {'200': {description: 临期列表}}}
@@ -284,10 +715,10 @@ paths:
     post:
       summary: 手工创建待确认菜单；同一餐可包含多道菜
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [meals], properties: {meals: {type: array, items: {$ref: '#/components/schemas/Meal'}}}}}}}
-      responses: {'201': {description: 草案}}
+      responses: {'201': {description: 草案, content: {application/json: {schema: {$ref: '#/components/schemas/PlanCreated'}}}}}
   /households/{household}/plans/{plan}:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/plan'}]
-    get: {summary: 菜单与实时重算食材缺口, responses: {'200': {description: 菜单详情}}}
+    get: {summary: 菜单与实时重算食材缺口, responses: {'200': {description: 菜单详情, content: {application/json: {schema: {$ref: '#/components/schemas/Plan'}}}}}}
   /households/{household}/plans/{plan}/meals/{meal}:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/plan'}, {name: meal, in: path, required: true, schema: {type: string, format: uuid}}]
     patch: {summary: 替换主菜、调整人数、变更附加菜或取消餐次, description: additional_recipe_ids 省略时保留现有附加菜，传空数组时清空；所有改动仅允许草案。接口会提高 revision，确认时必须提供最新版。, responses: {'204': {description: 已修改}}}
@@ -295,22 +726,22 @@ paths:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/plan'}, {$ref: '#/components/parameters/idempotency'}]
     post:
       summary: 确认菜单并重算采购缺口
-      responses: {'200': {description: 采购清单 ID}, '400': {description: 缺少幂等键}, '409': {description: 版本变化或幂等冲突}}
+      responses: {'200': {description: 采购清单 ID, content: {application/json: {schema: {$ref: '#/components/schemas/PlanConfirmed'}}}}, '400': {description: 缺少幂等键, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 版本变化或幂等冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/plans/{plan}/reject:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/plan'}]
     post: {summary: 拒绝草案, responses: {'204': {description: 已拒绝}}}
   /households/{household}/plans/{plan}/consume:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/plan'}, {$ref: '#/components/parameters/idempotency'}]
-    post: {summary: 兼容旧客户端的整份菜单消耗；新客户端使用逐餐完成, responses: {'200': {description: 已消耗}, '409': {description: 库存不足或已有餐次完成}}}
+    post: {summary: 兼容旧客户端的整份菜单消耗；新客户端使用逐餐完成, responses: {'200': {description: 已消耗}, '409': {description: 库存不足或已有餐次完成, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}}
   /households/{household}/plans/{plan}/meals/{meal}/complete:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/plan'}, {name: meal, in: path, required: true, schema: {type: string, format: uuid}}, {$ref: '#/components/parameters/idempotency'}]
     post:
       summary: 烹饪完成并按到期时间跨批扣库
       description: 餐次日期在家庭内唯一完成。主菜和附加菜的 BOM 按人数合并，事务内锁定计划和正常、未过期批次；每批追加出库流水，低于安全线时幂等写入系统建议补货项。任一原料不足则整餐回滚。相同幂等键返回原响应。
-      responses: {'200': {description: 餐次已完成}, '409': {description: 已完成、库存不足或单位不可换算}}
+      responses: {'200': {description: 餐次已完成, content: {application/json: {schema: {$ref: '#/components/schemas/MealCompleted'}}}}, '409': {description: 已完成、库存不足或单位不可换算, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/shopping:
     parameters: [{$ref: '#/components/parameters/household'}]
-    get: {summary: 共享采购清单, responses: {'200': {description: 含 origin=plan 或 system 的采购项目}}}
+    get: {summary: 共享采购清单, responses: {'200': {description: 含 origin=plan 或 system 的采购项目, content: {application/json: {schema: {items: {$ref: '#/components/schemas/ShoppingItem'}, type: array}}}}}}
   /households/{household}/prices/benchmarks:
     parameters: [{$ref: '#/components/parameters/household'}]
     get:
@@ -325,9 +756,9 @@ paths:
           content:
             application/json:
               schema: {type: array, items: {$ref: '#/components/schemas/Benchmark'}}
-        '400': {description: 城市或分类无效}
-        '401': {description: 未登录}
-        '404': {description: 非家庭成员}
+        '400': {description: 城市或分类无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '401': {description: 未登录, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 非家庭成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/prices/dashboard:
     parameters: [{$ref: '#/components/parameters/household'}]
     get:
@@ -346,16 +777,16 @@ paths:
                 properties:
                   as_of: {type: string, format: date}
                   benchmarks: {type: array, items: {$ref: '#/components/schemas/Benchmark'}}
-        '400': {description: 无效城市或目录外食材}
-        '401': {description: 未登录}
-        '404': {description: 非家庭成员}
+        '400': {description: 无效城市或目录外食材, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '401': {description: 未登录, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 非家庭成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/shopping/{item}:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/item'}]
-    delete: {summary: 从共享清单软删除采购项并保留库存流水, responses: {'204': {description: 已移除或已删除}, '403': {description: 只读成员不可删除}, '404': {description: 采购项不存在或无权访问}}}
-    patch: {summary: 勾选已买并记录实际采购量, responses: {'204': {description: 已修改}}}
+    delete: {summary: 从共享清单软删除采购项并保留库存流水, responses: {'204': {description: 已移除或已删除}, '403': {description: 只读成员不可删除, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '404': {description: 采购项不存在或无权访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}}
+    patch: {summary: 勾选已买并记录实际采购量, responses: {'204': {description: 已修改}}, requestBody: {content: {application/json: {schema: {properties: {bought: {pattern: '^[0-9]+(\.[0-9]{1,3})?$', type: string}, checked: {type: boolean}}, required: [checked, bought], type: object}}}, required: true}}
   /households/{household}/shopping/{item}/stock:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/item'}, {$ref: '#/components/parameters/idempotency'}]
-    post: {summary: 确认采购项目入库（仅一次）, responses: {'200': {description: 新批次}, '409': {description: 未勾选或已入库}}}
+    post: {summary: 确认采购项目入库（仅一次）, responses: {'200': {description: 新批次, content: {application/json: {schema: {$ref: '#/components/schemas/ShoppingStocked'}}}}, '409': {description: 未勾选或已入库, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}, requestBody: {content: {application/json: {schema: {properties: {bought_on: {type: string}, expires_on: {type: string}, expiry_kind: {type: string}, location: {type: string}, source: {type: string}}, required: [], type: object}}}, required: true}}
   /households/{household}/jobs/plan:
     parameters: [{$ref: '#/components/parameters/household'}]
     post:
@@ -381,17 +812,17 @@ paths:
                 goal: {type: string, maxLength: 500}
       responses:
         '202': {description: '任务ID；通过 jobs/{job} 查询或取消'}
-        '400': {description: 参数或所选食材无效}
-        '403': {description: 只读成员不可提交}
-        '404': {description: 非家庭成员}
-        '409': {description: 幂等请求内容冲突}
+        '400': {description: 参数或所选食材无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '403': {description: 只读成员不可提交, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 非家庭成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '409': {description: 幂等请求内容冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/jobs/image:
     parameters: [{$ref: '#/components/parameters/household'}]
     post:
       summary: 上传 JPEG、PNG 或 WebP 并排队识别食材
       description: 最多 5 MiB。需要配置视觉模型；识别只建议名称和分类，不推断数量、单位或有效期。
       requestBody: {required: true, content: {multipart/form-data: {schema: {type: object, required: [image], properties: {image: {type: string, format: binary}}}}}}
-      responses: {'202': {description: 图片识别任务 ID}, '503': {description: 未配置视觉模型}}
+      responses: {'202': {description: 图片识别任务 ID}, '503': {description: 未配置视觉模型, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/jobs:
     parameters: [{$ref: '#/components/parameters/household'}]
     get: {summary: 最近任务, responses: {'200': {description: 任务列表}}}
@@ -407,10 +838,10 @@ paths:
       summary: 核对图片识别结果并一次性入库
       description: 用户必须填写准确数量与单位；有效期可留空，填写时标记为用户确认。任务终态和库存流水在同一事务提交。
       requestBody: {required: true, content: {application/json: {schema: {type: object, required: [name, category, unit, quantity], properties: {name: {type: string}, category: {type: string}, unit: {type: string}, quantity: {$ref: '#/components/schemas/Quantity'}, location: {type: string}, bought_on: {type: string, format: date}, expires_on: {type: string, format: date}}}}}}
-      responses: {'200': {description: 食材和批次 ID}, '409': {description: 任务已处理或幂等键冲突}}
+      responses: {'200': {description: 食材和批次 ID}, '409': {description: 任务已处理或幂等键冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/jobs/{job}/image:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/job'}]
-    get: {summary: 获取待确认图片原图（需家庭成员权限）, responses: {'200': {description: 原图}, '404': {description: 不可查看}}}
+    get: {summary: 获取待确认图片原图（需家庭成员权限）, responses: {'200': {description: 原图}, '404': {description: 不可查看, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}}
   /households/{household}/jobs/{job}/retry:
     parameters: [{$ref: '#/components/parameters/household'}, {$ref: '#/components/parameters/job'}]
     post: {summary: 明确请求重试失败任务，真实模型可能再次收费, responses: {'204': {description: 已重新排队}}}
@@ -428,7 +859,7 @@ paths:
       summary: 读取本餐备餐安排与步骤打卡状态
       responses:
         '200': {description: 'session 为当前安排；不存在或已取消时为 null'}
-        '404': {description: 非家庭成员}
+        '404': {description: 非家庭成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
     post:
       summary: 创建并保存资源约束备餐时间轴
       description: 仅支持已确认且未完成餐次。最多64步；一位操作者、一个案板、主灶及可选副灶。关键路径优先启发式不承诺全局最优；工序时长为估计，不根据人数线性放大。不修改库存。
@@ -445,10 +876,10 @@ paths:
                 second_stove: {type: boolean, default: false}
       responses:
         '200': {description: 'id 和 schedule，步骤包含相对秒数 start/end/earliest/latest、资源位掩码、依赖和估计来源'}
-        '400': {description: 无效时间或缺少幂等键}
-        '403': {description: 只读成员}
-        '404': {description: 餐次不可访问}
-        '409': {description: 已有安排、菜单未确认或工序数据不完整}
+        '400': {description: 无效时间或缺少幂等键, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 餐次不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '409': {description: 已有安排、菜单未确认或工序数据不完整, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/pipelines/{session}/steps/{step}:
     parameters:
       - {$ref: '#/components/parameters/household'}
@@ -469,15 +900,15 @@ paths:
                 action: {type: string, enum: [start, complete, cancel]}
       responses:
         '200': {description: 当前状态 active/finished/cancelled}
-        '400': {description: 无效参数或缺少幂等键}
-        '403': {description: 只读成员}
-        '404': {description: 安排不可访问}
-        '409': {description: 设备冲突、依赖未完成、菜单变更或终态拒绝写入}
+        '400': {description: 无效参数或缺少幂等键, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 安排不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '409': {description: 设备冲突、依赖未完成、菜单变更或终态拒绝写入, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/multi-meal:
     parameters: [{$ref: '#/components/parameters/household'}]
     get:
       summary: 最近五次多餐清冰箱方案，含状态与有效期
-      responses: {'200': {description: 方案列表}, '404': {description: 非家庭成员}}
+      responses: {'200': {description: 方案列表}, '404': {description: 非家庭成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
     post:
       summary: 生成持久化的跨餐次库存结转方案
       description: 最多7餐、20道候选菜谱、128个批次和64种食材单位组合。每餐一道菜，最多50000搜索节点，命中上限返回truncated。数量先按人数精确缩放，克/毫升/个互不混算。优先消耗当前48小时内临期批次；各餐按家庭时区与预计餐时排除已过期批次。仅保存方案，不预留或扣减库存。
@@ -504,9 +935,9 @@ paths:
                       meal: {type: string, enum: [breakfast, lunch, dinner]}
       responses:
         '200': {description: 'id/status/result；result.meals含recipe_id、title、uses、rollover，空recipe_id表示无可行菜谱'}
-        '400': {description: 参数、单位或幂等键无效}
-        '403': {description: 只读成员不可生成}
-        '409': {description: 快照超过支持的规划容量或幂等键冲突}
+        '400': {description: 参数、单位或幂等键无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '403': {description: 只读成员不可生成, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '409': {description: 快照超过支持的规划容量或幂等键冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/multi-meal/{proposal}:
     parameters:
       - {$ref: '#/components/parameters/household'}
@@ -522,15 +953,15 @@ paths:
             schema: {type: object, required: [action], properties: {action: {type: string, enum: [adopt, cancel]}}}
       responses:
         '200': {description: 已采纳或取消；采纳返回plan_id及stock_deducted=false}
-        '400': {description: 参数或幂等键无效}
-        '403': {description: 只读成员}
-        '404': {description: 方案不可访问}
-        '409': {description: 方案失效、快照变化、目标餐次冲突、无可采纳餐次或幂等冲突}
+        '400': {description: 参数或幂等键无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 方案不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '409': {description: 方案失效、快照变化、目标餐次冲突、无可采纳餐次或幂等冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/pantry:
     parameters: [{$ref: '#/components/parameters/household'}]
     get:
       summary: 免称重调味品与估算换算规则
-      responses: {'200': {description: 'items为启用的批次瓶装余量、容量、阈值、可用状态；options为支持的名称、g/ml单位及估算依据'}, '404': {description: 非家庭成员}}
+      responses: {'200': {description: 'items为启用的批次瓶装余量、容量、阈值、可用状态；options为支持的名称、g/ml单位及估算依据'}, '404': {description: 非家庭成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
     post:
       summary: 将已有正常批次绑定为免称重调味品
       description: 不新增或复制库存。用户明确接受估算，容量不能低于当前余量。同名调味品只允许一个启用批次；停用后可以再次启用原批次。只支持按食材名称定义的换算，禁止通用tsp到g换算。
@@ -547,7 +978,7 @@ paths:
                 capacity: {type: string, description: 'g或ml，最多三位小数，最大1000000'}
                 threshold: {type: integer, minimum: 1, maximum: 50, default: 15}
                 accept_estimates: {type: boolean, enum: [true]}
-      responses: {'200': {description: 调味品id}, '400': {description: 参数或单位无效、未确认估算}, '403': {description: 只读成员}, '404': {description: 批次不可访问}, '409': {description: 重复启用、容量不足或批次不可用}}
+      responses: {'200': {description: 调味品id}, '400': {description: 参数或单位无效、未确认估算, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '404': {description: 批次不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 重复启用、容量不足或批次不可用, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/pantry/{pantry}:
     parameters:
       - {$ref: '#/components/parameters/household'}
@@ -568,7 +999,7 @@ paths:
                 expected_quantity: {type: string, description: 校准时必填，使用读取接口返回的原始三位小数字符串}
                 percent: {type: integer, minimum: 0, maximum: 100, description: 校准时使用}
                 threshold: {type: integer, minimum: 1, maximum: 50, description: 修改补货线时使用}
-      responses: {'200': {description: 已完成}, '400': {description: 参数无效}, '403': {description: 只读成员}, '404': {description: 不可访问}, '409': {description: 当前余量变化、已停用或幂等冲突}}
+      responses: {'200': {description: 已完成}, '400': {description: 参数无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '404': {description: 不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 当前余量变化、已停用或幂等冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /households/{household}/insights:
     parameters:
       - {$ref: '#/components/parameters/household'}
@@ -603,10 +1034,10 @@ paths:
                         consumed_milli: {type: string}
                         wasted_milli: {type: string}
                         adjusted_milli: {type: string}
-        '400': {description: 月份无效}
-        '401': {description: 需要登录}
-        '404': {description: 家庭不可访问}
-        '503': {description: 统计服务未启用或暂不可用，可重试}
+        '400': {description: 月份无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '401': {description: 需要登录, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 家庭不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '503': {description: 统计服务未启用或暂不可用，可重试, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/nutrition:
     parameters:
       - {$ref: '#/components/parameters/household'}
@@ -653,5 +1084,5 @@ paths:
                         name: {type: string}
                         unit: {type: string}
                         reason: {type: string}
-        '400': {description: 不支持的统计周期}
-        '404': {description: 家庭不可访问}
+        '400': {description: 不支持的统计周期, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 家庭不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}

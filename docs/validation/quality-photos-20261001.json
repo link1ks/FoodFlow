@@ -1,0 +1,167 @@
+{
+  "date": "2026-10-01",
+  "task": "quality-photos-20261001",
+  "revision": "8b57768522e3029a62af83702bc920c6c32f94ba",
+  "worktree_dirty": true,
+  "source_digest": "b4e8f9df020b1225781680e5c7d28b6db3179ce594fa92d33294823b3177ee75",
+  "verification": [
+    {
+      "run_id": "30959c4787381750fccee17a148bc5f0",
+      "recorded_at": "2026-10-01T05:18:17.9034493Z",
+      "mode": "full",
+      "toolchain": {
+        "arch": "amd64",
+        "go": "go1.26.0",
+        "node": "v24.19.0",
+        "os": "windows",
+        "pnpm": "11.19.0"
+      },
+      "checks": [
+        {
+          "name": "architecture",
+          "passed": true,
+          "duration_ms": 2
+        },
+        {
+          "name": "knowledge",
+          "passed": true,
+          "duration_ms": 2
+        },
+        {
+          "name": "quality-map",
+          "passed": true,
+          "duration_ms": 1
+        },
+        {
+          "name": "format",
+          "passed": true,
+          "duration_ms": 30
+        },
+        {
+          "name": "vet",
+          "passed": true,
+          "duration_ms": 660
+        },
+        {
+          "name": "go-tests",
+          "passed": true,
+          "duration_ms": 79133
+        },
+        {
+          "name": "web-test",
+          "passed": true,
+          "duration_ms": 1319
+        },
+        {
+          "name": "web-build",
+          "passed": true,
+          "duration_ms": 4153
+        },
+        {
+          "name": "source-stable",
+          "passed": true,
+          "duration_ms": 12
+        }
+      ]
+    },
+    {
+      "run_id": "2526c075031652f0ad2e7b564d450de9",
+      "recorded_at": "2026-10-01T05:19:15.9032959Z",
+      "mode": "acceptance",
+      "toolchain": {
+        "arch": "amd64",
+        "go": "go1.26.0",
+        "node": "v24.19.0",
+        "os": "windows",
+        "pnpm": "11.19.0"
+      },
+      "checks": [
+        {
+          "name": "architecture",
+          "passed": true,
+          "duration_ms": 2
+        },
+        {
+          "name": "knowledge",
+          "passed": true,
+          "duration_ms": 3
+        },
+        {
+          "name": "quality-map",
+          "passed": true,
+          "duration_ms": 0
+        },
+        {
+          "name": "read-recovery-regression",
+          "passed": true,
+          "duration_ms": 629
+        },
+        {
+          "name": "acceptance-stack",
+          "passed": true,
+          "duration_ms": 33920
+        },
+        {
+          "name": "platform",
+          "passed": true,
+          "duration_ms": 28800
+        },
+        {
+          "name": "kitchen-flow",
+          "passed": true,
+          "duration_ms": 1964
+        },
+        {
+          "name": "gateway-recovery",
+          "passed": true,
+          "duration_ms": 11049
+        },
+        {
+          "name": "browser",
+          "passed": true,
+          "duration_ms": 48671
+        },
+        {
+          "name": "runtime-diagnostics",
+          "passed": true,
+          "duration_ms": 4921
+        },
+        {
+          "name": "source-stable",
+          "passed": true,
+          "duration_ms": 14
+        }
+      ]
+    }
+  ],
+  "browser": {
+    "startTime": "2026-10-01T05:18:22.565Z",
+    "duration": 47993.79,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "frontend_unit_tests": 12,
+  "photographs": {
+    "count": 91,
+    "bytes": 2775998,
+    "max_bytes": 90138,
+    "max_dimension": 480,
+    "attribution": "web/public/ingredient-photos/credits.html",
+    "manifest": "web/public/ingredient-photos/manifest.json"
+  },
+  "cleanup": {
+    "historical_files": 56,
+    "historical_bytes": 224134188,
+    "unselected_photo_files": 85,
+    "unselected_photo_bytes": 6399619,
+    "photo_temporary_files": 664,
+    "photo_temporary_bytes": 42646134
+  },
+  "limits": [
+    "Local uncommitted verification; no new cloud CI run",
+    "No paid AI, real SMS/S3/public production acceptance or capacity benchmark",
+    "Remaining API response schemas/frontend generation are explicit API-COVERAGE debt"
+  ]
+}

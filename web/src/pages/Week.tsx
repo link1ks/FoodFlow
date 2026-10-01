@@ -174,6 +174,7 @@ export function Week() {
               <Sparkles size={16} /> 帮我推荐菜单
             </Button>
             <select
+              aria-label="选择菜谱手工规划"
               className="rounded-xl border p-2 text-sm"
               value={recipe}
               onChange={(e) => setRecipe(e.target.value)}

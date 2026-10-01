@@ -16,6 +16,8 @@ Full mode checks AST import rules, Go formatting, vet, all Go tests with require
 
 ## Knowledge freshness
 
+Full, fast and acceptance also run `quality-map` against [business-domain quality](QUALITY.md) and its [machine-readable scenarios/debts](quality/domains.json). Missing domains, owners, scenario references or incomplete debts fail. Full task evidence must include this check. OpenAPI is validated with a standard parser in Go tests, compared against actual API methods/routes, and checked against real main-flow fixture requests/responses. Catalogue photos and the quality map participate in the source digest. These checks do not establish semantic completeness of every API or real model quality.
+
 [Source inventory](generated/contracts.md) is generated from Go route registrations (including group prefixes), direct dependencies, frontend dependencies, configuration key names, Compose images/services, migration filenames/content digests and event Go types/JSON fields. `knowledge` fails when source changes without updating the inventory; it also checks local Markdown links in repository documentation. Refresh with `go run ./cmd/harness -mode knowledge -update` and review the diff. This mechanically checks selected facts, not the semantic truth of every prose statement or OpenAPI schema completeness. Architectural ownership still requires review.
 
 ## Runtime feedback
@@ -48,6 +50,8 @@ The platform CI job runs the full harness and acceptance harness on the checked-
 CI additionally runs race detection, sqlc generation consistency, container builds and the event pipeline acceptance test. Docker unavailability must fail required checks. Real model calls are not included; existing deterministic fixtures verify confirmation, cancellation and schema constraints without charges.
 
 ## Agent workflow
+
+Failed or blocked task outcomes can add `-failure-category product|fixture|infrastructure|unknown`; summary reports category counts. Existing uncategorized records remain unknown. See [quality maintenance](QUALITY.md) for bounded fuzz commands and remaining business-domain debt.
 
 1. Read `AGENTS.md`, relevant contracts and current execution plan.
 2. Reproduce the business failure in an isolated fixture.

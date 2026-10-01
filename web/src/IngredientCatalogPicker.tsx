@@ -191,7 +191,7 @@ export function IngredientCatalogPicker({
                   选择食材
                 </Dialog.Title>
                 <Dialog.Description className="text-xs text-slate-500">
-                  浏览食材示意插画、分类和默认单位；家庭已上传的照片优先显示。
+                  浏览食材实拍参考照片、分类和默认单位；家庭已上传的照片优先显示。
                 </Dialog.Description>
               </div>
               <Dialog.Close asChild>
@@ -295,7 +295,15 @@ export function IngredientCatalogPicker({
                 <div className="min-h-0 flex-1 overflow-y-auto p-4 md:px-6">
                   <p className="mb-3 text-xs text-slate-500">
                     显示 {matches.length} / {catalog.data?.length || 0} 种食材 ·
-                    图片为示意插画，可为家庭食材上传实拍照片
+                    实拍参考照片，可为家庭食材上传自己的照片 ·{" "}
+                    <a
+                      href="/ingredient-photos/credits.html"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline"
+                    >
+                      照片来源与授权
+                    </a>
                   </p>
                   {catalog.isLoading ? (
                     <p className="py-10 text-center text-slate-500">

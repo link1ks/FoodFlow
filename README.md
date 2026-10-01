@@ -171,7 +171,7 @@ Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成
 | 后台任务与 Agent | 租约恢复、旧 Worker 写入拦截、取消与确认边界、确定性模型测试 |
 | 业务统计 | 家庭营养快照、份数折算、日期窗口与缺失数据；调味品扣减、校准与补货 |
 | 平台恢复 | Redis 失效回源、Kafka 中断期间业务写入、消费恢复与去重、非法事件隔离 |
-| 网关与页面 | API 地址变化后网关恢复；11 项前端单元测试、4 项桌面 / 手机 Chromium 验收 |
+| 网关与页面 | API 地址变化后网关恢复；前端单元测试、桌面 / 手机 Chromium 验收，包含完整厨房链路、家庭切换和照片回退 |
 | 云端质量门禁 | Go race 检查、sqlc 生成一致性、前端构建、容器构建、完整 Harness 与平台验收 |
 | 本地运维 | 服务重启、数据库备份恢复与 Worker 强杀后的队列恢复，见部署报告 |
 
@@ -183,6 +183,7 @@ Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成
 | [OpenAPI](openapi.yaml) | HTTP 接口契约 |
 | [AGENTS.md](AGENTS.md) / [源码清单](docs/generated/contracts.md) | 仓库导航、模块边界、生成的接口与配置清单 |
 | [Harness](docs/HARNESS.md) / [平台说明](docs/PLATFORM.md) | 开发反馈流程、服务归属与事件恢复 |
+| [业务质量与技术债](docs/QUALITY.md) | 各业务域验收、测试定位、未覆盖风险与关闭证据 |
 | [本地部署](docs/LOCAL_DEPLOYMENT.md) | 启动、备份恢复与排错 |
 | [验证报告](docs/VALIDATION_REPORT.md) / [平台验收](docs/PLATFORM_VALIDATION.md) | 测试环境、性能记录、恢复结果与限制 |
 | [技术复盘](docs/ENGINEERING_STORIES.md) | 并发库存、Worker 租约与模型确认边界 |
@@ -203,3 +204,5 @@ Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成
 ## 许可证
 
 当前未指定开源许可证，使用与分发授权由项目所有者另行明确。
+
+食材参考照片采用各自的开放授权，不属于上述代码授权声明。来源、作者、具体许可和缩放转换说明见 [照片署名](web/public/ingredient-photos/credits.html)；家庭自行上传的照片由上传者管理。

@@ -38,7 +38,7 @@ func runID() string {
 // Digest versioned inputs and new source files, without reading .env or logs.
 func sourceDigest(root string) (string, error) {
 	files := []string{"go.mod", "go.sum", "sqlc.yaml", ".env.example", ".dockerignore", ".gitignore", "AGENTS.md", "README.md", "ARCHITECTURE.md", "openapi.yaml", "Dockerfile", "compose.yaml", "compose.acceptance.yaml", "compose.platform.yaml", ".github/workflows/ci.yml", "web/package.json", "web/pnpm-lock.yaml", "web/Dockerfile", "web/.dockerignore", "web/nginx.conf", "web/playwright.config.ts", "web/tsconfig.json", "web/vite.config.ts", "web/index.html", "web/pnpm-workspace.yaml", "docs/HARNESS.md", "docs/PLATFORM.md", knowledgePath}
-	for _, dir := range []string{"cmd", "internal", "sql", "scripts", "tests", "web/src", "web/e2e"} {
+	for _, dir := range []string{"cmd", "internal", "sql", "scripts", "tests", "web/src", "web/e2e", "web/public", "docs/quality"} {
 		err := filepath.WalkDir(filepath.Join(root, dir), func(path string, d os.DirEntry, err error) error {
 			if err != nil {
 				return err
@@ -90,20 +90,21 @@ func saveEvidence(out string, report Evidence) error {
 }
 
 type TaskRecord struct {
-	ID           string    `json:"id"`
-	Kind         string    `json:"kind"`
-	Baseline     string    `json:"baseline"`
-	StartedAt    time.Time `json:"started_at"`
-	FinishedAt   time.Time `json:"finished_at,omitempty"`
-	Outcome      string    `json:"outcome,omitempty"`
-	EvidenceID   string    `json:"evidence_run_id,omitempty"`
-	ElapsedMS    int64     `json:"wall_clock_elapsed_ms,omitempty"`
-	SourceDigest string    `json:"source_digest,omitempty"`
+	ID              string    `json:"id"`
+	Kind            string    `json:"kind"`
+	Baseline        string    `json:"baseline"`
+	StartedAt       time.Time `json:"started_at"`
+	FinishedAt      time.Time `json:"finished_at,omitempty"`
+	Outcome         string    `json:"outcome,omitempty"`
+	EvidenceID      string    `json:"evidence_run_id,omitempty"`
+	ElapsedMS       int64     `json:"wall_clock_elapsed_ms,omitempty"`
+	SourceDigest    string    `json:"source_digest,omitempty"`
+	FailureCategory string    `json:"failure_category,omitempty"`
 }
 
 var taskName = regexp.MustCompile(`^[a-z0-9][a-z0-9-]{0,63}$`)
 
-func recordTask(root, id, action, kind, baseline, outcome, evidence string) error {
+func recordTask(root, id, action, kind, baseline, outcome, evidence string, failureCategory ...string) error {
 	if !taskName.MatchString(id) {
 		return fmt.Errorf("task ID must be lowercase letters, digits and hyphens (max 64)")
 	}
@@ -152,6 +153,16 @@ func recordTask(root, id, action, kind, baseline, outcome, evidence string) erro
 		}
 		record.EvidenceID, record.SourceDigest = report.RunID, digest
 	}
+	if outcome != "passed" {
+		category := "unknown"
+		if len(failureCategory) > 0 {
+			category = failureCategory[0]
+		}
+		if !strings.Contains("|product|fixture|infrastructure|unknown|", "|"+category+"|") {
+			return fmt.Errorf("failure category must be product/fixture/infrastructure/unknown")
+		}
+		record.FailureCategory = category
+	}
 	record.FinishedAt, record.Outcome = time.Now().UTC(), outcome
 	record.ElapsedMS = record.FinishedAt.Sub(record.StartedAt).Milliseconds()
 	return writeExclusive(finishPath, record)
@@ -161,7 +172,7 @@ func fullPass(report Evidence) bool {
 	if report.Version != 1 || report.RunID == "" || report.Mode != "full" || !report.IntegrationRequired {
 		return false
 	}
-	required := map[string]bool{"architecture": false, "knowledge": false, "format": false, "vet": false, "go-tests": false, "web-test": false, "web-build": false, "source-stable": false}
+	required := map[string]bool{"architecture": false, "knowledge": false, "quality-map": false, "format": false, "vet": false, "go-tests": false, "web-test": false, "web-build": false, "source-stable": false}
 	for _, check := range report.Checks {
 		if !check.Passed {
 			return false
@@ -230,7 +241,7 @@ func historySummary(root string) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	outcomes, kinds := map[string]int{}, map[string]int{}
+	outcomes, kinds, failures := map[string]int{}, map[string]int{}, map[string]int{}
 	var elapsed int64
 	for _, file := range files {
 		raw, err := os.ReadFile(file)
@@ -243,7 +254,14 @@ func historySummary(root string) (any, error) {
 		}
 		outcomes[record.Outcome]++
 		kinds[record.Kind]++
+		if record.Outcome != "passed" {
+			category := record.FailureCategory
+			if category == "" {
+				category = "unknown"
+			}
+			failures[category]++
+		}
 		elapsed += record.ElapsedMS
 	}
-	return map[string]any{"verification_by_mode": byMode, "completed_task_outcomes": outcomes, "completed_task_kinds": kinds, "total_task_wall_clock_ms": elapsed, "interpretation": "Observed verification runs and explicitly recorded tasks only. Wall-clock time includes waiting and interruptions. This is not a controlled measurement of AI productivity, user bug rate or human effort; repeated runs are not independent tasks."}, nil
+	return map[string]any{"verification_by_mode": byMode, "completed_task_outcomes": outcomes, "completed_task_kinds": kinds, "failed_task_categories": failures, "total_task_wall_clock_ms": elapsed, "interpretation": "Observed verification runs and explicitly recorded tasks only. Wall-clock time includes waiting and interruptions. This is not a controlled measurement of AI productivity, user bug rate or human effort; repeated runs are not independent tasks."}, nil
 }

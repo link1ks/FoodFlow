@@ -127,6 +127,7 @@ func main() {
 	baseline := flag.String("baseline", "unknown", "reproduced or unknown; records an operator assertion")
 	outcome := flag.String("outcome", "", "passed, failed or blocked")
 	evidence := flag.String("evidence", "", "passing full report for task completion")
+	failureCategory := flag.String("failure-category", "unknown", "product, fixture, infrastructure or unknown for failed/blocked tasks")
 	flag.Parse()
 	if !strings.Contains("|full|fast|architecture|knowledge|diagnose|acceptance|task|summary|", "|"+*mode+"|") {
 		fmt.Fprintln(os.Stderr, "invalid mode")
@@ -139,7 +140,7 @@ func main() {
 	if *mode == "task" || *mode == "summary" {
 		var err error
 		if *mode == "task" {
-			err = recordTask(".", *task, *action, *kind, *baseline, *outcome, *evidence)
+			err = recordTask(".", *task, *action, *kind, *baseline, *outcome, *evidence, *failureCategory)
 		} else {
 			var summary any
 			summary, err = historySummary(".")
@@ -173,6 +174,9 @@ func main() {
 	run("architecture", func() (string, error) { return "", architecture(".") })
 	if *mode != "architecture" {
 		run("knowledge", func() (string, error) { return "", knowledge(".", *update) })
+	}
+	if *mode == "full" || *mode == "fast" || *mode == "acceptance" {
+		run("quality-map", func() (string, error) { return "", quality(".") })
 	}
 	pnpm := "pnpm"
 	if p, err := exec.LookPath("pnpm.cmd"); err == nil {

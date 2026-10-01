@@ -1,0 +1,327 @@
+[
+  {
+    "id": "inventory",
+    "owner": "internal/app",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "Exact quantities and compatible units only",
+      "FEFO never allocates expired/spoiled stock or overdraws a batch",
+      "Inventory, ledger and outbox commit atomically",
+      "Same-key replay never deducts twice"
+    ],
+    "checks": [
+      {
+        "path": "internal/app/integration_test.go",
+        "anchor": "func TestWorkflowAndInvariants("
+      },
+      {
+        "path": "internal/app/v11_integration_test.go",
+        "anchor": "func TestMealCompletionFEFOIdempotenceAndReplenishment("
+      },
+      {
+        "path": "internal/app/outbox_test.go",
+        "anchor": "func TestOutboxAtomicRollbackRetryAndProjectionInbox("
+      },
+      {
+        "path": "internal/core/properties_test.go",
+        "anchor": "func FuzzConversionAndServingConservation("
+      },
+      {
+        "path": "internal/engine/scheduler/properties_test.go",
+        "anchor": "func FuzzScheduleStockConservation("
+      }
+    ],
+    "debts": [
+      {
+        "id": "INV-LOAD",
+        "priority": "P1",
+        "status": "open",
+        "description": "Sustained multi-household mixed read/write load remains unverified",
+        "completion": "Document workload and SLO; measure sustained latency, errors, lock waits and stock invariants"
+      }
+    ]
+  },
+  {
+    "id": "permissions",
+    "owner": "internal/app",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "Every household operation checks current server-side membership",
+      "Viewer cannot write; removed/downgraded membership affects existing sessions",
+      "Household switch does not display another household's inventory"
+    ],
+    "checks": [
+      {
+        "path": "internal/app/ledger_test.go",
+        "anchor": "func TestLedgerHistoryUsesSnapshotsAndHouseholdAuthorization("
+      },
+      {
+        "path": "internal/app/integration_test.go",
+        "anchor": "func TestWorkflowAndInvariants("
+      },
+      {
+        "path": "web/e2e/permissions.spec.ts",
+        "anchor": "household switching and member downgrade"
+      }
+    ],
+    "debts": [
+      {
+        "id": "AUTH-ACCOUNT",
+        "priority": "P2",
+        "status": "open",
+        "description": "Phone replacement, account merge and SMS password recovery are not delivered",
+        "completion": "Implement explicit account lifecycle contracts and acceptance with real provider authorization"
+      }
+    ]
+  },
+  {
+    "id": "menus",
+    "owner": "internal/app",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "Draft and recommendation do not deduct stock",
+      "Confirmation rechecks current revision and shortage",
+      "Completed meal deducts exact scaled BOM once"
+    ],
+    "checks": [
+      {
+        "path": "internal/app/workflow_contract_test.go",
+        "anchor": "func TestKitchenWorkflowContract("
+      },
+      {
+        "path": "internal/app/multi_meal_test.go",
+        "anchor": "func TestMultiMealRolloverAdoptionAndFences("
+      },
+      {
+        "path": "web/e2e/workflow.spec.ts",
+        "anchor": "UI kitchen workflow purchases shortages and consumes exactly once"
+      }
+    ],
+    "debts": [
+      {
+        "id": "MENU-RECIPES",
+        "priority": "P2",
+        "status": "open",
+        "description": "Example steps and seasoning estimates cover four recipes",
+        "completion": "Curate additional recipes with consistent BOM, units, steps and scheduling acceptance"
+      }
+    ]
+  },
+  {
+    "id": "procurement",
+    "owner": "internal/app",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "User confirms actual purchase before stocking",
+      "Repeated stocking cannot duplicate inventory",
+      "Deleting shopping item retains committed stock and ledger"
+    ],
+    "checks": [
+      {
+        "path": "internal/app/shopping_delete_test.go",
+        "anchor": "func TestShoppingArchive("
+      },
+      {
+        "path": "internal/app/v2_snapshots_test.go",
+        "anchor": "func TestV2LedgerSnapshotAndOperationIdempotency("
+      },
+      {
+        "path": "web/e2e/workflow.spec.ts",
+        "anchor": "UI kitchen workflow purchases shortages and consumes exactly once"
+      }
+    ],
+    "debts": [
+      {
+        "id": "SHOP-PRICE",
+        "priority": "P2",
+        "status": "open",
+        "description": "Complete monetary waste report and monthly image export are not delivered",
+        "completion": "Define cost coverage and unknown-history rules; verify exact monetary snapshots and exported report"
+      }
+    ]
+  },
+  {
+    "id": "ai",
+    "owner": "internal/agent",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "Structured outputs reject unknown fields and concatenated objects",
+      "Cancelled/expired workers cannot persist results",
+      "Image suggestions require explicit user confirmation",
+      "Default verification uses deterministic fixtures"
+    ],
+    "checks": [
+      {
+        "path": "internal/agent/model_test.go",
+        "anchor": "func TestDemoAndSchema("
+      },
+      {
+        "path": "internal/agent/vision_test.go",
+        "anchor": "func TestVisionAdapterAndSchema("
+      },
+      {
+        "path": "internal/app/integration_test.go",
+        "anchor": "func TestImageRecognitionConfirmation("
+      },
+      {
+        "path": "tests/worker-recovery.ps1",
+        "anchor": "Job not durably queued while worker is down"
+      }
+    ],
+    "debts": [
+      {
+        "id": "AI-EVAL",
+        "priority": "P1",
+        "status": "open",
+        "description": "Real photo accuracy and menu usefulness have no representative evaluation",
+        "completion": "Authorize model budget separately; version dataset/model and report correctness, acceptance, latency and cost"
+      }
+    ]
+  },
+  {
+    "id": "insights",
+    "owner": "internal/insights",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "Independent database; share only event contracts",
+      "Duplicate stable event ID counts once",
+      "Conflicting or malformed events are quarantined",
+      "Broker/cache outage does not block kitchen writes"
+    ],
+    "checks": [
+      {
+        "path": "tests/platform.ps1",
+        "anchor": "Repeated Kafka delivery counted more than once"
+      },
+      {
+        "path": "internal/app/outbox_test.go",
+        "anchor": "func TestOutboxAtomicRollbackRetryAndProjectionInbox("
+      },
+      {
+        "path": "internal/insights/http_test.go",
+        "anchor": "func TestInternalAuthorizationAndValidation("
+      }
+    ],
+    "debts": [
+      {
+        "id": "PLATFORM-OPS",
+        "priority": "P1",
+        "status": "open",
+        "description": "Production alerting, transport security and projection rebuild are not accepted",
+        "completion": "Verify deployment-specific authentication/encryption, lag/age/quarantine alerts, fresh-target backup restore and replay"
+      }
+    ]
+  },
+  {
+    "id": "nutrition",
+    "owner": "internal/app",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "Historical nutrition uses completion snapshots",
+      "Unknown conversions and missing coverage are explicit",
+      "Reference composition is not presented as medical or actual intake scoring"
+    ],
+    "checks": [
+      {
+        "path": "internal/app/nutrition_radar_test.go",
+        "anchor": "func TestNutritionRadarSnapshotsCoverageAndScope("
+      },
+      {
+        "path": "internal/nutrition/nutrition_test.go",
+        "anchor": "func TestReferenceProfiles("
+      }
+    ],
+    "debts": [
+      {
+        "id": "NUT-COVERAGE",
+        "priority": "P2",
+        "status": "open",
+        "description": "Edible mass conversions and dark-green vegetable classification have incomplete coverage",
+        "completion": "Version curated references and verify missing coverage without invented zero values"
+      }
+    ]
+  },
+  {
+    "id": "frontend",
+    "owner": "web/src",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "Desktop/mobile share primary navigation",
+      "Errors are distinct from disabled/empty states",
+      "Catalogue photographs match ingredients and retain attribution",
+      "Successful UI writes refresh inventory and ledger"
+    ],
+    "checks": [
+      {
+        "path": "web/e2e/kitchen.spec.ts",
+        "anchor": "onboarding, continuous stock and configured capability states"
+      },
+      {
+        "path": "web/e2e/workflow.spec.ts",
+        "anchor": "UI kitchen workflow purchases shortages and consumes exactly once"
+      },
+      {
+        "path": "web/src/catalogPhotos.test.ts",
+        "anchor": "licensed local photograph"
+      },
+      {
+        "path": "web/e2e/photos.spec.ts",
+        "anchor": "real catalogue photos, family upload priority and failed-image fallback"
+      }
+    ],
+    "debts": [
+      {
+        "id": "UX-TRIAL",
+        "priority": "P1",
+        "status": "open",
+        "description": "Real household onboarding, entry burden and return usage are unmeasured",
+        "completion": "Run a small consented household trial with defined success/return measures and recorded findings"
+      }
+    ]
+  },
+  {
+    "id": "harness",
+    "owner": "cmd/harness",
+    "reviewed": "2026-10-01",
+    "acceptance": [
+      "API routes/methods match valid OpenAPI",
+      "Main-flow real fixture requests and responses match schemas",
+      "Quality mapping fails on lost scenarios",
+      "Task completion requires current full evidence including quality mapping"
+    ],
+    "checks": [
+      {
+        "path": "internal/app/openapi_test.go",
+        "anchor": "func TestContractRejectsQuantityAndRequiredFieldDrift("
+      },
+      {
+        "path": "internal/app/workflow_contract_test.go",
+        "anchor": "func TestKitchenWorkflowContract("
+      },
+      {
+        "path": "cmd/harness/quality_test.go",
+        "anchor": "func TestQualityRejectsLostScenarioAndEscapingPath("
+      },
+      {
+        "path": "cmd/harness/knowledge_test.go",
+        "anchor": "func TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite("
+      }
+    ],
+    "debts": [
+      {
+        "id": "HARNESS-IMAGES",
+        "priority": "P1",
+        "status": "open",
+        "description": "Skip-build mode does not automatically bind running image IDs to source digest",
+        "completion": "Record and verify build revision/digest and image ID before accepting reused containers"
+      },
+      {
+        "id": "API-COVERAGE",
+        "priority": "P2",
+        "status": "open",
+        "description": "Response schemas cover main kitchen workflow, not all endpoints",
+        "completion": "Add remaining typed schemas, fixture response validation and generated frontend types in reviewed increments"
+      }
+    ]
+  }
+]

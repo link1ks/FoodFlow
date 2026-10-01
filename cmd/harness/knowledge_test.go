@@ -21,7 +21,7 @@ func knowledgeFixture(t *testing.T) string {
 	for _, path := range []string{"README.md", "AGENTS.md", "ARCHITECTURE.md", "docs/HARNESS.md"} {
 		writeFixture(t, root, path, "# Fixture\n")
 	}
-	for _, dir := range []string{"cmd", "scripts", "tests", "web/src", "web/e2e"} {
+	for _, dir := range []string{"cmd", "scripts", "tests", "web/src", "web/e2e", "web/public", "docs/quality"} {
 		if err := os.MkdirAll(filepath.Join(root, dir), 0755); err != nil {
 			t.Fatal(err)
 		}
@@ -93,7 +93,7 @@ func TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite(t *testing.T) {
 		t.Fatal(err)
 	}
 	report := Evidence{Version: 1, RunID: "test", Mode: "full", IntegrationRequired: true, SourceDigest: digest, RecordedAt: time.Now().UTC()}
-	for _, name := range []string{"architecture", "knowledge", "format", "vet", "go-tests", "web-test", "web-build", "source-stable"} {
+	for _, name := range []string{"architecture", "knowledge", "quality-map", "format", "vet", "go-tests", "web-test", "web-build", "source-stable"} {
 		report.Checks = append(report.Checks, Check{Name: name, Passed: true})
 	}
 	evidence := ".cache/harness/test.json"
