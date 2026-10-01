@@ -39,6 +39,7 @@ export function Week() {
     [excluded, setExcluded] = useState(""),
     [recipe, setRecipe] = useState(""),
     [err, setErr] = useState("");
+  const selectedRecipe = recipes.data?.find((r) => r.id === recipe);
   async function generate() {
     setErr("");
     try {
@@ -190,6 +191,30 @@ export function Week() {
               用这道菜安排
             </Button>
           </div>
+          {selectedRecipe && (
+            <section
+              aria-label="所选菜谱详情"
+              className="mt-4 rounded-xl bg-slate-50 p-4 text-sm"
+            >
+              <h3 className="font-semibold">
+                {selectedRecipe.title} · {selectedRecipe.servings} 人份
+              </h3>
+              <p className="mt-2">
+                {selectedRecipe.ingredients
+                  .map((x) => `${x.name} ${x.quantity} ${x.unit}`)
+                  .join(" · ")}
+              </p>
+              <ol className="mt-3 list-decimal space-y-1 pl-5">
+                {selectedRecipe.steps.map((step, i) => (
+                  <li key={i}>{step}</li>
+                ))}
+              </ol>
+              <p className="mt-3 text-xs text-slate-500">
+                {selectedRecipe.source}
+                。以上为基准份量，菜单按人数换算；调味用量另按估算扣减，需先在家庭常备调味品中确认。计时结束仍需检查食物熟透。
+              </p>
+            </section>
+          )}
           <p className="mt-3 text-xs text-slate-500">
             生成后先看方案，确认满意再加入菜单。做饭完成后才扣库存。
           </p>

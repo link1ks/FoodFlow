@@ -1,0 +1,122 @@
+{
+  "full": {
+    "run_id": "c5f78cc83c5ae746dbe954d89fb62e0f",
+    "source_digest": "c1fa906a9ce40f7b967c0d50d3f03cf1e0c4fcc91cfa0b7269029a53672e643f",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 2
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "quality-map",
+        "passed": true,
+        "duration_ms": 1
+      },
+      {
+        "name": "format",
+        "passed": true,
+        "duration_ms": 35
+      },
+      {
+        "name": "vet",
+        "passed": true,
+        "duration_ms": 713
+      },
+      {
+        "name": "go-tests",
+        "passed": true,
+        "duration_ms": 83482
+      },
+      {
+        "name": "web-test",
+        "passed": true,
+        "duration_ms": 1406
+      },
+      {
+        "name": "web-build",
+        "passed": true,
+        "duration_ms": 4099
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 20
+      }
+    ]
+  },
+  "acceptance": {
+    "run_id": "3f781afcb6a0d47591694998d97a68be",
+    "source_digest": "c1fa906a9ce40f7b967c0d50d3f03cf1e0c4fcc91cfa0b7269029a53672e643f",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 2
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "quality-map",
+        "passed": true,
+        "duration_ms": 1
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true,
+        "duration_ms": 683
+      },
+      {
+        "name": "acceptance-stack",
+        "passed": true,
+        "duration_ms": 54588
+      },
+      {
+        "name": "platform",
+        "passed": true,
+        "duration_ms": 31010
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true,
+        "duration_ms": 3054
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true,
+        "duration_ms": 23275
+      },
+      {
+        "name": "browser",
+        "passed": true,
+        "duration_ms": 28798
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true,
+        "duration_ms": 4938
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 17
+      }
+    ]
+  },
+  "browser_stats": {
+    "startTime": "2026-10-01T06:05:59.755Z",
+    "duration": 28097.122,
+    "expected": 14,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

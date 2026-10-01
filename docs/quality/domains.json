@@ -101,9 +101,10 @@
       {
         "id": "MENU-RECIPES",
         "priority": "P2",
-        "status": "open",
-        "description": "Example steps and seasoning estimates cover four recipes",
-        "completion": "Curate additional recipes with consistent BOM, units, steps and scheduling acceptance"
+        "status": "closed",
+        "description": "Sixteen authored household reference recipes have linked BOM, supported steps and seasoning estimates",
+        "completion": "Curate additional recipes with consistent BOM, units, steps and scheduling acceptance",
+        "evidence": "internal/app/family_recipes_test.go"
       }
     ]
   },

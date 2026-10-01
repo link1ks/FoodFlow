@@ -385,7 +385,16 @@ func TestIngredientPhotosAndRecipeOptions(t *testing.T) {
 		must(t, code, 200, v)
 	}
 	request := func(ids []string, servings int) (int, []map[string]any) {
-		return h.listRequest("POST", root+"/recipe-options", owner, map[string]any{"selected_ingredient_ids": ids, "servings": servings, "max_minutes": 30})
+		status, all := h.listRequest("POST", root+"/recipe-options", owner, map[string]any{"selected_ingredient_ids": ids, "servings": servings, "max_minutes": 30})
+		// These assertions exercise the original tomato/egg BOM. Other valid
+		// recipes may now also match; their presence must not alter this fixture.
+		original := []map[string]any{}
+		for _, option := range all {
+			if option["recipe_id"] == "10000000-0000-4000-8000-000000000001" {
+				original = append(original, option)
+			}
+		}
+		return status, original
 	}
 	code, options := request([]string{tomato}, 2)
 	if code != 200 || len(options) != 1 || options[0]["status"] != "one_missing" {
@@ -760,9 +769,17 @@ func TestWorkflowAndInvariants(t *testing.T) {
 	if e == nil {
 		t.Fatal("cross-household agent tool allowed")
 	}
-	_, _, e = a.chooseRecipe(context.Background(), claimed{ID: job, Household: house, Creator: userID}, planJob{Day: day, Meal: "dinner", Servings: 2, MaxMinutes: 10, ExcludedIngredients: []string{"生菜"}})
+	allowed, _, e := a.chooseRecipe(context.Background(), claimed{ID: job, Household: house, Creator: userID}, planJob{Day: day, Meal: "dinner", Servings: 2, MaxMinutes: 10, ExcludedIngredients: []string{"生菜"}})
+	if e != nil {
+		t.Fatal("allowed alternative was rejected", e)
+	}
+	var prohibited int
+	if e = pool.QueryRow(context.Background(), "SELECT count(*) FROM recipe_items WHERE recipe_id=$1 AND name='生菜'", allowed).Scan(&prohibited); e != nil || prohibited != 0 {
+		t.Fatal("agent selected an explicitly excluded ingredient", prohibited, e)
+	}
+	_, _, e = a.chooseRecipe(context.Background(), claimed{ID: job, Household: house, Creator: userID}, planJob{Day: day, Meal: "dinner", Servings: 2, MaxMinutes: 10, ExcludedIngredients: []string{"生菜", "菠菜"}})
 	if e == nil {
-		t.Fatal("agent ignored explicit excluded ingredient")
+		t.Fatal("agent must reject when all eligible recipes are excluded")
 	}
 	code, v = h.call("PATCH", root, alice, "", map[string]any{"name": "A", "servings": 2, "preferences": "", "excluded_ingredients": []string{"鸡蛋"}})
 	must(t, code, 204, v)
