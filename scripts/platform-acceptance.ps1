@@ -10,7 +10,9 @@ foreach($name in @('INSIGHTS_SERVICE_TOKEN','INSIGHTS_DB_PASSWORD')){
  }
 }
 function dc { & docker compose --env-file $config -f compose.acceptance.yaml -f compose.platform.yaml @args; if($LASTEXITCODE -ne 0){throw 'Platform compose failed'} }
-if(!$SkipBuild){dc build}
+if(!$SkipBuild){& pwsh -NoProfile -File scripts/build-acceptance-images.ps1; if($LASTEXITCODE -ne 0){throw 'Platform image build failed'}}
 dc up -d --wait --wait-timeout 300
+& go run ./cmd/harness -mode images -platform-images -out .cache/harness/platform-image-binding.json
+if($LASTEXITCODE -ne 0){throw 'Platform image/source binding failed; rebuild acceptance'}
 & pwsh -File tests/platform.ps1
 if($LASTEXITCODE -ne 0){throw 'Platform business acceptance failed'}

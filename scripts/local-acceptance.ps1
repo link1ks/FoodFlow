@@ -10,7 +10,7 @@ if(!(Test-Path -LiteralPath $config)){
 }
 function dc { & docker compose --env-file $config -f compose.acceptance.yaml @args; if($LASTEXITCODE -ne 0){throw 'Docker Compose command failed'} }
 switch($Action){
-  up { dc build; dc up -d --wait --wait-timeout 120 }
+  up { & pwsh -NoProfile -File scripts/build-acceptance-images.ps1; if($LASTEXITCODE -ne 0){throw 'Acceptance build failed'}; dc up -d --wait --wait-timeout 120 }
   restart { dc restart api worker web; Start-Sleep -Seconds 3; (Invoke-WebRequest http://127.0.0.1:18080/health/ready).StatusCode }
   status { dc ps }
   backup {

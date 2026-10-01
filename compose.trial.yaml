@@ -1,0 +1,15 @@
+# Explicit overrides prevent saved API/SMS/S3 credentials from enabling calls.
+services:
+  api:
+    environment: &trial_env
+      MODEL_ENDPOINT: ''
+      MODEL_NAME: ''
+      MODEL_API_KEY: ''
+      VISION_MODEL_ENDPOINT: ''
+      VISION_MODEL_NAME: ''
+      VISION_MODEL_API_KEY: ''
+      SMS_PROVIDER: ''
+      MARKET_PRICE_SYNC: 'false'
+      STORAGE_BACKEND: local
+  worker:
+    environment: *trial_env

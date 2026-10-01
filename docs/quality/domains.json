@@ -29,15 +29,20 @@
       {
         "path": "internal/engine/scheduler/properties_test.go",
         "anchor": "func FuzzScheduleStockConservation("
+      },
+      {
+        "path": "internal/app/family_load_test.go",
+        "anchor": "func TestFamilyMixedLoadConservesStockLedgerAndOutbox("
       }
     ],
     "debts": [
       {
         "id": "INV-LOAD",
         "priority": "P1",
-        "status": "open",
+        "status": "closed",
         "description": "Sustained multi-household mixed read/write load remains unverified",
-        "completion": "Document workload and SLO; measure sustained latency, errors, lock waits and stock invariants"
+        "completion": "Bounded 10-household/20-client/30-second API+PostgreSQL workload reports latency/errors/100ms lock sampling and checks precise stock, replay, ledger and outbox conservation; scope is not production capacity",
+        "evidence": "docs/exec-plans/family-completion.md"
       }
     ]
   },
@@ -351,15 +356,20 @@
       {
         "path": "tests/generated-freshness.ps1",
         "anchor": "stale content, missing/extra files rejected"
+      },
+      {
+        "path": "cmd/harness/images_test.go",
+        "anchor": "func TestImageBindingRejectsStaleSourceAndContainerReplacement("
       }
     ],
     "debts": [
       {
         "id": "HARNESS-IMAGES",
         "priority": "P1",
-        "status": "open",
+        "status": "closed",
         "description": "Skip-build mode does not automatically bind running image IDs to source digest",
-        "completion": "Record and verify build revision/digest and image ID before accepting reused containers"
+        "completion": "Build manifest records source digest and immutable API/web image IDs; base and platform services are checked before acceptance; unit regression rejects stale/missing/foreign bindings",
+        "evidence": "docs/exec-plans/family-completion.md"
       },
       {
         "id": "API-COVERAGE",

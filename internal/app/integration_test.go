@@ -503,8 +503,13 @@ func (h testAPI) listRequest(method, path, token string, body any) (int, []map[s
 		h.t.Fatal(e)
 	}
 	defer resp.Body.Close()
+	raw, err := io.ReadAll(resp.Body)
+	if err != nil {
+		h.t.Fatal(err)
+	}
+	validateFixtureResponse(h.t, req, resp, raw)
 	out := []map[string]any{}
-	_ = json.NewDecoder(resp.Body).Decode(&out)
+	_ = json.Unmarshal(raw, &out)
 	return resp.StatusCode, out
 }
 

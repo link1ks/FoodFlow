@@ -78,6 +78,9 @@ jobs:
           path: |
             .cache/harness/ci-full.json
             .cache/harness/ci-acceptance.json
+            .cache/harness/acceptance-images.json
+            .cache/harness/image-verification.json
+            .cache/harness/platform-image-binding.json
             .cache/harness/diagnostics.json
             .cache/harness/browser.json
             .cache/harness/browser-artifacts/**/*.png

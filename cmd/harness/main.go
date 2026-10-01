@@ -116,10 +116,11 @@ func (b *boundedOutput) Write(p []byte) (int, error) {
 	return n, nil
 }
 func main() {
-	mode := flag.String("mode", "full", "full, fast, architecture, knowledge, diagnose, acceptance, task, or summary")
+	mode := flag.String("mode", "full", "full, fast, architecture, knowledge, diagnose, acceptance, task, summary, fingerprint, or images")
 	web := flag.Bool("web", true, "also test and build frontend in full mode")
 	out := flag.String("out", ".cache/harness/latest.json", "evidence path")
 	update := flag.Bool("update", false, "regenerate source inventory in knowledge mode")
+	platformImages := flag.Bool("platform-images", false, "require relay and insights image bindings")
 	skipBuild := flag.Bool("skip-build", false, "use existing acceptance images")
 	task := flag.String("task", "", "stable task ID for task mode")
 	action := flag.String("action", "", "start or finish")
@@ -129,7 +130,7 @@ func main() {
 	evidence := flag.String("evidence", "", "passing full report for task completion")
 	failureCategory := flag.String("failure-category", "unknown", "product, fixture, infrastructure or unknown for failed/blocked tasks")
 	flag.Parse()
-	if !strings.Contains("|full|fast|architecture|knowledge|diagnose|acceptance|task|summary|", "|"+*mode+"|") {
+	if !strings.Contains("|full|fast|architecture|knowledge|diagnose|acceptance|task|summary|fingerprint|images|", "|"+*mode+"|") {
 		fmt.Fprintln(os.Stderr, "invalid mode")
 		os.Exit(2)
 	}
@@ -160,6 +161,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+	if *mode == "fingerprint" {
+		fmt.Println(initialDigest)
+		return
+	}
 	checks := []Check{}
 	run := func(name string, fn func() (string, error)) {
 		start := time.Now()
@@ -182,6 +187,9 @@ func main() {
 	if p, err := exec.LookPath("pnpm.cmd"); err == nil {
 		pnpm = p
 	}
+	if *mode == "images" {
+		run("acceptance-images", func() (string, error) { return verifyAcceptanceImages(".", initialDigest, *platformImages) })
+	}
 	if *mode == "diagnose" {
 		run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
 	}
@@ -190,16 +198,24 @@ func main() {
 		if !*skipBuild {
 			run("acceptance-stack", func() (string, error) { return command("pwsh", "-File", "scripts/local-acceptance.ps1", "up") })
 		}
-		run("platform", func() (string, error) {
-			return command("pwsh", "-File", "scripts/platform-acceptance.ps1", "-SkipBuild")
+		imagesReady := false
+		run("acceptance-images", func() (string, error) {
+			detail, err := verifyAcceptanceImages(".", initialDigest, false)
+			imagesReady = err == nil
+			return detail, err
 		})
-		run("kitchen-flow", func() (string, error) {
-			return command("pwsh", "-File", "tests/smoke.ps1", "-Base", "http://127.0.0.1:18080")
-		})
-		run("gateway-recovery", func() (string, error) { return command("pwsh", "-File", "tests/gateway-recovery.ps1") })
-		run("browser-fixture", func() (string, error) { return command("pwsh", "-File", "scripts/prepare-browser-fixture.ps1") })
-		run("browser", func() (string, error) { return command(pnpm, "--dir", "web", "test:e2e") })
-		run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
+		if imagesReady {
+			run("platform", func() (string, error) {
+				return command("pwsh", "-File", "scripts/platform-acceptance.ps1", "-SkipBuild")
+			})
+			run("kitchen-flow", func() (string, error) {
+				return command("pwsh", "-File", "tests/smoke.ps1", "-Base", "http://127.0.0.1:18080")
+			})
+			run("gateway-recovery", func() (string, error) { return command("pwsh", "-File", "tests/gateway-recovery.ps1") })
+			run("browser-fixture", func() (string, error) { return command("pwsh", "-File", "scripts/prepare-browser-fixture.ps1") })
+			run("browser", func() (string, error) { return command(pnpm, "--dir", "web", "test:e2e") })
+			run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
+		}
 	}
 	if *mode == "full" || *mode == "fast" {
 		if *mode == "full" {

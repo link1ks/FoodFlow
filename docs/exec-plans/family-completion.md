@@ -67,3 +67,15 @@
 - 初次接入响应检查的批量编辑误改测试里的 image/png 字面量，编译失败；定位到具体条件并修复。新的全 app 集成响应校验通过，没有为了迁就 fixture 放宽业务条件。
 - 账号提交 `785fd53` 的 [CI 36845481497](https://github.com/link1ks/FoodFlow/actions/runs/36845481497)：frontend/images/platform 成功，backend 的 sqlc 一致性步骤失败；030 新增模型未随账号阶段生成。开始 `family-dbgen-regression-20261001`（baseline reproduced）；已重新生成 030/031 类型。新增 full 必需的独立 sqlc 检查，在 SQL/config 临时副本生成并比较，不改工作区与数据；回归拒绝旧内容、缺/多文件，允许 CRLF 等价。上一阶段本地通过不等于该提交云端通过。
 - 最终 full 12/12，重建 acceptance 12/12，浏览器 22 通过、0 失败/跳过/flaky；运行 `28993004b9ca1d245fff4a819aee0d30` / `a8488e5293b071a76b5b081bb0e570cc`，同摘要 `3dd29675ddec62a52803311e0e3c45b49a610660e27d3c410f7bcf22bc8531c2`。浏览器确认 2 个鸡蛋→100g 依据保存后库存仍 4 个、流水仍一条；查看手机截图确认布局与状态。便携证据：[family-nutrition](../validation/family-nutrition-20261001.json)。
+
+### 家庭负载、镜像绑定与试用
+
+- 任务 `family-trial-harness-20261001` 首次负载失败，按 unknown 记录：测试把 Outbox event_id 误写为 id，10 个守恒检查失败；另有 1 次未分类请求错误，首次报告没有保留状态分类，不能断言其原因或已修复。保留 `.cache/harness/family-load-initial.json`，开始 r1 回归任务。仅修正 fixture 字段并加入脱敏错误分类、最长耗时，没有放宽业务库存规则。
+- r1 定向负载：10 家庭、20 并发客户端、30 秒，32,095 请求、4,585 完整循环、0 错误/守恒失败，P50 3.72ms、P95 9.745ms、P99 13.147ms、最长 81.932ms，100ms 采样最高 5 个锁等待者。目标 0 错误与 P95<2000ms；在独立真实 PostgreSQL 与进程内 HTTP API 上测试，不覆盖网关/公网/Kafka/真实模型，不能称作生产容量或长期稳定性证明。后续 full 会再次执行该场景。
+- 验收构建记录源码摘要与不可变 API/web 镜像 ID；运行容器必须属于固定 acceptance 项目，API/Worker/Web 以及平台 Relay/Insights 匹配同一构建。旧环境缺少清单的真实负例已经被 images 模式拒绝；单元负例覆盖旧源码/镜像、错误项目、缺/重复服务和 unbound 标签。源码/标签报告为本地证据，不是防篡改证明。
+- 扩展标准响应校验至列表 fixtures；拆分业务 JS 与共享依赖（169.73KB / 330.93KB），静态哈希资源长期缓存、入口 no-cache。构建无大 chunk 提示，但未将构建大小或缓存配置当作实际用户加载速度提升。
+- [家庭试用指南](../FAMILY_TRIAL.md) 给出协作、三天业务闭环、匿名观察指标和本地备份；真实家庭回访仍保留 UX-TRIAL。新增显式 Compose 试用覆盖，禁用模型/短信/菜价同步并使用本地存储，保存的 API 密钥和数据卷不改写。
+- 营养与契约提交 `dd522ba` 的 [CI 36848745945](https://github.com/link1ks/FoodFlow/actions/runs/36848745945) backend/frontend/images/platform 全部 completed/success，先前账号生成一致性云端问题已在此提交验证修复。
+- 最终 full 12/12（`e25c3cff0adc21340781b9a59a6f946e`）、重建 acceptance 13/13（`e2e29d71168bd742924d8c96d3a51251`），同摘要 `6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe`。22 浏览器测试通过，0 失败/跳过/flaky；绑定 API/Worker/Web/Relay/Insights 的镜像 ID 与摘要。full 再次负载 32,060 请求、4,580 循环，0 错误/守恒失败，P95 9.864ms、最长 75.244ms，采样峰值 6 个锁等待者。便携证据：[family-trial](../validation/family-trial-20261001.json)。
+- 本地旧库与照片先备份到受保护的 `.cache/trial-backups`，然后试用 overlay 升级启动 5173。初次只读核对误用 inventory_batches 表名，另一次脚本变量与 PowerShell HOME 冲突；修正为真实 batches 与专用变量后核对账号/家庭/批次/流水数保持一致。没有删除或重建原卷；实际环境模型/短信配置为空、菜价同步关闭、本地存储，健康 HTTP 200，入口 no-cache、哈希资源 immutable。备份未做恢复演练，不把成功导出等同于已证明可恢复。
+- 家庭试用代码已完成本地验证，下一步提交并推送；最终云端状态以对应 GitHub Actions 运行结果为准。真实家庭回访、模型质量、短信送达、未覆盖营养资料及生产运维仍保留。

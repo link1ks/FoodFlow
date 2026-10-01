@@ -14,7 +14,9 @@ services:
       retries: 30
   migrate:
     image: foodflow-api:acceptance
-    build: .
+    build:
+      context: .
+      args: {FOODFLOW_SOURCE_DIGEST: '${FOODFLOW_SOURCE_DIGEST:-unbound}'}
     command: [/app/migrate]
     environment:
       DATABASE_URL: postgres://foodflow:${POSTGRES_PASSWORD}@db:5432/foodflow?sslmode=disable
@@ -54,7 +56,9 @@ services:
       migrate: {condition: service_completed_successfully}
   web:
     image: foodflow-web:acceptance
-    build: ./web
+    build:
+      context: ./web
+      args: {FOODFLOW_SOURCE_DIGEST: '${FOODFLOW_SOURCE_DIGEST:-unbound}'}
     restart: unless-stopped
     ports: ['127.0.0.1:15173:80']
     depends_on:

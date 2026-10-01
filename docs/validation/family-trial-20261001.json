@@ -1,0 +1,205 @@
+{
+  "browser": {
+    "startTime": "2026-10-01T10:49:02.86Z",
+    "duration": 44091.185999999994,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "load": {
+    "completed_cycles": 4580,
+    "concurrent_clients": 20,
+    "elapsed_ms": 30131,
+    "error_kinds": {},
+    "errors": 0,
+    "households": 10,
+    "invariant_failures": 0,
+    "lock_sampling_ms": 100,
+    "max_request_ms": 75.244,
+    "p50_ms": 3.728,
+    "p95_ms": 9.864,
+    "p95_target_ms": 2000,
+    "p99_ms": 12.981,
+    "peak_sampled_lock_waiters": 6,
+    "request_count": 32060,
+    "requested_duration_seconds": 30,
+    "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls"
+  },
+  "full": {
+    "run_id": "e25c3cff0adc21340781b9a59a6f946e",
+    "recorded_at": "2026-10-01T10:43:58.1971901Z",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "dbgen-regression",
+        "passed": true
+      },
+      {
+        "name": "dbgen-check",
+        "passed": true
+      },
+      {
+        "name": "format",
+        "passed": true
+      },
+      {
+        "name": "vet",
+        "passed": true
+      },
+      {
+        "name": "go-tests",
+        "passed": true
+      },
+      {
+        "name": "web-api-check",
+        "passed": true
+      },
+      {
+        "name": "web-test",
+        "passed": true
+      },
+      {
+        "name": "web-build",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ],
+    "mode": "full",
+    "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe"
+  },
+  "limitations": [
+    "Local image IDs and labels are not tamper-proof attestations.",
+    "Load covers 30 seconds of in-process HTTP API and real isolated PostgreSQL, excluding gateway/Kafka/models.",
+    "An earlier load run had an unclassified request error; its cause was not established.",
+    "No paid models, real SMS, S3 or actual family participation were evaluated.",
+    "Backups contain private data and remain local; aggregate record counts are not published."
+  ],
+  "image_binding": {
+    "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe",
+    "services": [
+      {
+        "service": "api",
+        "project": "foodflow-acceptance",
+        "container_id": "e5b65e438a6c9cd3ce4d131c47cc49e5de3bd7aaf0096f803234f3d33f269ccf",
+        "image_id": "sha256:83e17567c4d3678987ed81a5b2afb7e9e2fd052f0eadefe52b8d4be368710fbf",
+        "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe"
+      },
+      {
+        "service": "worker",
+        "project": "foodflow-acceptance",
+        "container_id": "28c77645211c61ddbbb814f4e23f05433932df732317a36ccd70ab339b67bfaa",
+        "image_id": "sha256:83e17567c4d3678987ed81a5b2afb7e9e2fd052f0eadefe52b8d4be368710fbf",
+        "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe"
+      },
+      {
+        "service": "web",
+        "project": "foodflow-acceptance",
+        "container_id": "ac26e15394fb8c2829c00eaca46972d052cd4b435a5c798fac849a4b8979b941",
+        "image_id": "sha256:270cf3cb2150b310dfe16d3c56899c6345a9463ec6b7942e952f27ddc033a801",
+        "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe"
+      },
+      {
+        "service": "relay",
+        "project": "foodflow-acceptance",
+        "container_id": "611516461e5e24450c2816c809e2bd68af141a2e179489fe1c15e62f304ebf97",
+        "image_id": "sha256:83e17567c4d3678987ed81a5b2afb7e9e2fd052f0eadefe52b8d4be368710fbf",
+        "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe"
+      },
+      {
+        "service": "insights",
+        "project": "foodflow-acceptance",
+        "container_id": "845ce9dc4550eb87ac1db5a81d5247942e9ca484dba45e570da3d47aad2dc320",
+        "image_id": "sha256:83e17567c4d3678987ed81a5b2afb7e9e2fd052f0eadefe52b8d4be368710fbf",
+        "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe"
+      }
+    ]
+  },
+  "scope": "Family trial: sustained isolated workload, source/image binding and data-preserving local startup",
+  "acceptance": {
+    "run_id": "e2e29d71168bd742924d8c96d3a51251",
+    "recorded_at": "2026-10-01T10:49:52.4464714Z",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true
+      },
+      {
+        "name": "acceptance-stack",
+        "passed": true
+      },
+      {
+        "name": "acceptance-images",
+        "passed": true
+      },
+      {
+        "name": "platform",
+        "passed": true
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true
+      },
+      {
+        "name": "browser-fixture",
+        "passed": true
+      },
+      {
+        "name": "browser",
+        "passed": true
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ],
+    "mode": "acceptance",
+    "source_digest": "6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe"
+  },
+  "local_trial": {
+    "hashed_asset_cache": [
+      "public, max-age=31536000, immutable"
+    ],
+    "sms_enabled": false,
+    "paid_providers_disabled": true,
+    "html_cache": [
+      "no-cache"
+    ],
+    "primary_records_preserved": true,
+    "ready": 200
+  }
+}

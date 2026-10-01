@@ -160,7 +160,7 @@ func contractInventory(root string) ([]byte, error) {
 	}
 	section("Documented configuration keys", keys)
 	var services []string
-	for _, file := range []string{"compose.acceptance.yaml", "compose.platform.yaml"} {
+	for _, file := range []string{"compose.acceptance.yaml", "compose.platform.yaml", "compose.trial.yaml"} {
 		raw, err := os.ReadFile(filepath.Join(root, file))
 		if err != nil {
 			return nil, err
@@ -177,7 +177,7 @@ func contractInventory(root string) ([]byte, error) {
 			services = append(services, file+": "+name+" / "+service.Image)
 		}
 	}
-	section("Acceptance services and images", services)
+	section("Deployment services and images", services)
 	files, err := filepath.Glob(filepath.Join(root, "sql/schema/*.sql"))
 	if err != nil {
 		return nil, err
