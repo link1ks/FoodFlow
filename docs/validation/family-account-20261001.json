@@ -1,0 +1,116 @@
+{
+  "scope": "Family account lifecycle, deterministic SMS only",
+  "full": {
+    "run_id": "fb42e67366569a91fb812029cd96d3f6",
+    "recorded_at": "2026-10-01T09:47:35.2361184Z",
+    "source_digest": "2a710463d4a3728ba47a450f87bb2f4907f154b5f4f9313002ea5b01b2d0eb73",
+    "mode": "full",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "format",
+        "passed": true
+      },
+      {
+        "name": "vet",
+        "passed": true
+      },
+      {
+        "name": "go-tests",
+        "passed": true
+      },
+      {
+        "name": "web-test",
+        "passed": true
+      },
+      {
+        "name": "web-build",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ]
+  },
+  "acceptance": {
+    "run_id": "99c5022c560b3f1f9341e22cba207950",
+    "recorded_at": "2026-10-01T09:50:13.5224488Z",
+    "source_digest": "2a710463d4a3728ba47a450f87bb2f4907f154b5f4f9313002ea5b01b2d0eb73",
+    "mode": "acceptance",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true
+      },
+      {
+        "name": "acceptance-stack",
+        "passed": true
+      },
+      {
+        "name": "platform",
+        "passed": true
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true
+      },
+      {
+        "name": "browser-fixture",
+        "passed": true
+      },
+      {
+        "name": "browser",
+        "passed": true
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ]
+  },
+  "browser": {
+    "startTime": "2026-10-01T09:49:27.024Z",
+    "duration": 41258.018,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "limits": [
+    "No live SMS or paid model requests",
+    "Email-only recovery and non-complementary account merge unavailable",
+    "Identity migration downgrade requires reviewed recovery"
+  ]
+}

@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { version } from "../../package.json";
-import { PhoneBinding } from "../Auth";
+import { AccountMerge, PhoneBinding } from "../AccountLifecycle";
 import { Avatar } from "../Avatar";
 import { NatureBackdrop } from "../NatureTheme";
 import { api } from "../api";
@@ -361,6 +361,7 @@ export function AppShell({ household }: { household: Household }) {
             <p className="mb-4 text-xs text-slate-500">FoodFlow v{version}</p>
             <ProfileSettings />
             <PhoneBinding token={token} />
+            <AccountMerge token={token} />
             <div className="mt-5">
               <Button variant="outline" onClick={logout}>
                 <LogOut size={16} className="mr-2" />

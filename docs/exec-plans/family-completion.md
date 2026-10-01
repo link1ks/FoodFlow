@@ -48,3 +48,13 @@
 - 最终 r2 full 9/9（13 前端单测）、acceptance 11/11（skip-build 无构建检查，新增 browser-fixture），浏览器 16/16、0 跳过/失败/flaky；运行 `9ea1fc69f21e82d85bc0a09bfff32b0f` / `390275e9871320b896b9d068bbd3d9ef`，同摘要 `33950b0e788d214fa7f5149e9901b5c6541d55cb267860c9a5a3ba71f5b29019`。业务镜像已在初次验收重建，后续仅改测试/验收准备脚本，复用该镜像；自动镜像绑定债务仍保留。`family-monthly-report-r2-20261001` 已 passed，便携证据：[family-monthly](../validation/family-monthly-20261001.json)。
 - 菜谱提交 `6d6fa67` 的 [CI 36823185891](https://github.com/link1ks/FoodFlow/actions/runs/36823185891) 四任务均 completed/success，无失败步骤。
 - 重现预算耗尽后的重复性验证：仅在固定 acceptance 数据库将虚构认证计数设为 61，运行准备脚本后再跑全部浏览器 16/16，通过而未关闭限流。这是对已复现 fixture 失败的回归，不据两次通过推断用户收益或生产容量。
+
+### 账号生命周期
+
+- 任务 `family-account-lifecycle-20261001`：已验证手机号短信找回、原/新双号码换绑、互补邮箱/手机号账号合并。只允许一边邮箱、一边已验证手机号，避免静默覆盖冲突登录标识。保留当前账号 ID/称呼/密码，合并已证明属于两账号的家庭权限；来源用户保留停用标记，库存与历史流水 actor 不改写。
+- 会话加入 auth_version；密码找回、换绑和合并提升版本并撤销会话。过期身份校验即使延迟插入 session 也不能绕过版本检查。来源 queued/running 任务取消并撤销租约；之后人工重试记录当前请求者。
+- 后端定向两项与 OpenAPI 校验通过，覆盖缺少确认、错误密码/用途、错误新码不消耗有效旧码、重放、旧会话/旧密码拒绝、所有权转移、库存/流水保留、不可变合并审计。短信使用 recording fixture，不发送真实消息。
+- 检查曾被账号用量限制阻止，命令未执行；用户恢复额度后重跑成功。该等待计入真实任务墙钟时间，不记录虚构测试结果。
+- 页面补找回、换绑、合并及显式确认；短信未配置时显示不可用且不能提交。邮箱专用账号暂没有自助找回；两个同类账号/已同时绑定两种方式的账号不支持合并。真实短信送达保留 AUTH-SMS-DELIVERY 债务。030 Down 明确拒绝自动撤回身份转移；回滚需审查恢复方案，未执行破坏性 Down。
+- 月报提交 `150a80b` 的 [CI 36825163622](https://github.com/link1ks/FoodFlow/actions/runs/36825163622) 四任务全部 completed/success。
+- 最终 full 9/9，重建 acceptance 12/12，浏览器 20 通过、0 失败、0 跳过；运行 `fb42e67366569a91fb812029cd96d3f6` / `99c5022c560b3f1f9341e22cba207950`，源码摘要 `2a710463d4a3728ba47a450f87bb2f4907f154b5f4f9313002ea5b01b2d0eb73`。便携证据：[family-account](../validation/family-account-20261001.json)。

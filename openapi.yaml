@@ -526,8 +526,8 @@ paths:
   /auth/sms/code:
     post:
       security: []
-      summary: 发送注册或登录验证码
-      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone, purpose], properties: {phone: {type: string}, purpose: {type: string, enum: [register, login]}}}}}}
+      summary: 发送注册、登录或密码找回验证码
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone, purpose], properties: {phone: {type: string}, purpose: {type: string, enum: [register, login, reset]}}}}}}
       responses: {'200': {description: challenge_id和expires_in及retry_after}, '429': {description: 发送限额或间隔限制, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '503': {description: 短信未配置, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '502': {description: 发送未成功确认, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /auth/sms/login:
     post:
@@ -537,14 +537,36 @@ paths:
       responses: {'200': {description: JWT会话}, '401': {description: 验证失败或手机号尚未验证, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /me/phone/code:
     post:
-      summary: 为当前用户发送绑定验证码
-      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone], properties: {phone: {type: string}}}}}}
+      summary: 为当前用户发送绑定、原号码换绑或互补账号合并验证码
+      description: change_old 只向当前账号已验证原号码发送；所有挑战绑定当前用户，不能用于其他用户或其他用途。
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone], properties: {phone: {type: string}, purpose: {type: string, enum: [bind, change_old, merge]}}}}}}
       responses: {'200': {description: challenge_id和expires_in及retry_after}, '429': {description: 发送限额, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '503': {description: 短信未配置, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
   /me/phone:
     post:
-      summary: 当前密码和绑定验证码验证后添加手机号，拒绝换绑及其他账号占用的号码
-      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/SMSProof'}}}}
+      summary: 验证绑定或双号码确认换绑
+      description: 换绑要求当前密码、原已验证号码 change_old 挑战、新号码 bind 挑战和 confirm_replace=true；成功后撤销全部旧会话。初次绑定无需原号码挑战。已占用号码仍拒绝。
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone, password, code, challenge_id], properties: {phone: {type: string}, password: {type: string, maxLength: 72}, code: {type: string}, challenge_id: {type: string, format: uuid}, old_code: {type: string}, old_challenge_id: {type: string, format: uuid}, confirm_replace: {type: boolean}}}}}}
       responses: {'204': {description: 绑定成功}, '400': {description: 验证码无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '401': {description: 当前密码错误, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 手机号不可绑定, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
+  /auth/password/reset:
+    post:
+      security: []
+      summary: 已验证手机号短信找回密码并撤销全部会话
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [phone, code, challenge_id, password, confirm], properties: {phone: {type: string}, code: {type: string}, challenge_id: {type: string, format: uuid}, password: {type: string, minLength: 8, maxLength: 72}, confirm: {type: boolean, enum: [true]}}}}}}
+      responses:
+        '204': {description: 重置完成，请重新登录}
+        '400': {description: 输入、确认或用途验证码无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '503': {description: 服务不可用, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+  /me/merge:
+    post:
+      summary: 明确确认合并互补的邮箱和已验证手机号账号
+      description: 当前账号保留 ID、密码、名称；两个账号密码与手机号 merge 挑战均需验证。只支持邮箱-only 与 verified-phone-only，冲突则拒绝。家庭成员权限取两账号已有权限的并集，转移来源家庭 owner_id；历史流水和 actor ID 保留，来源账号保留失效标记及不可变合并记录。两个账号全部会话撤销，来源正在生成的任务取消。
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [source_account, source_password, password, code, challenge_id, confirm], properties: {source_account: {type: string}, source_password: {type: string, maxLength: 72}, password: {type: string, maxLength: 72}, code: {type: string}, challenge_id: {type: string, format: uuid}, confirm: {type: boolean, enum: [true]}}}}}}
+      responses:
+        '204': {description: 合并完成，请使用保留账号密码重新登录}
+        '400': {description: 参数、确认或验证码无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '401': {description: 密码或会话无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '409': {description: 信息冲突或非互补账号, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '503': {description: 服务不可用，未完成操作回滚, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /register:
     post:
       security: []

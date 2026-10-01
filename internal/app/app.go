@@ -105,12 +105,14 @@ func (a *App) Router() *gin.Engine {
 	r.GET("/api/auth/capabilities", func(c *gin.Context) { c.JSON(200, gin.H{"sms_enabled": a.sms != nil}) })
 	r.POST("/api/auth/sms/code", a.limitAuth, a.sendSMS)
 	r.POST("/api/auth/sms/login", a.limitAuth, a.smsLogin)
+	r.POST("/api/auth/password/reset", a.limitAuth, a.resetPassword)
 	v := r.Group("/api")
 	v.Use(a.auth)
 	v.POST("/logout", a.logout)
 	v.GET("/me", a.me)
 	v.POST("/me/phone/code", a.limitAuth, a.sendBindSMS)
 	v.POST("/me/phone", a.limitAuth, a.bindPhone)
+	v.POST("/me/merge", a.limitAuth, a.mergeAccount)
 	v.PATCH("/me", a.updateMe)
 	v.GET("/households", a.households)
 	v.POST("/households", a.createHousehold)
@@ -258,6 +260,7 @@ func (a *App) login(c *gin.Context) {
 		return
 	}
 	var id, hash string
+	var authVersion int64
 	phone := ""
 	if x.Phone != "" {
 		var ok bool
@@ -271,22 +274,34 @@ func (a *App) login(c *gin.Context) {
 		fail(c, 401, "手机号、邮箱或密码错误")
 		return
 	}
-	e := a.DB.QueryRow(c, "SELECT id,password_hash FROM users WHERE ($1<>'' AND email=$1) OR ($2<>'' AND phone=$2)", strings.ToLower(strings.TrimSpace(x.Email)), phone).Scan(&id, &hash)
+	e := a.DB.QueryRow(c, "SELECT id,password_hash,auth_version FROM users WHERE merged_into IS NULL AND (($1<>'' AND email=$1) OR ($2<>'' AND phone=$2))", strings.ToLower(strings.TrimSpace(x.Email)), phone).Scan(&id, &hash, &authVersion)
 	if e != nil || bcrypt.CompareHashAndPassword([]byte(hash), []byte(x.Password)) != nil {
 		fail(c, 401, "手机号、邮箱或密码错误")
 		return
 	}
-	a.issue(c, id)
+	a.issueVersion(c, id, authVersion)
 }
 func (a *App) issue(c *gin.Context, id string) {
+	var version int64
+	if err := a.DB.QueryRow(c, "SELECT auth_version FROM users WHERE id=$1 AND merged_into IS NULL", id).Scan(&version); err != nil {
+		fail(c, 401, "账号状态已变更，请重新登录")
+		return
+	}
+	a.issueVersion(c, id, version)
+}
+func (a *App) issueVersion(c *gin.Context, id string, version int64) {
 	t, expiry, e := a.signSession(id)
 	if e != nil {
 		fail(c, 500, "token signing failed")
 		return
 	}
-	_, e = a.DB.Exec(c, "INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,$3)", core.Hash(t), id, expiry)
+	tag, e := a.DB.Exec(c, "INSERT INTO sessions(token_hash,user_id,expires_at,auth_version) SELECT $1,id,$3,auth_version FROM users WHERE id=$2 AND auth_version=$4 AND merged_into IS NULL", core.Hash(t), id, expiry, version)
 	if e != nil {
 		fail(c, 500, "session error")
+		return
+	}
+	if tag.RowsAffected() != 1 {
+		fail(c, 401, "账号状态已变更，请重新登录")
 		return
 	}
 	c.JSON(200, gin.H{"token": t, "user_id": id, "token_type": "Bearer", "expires_at": expiry})
@@ -298,7 +313,7 @@ func (a *App) auth(c *gin.Context) {
 		return
 	}
 	var id string
-	e := a.DB.QueryRow(c, "SELECT user_id FROM sessions WHERE token_hash=$1 AND expires_at>now()", core.Hash(t)).Scan(&id)
+	e := a.DB.QueryRow(c, "SELECT s.user_id FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now() AND s.auth_version=u.auth_version AND u.merged_into IS NULL", core.Hash(t)).Scan(&id)
 	if e != nil {
 		fail(c, 401, "invalid session")
 		return

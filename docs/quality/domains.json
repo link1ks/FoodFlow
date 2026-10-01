@@ -48,7 +48,8 @@
     "acceptance": [
       "Every household operation checks current server-side membership",
       "Viewer cannot write; removed/downgraded membership affects existing sessions",
-      "Household switch does not display another household's inventory"
+      "Household switch does not display another household's inventory",
+      "Verified-phone recovery/replacement and complementary-account merge require explicit proof and revoke old sessions"
     ],
     "checks": [
       {
@@ -62,15 +63,35 @@
       {
         "path": "web/e2e/permissions.spec.ts",
         "anchor": "household switching and member downgrade"
+      },
+      {
+        "path": "internal/app/account_lifecycle_test.go",
+        "anchor": "func TestAccountRecoveryReplacementAndEpochFences("
+      },
+      {
+        "path": "internal/app/account_lifecycle_test.go",
+        "anchor": "func TestComplementaryAccountMergePreservesHistoryAndHouseholds("
+      },
+      {
+        "path": "web/e2e/account.spec.ts",
+        "anchor": "account recovery is unavailable without SMS"
       }
     ],
     "debts": [
       {
         "id": "AUTH-ACCOUNT",
         "priority": "P2",
+        "status": "closed",
+        "description": "Verified-phone recovery/replacement and complementary email/phone merge lifecycle",
+        "completion": "Deterministic provider fixtures verify proofs, transaction rollback, historical preservation and session revocation; browser verifies unavailable states",
+        "evidence": "docs/exec-plans/family-completion.md"
+      },
+      {
+        "id": "AUTH-SMS-DELIVERY",
+        "priority": "P2",
         "status": "open",
-        "description": "Phone replacement, account merge and SMS password recovery are not delivered",
-        "completion": "Implement explicit account lifecycle contracts and acceptance with real provider authorization"
+        "description": "Real SMS delivery and email-only self-service recovery remain unverified/unavailable",
+        "completion": "Obtain provider authorization, verify delivery on approved numbers and implement a reviewed recovery channel for email-only accounts"
       }
     ]
   },

@@ -38,9 +38,18 @@ func (a *App) sendCode(c *gin.Context, binding bool) {
 	}
 	actor := ""
 	if binding {
-		x.Purpose = "bind"
 		actor = uid(c)
-	} else if x.Purpose != "register" && x.Purpose != "login" {
+		switch x.Purpose {
+		case "change_old":
+			if err := a.DB.QueryRow(c, "SELECT phone FROM users WHERE id=$1 AND phone_verified AND merged_into IS NULL", actor).Scan(&phone); err != nil {
+				fail(c, 409, "当前账号没有已验证的原手机号")
+				return
+			}
+		case "merge":
+		default:
+			x.Purpose = "bind"
+		}
+	} else if x.Purpose != "register" && x.Purpose != "login" && x.Purpose != "reset" {
 		fail(c, 400, "验证码用途无效")
 		return
 	}
@@ -100,6 +109,14 @@ func (a *App) sendCode(c *gin.Context, binding bool) {
 // Wrong guesses commit the attempt counter; successful verification and business
 // mutation share the same transaction, preventing replay and concurrent reuse.
 func (a *App) verifyCode(c *gin.Context, tx pgx.Tx, id, phone, purpose, actor, code string) error {
+	if err := a.checkCode(c, tx, id, phone, purpose, actor, code); err != nil {
+		return err
+	}
+	_, err := tx.Exec(c, "UPDATE sms_challenges SET used_at=now() WHERE id::text=$1", id)
+	return err
+}
+
+func (a *App) checkCode(c *gin.Context, tx pgx.Tx, id, phone, purpose, actor, code string) error {
 	var hash string
 	var valid bool
 	err := tx.QueryRow(c, `SELECT code_hash,state='sent' AND used_at IS NULL AND expires_at>now() AND attempts<5 FROM sms_challenges WHERE id::text=$1 AND phone=$2 AND purpose=$3 AND actor=$4 FOR UPDATE`, id, phone, purpose, actor).Scan(&hash, &valid)
@@ -113,8 +130,7 @@ func (a *App) verifyCode(c *gin.Context, tx pgx.Tx, id, phone, purpose, actor, c
 		}
 		return errors.New("验证码不正确")
 	}
-	_, err = tx.Exec(c, "UPDATE sms_challenges SET used_at=now() WHERE id::text=$1", id)
-	return err
+	return nil
 }
 
 func (a *App) smsLogin(c *gin.Context) {
@@ -141,7 +157,8 @@ func (a *App) smsLogin(c *gin.Context) {
 		return
 	}
 	var id string
-	err = tx.QueryRow(c, "SELECT id FROM users WHERE phone=$1 AND phone_verified=true", phone).Scan(&id)
+	var version int64
+	err = tx.QueryRow(c, "SELECT id,auth_version FROM users WHERE phone=$1 AND phone_verified=true AND merged_into IS NULL", phone).Scan(&id, &version)
 	if err != nil {
 		_ = tx.Commit(c)
 		fail(c, 401, "请先注册，或使用密码登录后验证绑定手机号")
@@ -151,13 +168,16 @@ func (a *App) smsLogin(c *gin.Context) {
 		fail(c, 503, "登录暂不可用")
 		return
 	}
-	a.issue(c, id)
+	a.issueVersion(c, id, version)
 }
 
 func (a *App) bindPhone(c *gin.Context) {
 	var x struct {
 		Phone, Code, Password string
 		Challenge             string `json:"challenge_id"`
+		OldChallenge          string `json:"old_challenge_id"`
+		OldCode               string `json:"old_code"`
+		ConfirmReplace        bool   `json:"confirm_replace"`
 	}
 	if !input(c, &x) {
 		return
@@ -174,21 +194,42 @@ func (a *App) bindPhone(c *gin.Context) {
 	}
 	defer tx.Rollback(c)
 	var hash, old string
-	if tx.QueryRow(c, "SELECT password_hash,COALESCE(phone,'') FROM users WHERE id=$1 FOR UPDATE", uid(c)).Scan(&hash, &old) != nil || bcrypt.CompareHashAndPassword([]byte(hash), []byte(x.Password)) != nil {
+	var verified bool
+	if tx.QueryRow(c, "SELECT password_hash,COALESCE(phone,''),phone_verified FROM users WHERE id=$1 AND merged_into IS NULL FOR UPDATE", uid(c)).Scan(&hash, &old, &verified) != nil || bcrypt.CompareHashAndPassword([]byte(hash), []byte(x.Password)) != nil {
 		fail(c, 401, "当前密码不正确")
 		return
 	}
-	if old != "" && old != phone {
-		fail(c, 409, "已绑定其他手机号，暂不支持在线换绑")
+	replacing := old != "" && old != phone
+	if replacing && (!verified || !x.ConfirmReplace) {
+		fail(c, 409, "换绑须明确确认，并验证原手机号和新手机号")
 		return
 	}
-	if err = a.verifyCode(c, tx, x.Challenge, phone, "bind", uid(c), x.Code); err != nil {
+	if replacing {
+		if err = a.checkCode(c, tx, x.OldChallenge, old, "change_old", uid(c), x.OldCode); err != nil {
+			fail(c, 400, err.Error())
+			return
+		}
+	}
+	if err = a.checkCode(c, tx, x.Challenge, phone, "bind", uid(c), x.Code); err != nil {
 		fail(c, 400, err.Error())
 		return
 	}
 	if _, err = tx.Exec(c, "UPDATE users SET phone=$1,phone_verified=true WHERE id=$2", phone, uid(c)); err != nil {
 		fail(c, 409, "手机号不可绑定，请使用原账号登录")
 		return
+	}
+	if _, err = tx.Exec(c, "UPDATE sms_challenges SET used_at=now() WHERE id::text=$1 OR ($2 AND id::text=$3)", x.Challenge, replacing, x.OldChallenge); err != nil {
+		fail(c, 503, "绑定暂不可用")
+		return
+	}
+	if replacing {
+		if _, err = tx.Exec(c, "UPDATE users SET auth_version=auth_version+1 WHERE id=$1", uid(c)); err == nil {
+			_, err = tx.Exec(c, "DELETE FROM sessions WHERE user_id=$1", uid(c))
+		}
+		if err != nil {
+			fail(c, 503, "换绑暂不可用")
+			return
+		}
 	}
 	if tx.Commit(c) != nil {
 		fail(c, 503, "绑定暂不可用")

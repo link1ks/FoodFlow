@@ -116,7 +116,7 @@ func (a *App) retryJob(c *gin.Context) {
 	if !writable(c) {
 		return
 	}
-	tag, e := a.DB.Exec(c, "UPDATE jobs SET status='queued',attempts=0,error=NULL,progress=0,cancel_requested=false,run_at=now(),updated_at=now() WHERE id=$1 AND household_id=$2 AND status='failed'", c.Param("job"), hid(c))
+	tag, e := a.DB.Exec(c, "UPDATE jobs SET status='queued',attempts=0,error=NULL,progress=0,cancel_requested=false,run_at=now(),updated_at=now(),created_by=$3 WHERE id=$1 AND household_id=$2 AND status='failed'", c.Param("job"), hid(c), uid(c))
 	if e != nil || tag.RowsAffected() == 0 {
 		fail(c, 409, "failed job required")
 		return
