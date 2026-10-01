@@ -201,5 +201,19 @@
     ],
     "primary_records_preserved": true,
     "ready": 200
+  },
+  "code_revision": "a5c9ade428bd93e77dce88168d4bfb6a8359b619",
+  "github_ci": {
+    "jobs": [
+      "backend",
+      "frontend",
+      "images",
+      "platform"
+    ],
+    "run_id": 36851834888,
+    "conclusion": "success",
+    "failed_steps": 0,
+    "status": "completed",
+    "url": "https://github.com/link1ks/FoodFlow/actions/runs/36851834888"
   }
 }

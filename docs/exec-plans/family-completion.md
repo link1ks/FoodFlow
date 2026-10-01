@@ -79,3 +79,5 @@
 - 最终 full 12/12（`e25c3cff0adc21340781b9a59a6f946e`）、重建 acceptance 13/13（`e2e29d71168bd742924d8c96d3a51251`），同摘要 `6e2c758851867498487c0992da10229a73c0a3b91b617a061a1e7e924f1ebffe`。22 浏览器测试通过，0 失败/跳过/flaky；绑定 API/Worker/Web/Relay/Insights 的镜像 ID 与摘要。full 再次负载 32,060 请求、4,580 循环，0 错误/守恒失败，P95 9.864ms、最长 75.244ms，采样峰值 6 个锁等待者。便携证据：[family-trial](../validation/family-trial-20261001.json)。
 - 本地旧库与照片先备份到受保护的 `.cache/trial-backups`，然后试用 overlay 升级启动 5173。初次只读核对误用 inventory_batches 表名，另一次脚本变量与 PowerShell HOME 冲突；修正为真实 batches 与专用变量后核对账号/家庭/批次/流水数保持一致。没有删除或重建原卷；实际环境模型/短信配置为空、菜价同步关闭、本地存储，健康 HTTP 200，入口 no-cache、哈希资源 immutable。备份未做恢复演练，不把成功导出等同于已证明可恢复。
 - 家庭试用代码已完成本地验证，下一步提交并推送；最终云端状态以对应 GitHub Actions 运行结果为准。真实家庭回访、模型质量、短信送达、未覆盖营养资料及生产运维仍保留。
+- 交付结果：`family-trial-harness-r1-20261001` 已记录 passed。代码提交 `a5c9ade428bd93e77dce88168d4bfb6a8359b619` 已推送 main；[CI 36851834888](https://github.com/link1ks/FoodFlow/actions/runs/36851834888) completed/success，backend/frontend/images/platform 四项均成功且没有失败步骤。提交后源码摘要仍与本地 full/acceptance 一致；本地试用状态再次 HTTP 200、原卷保留。
+- 此后仅补本执行计划与便携报告的云端结果，不改业务/构建/契约输入。文档记录提交使用 [skip ci] 避免重复运行同一源码的 CI；上述云端通过结论严格对应 a5c9ade 代码提交，未把文档提交称作新一次测试。
