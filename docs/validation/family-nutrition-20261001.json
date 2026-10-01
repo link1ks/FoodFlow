@@ -1,0 +1,129 @@
+{
+  "scope": "Batch nutrition confirmation, typed response contracts and generation freshness",
+  "full": {
+    "run_id": "28993004b9ca1d245fff4a819aee0d30",
+    "recorded_at": "2026-10-01T10:17:38.8582319Z",
+    "source_digest": "3dd29675ddec62a52803311e0e3c45b49a610660e27d3c410f7bcf22bc8531c2",
+    "mode": "full",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "dbgen-regression",
+        "passed": true
+      },
+      {
+        "name": "dbgen-check",
+        "passed": true
+      },
+      {
+        "name": "format",
+        "passed": true
+      },
+      {
+        "name": "vet",
+        "passed": true
+      },
+      {
+        "name": "go-tests",
+        "passed": true
+      },
+      {
+        "name": "web-api-check",
+        "passed": true
+      },
+      {
+        "name": "web-test",
+        "passed": true
+      },
+      {
+        "name": "web-build",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ]
+  },
+  "acceptance": {
+    "run_id": "a8488e5293b071a76b5b081bb0e570cc",
+    "recorded_at": "2026-10-01T10:21:11.7985576Z",
+    "source_digest": "3dd29675ddec62a52803311e0e3c45b49a610660e27d3c410f7bcf22bc8531c2",
+    "mode": "acceptance",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true
+      },
+      {
+        "name": "acceptance-stack",
+        "passed": true
+      },
+      {
+        "name": "platform",
+        "passed": true
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true
+      },
+      {
+        "name": "browser-fixture",
+        "passed": true
+      },
+      {
+        "name": "browser",
+        "passed": true
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ]
+  },
+  "browser": {
+    "startTime": "2026-10-01T10:20:22.229Z",
+    "duration": 44133.185999999994,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "limits": [
+    "No paid models or live SMS",
+    "Unverified nutrient references stay unknown",
+    "Open JSON job payload/results remain debt",
+    "No historical backfill; migration downgrade needs reviewed recovery"
+  ]
+}

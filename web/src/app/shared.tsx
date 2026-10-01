@@ -2,44 +2,15 @@ import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { api } from "../api";
 import { type InventoryBatch } from "../BatchActions";
-import { type NutritionProfile } from "../Nutrition";
+import type { components } from "../generated/api";
 import { type AdviceResult } from "../NutritionAdvice";
 import { useUI } from "../store";
 import { Notice } from "../ui";
-export type Household = {
-  id: string;
-  name: string;
-  role: string;
-  servings: number;
-};
-
-export type Ingredient = {
-  id: string;
-  name: string;
-  category: string;
-  unit: string;
-  quantity: string;
-  low: string;
-  low_stock: boolean;
-  nutrition?: NutritionProfile;
-  has_image: boolean;
-  image_version: number;
-};
-
+export type Household = components["schemas"]["HouseholdSummary"];
+export type Ingredient = components["schemas"]["InventoryItem"];
 export type Batch = InventoryBatch;
-
-export type Inventory = { items: Ingredient[]; batches: Batch[] };
-
-export type Recipe = {
-  id: string;
-  title: string;
-  minutes: number;
-  servings: number;
-  tags: string[];
-  source: string;
-  steps: string[];
-  ingredients: { name: string; quantity: string; unit: string }[];
-};
+export type Inventory = components["schemas"]["Inventory"];
+export type Recipe = components["schemas"]["Recipe"];
 
 export type Meal = {
   id: string;

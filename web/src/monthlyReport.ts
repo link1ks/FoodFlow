@@ -1,36 +1,6 @@
-export type MonthlyItem = {
-  ingredient: string;
-  unit: string | null;
-  inbound_milli: string;
-  consumed_milli: string;
-  wasted_milli: string;
-  adjusted_milli: string;
-  known_consumed_cost: string;
-  known_wasted_cost: string;
-  unknown_outbound_events: number;
-};
-export type MonthlyReport = {
-  month: string;
-  timezone: string;
-  currency: "CNY";
-  as_of: string;
-  summary: {
-    outbound_events: number;
-    priced_outbound_events: number;
-    unknown_outbound_events: number;
-    estimated_outbound_events: number;
-    known_consumed_cost: string;
-    known_wasted_cost: string;
-    purchase_records: number;
-    recorded_purchase_cost: string;
-  };
-  item_count: number;
-  items: MonthlyItem[];
-  items_limit: number;
-  cost_basis: "immutable_purchase_allocations";
-  purchase_period_basis: "cost_recorded_at";
-  historical_outbound_repriced: false;
-};
+import type { components } from "./generated/api";
+export type MonthlyReport = components["schemas"]["MonthlyReport"];
+export type MonthlyItem = MonthlyReport["items"][number];
 export const REPORT_PAGE_SIZE = 40;
 export function monthlyQuantity(milli: string, unit: string | null): string {
   const n = BigInt(milli),

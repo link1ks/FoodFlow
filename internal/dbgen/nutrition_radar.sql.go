@@ -20,16 +20,17 @@ WITH bounds AS (
  CROSS JOIN bounds b WHERE m.household_id=$2
  AND (m.completed_at AT TIME ZONE COALESCE(s.timezone,'Asia/Shanghai'))::date BETWEEN b.today-$1::int+1 AND b.today
 ), lines AS (
- SELECT m.id, m.plan_meal_id, m.meal, m.servings, m.day,l.id ledger_id,l.is_estimated,s.ingredient_name,s.unit,s.category,s.is_dark_vegetable,
+ SELECT m.id, m.plan_meal_id, m.meal, m.servings, m.day,l.id ledger_id,l.is_estimated,s.ingredient_name,s.unit,s.category,s.is_dark_vegetable,s.nutrition_confirmation_id,
  s.nutrition_profile->'nutrients' n,
- CASE WHEN s.unit='g' THEN -l.delta_milli/1000.0 WHEN s.unit='kg' THEN -l.delta_milli::numeric END grams,
- COALESCE(m.servings>0 AND s.unit IN ('g','kg') AND s.nutrition_profile->>'status'='reference'
+ CASE WHEN s.confirmed_quantity_milli>0 AND s.confirmed_edible_grams_milli>0 THEN -l.delta_milli::numeric*s.confirmed_edible_grams_milli/s.confirmed_quantity_milli/1000 WHEN s.unit='g' THEN -l.delta_milli/1000.0 WHEN s.unit='kg' THEN -l.delta_milli::numeric END grams,
+ COALESCE(m.servings>0 AND (s.unit IN ('g','kg') OR (s.confirmed_quantity_milli>0 AND s.confirmed_edible_grams_milli>0)) AND s.nutrition_profile->>'status'='reference'
  AND (s.nutrition_profile->'nutrients') ?& ARRAY['energy_kcal','protein_g','fat_g','carbs_g','fiber_g'],false) known
  FROM meals m LEFT JOIN stock_ledger l ON l.household_id=$2 AND l.ref_type='plan_meal' AND l.ref_id=m.plan_meal_id AND l.reason='consume' AND l.delta_milli<0
  LEFT JOIN stock_ledger_snapshots s ON s.ledger_id=l.id AND s.household_id=l.household_id
 ), daily AS (
  SELECT day,count(DISTINCT id) meals,count(DISTINCT meal) slots,count(*) lines,count(*) FILTER(WHERE known) known_lines,
  count(*) FILTER(WHERE is_estimated) estimated_lines,
+ count(*) FILTER(WHERE nutrition_confirmation_id IS NOT NULL) confirmed_mass_lines,
  sum(grams/100/servings*(n->>'energy_kcal')::numeric) FILTER(WHERE known) energy,
  sum(grams/100/servings*(n->>'protein_g')::numeric) FILTER(WHERE known) protein,
  sum(grams/100/servings*(n->>'fat_g')::numeric) FILTER(WHERE known) fat,
@@ -43,11 +44,11 @@ WITH bounds AS (
  SELECT b.today-g.i AS day FROM bounds b CROSS JOIN generate_series(0,$1::int-1) g(i)
 ), series AS (
  SELECT c.day,COALESCE(d.meals,0) meals,COALESCE(d.slots,0) slots,COALESCE(d.lines,0) lines,COALESCE(d.known_lines,0) known_lines,
- COALESCE(d.estimated_lines,0) estimated_lines,d.energy,d.protein,d.fat,d.carbs,d.fiber,
+ COALESCE(d.estimated_lines,0) estimated_lines,COALESCE(d.confirmed_mass_lines,0) confirmed_mass_lines,d.energy,d.protein,d.fat,d.carbs,d.fiber,
  d.vegetable_grams,d.dark_grams,COALESCE(d.unknown_vegetables,0) unknown_vegetables
  FROM calendar c LEFT JOIN daily d USING(day)
 ), flagged AS (
- SELECT day, meals, slots, lines, known_lines, estimated_lines, energy, protein, fat, carbs, fiber, vegetable_grams, dark_grams, unknown_vegetables,count(*) OVER w=3 AND bool_and(slots=3 AND lines=known_lines AND protein<60) OVER w protein_low_streak
+ SELECT day, meals, slots, lines, known_lines, estimated_lines, confirmed_mass_lines, energy, protein, fat, carbs, fiber, vegetable_grams, dark_grams, unknown_vegetables,count(*) OVER w=3 AND bool_and(slots=3 AND lines=known_lines AND protein<60) OVER w protein_low_streak
  FROM series WINDOW w AS (ORDER BY day ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)
 )
 SELECT jsonb_build_object(

@@ -142,6 +142,8 @@ func (a *App) Router() *gin.Engine {
 	h.PATCH("/batches/:batch/quantity", a.correctBatchQuantity)
 	h.POST("/batches/:batch/cost", a.recordBatchCost)
 	h.GET("/batches/:batch/cost", a.batchCost)
+	h.GET("/batches/:batch/nutrition-basis", a.batchNutrition)
+	h.POST("/batches/:batch/nutrition-basis", a.confirmBatchNutrition)
 	h.GET("/meals/:meal/record", a.mealRecord)
 	h.GET("/meals/:meal/pipeline", a.mealPipeline)
 	h.POST("/meals/:meal/pipeline", a.createPipeline)

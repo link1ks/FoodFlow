@@ -58,3 +58,12 @@
 - 页面补找回、换绑、合并及显式确认；短信未配置时显示不可用且不能提交。邮箱专用账号暂没有自助找回；两个同类账号/已同时绑定两种方式的账号不支持合并。真实短信送达保留 AUTH-SMS-DELIVERY 债务。030 Down 明确拒绝自动撤回身份转移；回滚需审查恢复方案，未执行破坏性 Down。
 - 月报提交 `150a80b` 的 [CI 36825163622](https://github.com/link1ks/FoodFlow/actions/runs/36825163622) 四任务全部 completed/success。
 - 最终 full 9/9，重建 acceptance 12/12，浏览器 20 通过、0 失败、0 跳过；运行 `fb42e67366569a91fb812029cd96d3f6` / `99c5022c560b3f1f9341e22cba207950`，源码摘要 `2a710463d4a3728ba47a450f87bb2f4907f154b5f4f9313002ea5b01b2d0eb73`。便携证据：[family-account](../validation/family-account-20261001.json)。
+
+### 营养依据、接口类型与生成回归
+
+- 任务 `family-nutrition-contracts-20261001`。031 迁移保存按批次、版本、确认者与时间的不可变称重依据：原单位样本对应可食克重，以及保留目录/深色/非深色/未知分类。不改变单位、库存余量和过去记录；用户称量/分类不等于食材检测或实际摄入。g/kg 可食净重不能超过样本原料重量，未确认时仍明确为原料重量估算。
+- 鸡蛋 2 个→100g 可食部、牛奶 250ml→260g fixture：旧早餐始终未知；新午餐 206.44 kcal；后来鸡蛋改为 80g 不重算午餐，晚餐加入后日合计 384.28 kcal。验证幂等重放、旧版本拒绝、不可变依据、家庭越权/只读成员、深色改未知不改旧快照，以及可食重量上限。未补造缺失的 USDA 品种/营养值；NUTRITION-REFERENCES 保留。
+- 所有成功 API 响应补 JSON/图片/SSE 媒体和结构。共用真实 API fixture 校验实际响应（包括预期业务错误）；有意无效的请求仍进入真实 handler。标准 openapi-typescript 7.13.0 生成库存、菜谱、账号、营养、月报等前端使用的类型；full/CI 添加生成类型过期检查。模型任务 payload/result 明确为可扩展 JSON，API-JOB-SCHEMAS 保留，不称为每类模型结果都已严格校验。
+- 初次接入响应检查的批量编辑误改测试里的 image/png 字面量，编译失败；定位到具体条件并修复。新的全 app 集成响应校验通过，没有为了迁就 fixture 放宽业务条件。
+- 账号提交 `785fd53` 的 [CI 36845481497](https://github.com/link1ks/FoodFlow/actions/runs/36845481497)：frontend/images/platform 成功，backend 的 sqlc 一致性步骤失败；030 新增模型未随账号阶段生成。开始 `family-dbgen-regression-20261001`（baseline reproduced）；已重新生成 030/031 类型。新增 full 必需的独立 sqlc 检查，在 SQL/config 临时副本生成并比较，不改工作区与数据；回归拒绝旧内容、缺/多文件，允许 CRLF 等价。上一阶段本地通过不等于该提交云端通过。
+- 最终 full 12/12，重建 acceptance 12/12，浏览器 22 通过、0 失败/跳过/flaky；运行 `28993004b9ca1d245fff4a819aee0d30` / `a8488e5293b071a76b5b081bb0e570cc`，同摘要 `3dd29675ddec62a52803311e0e3c45b49a610660e27d3c410f7bcf22bc8531c2`。浏览器确认 2 个鸡蛋→100g 依据保存后库存仍 4 个、流水仍一条；查看手机截图确认布局与状态。便携证据：[family-nutrition](../validation/family-nutrition-20261001.json)。

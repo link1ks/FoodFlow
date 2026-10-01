@@ -93,7 +93,7 @@ func TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite(t *testing.T) {
 		t.Fatal(err)
 	}
 	report := Evidence{Version: 1, RunID: "test", Mode: "full", IntegrationRequired: true, SourceDigest: digest, RecordedAt: time.Now().UTC()}
-	for _, name := range []string{"architecture", "knowledge", "quality-map", "format", "vet", "go-tests", "web-test", "web-build", "source-stable"} {
+	for _, name := range []string{"architecture", "knowledge", "quality-map", "dbgen-regression", "dbgen-check", "format", "vet", "go-tests", "web-api-check", "web-test", "web-build", "source-stable"} {
 		report.Checks = append(report.Checks, Check{Name: name, Passed: true})
 	}
 	evidence := ".cache/harness/test.json"

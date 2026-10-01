@@ -12,7 +12,7 @@ go run ./cmd/harness -mode diagnose -out .cache/harness/diagnose-run.json
 go run ./cmd/harness -mode summary -out .cache/harness/summary.json
 ```
 
-Full mode checks AST import rules, Go formatting, vet, all Go tests with required Docker integration, frontend tests and build. Fast mode explicitly uses `-short`; it cannot establish database or messaging acceptance. Results and bounded subprocess output are written to `.cache/harness/latest.json`. The harness clears production test-database and model/cache/service environment overrides from test subprocesses, uses fixed argument vectors and exits nonzero on failed checks.
+Full mode checks AST import rules, Go formatting, vet, all Go tests with required Docker integration, pinned sqlc generation consistency, generated frontend API type freshness, frontend tests and build. Fast mode explicitly uses `-short`; it cannot establish database or messaging acceptance. Results and bounded subprocess output are written to `.cache/harness/latest.json`. The harness clears production test-database and model/cache/service environment overrides from test subprocesses, uses fixed argument vectors and exits nonzero on failed checks.
 
 ## Knowledge freshness
 
@@ -62,3 +62,9 @@ Failed or blocked task outcomes can add `-failure-category product|fixture|infra
 Architecture rules forbid I/O dependencies in pure algorithms and forbid kitchen-table imports in the independent projection. A new rule needs a test proving that a violating import is rejected. Tests check business invariants; implementation-shaped snapshots are insufficient.
 
 Read [platform ownership](PLATFORM.md) and [execution plan](exec-plans/platform.md). Harness engineering here means this development feedback environment; it is not a claim that all future development runs autonomously or that model output is inherently correct.
+
+## Generated contracts
+
+`pnpm --dir web api:generate` refreshes `web/src/generated/api.d.ts` using pinned [openapi-typescript CLI](https://openapi-ts.dev/cli); `api:check` rejects stale types without rewriting them. Inventory, recipes, account, nutrition and monthly-report UI use these types. All successful API responses declare JSON/binary/SSE media; common isolated API fixtures validate actual responses with kin-openapi, including expected errors. Model job payload/result remain explicitly open JSON objects; schemas alone do not validate every model-specific payload.
+
+Full mode runs `scripts/check-dbgen.ps1`: regenerate with sqlc v1.30.0 in a bounded scratch copy of only SQL/config files, compare the complete generated file set/content with normalized line endings, then remove only its checked scratch directory. It does not open databases or rewrite working source. This gate also works before committing deliberate generated changes.

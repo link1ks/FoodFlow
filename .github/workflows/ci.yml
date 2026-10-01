@@ -36,7 +36,7 @@ jobs:
         with: {node-version: '24', cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml}
       - run: pnpm install --frozen-lockfile
         working-directory: web
-      - run: pnpm test && pnpm build
+      - run: pnpm api:check && pnpm test && pnpm build
         working-directory: web
   images:
     runs-on: ubuntu-latest

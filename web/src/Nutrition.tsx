@@ -1,4 +1,5 @@
-export type NutritionProfile={status:'reference'|'unavailable';basis:string;reference_food?:string;source?:string;source_url?:string;note:string;nutrients:Record<string,string>}
+import type {components} from './generated/api'
+export type NutritionProfile=components['schemas']['NutritionProfile']
 const fields=[['energy_kcal','能量','kcal'],['protein_g','蛋白质','g'],['fat_g','脂肪','g'],['carbs_g','碳水化合物','g'],['fiber_g','膳食纤维','g'],['sodium_mg','钠','mg']]
 export function NutritionDetails({profile}:{profile?:NutritionProfile}){
  return <details className="mt-3 rounded-xl border border-emerald-100 bg-emerald-50/50 p-3 text-sm"><summary className="cursor-pointer font-medium text-emerald-900">营养价值 · {profile?.status==='reference'?'每100克参考值':'暂无已核验数值'}</summary>

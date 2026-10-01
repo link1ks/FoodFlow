@@ -172,7 +172,7 @@ func fullPass(report Evidence) bool {
 	if report.Version != 1 || report.RunID == "" || report.Mode != "full" || !report.IntegrationRequired {
 		return false
 	}
-	required := map[string]bool{"architecture": false, "knowledge": false, "quality-map": false, "format": false, "vet": false, "go-tests": false, "web-test": false, "web-build": false, "source-stable": false}
+	required := map[string]bool{"architecture": false, "knowledge": false, "quality-map": false, "dbgen-check": false, "dbgen-regression": false, "format": false, "vet": false, "go-tests": false, "web-api-check": false, "web-test": false, "web-build": false, "source-stable": false}
 	for _, check := range report.Checks {
 		if !check.Passed {
 			return false

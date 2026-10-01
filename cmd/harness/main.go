@@ -202,6 +202,10 @@ func main() {
 		run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
 	}
 	if *mode == "full" || *mode == "fast" {
+		if *mode == "full" {
+			run("dbgen-regression", func() (string, error) { return command("pwsh", "-File", "tests/generated-freshness.ps1") })
+			run("dbgen-check", func() (string, error) { return command("pwsh", "-File", "scripts/check-dbgen.ps1") })
+		}
 		run("format", func() (string, error) {
 			var files []string
 			for _, dir := range []string{"cmd", "internal"} {
@@ -233,9 +237,9 @@ func main() {
 			return command("go", args...)
 		})
 		if *mode == "full" && *web {
-			for _, action := range []string{"test", "build"} {
+			for _, action := range []string{"api:check", "test", "build"} {
 				step := action
-				run("web-"+step, func() (string, error) {
+				run("web-"+strings.ReplaceAll(step, ":", "-"), func() (string, error) {
 					return command(pnpm, "--dir", "web", step)
 				})
 			}

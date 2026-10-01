@@ -252,6 +252,14 @@
       {
         "path": "internal/nutrition/nutrition_test.go",
         "anchor": "func TestReferenceProfiles("
+      },
+      {
+        "path": "internal/app/batch_nutrition_test.go",
+        "anchor": "func TestConfirmedNutritionBasisPreservesHistoryAndScope("
+      },
+      {
+        "path": "web/e2e/nutrition-basis.spec.ts",
+        "anchor": "batch edible mass confirmation preserves stock and ledger"
       }
     ],
     "debts": [
@@ -261,6 +269,13 @@
         "status": "open",
         "description": "Edible mass conversions and dark-green vegetable classification have incomplete coverage",
         "completion": "Version curated references and verify missing coverage without invented zero values"
+      },
+      {
+        "id": "NUTRITION-REFERENCES",
+        "priority": "P2",
+        "status": "open",
+        "description": "Some catalogue varieties lack verified nutrient profiles; unweighed g/kg stock remains an ingredient-mass estimate",
+        "completion": "Curate versioned exact-variety references or verified package labels; measure edible mass before treating a batch as weighed coverage"
       }
     ]
   },
@@ -328,6 +343,14 @@
       {
         "path": "cmd/harness/knowledge_test.go",
         "anchor": "func TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite("
+      },
+      {
+        "path": "internal/app/fixture_contract_test.go",
+        "anchor": "func TestAllSuccessfulContractResponsesHaveTypedMedia("
+      },
+      {
+        "path": "tests/generated-freshness.ps1",
+        "anchor": "stale content, missing/extra files rejected"
       }
     ],
     "debts": [
@@ -341,9 +364,17 @@
       {
         "id": "API-COVERAGE",
         "priority": "P2",
+        "status": "closed",
+        "description": "Success response media, fixture response validation and generated frontend types",
+        "completion": "All successful routes declare JSON/binary/SSE schemas, real API fixtures validate responses, core UI uses generated types, freshness checked in full/CI",
+        "evidence": "docs/exec-plans/family-completion.md"
+      },
+      {
+        "id": "API-JOB-SCHEMAS",
+        "priority": "P3",
         "status": "open",
-        "description": "Response schemas cover main kitchen workflow, not all endpoints",
-        "completion": "Add remaining typed schemas, fixture response validation and generated frontend types in reviewed increments"
+        "description": "Job payload/result objects are explicitly open JSON rather than discriminated variants for every model kind",
+        "completion": "Version each kind and state payload/result schema, validate representative fixture responses and use generated variants in Jobs UI"
       }
     ]
   }

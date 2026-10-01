@@ -14,6 +14,7 @@ import (
 	"image"
 	"image/color"
 	"image/png"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
@@ -529,8 +530,13 @@ func (h testAPI) call(method, path, token, key string, body any) (int, map[strin
 		h.t.Fatal(e)
 	}
 	defer resp.Body.Close()
+	payload, err := io.ReadAll(resp.Body)
+	if err != nil {
+		h.t.Fatal(err)
+	}
+	validateFixtureResponse(h.t, req, resp, payload)
 	out := map[string]any{}
-	_ = json.NewDecoder(resp.Body).Decode(&out)
+	_ = json.Unmarshal(payload, &out)
 	return resp.StatusCode, out
 }
 func must(t *testing.T, code, want int, v map[string]any) {

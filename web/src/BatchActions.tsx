@@ -2,6 +2,7 @@ import {useState} from 'react'
 import {useQueryClient} from '@tanstack/react-query'
 import {Minus,Pencil,Trash2,Leaf,Clock3,TriangleAlert} from 'lucide-react'
 import {Quantity,formatQuantity} from './Quantity'
+import {BatchNutrition} from './BatchNutrition'
 import {BatchCost} from './BatchCost'
 import {api,idem} from './api'
 import {Button,Field,Notice} from './ui'
@@ -58,6 +59,7 @@ export function BatchActions({batch,name,unit,token,household,canEdit}:{batch:In
     </div>
     {mode==='waste'&&<div className="mt-2 flex items-center gap-2 rounded-xl bg-rose-50 p-2"><span className="mr-auto text-rose-800">整批 <Quantity value={batch.quantity} unit={unit}/> 报损原因</span><Button size="sm" variant="outline" disabled={busy} onClick={()=>waste('spoiled')}>变质</Button><Button size="sm" variant="outline" disabled={busy} onClick={()=>waste('expired')}>过期</Button></div>}
     {mode==='correct'&&<div className="mt-2 flex items-end gap-2 rounded-xl bg-slate-50 p-2"><div className="flex-1"><Field label={'实际余量（'+unit+'）'} type="number" min="0" step="0.001" value={target} onChange={e=>setTarget(e.target.value)}/></div><Button size="sm" disabled={busy||target===''||Number(target)<0} onClick={correct}>保存</Button></div>}
+    {canEdit&&Number(batch.quantity)>0&&<BatchNutrition batch={batch.id} name={name} unit={unit} token={token} household={household}/>}
     {canEdit&&<BatchCost batch={batch.id} name={name} token={token} household={household}/>}
     {error&&<div className="mt-2"><Notice tone="error">{error}</Notice></div>}
   </div>

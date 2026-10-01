@@ -8,6 +8,13 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type AccountMerge struct {
+	ID       pgtype.UUID
+	SourceID pgtype.UUID
+	TargetID pgtype.UUID
+	MergedAt pgtype.Timestamptz
+}
+
 type AuthRateLimit struct {
 	IpHash      string
 	WindowStart pgtype.Timestamptz
@@ -27,6 +34,18 @@ type Batch struct {
 	CreatedAt     pgtype.Timestamptz
 	ExpiresAt     pgtype.Timestamptz
 	Condition     string
+}
+
+type BatchNutritionConfirmation struct {
+	ID               pgtype.UUID
+	HouseholdID      pgtype.UUID
+	BatchID          pgtype.UUID
+	Revision         int32
+	QuantityMilli    int64
+	EdibleGramsMilli int64
+	Classification   string
+	ActorID          pgtype.UUID
+	ConfirmedAt      pgtype.Timestamptz
 }
 
 type BatchPurchaseCost struct {
@@ -350,9 +369,10 @@ type SeasoningConversion struct {
 }
 
 type Session struct {
-	TokenHash string
-	UserID    pgtype.UUID
-	ExpiresAt pgtype.Timestamptz
+	TokenHash   string
+	UserID      pgtype.UUID
+	ExpiresAt   pgtype.Timestamptz
+	AuthVersion int64
 }
 
 type ShoppingItem struct {
@@ -419,19 +439,23 @@ type StockLedger struct {
 }
 
 type StockLedgerSnapshot struct {
-	LedgerID         pgtype.UUID
-	HouseholdID      pgtype.UUID
-	IngredientID     pgtype.UUID
-	IngredientName   string
-	Category         string
-	Unit             string
-	Dimension        string
-	ExpiresAt        pgtype.Timestamptz
-	ExpiryKind       string
-	IsDarkVegetable  pgtype.Bool
-	NutritionProfile []byte
-	NutritionVersion pgtype.Text
-	CapturedAt       pgtype.Timestamptz
+	LedgerID                  pgtype.UUID
+	HouseholdID               pgtype.UUID
+	IngredientID              pgtype.UUID
+	IngredientName            string
+	Category                  string
+	Unit                      string
+	Dimension                 string
+	ExpiresAt                 pgtype.Timestamptz
+	ExpiryKind                string
+	IsDarkVegetable           pgtype.Bool
+	NutritionProfile          []byte
+	NutritionVersion          pgtype.Text
+	CapturedAt                pgtype.Timestamptz
+	NutritionConfirmationID   pgtype.UUID
+	ConfirmedQuantityMilli    pgtype.Int8
+	ConfirmedEdibleGramsMilli pgtype.Int8
+	ClassificationSource      pgtype.Text
 }
 
 type StockOutbox struct {
@@ -455,6 +479,8 @@ type User struct {
 	CreatedAt     pgtype.Timestamptz
 	Phone         pgtype.Text
 	PhoneVerified bool
+	MergedInto    pgtype.UUID
+	AuthVersion   int64
 }
 
 type VirtualPantry struct {
