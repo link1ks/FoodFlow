@@ -197,6 +197,7 @@ func main() {
 			return command("pwsh", "-File", "tests/smoke.ps1", "-Base", "http://127.0.0.1:18080")
 		})
 		run("gateway-recovery", func() (string, error) { return command("pwsh", "-File", "tests/gateway-recovery.ps1") })
+		run("browser-fixture", func() (string, error) { return command("pwsh", "-File", "scripts/prepare-browser-fixture.ps1") })
 		run("browser", func() (string, error) { return command(pnpm, "--dir", "web", "test:e2e") })
 		run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
 	}

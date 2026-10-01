@@ -135,9 +135,10 @@
       {
         "id": "SHOP-PRICE",
         "priority": "P2",
-        "status": "open",
-        "description": "Complete monetary waste report and monthly image export are not delivered",
-        "completion": "Define cost coverage and unknown-history rules; verify exact monetary snapshots and exported report"
+        "status": "closed",
+        "description": "Monthly CNY known-cost subtotals disclose unknown history and export bounded PNG pages",
+        "completion": "Define cost coverage and unknown-history rules; verify exact monetary snapshots and exported report",
+        "evidence": "docs/exec-plans/family-completion.md"
       }
     ]
   },

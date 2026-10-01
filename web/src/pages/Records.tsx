@@ -5,6 +5,7 @@ import { Title, useBase } from "../app/shared";
 import { KitchenInsights } from "./KitchenInsights";
 import { StockHistory } from "./StockHistory";
 import { Jobs } from "./Jobs";
+import { MonthlyReport } from "./MonthlyReport";
 
 export function Records() {
   const [view, setView] = useState("nutrition");
@@ -16,6 +17,11 @@ export function Records() {
         value={view}
         onChange={setView}
         options={[
+          {
+            id: "monthly",
+            title: "金额月报",
+            description: "查看成本覆盖、已知报损金额并导出图片",
+          },
           {
             id: "nutrition",
             title: "营养记录",
@@ -38,7 +44,9 @@ export function Records() {
           },
         ]}
       />
-      {view === "nutrition" ? (
+      {view === "monthly" ? (
+        <MonthlyReport />
+      ) : view === "nutrition" ? (
         <NutritionRadar root={p} token={token} />
       ) : view === "usage" ? (
         <KitchenInsights />

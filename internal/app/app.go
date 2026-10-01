@@ -150,6 +150,7 @@ func (a *App) Router() *gin.Engine {
 	h.POST("/multi-meal", a.createMultiMeal)
 	h.POST("/multi-meal/:proposal", a.actMultiMeal)
 	h.GET("/nutrition", a.nutritionRadar)
+	h.GET("/monthly-report", a.monthlyReport)
 	h.GET("/insights", a.kitchenInsights)
 	h.GET("/pantry", a.pantry)
 	h.POST("/pantry", a.enablePantry)

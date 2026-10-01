@@ -1000,6 +1000,63 @@ paths:
                 percent: {type: integer, minimum: 0, maximum: 100, description: 校准时使用}
                 threshold: {type: integer, minimum: 1, maximum: 50, description: 修改补货线时使用}
       responses: {'200': {description: 已完成}, '400': {description: 参数无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '403': {description: 只读成员, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '404': {description: 不可访问, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}, '409': {description: 当前余量变化、已停用或幂等冲突, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}}
+  /households/{household}/monthly-report:
+    parameters:
+      - {$ref: '#/components/parameters/household'}
+    get:
+      summary: 家庭金额与数量月报
+      description: 厨房主库一致读；按家庭时区半开月份窗口。采购额按成本记录日期，消耗/报损仅使用不可变出库成本快照；未知不补价，金额为 CNY 已知小计。按历史名称和单位分组，明细最多 200 组，总计不截断。
+      parameters:
+        - {name: month, in: query, schema: {type: string, pattern: '^\d{4}-\d{2}$'}, description: 默认家庭当前月份；年份 1970–9998}
+      responses:
+        '200':
+          description: 月报与成本覆盖
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [month, timezone, currency, as_of, summary, item_count, items, items_limit, cost_basis, purchase_period_basis, historical_outbound_repriced]
+                properties:
+                  month: {type: string}
+                  timezone: {type: string}
+                  currency: {type: string, enum: [CNY]}
+                  as_of: {type: string, format: date-time}
+                  item_count: {type: integer, minimum: 0}
+                  items_limit: {type: integer, enum: [200]}
+                  cost_basis: {type: string, enum: [immutable_purchase_allocations]}
+                  purchase_period_basis: {type: string, enum: [cost_recorded_at]}
+                  historical_outbound_repriced: {type: boolean, enum: [false]}
+                  summary:
+                    type: object
+                    required: [outbound_events, priced_outbound_events, unknown_outbound_events, estimated_outbound_events, known_consumed_cost, known_wasted_cost, purchase_records, recorded_purchase_cost]
+                    properties:
+                      outbound_events: {type: integer, minimum: 0}
+                      priced_outbound_events: {type: integer, minimum: 0}
+                      unknown_outbound_events: {type: integer, minimum: 0}
+                      estimated_outbound_events: {type: integer, minimum: 0}
+                      known_consumed_cost: {type: string, pattern: '^\d+\.\d{2}$'}
+                      known_wasted_cost: {type: string, pattern: '^\d+\.\d{2}$'}
+                      purchase_records: {type: integer, minimum: 0}
+                      recorded_purchase_cost: {type: string, pattern: '^\d+\.\d{2}$'}
+                  items:
+                    type: array
+                    maxItems: 200
+                    items:
+                      type: object
+                      required: [ingredient, unit, inbound_milli, consumed_milli, wasted_milli, adjusted_milli, known_consumed_cost, known_wasted_cost, unknown_outbound_events]
+                      properties:
+                        ingredient: {type: string}
+                        unit: {type: string, nullable: true}
+                        inbound_milli: {type: string}
+                        consumed_milli: {type: string}
+                        wasted_milli: {type: string}
+                        adjusted_milli: {type: string}
+                        known_consumed_cost: {type: string}
+                        known_wasted_cost: {type: string}
+                        unknown_outbound_events: {type: integer, minimum: 0}
+        '400': {description: 月份无效, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '404': {description: 无家庭访问权限, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '500': {description: 月报读取失败, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
   /households/{household}/insights:
     parameters:
       - {$ref: '#/components/parameters/household'}

@@ -36,3 +36,15 @@
 - 最终 full 9/9：运行 `c5f78cc83c5ae746dbe954d89fb62e0f`；重建验收镜像后 acceptance 11/11，浏览器 7 场景 × 桌面/手机 = 14 通过，0 跳过、unexpected、flaky；full/acceptance 同摘要 `c1fa906a9ce40f7b967c0d50d3f03cf1e0c4fcc91cfa0b7269029a53672e643f`。`family-recipes-r2-20261001` 已记录 passed。便携证据：[family-recipes](../validation/family-recipes-20261001.json)。
 - 基线提交 `321524b` 的 [CI 36821811211](https://github.com/link1ks/FoodFlow/actions/runs/36821811211) 已 completed/success，backend、frontend、images、platform 四项均成功且无失败步骤。
 - 本阶段关闭 MENU-RECIPES 的扩充债务；真实烹饪体验、模型效果和家庭使用率仍需实际试用。金额月报、账号生命周期、营养覆盖、契约类型、镜像绑定和持续负载尚未在本阶段交付。
+
+### 金额月报
+
+- 任务 `family-monthly-report-20261001`。金额仍由厨房主库拥有，不向独立 Insights 数据库开放厨房表。单条 SQL 一致读取家庭时区月窗内库存事实与不可变成本快照；金额采用 PostgreSQL numeric 聚合后的两位小数字符串，数量按历史名称/单位分组。
+- 分别显示“本月记录采购金额”（按成本录入日期）、已知消耗和报损成本、已定价/未知成本出库条数与估算扣减。补记成本不重算之前的出库，不用当前参考价代替实付，不虚构节省金额。接口明细上限 200 组，总计包括全部月内事实。
+- Records 新增金额月报与 PNG 下载。导出保留已知小计/未知覆盖/截至时间/时区/明细限制，每页最多 40 组，用户可选择导出页；全部金额总计在每页展示。数量用 BigInt 精确格式化，补充超过 JavaScript safe integer 的回归。
+- `TestMonthlyReportCostsCoverageAndScope` 通过：未知历史、¥5 采购基数、已知消耗 ¥1、已知报损 ¥1.50、3 条出库其中 1 条未知、重复报损无新增、历史改名不改变旧事实、实际响应标准 OpenAPI 校验、家庭越权拒绝、上海时区月窗两端与校准不计成本。初次测试编译使用了 Reader 而契约验证器要求 ReadCloser，已改为 NopCloser；没有运行或消耗真实模型。
+- 初次 acceptance 10/11（14 浏览器通过、2 失败）：月报 fixture 已有库存，不显示空厨房指南，而测试误点该按钮。记录任务为 fixture 失败并开始 r1；修正后定向桌面/手机 PNG 导出 2/2 通过，查看实图确认中文、金额、覆盖与单位没有截断。
+- r1 full 9/9；重复 acceptance 浏览器后段注册 429（12 通过、4 失败）：同一验收代理 IP 的 15 分钟认证预算累积。记录 r1 为 fixture 失败，开始 r2；新增 `prepare-browser-fixture.ps1`，固定 project 并核对数据库容器 Compose project/service 标签，单独过期虚构测试的认证预算窗口；下次请求仍执行真实应用计数。未放宽生产限制，未删除开发/验收账户、库存、流水、会话或数据卷。
+- 最终 r2 full 9/9（13 前端单测）、acceptance 11/11（skip-build 无构建检查，新增 browser-fixture），浏览器 16/16、0 跳过/失败/flaky；运行 `9ea1fc69f21e82d85bc0a09bfff32b0f` / `390275e9871320b896b9d068bbd3d9ef`，同摘要 `33950b0e788d214fa7f5149e9901b5c6541d55cb267860c9a5a3ba71f5b29019`。业务镜像已在初次验收重建，后续仅改测试/验收准备脚本，复用该镜像；自动镜像绑定债务仍保留。`family-monthly-report-r2-20261001` 已 passed，便携证据：[family-monthly](../validation/family-monthly-20261001.json)。
+- 菜谱提交 `6d6fa67` 的 [CI 36823185891](https://github.com/link1ks/FoodFlow/actions/runs/36823185891) 四任务均 completed/success，无失败步骤。
+- 重现预算耗尽后的重复性验证：仅在固定 acceptance 数据库将虚构认证计数设为 61，运行准备脚本后再跑全部浏览器 16/16，通过而未关闭限流。这是对已复现 fixture 失败的回归，不据两次通过推断用户收益或生产容量。
