@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-01",
+  "scope": "Five-entry kitchen experience; isolated deterministic acceptance",
+  "source_digest": "3825ac2e0b26ecbf0920b1e1f3cc16b5184ba13ea095f016b45b329713191f24",
+  "base_revision": "4948362689db07011f6ee4f3d4ecf53aae81ae7f",
+  "worktree_dirty": true,
+  "full": {
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 1
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 4
+      },
+      {
+        "name": "format",
+        "passed": true,
+        "duration_ms": 39
+      },
+      {
+        "name": "vet",
+        "passed": true,
+        "duration_ms": 705
+      },
+      {
+        "name": "go-tests",
+        "passed": true,
+        "duration_ms": 73789
+      },
+      {
+        "name": "web-test",
+        "passed": true,
+        "duration_ms": 1371
+      },
+      {
+        "name": "web-build",
+        "passed": true,
+        "duration_ms": 4179
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 9
+      }
+    ],
+    "run_id": "7907cfb79000d14d6a5edd7393cbc1a5"
+  },
+  "acceptance": {
+    "skip_build": true,
+    "run_id": "989bb926b5c4fcf9911b0957e75cb7e3",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 2
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 4
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true,
+        "duration_ms": 650
+      },
+      {
+        "name": "platform",
+        "passed": true,
+        "duration_ms": 26490
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true,
+        "duration_ms": 2993
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true,
+        "duration_ms": 23980
+      },
+      {
+        "name": "browser",
+        "passed": true,
+        "duration_ms": 19835
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true,
+        "duration_ms": 5098
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 8
+      }
+    ]
+  },
+  "browser": {
+    "passed": 6,
+    "skipped": 0,
+    "failed": 0,
+    "flaky": 0
+  },
+  "limits": [
+    "Current local working tree; no new cloud CI or public deployment",
+    "API capability flags describe configuration, not worker/dependency health",
+    "No paid model calls; no claim about user time savings",
+    "Latest 50 generation jobs and latest 100 stock rows; no unlimited history search"
+  ]
+}

@@ -1,3 +1,5 @@
+import { Jobs } from "./Jobs";
+import { ModelNotice } from "../app/Capabilities";
 import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import { PageSwitch } from "../GettingStarted";
@@ -13,12 +15,17 @@ import {
   type Meal,
   type Plan,
   type Recipe,
+  type Job,
 } from "../app/shared";
-import { useUI } from "../store";
 import { Button, Card, Field, Notice } from "../ui";
 export function Week() {
   const [mode, setMode] = useState("single");
   const { token, p, q } = useBase();
+  const results = useData<Job[]>("jobs", p + "/jobs");
+  const relatedResults =
+    results.data?.filter(
+      (j) => j.kind === "plan" && j.status !== "cancelled",
+    ) || [];
   const plans = useData<{ id: string; status: string; revision: number }[]>(
     "plans",
     p + "/plans",
@@ -47,7 +54,9 @@ export function Week() {
           .filter(Boolean),
       });
       q.invalidateQueries();
-      useUI.getState().setPage("jobs");
+      document
+        .getElementById("menu-results")
+        ?.scrollIntoView({ behavior: "smooth" });
     } catch (e) {
       setErr(String(e));
     }
@@ -69,6 +78,26 @@ export function Week() {
         title="安排菜单"
         subtitle="告诉我们几个人吃、能做多久；确认喜欢的方案后，缺少的食材会加入采购清单"
       />
+      <ModelNotice />
+      <div id="menu-results" className="mb-5">
+        {(relatedResults.length > 0 || results.error) && (
+          <details
+            open={relatedResults.some((j) =>
+              ["queued", "running", "awaiting_confirmation", "failed"].includes(
+                j.status,
+              ),
+            )}
+            className="rounded-2xl border bg-white p-4"
+          >
+            <summary className="cursor-pointer font-semibold">
+              菜单生成结果 · 继续处理
+            </summary>
+            <div className="mt-4">
+              <Jobs kind="plan" />
+            </div>
+          </details>
+        )}
+      </div>
       <PageSwitch
         value={mode}
         onChange={setMode}
@@ -407,7 +436,7 @@ export function PlanCard({ id }: { id: string }) {
       )}
       {v.status === "confirmed" && (
         <p className="mt-3 text-xs text-slate-500">
-          到「我的厨房」查看今日菜单，做好后点击烹饪完成。
+          到「今天」查看今日菜单，做好后点击烹饪完成。
         </p>
       )}
       {err && (

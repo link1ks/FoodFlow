@@ -16,7 +16,7 @@ export function MultiMealPlanner({token,root}:{token:string;root:string}){
  const household=useQuery({queryKey:['household',root],queryFn:()=>api<{role:string}>(root,token),enabled:open})
  const editable=household.data?.role==='owner'||household.data?.role==='editor'
  async function write(path:string,body:unknown){setBusy(true);setError('');setMessage('');const identity=path+JSON.stringify(body);if(pending.current?.identity!==identity)pending.current={identity,key:idem()}
-  try{await api(path,token,'POST',body,pending.current.key);pending.current=null;await q.invalidateQueries();if((body as {action?:string}).action==='adopt')setMessage('已采纳到菜单；当天餐次会显示在「我的厨房」。库存将在烹饪完成时扣减。')}
+  try{await api(path,token,'POST',body,pending.current.key);pending.current=null;await q.invalidateQueries();if((body as {action?:string}).action==='adopt')setMessage('已采纳到菜单；当天餐次会显示在「今天」。库存将在烹饪完成时扣减。')}
   catch(e){setError(String(e))}finally{setBusy(false)}
  }
  function generate(){const n=Number(count);if(!Number.isInteger(n)||n<1||n>7||!day){setError('请选择日期和 1–7 餐');return}

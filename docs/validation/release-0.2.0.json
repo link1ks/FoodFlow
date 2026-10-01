@@ -1,0 +1,114 @@
+{
+  "version": "0.2.0",
+  "date": "2026-10-01",
+  "source_digest": "bdde94ba808932a88b5bd77fd70bf5ce06a71ca65785ab82b94927a19564ae24",
+  "tested_base_revision": "4948362689db07011f6ee4f3d4ecf53aae81ae7f",
+  "tested_worktree_dirty": true,
+  "full": {
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 2
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "format",
+        "passed": true,
+        "duration_ms": 36
+      },
+      {
+        "name": "vet",
+        "passed": true,
+        "duration_ms": 669
+      },
+      {
+        "name": "go-tests",
+        "passed": true,
+        "duration_ms": 75536
+      },
+      {
+        "name": "web-test",
+        "passed": true,
+        "duration_ms": 1265
+      },
+      {
+        "name": "web-build",
+        "passed": true,
+        "duration_ms": 4075
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 9
+      }
+    ],
+    "run_id": "288106bd2fcfa36db12fcd1dbef8280d"
+  },
+  "acceptance": {
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 5
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 5
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true,
+        "duration_ms": 649
+      },
+      {
+        "name": "platform",
+        "passed": true,
+        "duration_ms": 25888
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true,
+        "duration_ms": 2597
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true,
+        "duration_ms": 8761
+      },
+      {
+        "name": "browser",
+        "passed": true,
+        "duration_ms": 30043
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true,
+        "duration_ms": 4971
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 9
+      }
+    ],
+    "run_id": "02d9474d0b3e4ec51c7af4eeb3327052",
+    "skip_build": true
+  },
+  "browser": {
+    "failed": 0,
+    "skipped": 0,
+    "passed": 6,
+    "flaky": 0
+  },
+  "limits": [
+    "Local packaging evidence; cloud run status is recorded separately in GitHub release notes",
+    "Final v0.2.0 application images built before the last test-only JSON loader correction",
+    "No production deployment or paid model calls"
+  ]
+}

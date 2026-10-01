@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../api";
 import { useBase, Title, ErrorLine } from "../app/shared";
+import { Capabilities } from "../app/Capabilities";
+import { useData } from "../app/shared";
 import { Card, Button } from "../ui";
 type Row = {
   ingredient: string;
@@ -28,18 +30,37 @@ function quantity(milli: string) {
 }
 export function KitchenInsights() {
   const { p, token } = useBase();
+  const capabilities = useData<Capabilities>("capabilities", "/capabilities");
   const [month, setMonth] = useState("");
   const query = useQuery({
     queryKey: ["kitchen-insights", p, month],
     queryFn: () =>
       api<Summary>(`${p}/insights${month ? `?month=${month}` : ""}`, token),
+    enabled: capabilities.data?.insights_enabled === true,
     refetchInterval: 10000,
     retry: 1,
   });
+  if (capabilities.isLoading) return <Card>正在读取统计能力…</Card>;
+  if (capabilities.error)
+    return (
+      <Card>
+        <ErrorLine error={capabilities.error} />
+        <Button onClick={() => capabilities.refetch()}>重试</Button>
+      </Card>
+    );
+  if (!capabilities.data?.insights_enabled)
+    return (
+      <Card>
+        <h2 className="font-semibold">食材用量尚未启用</h2>
+        <p className="mt-2 text-sm text-slate-500">
+          当前环境暂不提供数量汇总。库存、采购和营养记录仍可使用。
+        </p>
+      </Card>
+    );
   return (
     <>
       <Title
-        title="厨房收支"
+        title="食材用量"
         subtitle="这个月买了多少、吃了多少、丢掉多少，一眼看清"
       />
       <div className="mb-4 flex items-center gap-3">
@@ -73,7 +94,7 @@ export function KitchenInsights() {
           </p>
           {query.data.items.length === 0 ? (
             <Card>
-              本月暂无收支记录。添加食材或完成做饭后，会自动汇总在这里。
+              本月暂无用量记录。添加食材或完成做饭后，会自动汇总在这里。
             </Card>
           ) : (
             <div className="grid gap-4 md:grid-cols-2">

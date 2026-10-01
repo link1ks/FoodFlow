@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { BatchActions, freshness } from "../BatchActions";
+import { Jobs } from "./Jobs";
+import { ModelNotice } from "../app/Capabilities";
 import { ImageUpload } from "../ImageRecognition";
 import { IngredientCatalogPicker } from "../IngredientCatalogPicker";
 import { IngredientDeleteControl } from "../IngredientDeleteControl";
@@ -11,17 +13,23 @@ import { VirtualPantry } from "../VirtualPantry";
 import { api, idem } from "../api";
 import {
   Load,
+  ErrorLine,
   Title,
   useBase,
   useData,
   type Household,
   type Inventory,
+  type Job,
 } from "../app/shared";
-import { useUI } from "../store";
 import { Button, Card, Field, Notice } from "../ui";
 export function InventoryPage() {
   const { token, p, q } = useBase();
   const d = useData<Inventory>("inventory", p + "/inventory");
+  const results = useData<Job[]>("jobs", p + "/jobs");
+  const relatedResults =
+    results.data?.filter(
+      (j) => ["image", "advice"].includes(j.kind) && j.status !== "cancelled",
+    ) || [];
   const household = useData<Household>("household", p);
   const [selected, setSelected] = useState(""),
     [selectedIDs, setSelectedIDs] = useState<string[]>([]),
@@ -53,6 +61,7 @@ export function InventoryPage() {
         idem(),
       );
       setQty("");
+      setExpiry("");
       q.invalidateQueries();
     } catch (e) {
       setErr(String(e));
@@ -173,12 +182,14 @@ export function InventoryPage() {
                           variant="outline"
                           onClick={() => {
                             setSelected(i.id);
+                            setQty("");
+                            setExpiry("");
                             document
                               .getElementById("inventory-add")
                               ?.scrollIntoView({ behavior: "smooth" });
                           }}
                         >
-                          再添一批
+                          再买一批
                         </Button>
                         <IngredientDeleteControl
                           id={i.id}
@@ -220,7 +231,9 @@ export function InventoryPage() {
               household={p.slice("/households/".length)}
               onQueued={() => {
                 q.invalidateQueries();
-                useUI.getState().setPage("jobs");
+                document
+                  .getElementById("inventory-results")
+                  ?.scrollIntoView({ behavior: "smooth" });
               }}
             />
           )}
@@ -236,7 +249,7 @@ export function InventoryPage() {
                   onChange={(e) => setQty(e.target.value)}
                 />
                 <Field
-                  label="有效期（用户确认）"
+                  label="有效期（可留空）"
                   type="date"
                   value={expiry}
                   onChange={(e) => setExpiry(e.target.value)}
@@ -249,6 +262,31 @@ export function InventoryPage() {
           )}
           {err && <Notice tone="error">{err}</Notice>}
         </div>
+      </div>
+      <div id="inventory-results" className="my-5">
+        {(relatedResults.length > 0 || results.error) && (
+          <details
+            open={relatedResults.some((j) =>
+              ["queued", "running", "awaiting_confirmation", "failed"].includes(
+                j.status,
+              ),
+            )}
+            className="rounded-2xl border bg-white p-4"
+          >
+            <summary className="cursor-pointer font-semibold">
+              识别结果与搭配建议 · 继续处理
+            </summary>
+            <div className="mt-4">
+              <ErrorLine error={results.error} />
+              {relatedResults.some((j) => j.kind === "image") && (
+                <Jobs kind="image" />
+              )}
+              {relatedResults.some((j) => j.kind === "advice") && (
+                <Jobs kind="advice" />
+              )}
+            </div>
+          </details>
+        )}
       </div>
       <details className="my-5 rounded-2xl border border-slate-200 bg-white p-4">
         <summary className="cursor-pointer font-semibold">
@@ -268,6 +306,7 @@ export function InventoryPage() {
         </div>
       </details>
       <div id="recipe-explorer">
+        {selectedIDs.length > 0 && <ModelNotice />}
         {selectedIDs.length > 0 ? (
           <RecipeExplorer
             token={token}
@@ -289,7 +328,7 @@ export function InventoryPage() {
         )}
       </div>
       {selectedIDs.length > 0 && (
-        <div className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-3 right-3 z-30 mx-auto flex max-w-xl items-center justify-between gap-3 rounded-2xl bg-emerald-900 px-4 py-3 text-white shadow-2xl">
+        <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] sm:bottom-5 left-3 right-3 z-30 mx-auto flex max-w-xl items-center justify-between gap-3 rounded-2xl bg-emerald-900 px-4 py-3 text-white shadow-2xl">
           <span className="text-sm">
             已选 {selectedIDs.length} 种食材，可做 {readyCount} 道菜
           </span>

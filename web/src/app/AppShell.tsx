@@ -4,16 +4,13 @@ import {
   CalendarDays,
   Home,
   LogOut,
-  MapPin,
   RefreshCw,
   ShoppingBasket,
-  Sparkles,
-  Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { version } from "../../package.json";
 import { PhoneBinding } from "../Auth";
 import { Avatar } from "../Avatar";
-import { GettingStarted } from "../GettingStarted";
 import { NatureBackdrop } from "../NatureTheme";
 import { api } from "../api";
 import {
@@ -32,7 +29,8 @@ import {
   Settings,
 } from "../pages/Settings";
 import { Week } from "../pages/Week";
-import { KitchenInsights } from "../pages/KitchenInsights";
+import { Records } from "../pages/Records";
+import { KitchenHelp } from "../KitchenHome";
 import { useUI } from "../store";
 import { Button, Card, Field, Notice } from "../ui";
 export function HouseholdGate() {
@@ -138,14 +136,11 @@ export function HouseholdGate() {
 }
 
 export const nav = [
-  ["today", "我的厨房", Home, "今日安排"],
-  ["inventory", "食材库存", Boxes, "添加 · 保鲜"],
-  ["week", "安排菜单", CalendarDays, "选菜 · 清冰箱"],
-  ["shopping", "采购清单", ShoppingBasket, "缺什么 · 买什么"],
-  ["prices", "查菜价", MapPin, "城市参考价格"],
-  ["jobs", "营养与建议", Sparkles, "AI结果 · 营养记录"],
-  ["insights", "厨房收支", BarChart3, "买入 · 吃掉 · 报损"],
-  ["settings", "家庭设置", Users, "成员 · 忌口"],
+  ["today", "今天", Home, "厨房待办"],
+  ["inventory", "食材", Boxes, "库存 · 保鲜"],
+  ["week", "菜单", CalendarDays, "安排 · 做饭"],
+  ["shopping", "采购", ShoppingBasket, "清单 · 菜价"],
+  ["records", "记录", BarChart3, "营养 · 用量"],
 ] as const;
 
 export function AppShell({ household }: { household: Household }) {
@@ -209,7 +204,7 @@ export function AppShell({ household }: { household: Household }) {
   return (
     <div className="foodflow-shell min-h-screen pb-24">
       <NatureBackdrop />
-      <header className="sticky top-0 z-20 border-b border-slate-100 bg-white/95 shadow-sm backdrop-blur">
+      <header className="sticky top-0 z-20 border-b border-slate-100 bg-white/95 shadow-sm">
         <div className="flex min-h-16 flex-wrap items-center gap-x-5 px-4 sm:px-6 xl:flex-nowrap xl:px-8">
           <button
             onClick={() => setPage("today")}
@@ -231,16 +226,24 @@ export function AppShell({ household }: { household: Household }) {
           </button>
           <nav
             aria-label="主导航"
-            className="order-3 flex w-full items-center gap-1 overflow-x-auto xl:order-2 xl:w-auto xl:gap-2"
+            className="fixed inset-x-0 bottom-0 z-40 flex justify-around border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:static sm:order-3 sm:w-full sm:justify-start sm:border-0 xl:order-2 xl:w-auto xl:gap-2"
           >
             {nav.map(([id, label, Icon, hint]) => (
               <button
                 key={id}
-                aria-current={page === id ? "page" : undefined}
+                aria-current={
+                  page === id ||
+                  (id === "shopping" && page === "prices") ||
+                  (id === "records" && page === "insights")
+                    ? "page"
+                    : undefined
+                }
                 onClick={() => setPage(id)}
                 className={
-                  "group relative flex h-16 shrink-0 items-center gap-2 whitespace-nowrap px-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-emerald-600 xl:h-16 " +
-                  (page === id
+                  "group relative flex h-16 flex-col justify-center shrink-0 items-center gap-1 whitespace-nowrap sm:flex-row sm:gap-2 px-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-emerald-600 xl:h-16 " +
+                  (page === id ||
+                  (id === "shopping" && page === "prices") ||
+                  (id === "records" && page === "insights")
                     ? "font-semibold text-emerald-700"
                     : "text-slate-700 hover:text-emerald-700")
                 }
@@ -251,11 +254,13 @@ export function AppShell({ household }: { household: Household }) {
                 />
                 <span className="text-left">
                   <span className="block">{label}</span>
-                  <span className="mt-0.5 block text-[10px] font-normal text-slate-500">
+                  <span className="mt-0.5 hidden sm:block text-[10px] font-normal text-slate-500">
                     {hint}
                   </span>
                 </span>
-                {page === id && (
+                {(page === id ||
+                  (id === "shopping" && page === "prices") ||
+                  (id === "records" && page === "insights")) && (
                   <span className="absolute inset-x-2 bottom-0 h-[3px] rounded-t-full bg-emerald-600" />
                 )}
               </button>
@@ -302,9 +307,8 @@ export function AppShell({ household }: { household: Household }) {
       <main className="mx-auto min-w-0 max-w-6xl px-4 py-6">
         {page === "today" ? (
           <>
-            <GettingStarted household={household.name} />
             <div id="today-meals">
-              <Today />
+              <Today name={household.name} />
             </div>
           </>
         ) : page === "inventory" ? (
@@ -317,8 +321,8 @@ export function AppShell({ household }: { household: Household }) {
           <Prices />
         ) : page === "jobs" ? (
           <Jobs />
-        ) : page === "insights" ? (
-          <KitchenInsights />
+        ) : page === "records" || page === "insights" ? (
+          <Records />
         ) : page === "profile" ? (
           <div className="mx-auto max-w-3xl">
             <Title
@@ -346,6 +350,15 @@ export function AppShell({ household }: { household: Household }) {
                 </div>
               )}
             </Card>
+            <div className="my-4 flex flex-wrap gap-3">
+              <Button variant="outline" onClick={() => setPage("settings")}>
+                家庭成员与偏好
+              </Button>
+              <Button variant="outline" onClick={() => setPage("help")}>
+                使用帮助
+              </Button>
+            </div>
+            <p className="mb-4 text-xs text-slate-500">FoodFlow v{version}</p>
             <ProfileSettings />
             <PhoneBinding token={token} />
             <div className="mt-5">
@@ -360,6 +373,8 @@ export function AppShell({ household }: { household: Household }) {
               )}
             </div>
           </div>
+        ) : page === "help" ? (
+          <KitchenHelp name={household.name} />
         ) : (
           <>
             <Settings />

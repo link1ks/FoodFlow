@@ -117,7 +117,9 @@ func (a *App) Router() *gin.Engine {
 	v.POST("/invites/accept", a.acceptInvite)
 	v.GET("/recipes", a.recipes)
 	v.GET("/ingredient-catalog", a.ingredientCatalog)
-	v.GET("/capabilities", func(c *gin.Context) { c.JSON(200, gin.H{"vision_enabled": visionConfigured()}) })
+	v.GET("/capabilities", func(c *gin.Context) {
+		c.JSON(200, gin.H{"vision_enabled": visionConfigured(), "model_enabled": os.Getenv("MODEL_ENDPOINT") != "" && os.Getenv("MODEL_API_KEY") != "" && os.Getenv("MODEL_NAME") != "", "insights_enabled": os.Getenv("INSIGHTS_URL") != "" && len(os.Getenv("INSIGHTS_SERVICE_TOKEN")) >= 32})
+	})
 	h := v.Group("/households/:household")
 	h.Use(a.membership)
 	h.GET("", a.household)
@@ -126,6 +128,7 @@ func (a *App) Router() *gin.Engine {
 	h.POST("/invites", a.invite)
 	h.PATCH("/members/:user", a.memberRole)
 	h.GET("/inventory", a.inventory)
+	h.GET("/ledger", a.ledger)
 	h.GET("/today", a.today)
 	h.POST("/ingredients", a.addIngredient)
 	h.DELETE("/ingredients/:ingredient", a.archiveIngredient)

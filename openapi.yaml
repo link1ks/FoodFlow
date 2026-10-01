@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: FoodFlow 食光 API
-  version: 0.1.0
+  version: 0.2.0
   description: 家庭食材、菜单、采购和后台任务 API。数量均为最多三位小数的字符串。
 servers:
   - url: http://localhost:8080/api
@@ -149,7 +149,42 @@ paths:
       description: 需登录。返回规范名称、分类、默认单位与搜索别名，供页面单字即时提示。
       responses: {'200': {description: 食材目录}, '401': {description: 未登录}}
   /capabilities:
-    get: {summary: 查询视觉识别是否已配置, responses: {'200': {description: vision_enabled 布尔值}}}
+    get:
+      summary: 查询当前环境的功能配置
+      responses:
+        '200':
+          description: 配置能力，不代表依赖服务实时健康
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [vision_enabled, model_enabled, insights_enabled]
+                properties:
+                  vision_enabled: {type: boolean}
+                  model_enabled: {type: boolean}
+                  insights_enabled: {type: boolean}
+  /households/{household}/ledger:
+    parameters: [{$ref: '#/components/parameters/household'}]
+    get:
+      summary: 最近100条不可变库存流水
+      responses:
+        '200':
+          description: 名称与单位来自历史快照，缺少快照时为空；quantity 为精确十进制字符串
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: {type: string}
+                    ingredient: {type: string}
+                    unit: {type: string}
+                    quantity: {type: string}
+                    reason: {type: string}
+                    created_at: {type: string, format: date-time}
+        '401': {description: 未登录}
+        '404': {description: 非家庭成员}
   /households/{household}:
     parameters: [{$ref: '#/components/parameters/household'}]
     get: {summary: 家庭设置, responses: {'200': {description: 家庭详情}, '404': {description: 无访问权限}}}

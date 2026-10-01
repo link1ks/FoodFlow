@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { PageSwitch } from "../GettingStarted";
 import { ImageReview } from "../ImageRecognition";
 import { AdviceView, type AdviceResult } from "../NutritionAdvice";
-import { NutritionRadar } from "../NutritionRadar";
 import { api } from "../api";
 import {
   ErrorLine,
@@ -15,37 +13,43 @@ import {
 } from "../app/shared";
 import { useUI } from "../store";
 import { Button, Card, Notice } from "../ui";
-export function Jobs() {
-  const { p, token } = useBase();
-  const [view, setView] = useState("results");
-  const jobs = useData<{ id: string }[]>("jobs", p + "/jobs");
+export function Jobs({
+  kind,
+  activeOnly = false,
+}: {
+  kind?: string;
+  activeOnly?: boolean;
+}) {
+  const { p } = useBase();
+  const jobs = useData<{ id: string; kind: string; status: string }[]>(
+    "jobs",
+    p + "/jobs",
+  );
   const [hidden, setHidden] = useState<string[]>([]);
-  const visible = jobs.data?.filter((j) => !hidden.includes(j.id));
+  const visible = jobs.data?.filter(
+    (j) =>
+      !hidden.includes(j.id) &&
+      (!kind || j.kind === kind) &&
+      (!activeOnly ||
+        ["queued", "running", "awaiting_confirmation", "failed"].includes(
+          j.status,
+        )),
+  );
   return (
     <>
       <Title
-        title="营养与建议"
-        subtitle="查看 AI 为你生成的方案，或回顾家里最近吃得怎么样"
+        title={
+          kind === "image"
+            ? "识别结果"
+            : kind === "advice"
+              ? "搭配建议记录"
+              : kind === "plan"
+                ? "菜单生成结果"
+                : "生成记录"
+        }
+        subtitle="离开页面后，仍可在这里继续查看和确认"
       />
-      <PageSwitch
-        value={view}
-        onChange={setView}
-        options={[
-          {
-            id: "results",
-            title: "AI 建议与识别结果",
-            description: "菜单生成、食材搭配建议和拍照识别都在这里",
-          },
-          {
-            id: "radar",
-            title: "家庭营养记录",
-            description: "根据已完成的餐次，查看近7天和30天营养估算",
-          },
-        ]}
-      />
-      {view === "radar" ? (
-        <NutritionRadar root={p} token={token} />
-      ) : (
+      {
         <Load loading={jobs.isLoading} error={jobs.error}>
           {visible?.length ? (
             <div className="space-y-3">
@@ -63,7 +67,7 @@ export function Jobs() {
             </div>
           ) : (
             <Card>
-              暂无规划记录。已取消的任务已收起，可从食材库存发起新规划。
+              暂无相关任务。已取消的任务已收起。
               <Button
                 className="mt-3 block"
                 onClick={() => useUI.getState().setPage("inventory")}
@@ -73,7 +77,7 @@ export function Jobs() {
             </Card>
           )}
         </Load>
-      )}
+      }
     </>
   );
 }
@@ -86,6 +90,7 @@ export function JobCard({
   onHidden: () => void;
 }) {
   const { token, p, q } = useBase();
+  const household = useData<{ role: string }>("household", p);
   const d = useData<Job>("job", p + "/jobs/" + id);
   const [err, setErr] = useState("");
   async function cancel() {
@@ -104,12 +109,38 @@ export function JobCard({
       setErr(String(e));
     }
   }
+  async function adopt(recipeID: string) {
+    setErr("");
+    try {
+      await api(p + "/plans", token, "POST", {
+        meals: [
+          {
+            day: new Date().toLocaleDateString("en-CA"),
+            meal: "dinner",
+            servings: d.data?.result?.servings || 2,
+            recipe_id: recipeID,
+          },
+        ],
+      });
+      await q.invalidateQueries();
+      useUI.getState().setPage("week");
+    } catch (e) {
+      setErr(String(e));
+    }
+  }
   const j = d.data;
   useEffect(() => {
     if (j?.status !== "cancelled") return;
     const timer = setTimeout(onHidden, 450);
     return () => clearTimeout(timer);
   }, [j?.status, onHidden]);
+  if (d.error)
+    return (
+      <Card>
+        <ErrorLine error={d.error} />
+        <Button onClick={() => d.refetch()}>重试任务读取</Button>
+      </Card>
+    );
   if (!j) return <Card>加载任务…</Card>;
   return (
     <Card
@@ -136,7 +167,14 @@ export function JobCard({
         <Notice>演示模式：未调用真实模型，使用确定性菜谱选择。</Notice>
       )}
       {j.kind === "advice" && j.status === "succeeded" && j.result?.summary && (
-        <AdviceView result={j.result as AdviceResult} />
+        <AdviceView
+          result={j.result as AdviceResult}
+          onChoose={
+            household.data && household.data.role !== "viewer"
+              ? adopt
+              : undefined
+          }
+        />
       )}
       {j.kind === "image" &&
         j.status === "awaiting_confirmation" &&
