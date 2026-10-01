@@ -64,7 +64,33 @@
     ]
   },
   "ci": {
-    "status": "pending"
+    "conclusion": "success",
+    "id": 36860407914,
+    "jobs": [
+      {
+        "conclusion": "success",
+        "status": "completed",
+        "name": "images"
+      },
+      {
+        "conclusion": "success",
+        "status": "completed",
+        "name": "platform"
+      },
+      {
+        "conclusion": "success",
+        "status": "completed",
+        "name": "frontend"
+      },
+      {
+        "conclusion": "success",
+        "status": "completed",
+        "name": "backend"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/link1ks/FoodFlow/actions/runs/36860407914",
+    "revision": "84e348286abf63432f67c2b0bf6cb7827d33e519"
   },
   "browser": {
     "startTime": "2026-10-01T12:10:46.972Z",
