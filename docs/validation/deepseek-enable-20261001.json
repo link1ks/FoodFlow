@@ -1,0 +1,154 @@
+{
+  "limitations": [
+    "Three synthetic real calls do not establish representative model quality.",
+    "Full/acceptance/CI use deterministic fixtures and do not call paid models.",
+    "Exact fee and live balance are not published; credentials and private provider account data remain local."
+  ],
+  "scope": "Explicit DeepSeek family-trial startup using saved local credentials",
+  "browser": {
+    "startTime": "2026-10-01T11:29:26.807Z",
+    "duration": 43174.617000000006,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "provider_gate": {
+    "synthetic_key_used": true,
+    "provider_requests_sent": 0,
+    "rejected_configuration_cases": 6
+  },
+  "runtime": {
+    "sms_enabled": false,
+    "primary_records_preserved": true,
+    "model_enabled": true,
+    "vision_enabled": true,
+    "local_storage": true,
+    "ready": 200
+  },
+  "paid_probe": {
+    "requests": 3,
+    "personal_data_sent": false,
+    "nutrition": "passed",
+    "vision": "passed",
+    "exact_cost": "not established; same balance display precision",
+    "synthetic_only": true,
+    "menu": "passed"
+  },
+  "full": {
+    "recorded_at": "2026-10-01T11:27:48.0985123Z",
+    "mode": "full",
+    "checks": [
+      {
+        "passed": true,
+        "name": "architecture"
+      },
+      {
+        "passed": true,
+        "name": "knowledge"
+      },
+      {
+        "passed": true,
+        "name": "quality-map"
+      },
+      {
+        "passed": true,
+        "name": "dbgen-regression"
+      },
+      {
+        "passed": true,
+        "name": "dbgen-check"
+      },
+      {
+        "passed": true,
+        "name": "format"
+      },
+      {
+        "passed": true,
+        "name": "vet"
+      },
+      {
+        "passed": true,
+        "name": "go-tests"
+      },
+      {
+        "passed": true,
+        "name": "web-api-check"
+      },
+      {
+        "passed": true,
+        "name": "web-test"
+      },
+      {
+        "passed": true,
+        "name": "web-build"
+      },
+      {
+        "passed": true,
+        "name": "source-stable"
+      }
+    ],
+    "run_id": "7d45152c85b8b37d4102523ae5c6252c",
+    "source_digest": "f1973c90f9041dc49f3997e621a70559e7e3769e8040ca9013f50e3a247d7a72"
+  },
+  "acceptance": {
+    "recorded_at": "2026-10-01T11:30:15.4436589Z",
+    "mode": "acceptance",
+    "checks": [
+      {
+        "passed": true,
+        "name": "architecture"
+      },
+      {
+        "passed": true,
+        "name": "knowledge"
+      },
+      {
+        "passed": true,
+        "name": "quality-map"
+      },
+      {
+        "passed": true,
+        "name": "read-recovery-regression"
+      },
+      {
+        "passed": true,
+        "name": "acceptance-stack"
+      },
+      {
+        "passed": true,
+        "name": "acceptance-images"
+      },
+      {
+        "passed": true,
+        "name": "platform"
+      },
+      {
+        "passed": true,
+        "name": "kitchen-flow"
+      },
+      {
+        "passed": true,
+        "name": "gateway-recovery"
+      },
+      {
+        "passed": true,
+        "name": "browser-fixture"
+      },
+      {
+        "passed": true,
+        "name": "browser"
+      },
+      {
+        "passed": true,
+        "name": "runtime-diagnostics"
+      },
+      {
+        "passed": true,
+        "name": "source-stable"
+      }
+    ],
+    "run_id": "2b6b7efacd5881f559e19469b0fd8556",
+    "source_digest": "f1973c90f9041dc49f3997e621a70559e7e3769e8040ca9013f50e3a247d7a72"
+  }
+}

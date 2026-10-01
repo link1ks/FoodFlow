@@ -35,7 +35,7 @@ flowchart LR
 
 食材目录包含 **91 种食材**，其中 **79 种**提供 USDA SR Legacy 营养参考值，按每 100 克可食部展示。
 
-[家庭试用指南](docs/FAMILY_TRIAL.md) 提供双人协作、三天闭环、数据备份与反馈记录。已配置本地项目可用 `pwsh -NoProfile -File scripts/local-trial.ps1 up` 启动确定性试用；此方式显式禁用付费模型/短信，并保留 `.env` 与数据卷。
+[家庭试用指南](docs/FAMILY_TRIAL.md) 提供双人协作、三天闭环、数据备份与反馈记录。已配置本地项目可用 `pwsh -NoProfile -File scripts/local-trial.ps1 up` 启动确定性试用；此方式显式禁用付费模型/短信，并保留 `.env` 与数据卷。授权使用保存的 DeepSeek 额度后，追加 `-UseDeepSeek` 启用文字与图片模型；短信仍关闭，模型调用按 API 余额计费。
 
 ## 架构与技术栈
 

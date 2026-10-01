@@ -1,0 +1,12 @@
+# Opt in only after authorizing billable DeepSeek calls. Keep other trial overrides.
+services:
+  api:
+    environment: &deepseek_env
+      MODEL_ENDPOINT: '${MODEL_ENDPOINT:?Set the saved DeepSeek endpoint}'
+      MODEL_NAME: '${MODEL_NAME:?Set deepseek-flash}'
+      MODEL_API_KEY: '${MODEL_API_KEY:?Set the saved DeepSeek key}'
+      VISION_MODEL_ENDPOINT: '${MODEL_ENDPOINT:?Set the saved DeepSeek endpoint}'
+      VISION_MODEL_NAME: '${MODEL_NAME:?Set deepseek-flash}'
+      VISION_MODEL_API_KEY: '${MODEL_API_KEY:?Set the saved DeepSeek key}'
+  worker:
+    environment: *deepseek_env
