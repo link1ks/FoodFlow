@@ -15,3 +15,4 @@
 
 这三次检查只证明对应合成输入的连接与解析通过，不建立真实图片识别准确率、菜单接受率、长期可用性或成本分布。AI-EVAL 继续保留。启用后用户发起模型功能会消耗 DeepSeek 额度；库存与采购仍需明确确认。短信和 Google 云额度未启用。
 - 最终本地 full 12/12（`7d45152c85b8b37d4102523ae5c6252c`）、重建 acceptance 13/13（`2b6b7efacd5881f559e19469b0fd8556`），同摘要 `f1973c90f9041dc49f3997e621a70559e7e3769e8040ca9013f50e3a247d7a72`；浏览器 22 通过、0 失败/跳过/flaky。六种虚构 HTTP/仿冒主机/非默认端口/错误路径/userinfo/非视觉模型配置均在 up 前拒绝，没有发出供应商请求。实际运行 API/Worker 文字与视觉模型均开启且同源，短信关闭、本地存储、健康 HTTP 200；原有账号/家庭/批次/流水记录数未变。便携证据：[deepseek-enable](../validation/deepseek-enable-20261001.json)。
+- 任务已记录 passed。代码提交 `d7f086e5f8fcae761707643aee3577226001592e` 已推送 main；[CI 36855911202](https://github.com/link1ks/FoodFlow/actions/runs/36855911202) completed/success，frontend/platform/images/backend 四项全部成功，无失败步骤。云端仍只使用确定性模型。此后只补文档结果，业务/构建输入摘要不变；文档记录提交使用 [skip ci] 避免重复运行同一源码，云端通过结论仅对应上述代码提交。

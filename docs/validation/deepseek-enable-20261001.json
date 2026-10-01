@@ -150,5 +150,19 @@
     ],
     "run_id": "2b6b7efacd5881f559e19469b0fd8556",
     "source_digest": "f1973c90f9041dc49f3997e621a70559e7e3769e8040ca9013f50e3a247d7a72"
+  },
+  "code_revision": "d7f086e5f8fcae761707643aee3577226001592e",
+  "github_ci": {
+    "conclusion": "success",
+    "url": "https://github.com/link1ks/FoodFlow/actions/runs/36855911202",
+    "jobs": [
+      "backend",
+      "frontend",
+      "images",
+      "platform"
+    ],
+    "failed_steps": 0,
+    "run_id": 36855911202,
+    "status": "completed"
   }
 }
