@@ -108,9 +108,13 @@ export function Title({
   subtitle: string;
 }) {
   return (
-    <div className="mb-5">
-      <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">{title}</h1>
-      <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
+    <div className="ff-page-title mb-7">
+      <h1 className="text-3xl font-bold text-emerald-950 md:text-4xl">
+        {title}
+      </h1>
+      <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500">
+        {subtitle}
+      </p>
     </div>
   );
 }

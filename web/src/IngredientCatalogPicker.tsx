@@ -184,7 +184,7 @@ export function IngredientCatalogPicker({
       >
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/55" />
-          <Dialog.Content className="fixed inset-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-white shadow-2xl outline-none md:inset-auto md:left-1/2 md:top-1/2 md:h-[min(90vh,860px)] md:w-[min(94vw,1120px)] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl">
+          <Dialog.Content className="ff-catalog-dialog fixed inset-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-white shadow-2xl outline-none md:inset-auto md:left-1/2 md:top-1/2 md:h-[min(90vh,860px)] md:w-[min(94vw,1120px)] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl">
             <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 md:px-6">
               <div>
                 <Dialog.Title className="text-xl font-bold">
@@ -337,7 +337,7 @@ export function IngredientCatalogPicker({
                             aria-label={`选择${item.name}`}
                             aria-pressed={selected?.id === item.id}
                             className={
-                              "overflow-hidden rounded-xl border bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-emerald-600 " +
+                              "ff-catalog-card overflow-hidden rounded-xl border bg-white text-left shadow-sm transition hover:shadow-md focus-visible:outline-2 focus-visible:outline-emerald-600 " +
                               (selected?.id === item.id
                                 ? "border-emerald-600 ring-2 ring-emerald-200"
                                 : "border-slate-200")
@@ -348,9 +348,9 @@ export function IngredientCatalogPicker({
                               stock={stocked}
                               token={token}
                               household={household}
-                              className="h-28 w-full object-cover sm:h-32"
+                              className="aspect-[4/3] w-full object-cover"
                             />
-                            <div className="p-2.5">
+                            <div className="p-3">
                               <div className="flex items-start justify-between gap-1">
                                 <b className="text-sm">{item.name}</b>
                                 <span className="shrink-0 text-xs text-slate-500">

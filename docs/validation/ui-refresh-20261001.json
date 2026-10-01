@@ -1,0 +1,164 @@
+{
+  "paid_model_requests_by_this_task": 0,
+  "runtime": {
+    "deepseek_text_enabled": true,
+    "deepseek_vision_enabled": true,
+    "verified_bundle_served": true,
+    "website_http": 200,
+    "api_worker_db_container_identities_unchanged": true,
+    "ready_http": 200
+  },
+  "scope": "FoodFlow shared UI, today dashboard, authentication, photo picker and responsive navigation",
+  "full": {
+    "run_id": "d6e2ae7156adab6b1c0b17234e5da9ee",
+    "recorded_at": "2026-10-01T12:08:03.114859Z",
+    "checks": [
+      {
+        "passed": true,
+        "name": "architecture"
+      },
+      {
+        "passed": true,
+        "name": "knowledge"
+      },
+      {
+        "passed": true,
+        "name": "quality-map"
+      },
+      {
+        "passed": true,
+        "name": "dbgen-regression"
+      },
+      {
+        "passed": true,
+        "name": "dbgen-check"
+      },
+      {
+        "passed": true,
+        "name": "format"
+      },
+      {
+        "passed": true,
+        "name": "vet"
+      },
+      {
+        "passed": true,
+        "name": "go-tests"
+      },
+      {
+        "passed": true,
+        "name": "web-api-check"
+      },
+      {
+        "passed": true,
+        "name": "web-test"
+      },
+      {
+        "passed": true,
+        "name": "web-build"
+      },
+      {
+        "passed": true,
+        "name": "source-stable"
+      }
+    ]
+  },
+  "ci": {
+    "status": "pending"
+  },
+  "browser": {
+    "startTime": "2026-10-01T12:10:46.972Z",
+    "duration": 34474.94,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "regression": {
+    "fixed": true,
+    "numeric_household_identity_checked": true,
+    "reproduced_mobile_fixed_navigation_interception": true,
+    "bottom_navigation_bounds_checked": true,
+    "reduced_motion_checked": true
+  },
+  "limitations": [
+    "Screenshot and deterministic browser checks do not establish long-term family usability or a complete accessibility audit.",
+    "No real model, external SMS, production deployment or performance improvement claim.",
+    "Raw reports, credentials and user data are excluded from this portable record."
+  ],
+  "source_digest": "1e3ea604af298ce02588c44ed22da6106d9846461e4ba804e2bd94ce4ff63eaa",
+  "acceptance": {
+    "run_id": "36c9a6d62d0be1730110b24c5bb5a9f1",
+    "recorded_at": "2026-10-01T12:11:26.9228361Z",
+    "checks": [
+      {
+        "passed": true,
+        "name": "architecture"
+      },
+      {
+        "passed": true,
+        "name": "knowledge"
+      },
+      {
+        "passed": true,
+        "name": "quality-map"
+      },
+      {
+        "passed": true,
+        "name": "read-recovery-regression"
+      },
+      {
+        "passed": true,
+        "name": "acceptance-stack"
+      },
+      {
+        "passed": true,
+        "name": "acceptance-images"
+      },
+      {
+        "passed": true,
+        "name": "platform"
+      },
+      {
+        "passed": true,
+        "name": "kitchen-flow"
+      },
+      {
+        "passed": true,
+        "name": "gateway-recovery"
+      },
+      {
+        "passed": true,
+        "name": "browser-fixture"
+      },
+      {
+        "passed": true,
+        "name": "browser"
+      },
+      {
+        "passed": true,
+        "name": "runtime-diagnostics"
+      },
+      {
+        "passed": true,
+        "name": "source-stable"
+      }
+    ]
+  },
+  "visual": {
+    "minimum_width": 320,
+    "mobile_width": 413,
+    "fixtures_only": true,
+    "additional_static_capture_cases_passed": 4,
+    "desktop_width": 1280,
+    "viewed_pages": [
+      "login",
+      "today",
+      "inventory",
+      "menu",
+      "shopping",
+      "records",
+      "ingredient-picker"
+    ]
+  }
+}

@@ -4,6 +4,9 @@ import { PasswordRecovery } from "./AccountLifecycle";
 import { api } from "./api";
 import { useUI } from "./store";
 import { Button, Card, Field, Notice } from "./ui";
+import { CookingPot, Leaf } from "lucide-react";
+import { IngredientPhoto } from "./CatalogArt";
+import { NatureBackdrop } from "./NatureTheme";
 
 export function Auth() {
   const setToken = useUI((s) => s.setToken);
@@ -44,16 +47,60 @@ export function Auth() {
     }
   }
   return (
-    <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-amber-50 px-4 py-16">
-      <div className="mx-auto max-w-md">
-        <div className="mb-8 text-center">
-          <div className="text-5xl">🍲</div>
-          <h1 className="mt-3 text-4xl font-bold text-emerald-900">
-            FoodFlow 食光
-          </h1>
-          <p className="mt-2 text-slate-600">让家里的食材和每一餐有序流动</p>
+    <main className="foodflow-shell ff-auth">
+      <NatureBackdrop />
+      <div className="ff-auth-layout">
+        <div className="ff-auth-story">
+          <div className="mb-7 flex items-center gap-3">
+            <span className="ff-brand-mark" aria-hidden="true">
+              <CookingPot size={24} strokeWidth={1.6} />
+            </span>
+            <h1 className="text-2xl font-bold text-emerald-900">
+              食光{" "}
+              <span className="ml-1 text-sm font-normal text-slate-500">
+                FoodFlow
+              </span>
+            </h1>
+          </div>
+          <p className="text-3xl font-bold leading-snug text-emerald-950 sm:text-4xl">
+            好好吃饭，
+            <br className="hidden sm:block" />
+            少一点浪费。
+          </p>
+          <p className="mt-4 max-w-sm text-sm leading-7 text-slate-600">
+            让家里的食材和每一餐有序流动。
+            <br />
+            从冰箱里的一份新鲜，到餐桌上的一顿用心。
+          </p>
+          <div className="ff-harvest-photos" aria-hidden="true">
+            <div className="ff-harvest-circle">
+              <IngredientPhoto
+                name="西兰花"
+                category="蔬菜"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="ff-harvest-small">
+              <IngredientPhoto
+                name="番茄"
+                category="蔬菜"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <span className="ff-harvest-caption">
+              <Leaf size={14} /> 珍惜食材 · 按需备餐
+            </span>
+          </div>
+          <a
+            className="mt-5 hidden text-xs text-slate-500 underline decoration-slate-300 underline-offset-4 sm:inline-block"
+            href="/ingredient-photos/credits.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            照片来源与授权
+          </a>
         </div>
-        <Card className="p-6">
+        <Card className="ff-auth-card">
           <>
             {recover ? (
               <PasswordRecovery
@@ -70,7 +117,10 @@ export function Auth() {
                 {resetSaved && (
                   <Notice tone="success">密码已重置，请使用新密码登录。</Notice>
                 )}
-                <h2 className="mb-5 text-2xl font-bold">
+                <p className="mb-2 text-xs font-medium tracking-widest text-emerald-700">
+                  我的家庭厨房
+                </p>
+                <h2 className="mb-6 text-2xl font-bold text-emerald-950">
                   {register ? "创建账号" : "欢迎回来"}
                 </h2>
                 <form onSubmit={submit} className="space-y-4">
@@ -131,7 +181,7 @@ export function Auth() {
                 </form>
                 {!register && (
                   <button
-                    className="mt-4 w-full text-sm text-emerald-700"
+                    className="ff-auth-link mt-3 w-full text-sm text-emerald-700"
                     onClick={() => {
                       setSMS(!sms);
                       setChallenge("");
@@ -143,7 +193,7 @@ export function Auth() {
                   </button>
                 )}
                 <button
-                  className="mt-4 w-full text-sm text-emerald-700"
+                  className="ff-auth-link mt-2 w-full text-sm text-emerald-700"
                   onClick={() => {
                     setRegister(!register);
                     setSMS(false);
@@ -156,7 +206,7 @@ export function Auth() {
                 </button>
                 {!register && (
                   <button
-                    className="mt-4 w-full text-sm text-emerald-700"
+                    className="ff-auth-link mt-2 w-full text-sm text-slate-500"
                     onClick={() => {
                       setRecover(true);
                       setError("");

@@ -28,7 +28,8 @@ test("real login, stocked inventory and primary navigation", async ({
   const headers = { Authorization: `Bearer ${user.token}` };
   const created = await request.post("/api/households", {
     headers,
-    data: { name: "隔离验收厨房", servings: 2 },
+    // A numeric household name must remain a labeled identity, not a page number.
+    data: { name: "4", servings: 2 },
   });
   expect(created.ok()).toBeTruthy();
   const household = await created.json();
@@ -55,17 +56,49 @@ test("real login, stocked inventory and primary navigation", async ({
       serverFailures++;
   });
   await page.goto("/");
+  await page.screenshot({ path: info.outputPath("login.png"), fullPage: true });
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.getByLabel("手机号或邮箱", { exact: true }).fill(email);
   await page.getByLabel("密码", { exact: true }).fill(password);
   await page.getByRole("button", { name: "登录", exact: true }).click();
   await expect(page.getByRole("navigation", { name: "主导航" })).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "隔离验收厨房 · 今天" }),
+    page.getByRole("heading", { name: "今天", exact: true }),
   ).toBeVisible();
+  await expect(page.getByText("当前家庭：4", { exact: true })).toBeVisible();
+  if (info.project.name === "mobile") {
+    // A backdrop-filter on the header can trap a descendant fixed navigation.
+    const bounds = await page
+      .getByRole("navigation", { name: "主导航" })
+      .boundingBox();
+    expect(bounds).not.toBeNull();
+    const height = await page.evaluate(() => window.innerHeight);
+    expect(bounds!.y).toBeGreaterThan(height - 100);
+    expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(height + 1);
+  }
+  await expect(page.getByRole("region", { name: "厨房状态" })).toContainText(
+    "家中食材",
+  );
+  expect(
+    await page.locator("main").evaluate((el) => el.getAnimations().length),
+  ).toBe(0);
   await expect(page.getByRole("region", { name: "厨房使用指南" })).toHaveCount(
     0,
   );
   await page.screenshot({ path: info.outputPath("home.png"), fullPage: true });
+  if (info.project.name === "mobile") {
+    await page.setViewportSize({ width: 320, height: 740 });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+      "home must also fit a 320px screen",
+    ).toBeTruthy();
+    await page.screenshot({
+      path: info.outputPath("home-narrow.png"),
+      fullPage: true,
+    });
+  }
 
   const nav = page.getByRole("navigation", { name: "主导航" });
   for (const [label, heading] of [
@@ -78,6 +111,16 @@ test("real login, stocked inventory and primary navigation", async ({
     await expect(
       page.getByRole("heading", { name: heading, exact: true }).first(),
     ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+      `${label} must fit the viewport`,
+    ).toBeTruthy();
+    await page.screenshot({
+      path: info.outputPath(`${label}.png`),
+      fullPage: true,
+    });
     if (label === "食材") {
       await expect(
         page.getByText("番茄", { exact: true }).first(),
@@ -190,7 +233,7 @@ test("onboarding, continuous stock and configured capability states", async ({
   await page.getByRole("button", { name: "收起指南，查看今日待办" }).click();
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: "新厨房 · 今天" }),
+    page.getByRole("heading", { name: "今天", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "从冰箱到餐桌，今天也好好吃饭。" }),

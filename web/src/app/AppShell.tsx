@@ -2,6 +2,7 @@ import {
   Boxes,
   BarChart3,
   CalendarDays,
+  CookingPot,
   Home,
   LogOut,
   RefreshCw,
@@ -204,29 +205,26 @@ export function AppShell({ household }: { household: Household }) {
   return (
     <div className="foodflow-shell min-h-screen pb-24">
       <NatureBackdrop />
-      <header className="sticky top-0 z-20 border-b border-slate-100 bg-white/95 shadow-sm">
-        <div className="flex min-h-16 flex-wrap items-center gap-x-5 px-4 sm:px-6 xl:flex-nowrap xl:px-8">
+      <header className="ff-header sticky top-0 z-20">
+        <div className="ff-header-inner flex min-h-16 flex-wrap items-center gap-x-5 px-4 sm:px-6 xl:flex-nowrap xl:px-8">
           <button
             onClick={() => setPage("today")}
             aria-label="食光首页"
             className="group order-1 flex shrink-0 items-center gap-2 py-3 text-left focus-visible:outline-2 focus-visible:outline-emerald-600"
           >
-            <span
-              className="text-2xl transition-transform group-hover:-rotate-12"
-              aria-hidden="true"
-            >
-              🍲
+            <span className="ff-brand-mark" aria-hidden="true">
+              <CookingPot size={24} strokeWidth={1.6} />
             </span>
             <span className="text-xl font-extrabold tracking-tight text-emerald-800">
               食光
-              <span className="ml-1.5 text-xs font-medium tracking-normal text-slate-400">
+              <span className="mt-0.5 block text-[10px] font-medium tracking-[.16em] text-slate-500">
                 FoodFlow
               </span>
             </span>
           </button>
           <nav
             aria-label="主导航"
-            className="fixed inset-x-0 bottom-0 z-40 flex justify-around border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:static sm:order-3 sm:w-full sm:justify-start sm:border-0 xl:order-2 xl:w-auto xl:gap-2"
+            className="ff-nav fixed inset-x-0 bottom-0 z-40 flex justify-around border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:static sm:order-3 sm:w-full sm:justify-start sm:border-0 xl:order-2 xl:w-auto"
           >
             {nav.map(([id, label, Icon, hint]) => (
               <button
@@ -240,7 +238,7 @@ export function AppShell({ household }: { household: Household }) {
                 }
                 onClick={() => setPage(id)}
                 className={
-                  "group relative flex h-16 flex-col justify-center shrink-0 items-center gap-1 whitespace-nowrap sm:flex-row sm:gap-2 px-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-emerald-600 xl:h-16 " +
+                  "ff-nav-button group relative flex h-14 flex-col justify-center shrink-0 items-center gap-1 whitespace-nowrap sm:flex-row sm:gap-2 px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-emerald-600 " +
                   (page === id ||
                   (id === "shopping" && page === "prices") ||
                   (id === "records" && page === "insights")
@@ -249,7 +247,8 @@ export function AppShell({ household }: { household: Household }) {
                 }
               >
                 <Icon
-                  size={16}
+                  size={19}
+                  aria-hidden="true"
                   className="transition-transform group-hover:-translate-y-0.5"
                 />
                 <span className="text-left">
@@ -258,11 +257,6 @@ export function AppShell({ household }: { household: Household }) {
                     {hint}
                   </span>
                 </span>
-                {(page === id ||
-                  (id === "shopping" && page === "prices") ||
-                  (id === "records" && page === "insights")) && (
-                  <span className="absolute inset-x-2 bottom-0 h-[3px] rounded-t-full bg-emerald-600" />
-                )}
               </button>
             ))}
           </nav>
@@ -304,7 +298,10 @@ export function AppShell({ household }: { household: Household }) {
           </div>
         </div>
       </header>
-      <main className="mx-auto min-w-0 max-w-6xl px-4 py-6">
+      <main
+        key={page}
+        className="ff-main mx-auto min-w-0 max-w-6xl px-4 sm:px-6"
+      >
         {page === "today" ? (
           <>
             <div id="today-meals">

@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
+import {
+  ArrowUpRight,
+  Boxes,
+  CalendarDays,
+  ClipboardCheck,
+  Leaf,
+  ShoppingBasket,
+} from "lucide-react";
+import { IngredientPhoto } from "./CatalogArt";
 import { GettingStarted } from "./GettingStarted";
 import { TodayBoard } from "./TodayBoard";
 import { freshness } from "./BatchActions";
-import { useData, Inventory, Job, ErrorLine, Title } from "./app/shared";
+import { useData, Inventory, Job, ErrorLine } from "./app/shared";
 import { Button, Card } from "./ui";
 import { useUI } from "./store";
 
@@ -61,10 +70,118 @@ export function KitchenHome({
     shopping.data?.length === 0;
   return (
     <>
-      <Title
-        title={`${name} · 今天`}
-        subtitle="先处理需要确认的事，再看看今天吃什么"
-      />
+      <section className="ff-today-hero" aria-label="今日厨房概览">
+        <div className="ff-hero-copy">
+          <p className="ff-household-label">
+            <Leaf size={14} aria-hidden="true" />
+            <span>当前家庭：{name}</span>
+          </p>
+          <h1 className="mt-5 text-4xl font-bold text-emerald-950 sm:text-5xl">
+            今天
+          </h1>
+          <p className="mt-3 text-lg font-medium text-emerald-900 sm:text-xl">
+            把新鲜，留给这一餐。
+          </p>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            先处理需要确认的事，再看看今天吃什么。
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button onClick={() => setPage("week")}>
+              <CalendarDays size={17} aria-hidden="true" />
+              安排一顿饭
+            </Button>
+            <Button variant="outline" onClick={() => setPage("inventory")}>
+              <Boxes size={17} aria-hidden="true" />
+              看看家里有什么
+            </Button>
+          </div>
+        </div>
+        <div className="ff-harvest-photos" aria-hidden="true">
+          <div className="ff-harvest-circle">
+            <IngredientPhoto
+              name="西兰花"
+              category="蔬菜"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="ff-harvest-small">
+            <IngredientPhoto
+              name="番茄"
+              category="蔬菜"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <span className="ff-harvest-caption">
+            <Leaf size={14} /> 一餐一食，刚刚好
+          </span>
+        </div>
+        <a
+          className="ff-photo-credit"
+          href="/ingredient-photos/credits.html"
+          target="_blank"
+          rel="noreferrer"
+        >
+          照片来源与授权
+        </a>
+      </section>
+      <section className="ff-kitchen-stats" aria-label="厨房状态">
+        {[
+          {
+            title: "家中食材",
+            value:
+              inventory.error || !inventory.data
+                ? "—"
+                : inventory.data.items.filter((i) => Number(i.quantity) > 0)
+                    .length,
+            hint: "查看库存与保鲜",
+            icon: Boxes,
+            page: "inventory",
+          },
+          {
+            title: "需要处理",
+            value: jobs.error || !jobs.data ? "—" : tasks.length,
+            hint: "查看生成任务",
+            icon: ClipboardCheck,
+            page: "jobs",
+          },
+          {
+            title: "采购待办",
+            value: shopping.error || !shopping.data ? "—" : pending.length,
+            hint: "待买或待入库",
+            icon: ShoppingBasket,
+            page: "shopping",
+          },
+        ].map((stat) => (
+          <button
+            key={stat.title}
+            onClick={() => setPage(stat.page)}
+            className="ff-stat-card group"
+          >
+            <span className="ff-stat-icon">
+              <stat.icon size={20} aria-hidden="true" />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-xs font-medium text-slate-500">
+                {stat.title}
+              </span>
+              <span className="mt-1 block text-2xl font-bold tabular-nums text-emerald-950">
+                {stat.value}
+                <span className="ml-1.5 text-xs font-normal text-slate-500">
+                  {stat.title === "家中食材" ? "种" : "项"}
+                </span>
+              </span>
+              <span className="mt-1 hidden text-xs text-slate-500 sm:block">
+                {stat.hint}
+              </span>
+            </span>
+            <ArrowUpRight
+              size={16}
+              className="ml-auto hidden shrink-0 text-slate-400 sm:block"
+              aria-hidden="true"
+            />
+          </button>
+        ))}
+      </section>
       {inventory.isLoading || jobs.isLoading || shopping.isLoading ? (
         <p className="mb-4 text-sm text-slate-500">正在整理厨房待办…</p>
       ) : null}
@@ -83,7 +200,7 @@ export function KitchenHome({
           <GettingStarted household={name} />
         </div>
       )}
-      <div className="mb-4">
+      <div className="mb-4 flex justify-end">
         <Button variant="ghost" size="sm" onClick={() => setPage("help")}>
           使用帮助
         </Button>

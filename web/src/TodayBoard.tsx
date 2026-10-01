@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, idem } from "./api";
 import { Button, Card, Notice } from "./ui";
 import { KitchenPipeline } from "./KitchenPipeline";
+import { ChefHat, ArrowRight, Utensils } from "lucide-react";
 
 type Meal = {
   plan_id: string;
@@ -125,7 +126,10 @@ export function TodayBoard({
         className={showReminders ? "grid gap-4 lg:grid-cols-2" : "grid gap-4"}
       >
         <Card>
-          <h2 className="mb-3 font-semibold">今日菜单</h2>
+          <h2 className="mb-4 flex items-center gap-2 font-semibold text-emerald-950">
+            <Utensils size={18} aria-hidden="true" />
+            今日菜单
+          </h2>
           {meals.isLoading && <p className="text-sm text-slate-500">加载中…</p>}
           {meals.error && (
             <Notice tone="error">
@@ -136,17 +140,24 @@ export function TodayBoard({
             </Notice>
           )}
           {meals.data?.length === 0 && (
-            <div className="rounded-xl bg-slate-50 p-5">
-              <p className="font-medium">今天还没安排吃什么</p>
-              <p className="mt-2 text-sm text-slate-500">
-                先选一份菜单并确认，就可以在这里跟着步骤做饭。
-              </p>
-              <Button
-                className="mt-4"
-                onClick={() => useUI.getState().setPage("week")}
-              >
-                去安排今天的菜单
-              </Button>
+            <div className="ff-meal-empty">
+              <span className="ff-empty-icon" aria-hidden="true">
+                <ChefHat size={32} strokeWidth={1.4} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-lg font-semibold text-emerald-950">
+                  今天还没安排吃什么
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  先选一份菜单并确认，就可以在这里跟着步骤做饭。
+                </p>
+                <Button
+                  className="mt-4"
+                  onClick={() => useUI.getState().setPage("week")}
+                >
+                  去安排今天的菜单 <ArrowRight size={16} aria-hidden="true" />
+                </Button>
+              </div>
             </div>
           )}
           <div className="space-y-2">
