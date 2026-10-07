@@ -10,7 +10,7 @@
 | 2 | 备份恢复 | 主库与图片共同备份、脱敏清单与校验；在新空数据库和图片卷恢复并核对账号/流水/库存/图片；明确 RPO/RTO 与保管方式 | 本机及 GitHub CI 已通过；异地恢复仍待另验收 |
 | 3 | 账号找回与 AI 限额 | 邮箱账号可用的恢复渠道、单次使用/过期/防枚举/限流与会话撤销；模型调用持久化预算预占与并发限制，失败/租约恢复不自动重复收费 | 本机学习版及 GitHub CI 通过；真实账单封顶仍未验收，收费模式关闭 |
 | 4 | 家庭内测 | 获得成员同意，完成入库→规划→采购→做饭闭环和至少一周实际观察；记录使用负担、回访、失败与实际 AI 消耗，修复重现的问题 | 用户于 2026-10-07 明确要求跳过；未完成实际成员观察，UX-TRIAL 保持 open |
-| 5 | 公开发布 | 用户确定实际发布目标与费用，验证 HTTPS/主机访问/更新/恢复/监控、账号与模型成本控制；处理隐私/删除/许可与公开支持范围 | 下一阶段先做本机发布准备；目前无云服务器、域名或公开发布操作 |
+| 5 | 公开发布 | 用户确定实际发布目标与费用，验证 HTTPS/主机访问/更新/恢复/监控、账号与模型成本控制；处理隐私/删除/许可与公开支持范围 | 本机发布包与同版本重建演练完成；新 CI 进行中，公网主机/HTTPS/旧版本兼容等仍待后续验收 |
 
 每个实现阶段记录独立 harness task，执行 full 与相关 integration/acceptance/diagnose，把真实证据、失败和限制写在这里，再同步 GitHub。常规测试只使用确定性模型，不发送真实短信，不删除开发数据。现在有 ¥5/月应用预扣硬上限；它不等同于服务商实际账单硬封顶，真实计费仍需验证。
 
@@ -70,3 +70,7 @@
 - 首次 full 12/13：release-regression、生成检查、格式/vet 与前端均通过，Go 数据库集成全部因 Docker Linux engine named pipe 缺失失败；学习部署也未能连接引擎。原 task 按 infrastructure 记录 failed，没有放宽集成条件。后台启动既有 D 盘 Docker Desktop，引擎 29.8.0 恢复；r1 task 已 start，重新完整验收。
 - r1 检查实际 CLI 身份边界时重现：docker ps -q 返回 12 位、严格发布检查要求 64 位。增加 --no-trunc，不降低身份校验；真实重建演练覆盖正向路径。r1 按 product 记录 failed，r2 regression/reproduced 已 start。修正发生在 r1 full 运行中，其摘要稳定检查应拒绝旧证据；最终重新完整验证。准备包也重复检查源码摘要、Git revision 与工作区未变才写完整清单。
 - r2 独立探测重现 Git archive --output=(Join-Path ...) 在 PowerShell 原生参数模式被拆分，Git 把输出路径当成 revision。改为公共 helper 的明确数组参数，release-regression 新增真实 git archive→ZIP 安全检查往返；r2 按 product 记录 failed，r3 regression/reproduced start。运行中的旧 full 不再作为最终证据，等待其 source-stable 拒绝后重跑。
+- r1/r2 的运行中修改实际触发 source-stable 拒绝，未复用其旧摘要。最终 r3 full 13/13（`6dc6db0e2c1c98e6e87b81d2688b43ec`）、重建 acceptance 13/13（`aeadc5f1ac73ec0ef868d2b26b7aaa78`），同源码摘要 `56d5fef21fb1e11373669e05fde853225474fb2cd97edb022e6a2c7f7cf9d906`。桌面/手机 Chromium 28/28，0 失败/跳过/flaky，脱敏 diagnose 通过。
+- 已提交源码版本 `ec8a680c709456f1ac8f22f1de0b4172896e6111` 的 prepare/check 与真实 switch 演练通过：配套备份后只重建 API/Worker/Web；数据库容器和迁移历史未变，七类库存/流水/幂等/成本表指纹与照片字节一致，学习安全再次通过。r3 task 已 passed。[便携证据](../validation/learning-release-20261007.json)。交付包保留在 Git 忽略的 `.cache/learning-releases`，所有私人备份保留，最终停止 9 个 acceptance 容器，仅 4 个学习服务运行，17173 readiness 200。
+- 本轮没有购买服务、模型调用、真实短信或公开部署。演练是当前版本重新创建，不能关闭旧版业务兼容、真实成员体验、公网 HTTPS/主机/监控/隐私与异地恢复的剩余验收；保留具体限制，不把本机发布准备写成已公开上线。
+- 正常推送代码提交 `ec8a680c709456f1ac8f22f1de0b4172896e6111` 到 main；提交后 knowledge 与源码摘要一致。[CI 37602389753](https://github.com/link1ks/FoodFlow/actions/runs/37602389753) 最近读取 in_progress，conclusion 尚未产生。只追加脱敏文档快照以 `[skip ci]` 不重复触发同源码 CI。
