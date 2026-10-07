@@ -51,6 +51,8 @@ CI additionally runs race detection, sqlc generation consistency, container buil
 
 The platform job also runs isolated learning security and [paired database/photo recovery](BACKUP_RECOVERY.md) with fictional accounts. Recovery checks password login, precise stock, photo bytes, restored request replay, new writes and corrupt-artifact rejection before target creation. Only its redacted summary is uploaded; private backups/configurations and raw authenticated logs are excluded. These checks require the learning stack separately; the ordinary full harness does not imply recovery acceptance.
 
+Full Go integration additionally checks offline recovery-code rotation/expiry/credential epochs, simultaneous one-time reset, session revocation and persistent authentication limits. Paid-call fixtures use local HTTP servers: exact PostgreSQL allowance debits, shared monthly/daily/concurrency decisions, restart/old-month ambiguity, same-job fencing and pre-dispatch rejection. Browser acceptance exercises recovery-code generation and email-account reset on desktop/mobile. This proves application allowance limits, not provider invoice totals; see [learning account/AI scope](ACCOUNT_RECOVERY_AI.md).
+
 ## Agent workflow
 
 Failed or blocked task outcomes can add `-failure-category product|fixture|infrastructure|unknown`; summary reports category counts. Existing uncategorized records remain unknown. See [quality maintenance](QUALITY.md) for bounded fuzz commands and remaining business-domain debt.

@@ -84,6 +84,7 @@ func TestNutritionAdviceFlow(t *testing.T) {
 	defer model.Close()
 	t.Setenv("MODEL_ENDPOINT", model.URL)
 	t.Setenv("MODEL_API_KEY", "test")
+	t.Setenv("AI_ALLOWANCE_ENABLED", "true") // Only the local deterministic HTTP fixture.
 	t.Setenv("MODEL_NAME", "test")
 	key := core.ID()
 	code, v = h.call("POST", root+"/jobs/advice", token, key, body)

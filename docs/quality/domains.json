@@ -64,7 +64,8 @@
       "Viewer cannot write; removed/downgraded membership affects existing sessions",
       "Household switch does not display another household's inventory",
       "Verified-phone recovery/replacement and complementary-account merge require explicit proof and revoke old sessions",
-      "Only explicitly trusted gateway peers can supply authentication client identity; caller headers cannot bypass rate limits"
+      "Only explicitly trusted gateway peers can supply authentication client identity; caller headers cannot bypass rate limits",
+      "Pre-saved recovery codes require reauthentication, rotate/expire, fence credential epochs and revoke all sessions on one-time reset"
     ],
     "checks": [
       {
@@ -94,6 +95,14 @@
       {
         "path": "internal/app/proxy_test.go",
         "anchor": "func TestProxyAuthenticationBudgetsRemainSeparatedAndSpoofResistant("
+      },
+      {
+        "path": "internal/app/recovery_codes_test.go",
+        "anchor": "func TestRecoveryCodesRotateExpireConsumeAndRevokeSessions("
+      },
+      {
+        "path": "web/e2e/account.spec.ts",
+        "anchor": "saved recovery code resets an email account"
       }
     ],
     "debts": [
@@ -109,8 +118,8 @@
         "id": "AUTH-SMS-DELIVERY",
         "priority": "P2",
         "status": "open",
-        "description": "Real SMS delivery and email-only self-service recovery remain unverified/unavailable",
-        "completion": "Obtain provider authorization, verify delivery on approved numbers and implement a reviewed recovery channel for email-only accounts"
+        "description": "Real SMS delivery and email ownership verification remain unverified; email accounts now have pre-saved offline recovery codes",
+        "completion": "Obtain provider authorization and verify delivery on approved numbers; separately verify mail ownership/recovery delivery if adding email recovery"
       }
     ]
   },
@@ -190,7 +199,9 @@
       "Structured outputs reject unknown fields and concatenated objects",
       "Cancelled/expired workers cannot persist results",
       "Image suggestions require explicit user confirmation",
-      "Default verification uses deterministic fixtures"
+      "Default verification uses deterministic fixtures",
+      "Paid requests require explicit enablement and durable exact allowances before dispatch, with shared monthly/daily/concurrency caps",
+      "Same paid job is never redispatched; uncertain calls keep full debit and concurrency across restart/month rollover"
     ],
     "checks": [
       {
@@ -208,6 +219,14 @@
       {
         "path": "tests/worker-recovery.ps1",
         "anchor": "Job not durably queued while worker is down"
+      },
+      {
+        "path": "internal/app/ai_allowance_test.go",
+        "anchor": "func TestAIAllowanceSerializesDebitsAndRetainsAmbiguousCalls("
+      },
+      {
+        "path": "internal/agent/guard_test.go",
+        "anchor": "func TestCallGuardBlocksNetworkAndRedirectsCannotRepeatPaidRequests("
       }
     ],
     "debts": [
@@ -217,6 +236,13 @@
         "status": "open",
         "description": "Real photo accuracy and menu usefulness have no representative evaluation",
         "completion": "Authorize model budget separately; version dataset/model and report correctness, acceptance, latency and cost"
+      },
+      {
+        "id": "AI-INVOICE",
+        "priority": "P1",
+        "status": "open",
+        "description": "Policy debits cap application allowances, not provider bills; real text/vision tariffs, usage reconciliation and price-change response remain unverified",
+        "completion": "Validate maximum billable request cost against selected provider/model/token/image constraints and live prices; reconcile authorized real-call usage before claiming a money ceiling"
       }
     ]
   },

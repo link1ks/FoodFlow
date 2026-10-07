@@ -8,6 +8,12 @@ servers:
 security:
   - bearerAuth: []
 components:
+  responses:
+    RecoveryAllowanceError:
+      description: 请求、身份、限流或服务失败；具体 error 说明原因
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/Error'}
   securitySchemes:
     bearerAuth:
       type: http
@@ -1419,6 +1425,109 @@ components:
                 type: integer
                 minimum: 0
 paths:
+  /me/recovery-codes:
+    get:
+      summary: 当前账号的有效恢复码数量，不返回已有明文
+      responses:
+        '200':
+          description: 恢复码状态
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [remaining, expires_at]
+                properties:
+                  remaining: {type: integer, minimum: 0}
+                  expires_at: {type: string, format: date-time, nullable: true}
+        '401': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '503': {$ref: '#/components/responses/RecoveryAllowanceError'}
+    post:
+      summary: 当前密码再验证后生成五个180天有效恢复码，旧码全部失效
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password, confirm]
+              properties:
+                password: {type: string, minLength: 8, maxLength: 72}
+                confirm: {type: boolean, enum: [true]}
+      responses:
+        '200':
+          description: 只显示一次，数据库仅保存哈希
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [codes, expires_at]
+                properties:
+                  codes: {type: array, minItems: 5, maxItems: 5, items: {type: string}}
+                  expires_at: {type: string, format: date-time}
+        '400':
+          description: 密码或确认不正确
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Error'}
+        '401': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '429': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '503': {$ref: '#/components/responses/RecoveryAllowanceError'}
+  /auth/recovery/reset:
+    post:
+      security: []
+      summary: 账号与预先保存的恢复码重置密码，撤销所有会话及剩余恢复码
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [account, code, password, confirm]
+              properties:
+                account: {type: string}
+                code: {type: string}
+                password: {type: string, minLength: 8, maxLength: 72}
+                confirm: {type: boolean, enum: [true]}
+      responses:
+        '204': {description: 重置成功，所有设备需重新登录}
+        '400':
+          description: 统一失败信息，不区分账号存在、错误码与过期码
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Error'}
+        '429':
+          description: 持久化来源尝试预算达到上限
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Error'}
+        '503': {$ref: '#/components/responses/RecoveryAllowanceError'}
+  /households/{household}/ai-allowance:
+    parameters:
+      - {$ref: '#/components/parameters/household'}
+    get:
+      summary: 家庭及服务共同的收费调用预扣额度，不代表服务商实际账单
+      responses:
+        '200':
+          description: 北京时间月/日窗口及跨月保留的待核查并发
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [enabled, monthly_limit, household_reserved, service_reserved, text_call_allowance, image_call_allowance, daily_calls, daily_limit, active_or_uncertain, concurrent_limit]
+                properties:
+                  enabled: {type: boolean}
+                  monthly_limit: {type: string}
+                  household_reserved: {type: string}
+                  service_reserved: {type: string}
+                  text_call_allowance: {type: string}
+                  image_call_allowance: {type: string}
+                  daily_calls: {type: integer}
+                  daily_limit: {type: integer}
+                  active_or_uncertain: {type: integer}
+                  concurrent_limit: {type: integer}
+        '401': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '404': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '503': {$ref: '#/components/responses/RecoveryAllowanceError'}
   /auth/capabilities:
     get:
       security: []

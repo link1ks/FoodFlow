@@ -11,6 +11,8 @@ import {
 import { useEffect, useState } from "react";
 import { version } from "../../package.json";
 import { AccountMerge, PhoneBinding } from "../AccountLifecycle";
+import { RecoveryCodes } from "../RecoveryCodes";
+import { AIAllowance } from "../AIAllowance";
 import { Avatar } from "../Avatar";
 import { NatureBackdrop } from "../NatureTheme";
 import { api } from "../api";
@@ -357,6 +359,8 @@ export function AppShell({ household }: { household: Household }) {
             </div>
             <p className="mb-4 text-xs text-slate-500">FoodFlow v{version}</p>
             <ProfileSettings />
+            <RecoveryCodes token={token} />
+            <AIAllowance token={token} house={household.id} />
             <PhoneBinding token={token} />
             <AccountMerge token={token} />
             <div className="mt-5">

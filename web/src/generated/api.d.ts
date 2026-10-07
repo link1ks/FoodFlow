@@ -4,6 +4,209 @@
  */
 
 export interface paths {
+    "/me/recovery-codes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 当前账号的有效恢复码数量，不返回已有明文 */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 恢复码状态 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            remaining: number;
+                            /** Format: date-time */
+                            expires_at: string | null;
+                        };
+                    };
+                };
+                401: components["responses"]["RecoveryAllowanceError"];
+                503: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        put?: never;
+        /** 当前密码再验证后生成五个180天有效恢复码，旧码全部失效 */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        password: string;
+                        /** @enum {boolean} */
+                        confirm: true;
+                    };
+                };
+            };
+            responses: {
+                /** @description 只显示一次，数据库仅保存哈希 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            codes: string[];
+                            /** Format: date-time */
+                            expires_at: string;
+                        };
+                    };
+                };
+                /** @description 密码或确认不正确 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                401: components["responses"]["RecoveryAllowanceError"];
+                429: components["responses"]["RecoveryAllowanceError"];
+                503: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/recovery/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 账号与预先保存的恢复码重置密码，撤销所有会话及剩余恢复码 */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        account: string;
+                        code: string;
+                        password: string;
+                        /** @enum {boolean} */
+                        confirm: true;
+                    };
+                };
+            };
+            responses: {
+                /** @description 重置成功，所有设备需重新登录 */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 统一失败信息，不区分账号存在、错误码与过期码 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                /** @description 持久化来源尝试预算达到上限 */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                503: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/households/{household}/ai-allowance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                household: components["parameters"]["household"];
+            };
+            cookie?: never;
+        };
+        /** 家庭及服务共同的收费调用预扣额度，不代表服务商实际账单 */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    household: components["parameters"]["household"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 北京时间月/日窗口及跨月保留的待核查并发 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            enabled: boolean;
+                            monthly_limit: string;
+                            household_reserved: string;
+                            service_reserved: string;
+                            text_call_allowance: string;
+                            image_call_allowance: string;
+                            daily_calls: number;
+                            daily_limit: number;
+                            active_or_uncertain: number;
+                            concurrent_limit: number;
+                        };
+                    };
+                };
+                401: components["responses"]["RecoveryAllowanceError"];
+                404: components["responses"]["RecoveryAllowanceError"];
+                503: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/capabilities": {
         parameters: {
             query?: never;
@@ -11934,7 +12137,17 @@ export interface components {
             }[];
         };
     };
-    responses: never;
+    responses: {
+        /** @description 请求、身份、限流或服务失败；具体 error 说明原因 */
+        RecoveryAllowanceError: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["Error"];
+            };
+        };
+    };
     parameters: {
         household: string;
         plan: string;

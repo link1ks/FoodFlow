@@ -35,6 +35,7 @@ func TestImageRecognitionConfirmation(t *testing.T) {
 	defer model.Close()
 	t.Setenv("MODEL_ENDPOINT", model.URL)
 	t.Setenv("MODEL_API_KEY", "test-key")
+	t.Setenv("AI_ALLOWANCE_ENABLED", "true") // Only the local deterministic HTTP fixture.
 	t.Setenv("VISION_MODEL_NAME", "test-vision")
 	imageDir := t.TempDir()
 	t.Setenv("IMAGE_STORAGE_DIR", imageDir)

@@ -15,6 +15,21 @@ type AccountMerge struct {
 	MergedAt pgtype.Timestamptz
 }
 
+type AiAllowanceLock struct {
+	ID bool
+}
+
+type AiCallAllowance struct {
+	JobID        pgtype.UUID
+	HouseholdID  pgtype.UUID
+	Kind         string
+	Month        pgtype.Date
+	CeilingMilli int64
+	State        string
+	CreatedAt    pgtype.Timestamptz
+	FinishedAt   pgtype.Timestamptz
+}
+
 type AuthRateLimit struct {
 	IpHash      string
 	WindowStart pgtype.Timestamptz
@@ -349,6 +364,14 @@ type RecipeStep struct {
 	Equipment        string
 	IsParallelizable bool
 	Source           string
+}
+
+type RecoveryCode struct {
+	UserID      pgtype.UUID
+	CodeHash    string
+	AuthVersion int64
+	ExpiresAt   pgtype.Timestamptz
+	CreatedAt   pgtype.Timestamptz
 }
 
 type Reminder struct {

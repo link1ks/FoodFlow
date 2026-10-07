@@ -1,0 +1,221 @@
+{
+  "source_digest": "62c0cefee0e8a72a060f7359f64befc3aa355f9ce8943240f97342b11fe7987e",
+  "cleanup": {
+    "files": {
+      "locked_files_retained": 0,
+      "bytes_removed": 17948585,
+      "scope": "FoodFlow regenerable cache only",
+      "preserved": [
+        "all backup directories/files",
+        "database/image volumes",
+        "generated private credentials",
+        "harness runs and task evidence",
+        "package/browser dependencies"
+      ],
+      "files_removed": 49
+    },
+    "database_image_volumes_preserved": true,
+    "cache_after_cleanup": "8.841GB",
+    "acceptance_containers_stopped_after_validation": true,
+    "docker_cache_reclaimed": "6.439GB",
+    "age_filter": "unused for 24h",
+    "cache_before": "15.28GB",
+    "cache_after_final_build": "11.01GB",
+    "net_cache_reduction": "approximately 4.27GB",
+    "final_learning_services": 4
+  },
+  "prior_cloud": {
+    "jobs": "backend/frontend/images/platform completed/success",
+    "run_id": 37569143684,
+    "revision": "016f726e64a7b1824f1d549ba26e4910d1d41e3d",
+    "conclusion": "success"
+  },
+  "full": {
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 2
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "quality-map",
+        "passed": true,
+        "duration_ms": 1
+      },
+      {
+        "name": "dbgen-regression",
+        "passed": true,
+        "duration_ms": 558
+      },
+      {
+        "name": "dbgen-check",
+        "passed": true,
+        "duration_ms": 13688
+      },
+      {
+        "name": "format",
+        "passed": true,
+        "duration_ms": 25
+      },
+      {
+        "name": "vet",
+        "passed": true,
+        "duration_ms": 1006
+      },
+      {
+        "name": "go-tests",
+        "passed": true,
+        "duration_ms": 140796
+      },
+      {
+        "name": "web-api-check",
+        "passed": true,
+        "duration_ms": 745
+      },
+      {
+        "name": "web-test",
+        "passed": true,
+        "duration_ms": 1247
+      },
+      {
+        "name": "web-build",
+        "passed": true,
+        "duration_ms": 3845
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 15
+      }
+    ],
+    "run_id": "cacc12b524d992c744c64360793e4a3c"
+  },
+  "scope": "local learning account recovery and AI policy allowance; scoped cache cleanup",
+  "recovery_after_migration": {
+    "checks": [
+      "readiness",
+      "old token rejection",
+      "restored password login",
+      "300g inventory",
+      "photo SHA256",
+      "pre-backup idempotency replay",
+      "anonymous access rejected",
+      "fresh stock write after restore",
+      "original token/stock/photo preserved",
+      "corrupt artifact rejected before target creation",
+      "repeated private directory permissions",
+      "absent credential environment restored"
+    ],
+    "image_files": 6,
+    "recorded_at": "2026-10-07T04:24:05.0152171Z",
+    "passed": true,
+    "tables": 48,
+    "limitations": [
+      "fictional accounts; no real model or SMS",
+      "same host with cached images; not offsite disaster recovery",
+      "source fixture and stopped restore targets retained"
+    ],
+    "restore_seconds": 10.303,
+    "writer_pause_seconds": 5.282
+  },
+  "acceptance": {
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 2
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "quality-map",
+        "passed": true,
+        "duration_ms": 1
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true,
+        "duration_ms": 591
+      },
+      {
+        "name": "acceptance-stack",
+        "passed": true,
+        "duration_ms": 80628
+      },
+      {
+        "name": "acceptance-images",
+        "passed": true,
+        "duration_ms": 886
+      },
+      {
+        "name": "platform",
+        "passed": true,
+        "duration_ms": 42873
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true,
+        "duration_ms": 2064
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true,
+        "duration_ms": 8227
+      },
+      {
+        "name": "browser-fixture",
+        "passed": true,
+        "duration_ms": 1130
+      },
+      {
+        "name": "browser",
+        "passed": true,
+        "duration_ms": 49762
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true,
+        "duration_ms": 4690
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 18
+      }
+    ],
+    "run_id": "6bcb725dbd616a58c39debe5aeb6c205"
+  },
+  "recorded_at": "2026-10-07T04:26:45.5374195Z",
+  "browser": {
+    "startTime": "2026-10-07T04:22:25.962Z",
+    "duration": 49120.218,
+    "expected": 26,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "current_cloud": {
+    "status": "pending push"
+  },
+  "limitations": [
+    "pre-saved offline codes required; no mail ownership or real SMS delivery",
+    "policy allowance debit ceiling, not provider invoice ceiling; no actual model requests",
+    "manual acknowledgement needed for ambiguous model outcome; no automatic refund",
+    "scoped project caches only; no Windows RAM purge or virtual disk compaction",
+    "real household trial still pending"
+  ],
+  "tasks": {
+    "first": "learning-account-ai-20261007: failed/product (undefined AppShell house variable)",
+    "retry": "learning-account-ai-r1-20261007: passed"
+  },
+  "verification_revision": "64ee90ffac8dbaf33d270f6cf451e87fd5414292",
+  "worktree_dirty": true
+}

@@ -179,9 +179,9 @@ func (a *App) runAdvice(ctx context.Context, j claimed) error {
 		result.RecipeIDs = append(result.RecipeIDs, recipes[0].ID)
 	}
 	mode := "demo"
-	if os.Getenv("MODEL_ENDPOINT") != "" && os.Getenv("MODEL_NAME") != "" && os.Getenv("MODEL_API_KEY") != "" {
+	if os.Getenv("MODEL_ENDPOINT") != "" && os.Getenv("MODEL_NAME") != "" && os.Getenv("MODEL_API_KEY") != "" && paidAIEnabled() {
 		mode = "model"
-		model := agent.OpenAIModel{Endpoint: os.Getenv("MODEL_ENDPOINT"), Name: os.Getenv("MODEL_NAME"), Key: os.Getenv("MODEL_API_KEY"), MaxTokens: 1600}
+		model := agent.OpenAIModel{Endpoint: os.Getenv("MODEL_ENDPOINT"), Name: os.Getenv("MODEL_NAME"), Key: os.Getenv("MODEL_API_KEY"), MaxTokens: 1600, Guard: a.allowanceGuard(j, "text")}
 		prompt := core.JSON(gin.H{"goal": req.Goal, "servings": req.Servings, "household_preferences": pref, "excluded_ingredients": excluded, "selected_inventory": stock, "allowed_recipes": recipes})
 		if len(prompt) > 48000 {
 			return fmt.Errorf("建议上下文超出调用预算，请减少所选食材或偏好长度")

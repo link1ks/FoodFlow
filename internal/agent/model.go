@@ -32,6 +32,20 @@ type OpenAIModel struct {
 	Endpoint, Name, Key string
 	Client              *http.Client
 	MaxTokens           int
+	Guard               CallGuard
+}
+
+// The application provides a durable allowance guard; adapters never own DB access.
+// knownComplete=false retains an uncertain debit/slot after network ambiguity.
+type CallGuard func(context.Context, int) (func(bool), error)
+
+func noRedirectClient(client *http.Client) *http.Client {
+	if client == nil {
+		client = &http.Client{Timeout: 25 * time.Second}
+	}
+	copy := *client
+	copy.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
+	return &copy
 }
 
 var _ model.BaseChatModel = OpenAIModel{}
@@ -53,16 +67,22 @@ func (m OpenAIModel) Generate(ctx context.Context, messages []*schema.Message, _
 	}
 	req.Header.Set("Authorization", "Bearer "+m.Key)
 	req.Header.Set("Content-Type", "application/json")
-	client := m.Client
-	if client == nil {
-		client = &http.Client{Timeout: 25 * time.Second}
+	knownComplete := false
+	if m.Guard != nil {
+		finish, err := m.Guard(ctx, len(body))
+		if err != nil {
+			return nil, err
+		}
+		defer func() { finish(knownComplete) }()
 	}
+	client := noRedirectClient(m.Client)
 	resp, e := client.Do(req)
 	if e != nil {
 		return nil, e
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
+		knownComplete = true
 		return nil, fmt.Errorf("model status %d", resp.StatusCode)
 	}
 	raw, e := io.ReadAll(io.LimitReader(resp.Body, 65537))
@@ -72,6 +92,7 @@ func (m OpenAIModel) Generate(ctx context.Context, messages []*schema.Message, _
 	if len(raw) > 65536 {
 		return nil, errors.New("model response too large")
 	}
+	knownComplete = true
 	var envelope struct {
 		Choices []struct {
 			Message schema.Message `json:"message"`

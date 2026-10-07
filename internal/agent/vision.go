@@ -10,7 +10,6 @@ import (
 	"io"
 	"net/http"
 	"strings"
-	"time"
 )
 
 // ImageSuggestion is deliberately limited to fields a model can plausibly see.
@@ -23,6 +22,7 @@ type ImageSuggestion struct {
 type VisionModel struct {
 	Endpoint, Name, Key string
 	Client              *http.Client
+	Guard               CallGuard
 }
 
 func ParseImageSuggestion(content string) (ImageSuggestion, error) {
@@ -70,22 +70,29 @@ func (m VisionModel) Recognize(ctx context.Context, data []byte, mime string) (I
 	}
 	req.Header.Set("Authorization", "Bearer "+m.Key)
 	req.Header.Set("Content-Type", "application/json")
-	client := m.Client
-	if client == nil {
-		client = &http.Client{Timeout: 25 * time.Second}
+	knownComplete := false
+	if m.Guard != nil {
+		finish, err := m.Guard(ctx, len(body))
+		if err != nil {
+			return ImageSuggestion{}, err
+		}
+		defer func() { finish(knownComplete) }()
 	}
+	client := noRedirectClient(m.Client)
 	resp, e := client.Do(req)
 	if e != nil {
 		return ImageSuggestion{}, e
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
+		knownComplete = true
 		return ImageSuggestion{}, fmt.Errorf("vision model status %d", resp.StatusCode)
 	}
 	raw, e := io.ReadAll(io.LimitReader(resp.Body, 65537))
 	if e != nil || len(raw) > 65536 {
 		return ImageSuggestion{}, errors.New("vision model response too large")
 	}
+	knownComplete = true
 	var envelope struct {
 		Choices []struct {
 			Message struct {

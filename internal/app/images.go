@@ -40,7 +40,7 @@ func imageStore() (storage.Store, error) {
 }
 
 func visionConfigured() bool {
-	return agent.VisionFromEnv().Configured()
+	return agent.VisionFromEnv().Configured() && paidAIEnabled()
 }
 
 func readUploadedImage(c *gin.Context) ([]byte, string, string, error) {
@@ -246,7 +246,9 @@ func (a *App) recognizeImage(ctx context.Context, j claimed) error {
 		return errors.New("stored image is invalid")
 	}
 	_, _ = a.DB.Exec(ctx, "INSERT INTO job_events(job_id,event,detail) VALUES($1,'tools_read',$2)", j.ID, core.JSON(gin.H{"tools": []string{"image_storage_read"}}))
-	suggestion, e := agent.VisionFromEnv().Recognize(ctx, data, payload.MIME)
+	model := agent.VisionFromEnv()
+	model.Guard = a.allowanceGuard(j, "image")
+	suggestion, e := model.Recognize(ctx, data, payload.MIME)
 	if e != nil {
 		return e
 	}

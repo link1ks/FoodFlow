@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "./api";
 import { useUI } from "./store";
 import { SMSCode } from "./SMSCode";
+import { CodePasswordRecovery } from "./RecoveryCodes";
 import { Button, Card, Field, Notice } from "./ui";
 
 import type { components } from "./generated/api";
@@ -48,6 +49,7 @@ export function PasswordRecovery({
   onBack: () => void;
   onSaved: () => void;
 }) {
+  const [method, setMethod] = useState<"code" | "sms">("code");
   const [phone, setPhone] = useState(""),
     [password, setPassword] = useState(""),
     [code, setCode] = useState(""),
@@ -77,49 +79,69 @@ export function PasswordRecovery({
   return (
     <>
       <h2 className="mb-5 text-2xl font-bold">找回密码</h2>
-      <form className="space-y-4" onSubmit={submit}>
-        <p className="text-sm text-slate-600">
-          使用账号已验证的手机号找回。仅有邮箱的账号暂不支持自助找回。
-        </p>
-        <Field
-          label="已验证手机号"
-          type="tel"
-          required
-          value={phone}
-          onChange={(e) => {
-            setPhone(e.target.value);
-            setCode("");
-            setChallenge("");
-          }}
-        />
-        <Field
-          label="新密码"
-          type="password"
-          minLength={8}
-          autoComplete="new-password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <SMSCode
-          key={phone}
-          phone={phone}
-          purpose="reset"
-          code={code}
-          onCode={setCode}
-          onChallenge={setChallenge}
-        />
-        <Confirm checked={confirm} onChange={setConfirm}>
-          确认重置密码，所有设备需重新登录。
-        </Confirm>
-        {error && <Notice tone="error">{error}</Notice>}
-        <Button className="w-full" disabled={busy || !challenge || !confirm}>
-          {busy ? "重置中…" : "确认重置密码"}
+      <div className="mb-4 flex gap-2">
+        <Button
+          type="button"
+          variant={method === "code" ? "default" : "outline"}
+          onClick={() => setMethod("code")}
+        >
+          使用恢复码
         </Button>
-        <Button type="button" variant="ghost" onClick={onBack}>
-          返回登录
+        <Button
+          type="button"
+          variant={method === "sms" ? "default" : "outline"}
+          onClick={() => setMethod("sms")}
+        >
+          使用手机号短信
         </Button>
-      </form>
+      </div>
+      {method === "code" ? (
+        <CodePasswordRecovery onBack={onBack} onSaved={onSaved} />
+      ) : (
+        <form className="space-y-4" onSubmit={submit}>
+          <p className="text-sm text-slate-600">
+            使用账号已验证的手机号找回；邮箱账号可切换为预先保存的恢复码。
+          </p>
+          <Field
+            label="已验证手机号"
+            type="tel"
+            required
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              setCode("");
+              setChallenge("");
+            }}
+          />
+          <Field
+            label="新密码"
+            type="password"
+            minLength={8}
+            autoComplete="new-password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <SMSCode
+            key={phone}
+            phone={phone}
+            purpose="reset"
+            code={code}
+            onCode={setCode}
+            onChallenge={setChallenge}
+          />
+          <Confirm checked={confirm} onChange={setConfirm}>
+            确认重置密码，所有设备需重新登录。
+          </Confirm>
+          {error && <Notice tone="error">{error}</Notice>}
+          <Button className="w-full" disabled={busy || !challenge || !confirm}>
+            {busy ? "重置中…" : "确认重置密码"}
+          </Button>
+          <Button type="button" variant="ghost" onClick={onBack}>
+            返回登录
+          </Button>
+        </form>
+      )}
     </>
   );
 }
