@@ -2,7 +2,7 @@ import { NutritionDetails } from "./Nutrition";
 import { useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Search, X } from "lucide-react";
+import { ArrowLeft, Check, Leaf, Search, X } from "lucide-react";
 import { api, idem } from "./api";
 import {
   CatalogPicture,
@@ -153,7 +153,10 @@ export function IngredientCatalogPicker({
     }
   }
   return (
-    <Card>
+    <Card className="ff-catalog-launch">
+      <span className="ff-catalog-launch-icon">
+        <Leaf size={22} aria-hidden="true" />
+      </span>
       <h2 className="font-semibold">选食材，记入冰箱</h2>
       <p className="mt-1 text-sm text-slate-500">
         按图片选食材，确认数量即可入库，日期可稍后补充。
@@ -183,15 +186,15 @@ export function IngredientCatalogPicker({
         }}
       >
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/55" />
+          <Dialog.Overlay className="ff-catalog-overlay fixed inset-0 z-40 bg-slate-950/55" />
           <Dialog.Content className="ff-catalog-dialog fixed inset-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-white shadow-2xl outline-none md:inset-auto md:left-1/2 md:top-1/2 md:h-[min(90vh,860px)] md:w-[min(94vw,1120px)] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 md:px-6">
+            <div className="ff-catalog-heading flex items-center justify-between border-b border-slate-200 px-4 py-3 md:px-6">
               <div>
                 <Dialog.Title className="text-xl font-bold">
                   选择食材
                 </Dialog.Title>
                 <Dialog.Description className="text-xs text-slate-500">
-                  浏览食材实拍参考照片、分类和默认单位；家庭已上传的照片优先显示。
+                  把新鲜带回家 · 选好食材，再确认入库数量。
                 </Dialog.Description>
               </div>
               <Dialog.Close asChild>
@@ -219,7 +222,7 @@ export function IngredientCatalogPicker({
                   (showDetail ? "hidden md:flex" : "")
                 }
               >
-                <div className="space-y-3 border-b border-slate-100 p-4 md:px-6">
+                <div className="ff-catalog-filters space-y-3 border-b border-slate-100 p-4 md:px-6">
                   <label className="relative block">
                     <Search
                       size={18}
@@ -242,6 +245,7 @@ export function IngredientCatalogPicker({
                     <button
                       type="button"
                       onClick={() => setCategory("")}
+                      aria-pressed={!category}
                       className={
                         "shrink-0 rounded-full px-3 py-1.5 text-sm " +
                         (!category
@@ -255,6 +259,7 @@ export function IngredientCatalogPicker({
                       <button
                         type="button"
                         key={value}
+                        aria-pressed={category === value}
                         onClick={() => setCategory(value)}
                         className={
                           "shrink-0 rounded-full px-3 py-1.5 text-sm " +
@@ -292,7 +297,7 @@ export function IngredientCatalogPicker({
                     </label>
                   </div>
                 </div>
-                <div className="min-h-0 flex-1 overflow-y-auto p-4 md:px-6">
+                <div className="ff-catalog-results min-h-0 flex-1 overflow-y-auto p-4 md:px-6">
                   <p className="mb-3 text-xs text-slate-500">
                     显示 {matches.length} / {catalog.data?.length || 0} 种食材 ·
                     实拍参考照片，可为家庭食材上传自己的照片 ·{" "}
@@ -343,13 +348,25 @@ export function IngredientCatalogPicker({
                                 : "border-slate-200")
                             }
                           >
-                            <CatalogPicture
-                              item={item}
-                              stock={stocked}
-                              token={token}
-                              household={household}
-                              className="aspect-[4/3] w-full object-cover"
-                            />
+                            <div className="relative overflow-hidden">
+                              <CatalogPicture
+                                item={item}
+                                stock={stocked}
+                                token={token}
+                                household={household}
+                                className="aspect-[4/3] w-full object-cover"
+                              />
+                              {selected?.id === item.id && (
+                                <span className="ff-catalog-selected-mark">
+                                  <Check size={16} aria-hidden="true" />
+                                </span>
+                              )}
+                              {stocked && Number(stocked.quantity) > 0 && (
+                                <span className="ff-catalog-stock-badge">
+                                  家中有库存
+                                </span>
+                              )}
+                            </div>
                             <div className="p-3">
                               <div className="flex items-start justify-between gap-1">
                                 <b className="text-sm">{item.name}</b>
@@ -381,7 +398,7 @@ export function IngredientCatalogPicker({
               </div>
               <div
                 className={
-                  "min-h-0 overflow-y-auto border-l border-slate-200 bg-slate-50 p-4 md:w-80 md:shrink-0 md:p-5 " +
+                  "ff-catalog-detail min-h-0 overflow-y-auto border-l border-slate-200 bg-slate-50 p-4 md:w-80 md:shrink-0 md:p-5 " +
                   (showDetail ? "block" : "hidden md:block")
                 }
               >

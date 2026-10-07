@@ -1,0 +1,157 @@
+{
+  "recorded_at": "2026-10-07T04:59:21.1560876Z",
+  "scope": "inventory UI and shared background; family trial skipped at user request",
+  "verification_revision": "901d8fb9b6397ae8f3b66f184dafc8d4658669a2",
+  "source_digest": "e602bac6505a2bcc8e2b92493dccca7b96f8cfb5edb19508055543d9f8e305c2",
+  "full_run": "361385321413ebbf8d87a2fada6d220d",
+  "full_checks": [
+    {
+      "name": "architecture",
+      "passed": true,
+      "duration_ms": 2
+    },
+    {
+      "name": "knowledge",
+      "passed": true,
+      "duration_ms": 4
+    },
+    {
+      "name": "quality-map",
+      "passed": true,
+      "duration_ms": 1
+    },
+    {
+      "name": "dbgen-regression",
+      "passed": true,
+      "duration_ms": 579
+    },
+    {
+      "name": "dbgen-check",
+      "passed": true,
+      "duration_ms": 7798
+    },
+    {
+      "name": "format",
+      "passed": true,
+      "duration_ms": 134
+    },
+    {
+      "name": "vet",
+      "passed": true,
+      "duration_ms": 5620
+    },
+    {
+      "name": "go-tests",
+      "passed": true,
+      "duration_ms": 136992
+    },
+    {
+      "name": "web-api-check",
+      "passed": true,
+      "duration_ms": 829
+    },
+    {
+      "name": "web-test",
+      "passed": true,
+      "duration_ms": 1252
+    },
+    {
+      "name": "web-build",
+      "passed": true,
+      "duration_ms": 4000
+    },
+    {
+      "name": "source-stable",
+      "passed": true,
+      "duration_ms": 24
+    }
+  ],
+  "acceptance_run": "30558fb37142a2c95f975c9a67ffe182",
+  "acceptance_checks": [
+    {
+      "name": "architecture",
+      "passed": true,
+      "duration_ms": 2
+    },
+    {
+      "name": "knowledge",
+      "passed": true,
+      "duration_ms": 4
+    },
+    {
+      "name": "quality-map",
+      "passed": true,
+      "duration_ms": 2
+    },
+    {
+      "name": "read-recovery-regression",
+      "passed": true,
+      "duration_ms": 591
+    },
+    {
+      "name": "acceptance-stack",
+      "passed": true,
+      "duration_ms": 58578
+    },
+    {
+      "name": "acceptance-images",
+      "passed": true,
+      "duration_ms": 879
+    },
+    {
+      "name": "platform",
+      "passed": true,
+      "duration_ms": 42064
+    },
+    {
+      "name": "kitchen-flow",
+      "passed": true,
+      "duration_ms": 2909
+    },
+    {
+      "name": "gateway-recovery",
+      "passed": true,
+      "duration_ms": 8348
+    },
+    {
+      "name": "browser-fixture",
+      "passed": true,
+      "duration_ms": 1128
+    },
+    {
+      "name": "browser",
+      "passed": true,
+      "duration_ms": 48051
+    },
+    {
+      "name": "runtime-diagnostics",
+      "passed": true,
+      "duration_ms": 4788
+    },
+    {
+      "name": "source-stable",
+      "passed": true,
+      "duration_ms": 17
+    }
+  ],
+  "browser": {
+    "startTime": "2026-10-07T04:57:51.74Z",
+    "duration": 47310.661,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "task": "inventory-ui-20261007: passed",
+  "learning_security": "passed on updated 17173",
+  "photos": "existing licensed references, family upload priority and failure fallback",
+  "paid_calls": 0,
+  "family_trial": "skipped by user; UX-TRIAL remains open",
+  "limitations": [
+    "fictional isolated browser accounts, no real household observation",
+    "local learning deployment; no public hosting or provider invoicing validation"
+  ],
+  "cloud": {
+    "status": "pending push"
+  }
+}

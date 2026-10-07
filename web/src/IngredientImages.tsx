@@ -100,8 +100,8 @@ export function IngredientImageManager({
     }
   }
   return (
-    <div className="w-24 shrink-0">
-      <div className="relative h-24 w-24 overflow-hidden rounded-xl bg-emerald-50">
+    <div className="ff-stock-image shrink-0">
+      <div className="ff-stock-image-frame relative overflow-hidden rounded-xl bg-emerald-50">
         <IngredientPhoto
           name={name}
           category={category}
