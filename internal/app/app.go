@@ -65,7 +65,7 @@ func hid(c *gin.Context) string { return c.Param("household") }
 func (a *App) Router() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
-	_ = r.SetTrustedProxies(nil)
+	configureTrustedProxies(r, os.Getenv("TRUSTED_PROXIES"))
 	r.Use(gin.Recovery())
 	r.Use(func(c *gin.Context) {
 		start := time.Now()

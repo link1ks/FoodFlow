@@ -49,12 +49,13 @@
   {
     "id": "permissions",
     "owner": "internal/app",
-    "reviewed": "2026-10-01",
+    "reviewed": "2026-10-07",
     "acceptance": [
       "Every household operation checks current server-side membership",
       "Viewer cannot write; removed/downgraded membership affects existing sessions",
       "Household switch does not display another household's inventory",
-      "Verified-phone recovery/replacement and complementary-account merge require explicit proof and revoke old sessions"
+      "Verified-phone recovery/replacement and complementary-account merge require explicit proof and revoke old sessions",
+      "Only explicitly trusted gateway peers can supply authentication client identity; caller headers cannot bypass rate limits"
     ],
     "checks": [
       {
@@ -80,6 +81,10 @@
       {
         "path": "web/e2e/account.spec.ts",
         "anchor": "account recovery is unavailable without SMS"
+      },
+      {
+        "path": "internal/app/proxy_test.go",
+        "anchor": "func TestProxyAuthenticationBudgetsRemainSeparatedAndSpoofResistant("
       }
     ],
     "debts": [
@@ -287,12 +292,13 @@
   {
     "id": "frontend",
     "owner": "web/src",
-    "reviewed": "2026-10-01",
+    "reviewed": "2026-10-07",
     "acceptance": [
       "Desktop/mobile share primary navigation",
       "Errors are distinct from disabled/empty states",
       "Catalogue photographs match ingredients and retain attribution",
-      "Successful UI writes refresh inventory and ledger"
+      "Successful UI writes refresh inventory and ledger",
+      "Gateway blocks executable inline scripts, frames and MIME sniffing; security headers survive error responses"
     ],
     "checks": [
       {
@@ -310,6 +316,10 @@
       {
         "path": "web/e2e/photos.spec.ts",
         "anchor": "real catalogue photos, family upload priority and failed-image fallback"
+      },
+      {
+        "path": "web/e2e/security.spec.ts",
+        "anchor": "gateway security policy blocks injected scripts and permits the app"
       }
     ],
     "debts": [

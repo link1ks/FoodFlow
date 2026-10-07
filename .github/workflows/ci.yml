@@ -68,6 +68,13 @@ jobs:
       - name: Verify platform, kitchen flow, browser and diagnosis
         shell: pwsh
         run: go run ./cmd/harness -mode acceptance -skip-build -out .cache/harness/ci-acceptance.json
+      - name: Verify isolated learning deployment and security
+        shell: pwsh
+        run: |
+          ./scripts/learning-deploy.ps1 init
+          ./scripts/learning-deploy.ps1 up
+          ./tests/learning-security.ps1
+          ./tests/smoke.ps1 -Base http://127.0.0.1:17173
       - name: Upload bounded acceptance evidence
         uses: actions/upload-artifact@v4
         if: always()
@@ -82,6 +89,7 @@ jobs:
             .cache/harness/image-verification.json
             .cache/harness/platform-image-binding.json
             .cache/harness/diagnostics.json
+            .cache/harness/learning-security.json
             .cache/harness/browser.json
             .cache/harness/browser-artifacts/**/*.png
             .cache/platform-evidence.json

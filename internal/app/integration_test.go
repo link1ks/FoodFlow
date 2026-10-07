@@ -194,7 +194,8 @@ func TestIngredientCatalogSelection(t *testing.T) {
 		t.Fatalf("catalog selection not canonical: %+v", items)
 	}
 	key := core.ID()
-	stock := map[string]any{"catalog_id": tomatoID, "quantity": "300", "location": "冷藏", "expires_on": "2026-10-01"}
+	// This scenario needs usable stock regardless of the calendar date of the run.
+	stock := map[string]any{"catalog_id": tomatoID, "quantity": "300", "location": "冷藏", "expires_on": time.Now().AddDate(0, 0, 7).Format("2006-01-02")}
 	code, v = h.call("POST", root+"/catalog-stock", token, key, stock)
 	must(t, code, 200, v)
 	batchID := get(v, "batch_id")

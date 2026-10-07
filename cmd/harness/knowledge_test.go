@@ -11,7 +11,7 @@ import (
 func knowledgeFixture(t *testing.T) string {
 	t.Helper()
 	root := t.TempDir()
-	for _, path := range []string{"internal/app/app.go", "internal/insights/http.go", "internal/events/stock.go", "go.mod", "web/package.json", ".env.example", "compose.acceptance.yaml", "compose.platform.yaml", "compose.trial.yaml", "compose.trial-deepseek.yaml", "sql/schema/028_stock_outbox.sql"} {
+	for _, path := range []string{"internal/app/app.go", "internal/insights/http.go", "internal/events/stock.go", "go.mod", "web/package.json", ".env.example", "compose.acceptance.yaml", "compose.platform.yaml", "compose.trial.yaml", "compose.trial-deepseek.yaml", "compose.learning.yaml", "sql/schema/028_stock_outbox.sql"} {
 		raw, err := os.ReadFile(filepath.Join("../..", path))
 		if err != nil {
 			t.Fatal(err)

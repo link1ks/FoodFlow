@@ -1,0 +1,159 @@
+{
+  "load": {
+    "errors": 0,
+    "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls",
+    "p95_ms": 9.057,
+    "invariant_failures": 0,
+    "requests": 32256
+  },
+  "cloud_purchases": 0,
+  "recorded_at": "2026-10-07T03:21:59.8030094Z",
+  "model_calls": 0,
+  "learning": {
+    "recorded_at": "2026-10-07T03:18:30.1521717Z",
+    "project": "foodflow-learning",
+    "limitations": [
+      "local Docker transport; no cloud or HTTPS acceptance",
+      "deterministic integrations only",
+      "not a backup/restore or real household trial"
+    ],
+    "checks": [
+      "loopback-only gateway",
+      "no internal host ports",
+      "non-root readonly applications",
+      "capability and escalation guards",
+      "security headers on success/errors",
+      "no account caching",
+      "metrics blocked",
+      "gateway overwrites client identity",
+      "non-root household photo write/read SHA256"
+    ],
+    "passed": true
+  },
+  "limitations": [
+    "No cloud host/SSH/HTTPS or public release accepted",
+    "No backup restoration or actual family trial in this stage",
+    "Learning project has separate accounts/data; development bindings apply at next recreation",
+    "AI spending target is not yet an enforced limit",
+    "Bounded log tail can omit earlier failures; Go JSON events used to locate fixed-date fixture failure"
+  ],
+  "full": {
+    "run_id": "99c6a1e8168265a4b7526d1bf7aa2e6d",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "dbgen-regression",
+        "passed": true
+      },
+      {
+        "name": "dbgen-check",
+        "passed": true
+      },
+      {
+        "name": "format",
+        "passed": true
+      },
+      {
+        "name": "vet",
+        "passed": true
+      },
+      {
+        "name": "go-tests",
+        "passed": true
+      },
+      {
+        "name": "web-api-check",
+        "passed": true
+      },
+      {
+        "name": "web-test",
+        "passed": true
+      },
+      {
+        "name": "web-build",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ]
+  },
+  "source_digest": "9e3607cb2575d93473fc037e4c0bfd61efe5cc8ea5415370ceecf9b2bdb1d8e9",
+  "browser": {
+    "failed": 0,
+    "flaky": 0,
+    "passed": 24,
+    "skipped": 0
+  },
+  "scope": "local learning deployment and security",
+  "acceptance": {
+    "source_digest": "9e3607cb2575d93473fc037e4c0bfd61efe5cc8ea5415370ceecf9b2bdb1d8e9",
+    "run_id": "d0e28ab72fbf5754ec0eceabe57a544b",
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true
+      },
+      {
+        "name": "knowledge",
+        "passed": true
+      },
+      {
+        "name": "quality-map",
+        "passed": true
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true
+      },
+      {
+        "name": "acceptance-stack",
+        "passed": true
+      },
+      {
+        "name": "acceptance-images",
+        "passed": true
+      },
+      {
+        "name": "platform",
+        "passed": true
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true
+      },
+      {
+        "name": "browser-fixture",
+        "passed": true
+      },
+      {
+        "name": "browser",
+        "passed": true
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true
+      },
+      {
+        "name": "source-stable",
+        "passed": true
+      }
+    ]
+  }
+}
