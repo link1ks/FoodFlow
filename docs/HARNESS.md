@@ -69,6 +69,8 @@ Read [platform ownership](PLATFORM.md) and [execution plan](exec-plans/platform.
 
 ## Generated contracts
 
+Every verification mode also checks the Git-visible file inventory (tracked and untracked, excluding ignored local files). Forced additions of environment configurations, private/cache/dependency directories, backups, credentials and generated browser/build output fail `repository-hygiene`. The check never reads their contents or reports private filenames. `.env.example`, regression seeds, licensed assets and redacted evidence remain valid delivery files. This path policy is not a secret-content scanner or a substitute for reviewing the staged diff. Contribution and security documentation links are checked with the other repository documents.
+
 `pnpm --dir web api:generate` refreshes `web/src/generated/api.d.ts` using pinned [openapi-typescript CLI](https://openapi-ts.dev/cli); `api:check` rejects stale types without rewriting them. Inventory, recipes, account, nutrition and monthly-report UI use these types. All successful API responses declare JSON/binary/SSE media; common isolated API fixtures validate actual responses with kin-openapi, including expected errors. Model job payload/result remain explicitly open JSON objects; schemas alone do not validate every model-specific payload.
 
 Full mode runs `scripts/check-dbgen.ps1`: regenerate with sqlc v1.30.0 in a bounded scratch copy of only SQL/config files, compare the complete generated file set/content with normalized line endings, then remove only its checked scratch directory. It does not open databases or rewrite working source. This gate also works before committing deliberate generated changes.

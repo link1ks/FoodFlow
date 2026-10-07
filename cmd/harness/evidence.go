@@ -39,6 +39,7 @@ func runID() string {
 func sourceDigest(root string) (string, error) {
 	files := []string{"go.mod", "go.sum", "sqlc.yaml", ".env.example", ".dockerignore", ".gitignore", "AGENTS.md", "README.md", "ARCHITECTURE.md", "openapi.yaml", "Dockerfile", "compose.yaml", "compose.acceptance.yaml", "compose.platform.yaml", "compose.trial.yaml", "compose.trial-deepseek.yaml", "compose.learning.yaml", ".github/workflows/ci.yml", "web/package.json", "web/pnpm-lock.yaml", "web/Dockerfile", "web/.dockerignore", "web/nginx.conf", "web/playwright.config.ts", "web/tsconfig.json", "web/vite.config.ts", "web/index.html", "web/pnpm-workspace.yaml", "docs/HARNESS.md", "docs/PLATFORM.md", knowledgePath}
 	files = append(files, "compose.restore.yaml")
+	files = append(files, "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md", "docs/README.md")
 	for _, dir := range []string{"cmd", "internal", "sql", "scripts", "tests", "web/src", "web/e2e", "web/public", "docs/quality"} {
 		err := filepath.WalkDir(filepath.Join(root, dir), func(path string, d os.DirEntry, err error) error {
 			if err != nil {
@@ -173,7 +174,7 @@ func fullPass(report Evidence) bool {
 	if report.Version != 1 || report.RunID == "" || report.Mode != "full" || !report.IntegrationRequired {
 		return false
 	}
-	required := map[string]bool{"architecture": false, "knowledge": false, "quality-map": false, "dbgen-check": false, "dbgen-regression": false, "format": false, "vet": false, "go-tests": false, "web-api-check": false, "web-test": false, "web-build": false, "source-stable": false}
+	required := map[string]bool{"architecture": false, "repository-hygiene": false, "knowledge": false, "quality-map": false, "dbgen-check": false, "dbgen-regression": false, "format": false, "vet": false, "go-tests": false, "web-api-check": false, "web-test": false, "web-build": false, "source-stable": false}
 	for _, check := range report.Checks {
 		if !check.Passed {
 			return false

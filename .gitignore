@@ -12,3 +12,17 @@ data/
 *.dump
 coverage.out
 reports/local/
+web/playwright-report/
+web/test-results/
+web/coverage/
+.vscode/
+*.tsbuildinfo
+*.swp
+*.swo
+*.tmp
+*.bak
+*.key
+*.p12
+*.pfx
+*.pem
+*.env

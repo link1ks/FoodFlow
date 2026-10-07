@@ -93,7 +93,7 @@ func TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite(t *testing.T) {
 		t.Fatal(err)
 	}
 	report := Evidence{Version: 1, RunID: "test", Mode: "full", IntegrationRequired: true, SourceDigest: digest, RecordedAt: time.Now().UTC()}
-	for _, name := range []string{"architecture", "knowledge", "quality-map", "dbgen-regression", "dbgen-check", "format", "vet", "go-tests", "web-api-check", "web-test", "web-build", "source-stable"} {
+	for _, name := range []string{"architecture", "repository-hygiene", "knowledge", "quality-map", "dbgen-regression", "dbgen-check", "format", "vet", "go-tests", "web-api-check", "web-test", "web-build", "source-stable"} {
 		report.Checks = append(report.Checks, Check{Name: name, Passed: true})
 	}
 	evidence := ".cache/harness/test.json"
@@ -120,6 +120,12 @@ func TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite(t *testing.T) {
 		t.Fatal("different source accepted")
 	}
 	report.SourceDigest = digest
+	report.Checks[1].Name = "missing-hygiene"
+	write()
+	if err := recordTask(root, "repair", "finish", "", "", "passed", evidence); err == nil {
+		t.Fatal("evidence missing repository hygiene accepted")
+	}
+	report.Checks[1].Name = "repository-hygiene"
 	write()
 	if err := recordTask(root, "repair", "finish", "", "", "passed", evidence); err != nil {
 		t.Fatal(err)

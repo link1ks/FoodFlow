@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-07",
+  "scope": "repository delivery curation and regenerable local Docker resources",
+  "source_basis": "working tree verified before the cleanup commit; digest binds its versioned verification inputs",
+  "source_digest": "90d6337059fdb2cb99ab6dac4a098cb6d375a1416c591918d6c47f2ea05c11d3",
+  "full": {"run_id": "a5133b79c92ee5e87b58225a2cddd543", "passed": 14, "failed": 0},
+  "acceptance": {"run_id": "8860a69e7b4774d83414ead20ae2f896", "passed": 14, "failed": 0},
+  "browser": {"passed": 28, "failed": 0, "skipped": 0, "flaky": 0},
+  "cleanup": {
+    "obsolete_public_documents_removed": 2,
+    "allowlisted_local_files_removed": 25,
+    "local_file_bytes": 3449623,
+    "containers_removed": 33,
+    "images_removed": 8,
+    "final_containers": 4,
+    "final_images": 5,
+    "original_volumes_preserved": 25,
+    "volumes_removed": 0,
+    "official_old_build_cache_reclaimed": "286 kB",
+    "final_build_cache": "15.23 GB",
+    "current_backup_verify": "passed",
+    "current_release_check": "passed",
+    "learning_gateway_ready": 200
+  },
+  "regressions": [
+    "forced ignored private configuration rejected without exporting paths or contents",
+    "staged private blob rejected even after worktree deletion",
+    "valid contract, migration, regression seed, photo and evidence paths accepted",
+    "task and release evidence without repository hygiene rejected"
+  ],
+  "limitations": [
+    "path policy does not scan secret contents or attest production readiness",
+    "three historical API image references are unresolvable; original data volumes and backup artifacts retained, cause/time unestablished",
+    "current backup and release image pins remain available; historical manifests were not rewritten",
+    "acceptance containers and downloadable dependencies must be recreated for the next runtime verification",
+    "no Docker disk compaction, offsite recovery or public household trial claim",
+    "current-commit GitHub CI result pending push"
+  ]
+}

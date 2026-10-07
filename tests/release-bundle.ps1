@@ -32,9 +32,11 @@ try{
   Reject {Assert-ReleaseCompatible $m $hash $hash $m.artifacts['compose.learning.yaml'].sha256 ('sha256:'+('d'*64))}
   [IO.File]::AppendAllText((Join-Path $scratch 'compose.learning.yaml'),'corrupt')
   Reject {Assert-ReleaseBundle $scratch}
-  $full=@{mode='full';source_digest=$hash;integration_required=$true;checks=@(@('architecture','knowledge','quality-map','release-regression','dbgen-regression','dbgen-check','format','vet','go-tests','web-api-check','web-test','web-build','source-stable')|ForEach-Object {@{name=$_;passed=$true}})}
-  $accept=@{mode='acceptance';source_digest=$hash;integration_required=$true;checks=@(@('architecture','knowledge','quality-map','read-recovery-regression','acceptance-images','platform','kitchen-flow','gateway-recovery','browser-fixture','browser','runtime-diagnostics','source-stable')|ForEach-Object {@{name=$_;passed=$true}})}
+  $full=@{mode='full';source_digest=$hash;integration_required=$true;checks=@(@('architecture','repository-hygiene','knowledge','quality-map','release-regression','dbgen-regression','dbgen-check','format','vet','go-tests','web-api-check','web-test','web-build','source-stable')|ForEach-Object {@{name=$_;passed=$true}})}
+  $accept=@{mode='acceptance';source_digest=$hash;integration_required=$true;checks=@(@('architecture','repository-hygiene','knowledge','quality-map','read-recovery-regression','acceptance-images','platform','kitchen-flow','gateway-recovery','browser-fixture','browser','runtime-diagnostics','source-stable')|ForEach-Object {@{name=$_;passed=$true}})}
   Assert-ReleaseVerified $full $accept $hash
+  $savedFull=$full.checks;$full.checks=@($full.checks|Where-Object {$_.name -ne 'repository-hygiene'});Reject {Assert-ReleaseVerified $full $accept $hash};$full.checks=$savedFull
+  $savedAccept=$accept.checks;$accept.checks=@($accept.checks|Where-Object {$_.name -ne 'repository-hygiene'});Reject {Assert-ReleaseVerified $full $accept $hash};$accept.checks=$savedAccept
   Reject {Assert-ReleaseVerified $full $accept ('d'*64)}
   $full.checks[0].passed=$false;Reject {Assert-ReleaseVerified $full $accept $hash};$full.checks[0].passed=$true
   $full.checks=@($full.checks|Where-Object {$_.name -ne 'web-build'});Reject {Assert-ReleaseVerified $full $accept $hash}

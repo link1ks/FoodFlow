@@ -13,7 +13,7 @@ function Assert-ReleaseVerified($Full,$Acceptance,[string]$Digest){
   foreach($pair in @(@($Full,'full'),@($Acceptance,'acceptance'))){
     $report=$pair[0]
     if($report.mode -ne $pair[1] -or $report.source_digest -ne $Digest -or !$report.integration_required -or !$report.checks.Count -or @($report.checks | Where-Object {!$_.passed}).Count){throw 'Release requires passing full and acceptance for this exact source.'}
-    foreach($name in $(if($pair[1] -eq 'full'){@('architecture','knowledge','quality-map','release-regression','dbgen-regression','dbgen-check','format','vet','go-tests','web-api-check','web-test','web-build','source-stable')}else{@('architecture','knowledge','quality-map','read-recovery-regression','acceptance-images','platform','kitchen-flow','gateway-recovery','browser-fixture','browser','runtime-diagnostics','source-stable')})){
+    foreach($name in $(if($pair[1] -eq 'full'){@('architecture','repository-hygiene','knowledge','quality-map','release-regression','dbgen-regression','dbgen-check','format','vet','go-tests','web-api-check','web-test','web-build','source-stable')}else{@('architecture','repository-hygiene','knowledge','quality-map','read-recovery-regression','acceptance-images','platform','kitchen-flow','gateway-recovery','browser-fixture','browser','runtime-diagnostics','source-stable')})){
       if(@($report.checks | Where-Object {$_.name -eq $name -and $_.passed}).Count -ne 1){throw 'Release evidence is incomplete.'}
     }
   }

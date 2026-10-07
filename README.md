@@ -35,7 +35,7 @@ flowchart LR
 
 食材目录包含 **91 种食材**，其中 **79 种**提供 USDA SR Legacy 营养参考值，按每 100 克可食部展示。
 
-[家庭试用指南](docs/FAMILY_TRIAL.md) 提供双人协作、三天闭环、数据备份与反馈记录。已配置本地项目可用 `pwsh -NoProfile -File scripts/local-trial.ps1 up` 启动确定性试用；此方式显式禁用付费模型/短信，并保留 `.env` 与数据卷。授权使用保存的 DeepSeek 额度后，追加 `-UseDeepSeek` 启用文字与图片模型；短信仍关闭，模型调用按 API 余额计费。
+[家庭试用指南](docs/FAMILY_TRIAL.md) 提供双人协作、厨房闭环、数据备份与反馈记录。独立本机部署默认关闭收费模型与短信，见 [部署说明](docs/LEARNING_DEPLOYMENT.md)；真实模型需另外配置并明确授权，API 调用按服务商账单计费。
 
 ## 架构与技术栈
 
@@ -165,7 +165,7 @@ Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成
 
 ### 已验证范围
 
-截至 **2026-09-30**，本地完整验证与隔离验收已通过，GitHub Actions 四个任务均通过。提交与结果可在 [CI 运行记录](https://github.com/link1ks/FoodFlow/actions/runs/36720824638) 核对；具体实现证据见 [验证记录](docs/exec-plans/harness-hardening.md)。
+本地完整验证与隔离验收覆盖数据库、浏览器与平台恢复；验证范围和限制随提交记录。最新云端结果查看 [GitHub Actions](https://github.com/link1ks/FoodFlow/actions/workflows/ci.yml)，本地发布准备、配套备份与同版本重建证据见 [阶段记录](docs/exec-plans/learning-release.md)。运行中或旧版本的 CI 不代表当前版本已通过。
 
 | 范围 | 验证内容 |
 | --- | --- |
@@ -191,7 +191,7 @@ Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成
 | [学习环境备份恢复](docs/BACKUP_RECOVERY.md) | 数据库与图片配套备份、全新目标演练、账号与幂等验证 |
 | [账号恢复码与 AI 额度](docs/ACCOUNT_RECOVERY_AI.md) | 免费预存恢复码、持久化收费预扣与并发限制、真实账单边界 |
 | [验证报告](docs/VALIDATION_REPORT.md) / [平台验收](docs/PLATFORM_VALIDATION.md) | 测试环境、性能记录、恢复结果与限制 |
-| [技术复盘](docs/ENGINEERING_STORIES.md) | 并发库存、Worker 租约与模型确认边界 |
+| [完整文档导航](docs/README.md) / [开发与交付](CONTRIBUTING.md) / [安全说明](SECURITY.md) | 设计、运维、贡献流程与问题报告 |
 
 主要目录：`cmd` 为进程入口，`internal/app` 为事务业务，`internal/engine` 为纯内存算法，`internal/insights` 为独立统计，`sql` 为迁移与查询，`web/src/pages` 为页面，`tests` 与 `scripts` 为验收工具。
 
@@ -203,7 +203,8 @@ Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成
 - 图片识别结果需人工确认，尚未完成准确率评测；真实短信送达、S3 与公网部署尚未完成端到端验收。
 - 菜谱组合筛选按耗时相加，备餐时间轴另行考虑工序并行；目前有 16 道自编家庭参考菜谱，份量和耗时为估计，做饭时需检查熟透情况。调味品以家庭明确确认的常备库存估算扣减。
 - 官方数据包含日监测与月均价格，部分城市、食材没有当天报价；缺少历史快照的数据不回填。
-- 月度统计目前汇总数量，完整金额浪费账单与长图导出尚未实现；账号换绑、合并及短信找回密码尚未实现。
+- 月度报表已提供数量、已知采购成本与 PNG 导出；历史无价格记录保持未知。账号换绑、合并与找回已实现应用流程，真实短信送达仍未验收；邮箱账号支持预存的一次性恢复码。
+- AI 额度控制已验证应用预扣、并发和次数限制；它不能代替服务商账单硬封顶或真实模型准确率评测。真实家庭内测尚未完成。
 - 平台验收使用单节点 Kafka 与内部明文通信，尚不具备生产高可用、安全加固与持续告警配置。本地 Harness 记录与单次成功结果不构成效率提升证明。
 
 ## 许可证

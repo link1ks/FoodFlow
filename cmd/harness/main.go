@@ -177,6 +177,7 @@ func main() {
 		}
 	}
 	run("architecture", func() (string, error) { return "", architecture(".") })
+	run("repository-hygiene", func() (string, error) { return "", repositoryHygiene(".") })
 	if *mode != "architecture" {
 		run("knowledge", func() (string, error) { return "", knowledge(".", *update) })
 	}

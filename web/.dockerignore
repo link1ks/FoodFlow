@@ -3,3 +3,11 @@ dist/
 *.tsbuildinfo
 .env
 .env.*
+*.env
+playwright-report/
+test-results/
+coverage/
+*.key
+*.pem
+*.p12
+*.pfx

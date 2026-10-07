@@ -8,3 +8,15 @@ web/dist
 data
 reports/local
 *.log
+web/playwright-report
+web/test-results
+web/coverage
+.vscode
+*.dump
+*.key
+*.p12
+*.pfx
+*.pem
+*.tmp
+*.bak
+*.env

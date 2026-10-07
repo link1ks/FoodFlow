@@ -234,6 +234,11 @@ var localLink = regexp.MustCompile(`\[[^\]\n]*\]\(([^)\n]+)\)`)
 
 func documentationLinks(root string) error {
 	files := []string{"README.md", "AGENTS.md", "ARCHITECTURE.md"}
+	for _, optional := range []string{"CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md"} {
+		if _, err := os.Stat(filepath.Join(root, optional)); err == nil {
+			files = append(files, optional)
+		}
+	}
 	err := filepath.WalkDir(filepath.Join(root, "docs"), func(path string, d os.DirEntry, err error) error {
 		if err != nil {
 			return err
