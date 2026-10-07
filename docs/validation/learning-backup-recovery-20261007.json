@@ -81,7 +81,18 @@
     "flaky": 0
   },
   "cloud": {
-    "status": "pending push and workflow",
+    "limitation": "Linux learning deployment and recovery steps not yet completed at this snapshot",
+    "url": "https://github.com/link1ks/FoodFlow/actions/runs/37569143684",
+    "revision": "016f726e64a7b1824f1d549ba26e4910d1d41e3d",
+    "run_id": 37569143684,
+    "status": "in_progress",
+    "jobs": {
+      "platform": "in_progress",
+      "frontend": "completed/success",
+      "backend": "in_progress",
+      "images": "completed/success"
+    },
+    "recorded_at": "2026-10-07T04:02:08.0286035Z",
     "prior_failed_run": 37566459044
   },
   "acceptance": {
@@ -189,5 +200,6 @@
       "same host with cached images; not offsite disaster recovery",
       "source fixture and stopped restore targets retained"
     ]
-  }
+  },
+  "code_revision": "016f726e64a7b1824f1d549ba26e4910d1d41e3d"
 }
