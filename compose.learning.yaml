@@ -48,7 +48,9 @@ services:
       retries: 30
   migrate:
     <<: *runtime
-    build: .
+    build:
+      context: .
+      args: {FOODFLOW_SOURCE_DIGEST: '${FOODFLOW_SOURCE_DIGEST:-unbound}'}
     command: [/app/migrate]
     environment: *app_env
     networks: [database]
@@ -90,7 +92,9 @@ services:
       image-init: {condition: service_completed_successfully}
   web:
     image: foodflow-web:learning
-    build: ./web
+    build:
+      context: ./web
+      args: {FOODFLOW_SOURCE_DIGEST: '${FOODFLOW_SOURCE_DIGEST:-unbound}'}
     restart: unless-stopped
     user: '101:101'
     read_only: true

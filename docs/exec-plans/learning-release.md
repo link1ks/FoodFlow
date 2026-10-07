@@ -61,3 +61,12 @@
 - 最终 full 12/12（`361385321413ebbf8d87a2fada6d220d`）、重建 acceptance 13/13（`30558fb37142a2c95f975c9a67ffe182`），共同源码摘要 `e602bac6505a2bcc8e2b92493dccca7b96f8cfb5edb19508055543d9f8e305c2`。桌面/手机 Chromium 28/28，0 失败/跳过/flaky；新增筛选回归在正常及 320px 宽度通过，已有照片优先/回退、权限和完整厨房流程通过，脱敏 diagnose 通过。task 已 passed。[便携证据](../validation/inventory-ui-20261007.json)。
 - 复查实际库存概览、食材选择详情及手机截图；本机 17173 网页已重建更新，`learning-security.ps1` 通过。未修改库存写入接口、授权、确认或照片来源；没有模型请求、短信费用、数据卷删除或公开部署。验收后停止固定 acceptance 项目临时容器，学习环境保持运行。
 - 代码提交 `7df3af63a7f2827cc4cbd08dcc56f0d6cc84e0e9` 已推送 main；提交后 knowledge 与摘要核对通过。[CI 37574155313](https://github.com/link1ks/FoodFlow/actions/runs/37574155313) 当前 in_progress、conclusion 尚未产生，不宣称新提交已云端通过。仅补充文档快照使用 `[skip ci]`，不重复触发同源码构建。
+
+## 第五阶段：本机发布准备
+
+- 用户授权先同步 GitHub 再继续。初查本地/远端 main 均为 `4c14a7223a171445a4421ee4c774bbbc65632611`；[UI CI 37574155313](https://github.com/link1ks/FoodFlow/actions/runs/37574155313) 已 completed/success，backend/frontend/images/platform 全部成功。第四阶段仍 skipped。
+- `learning-release-prep-20261007` feature start：增加已提交源码交付包、实际学习镜像源码绑定、完整验证门禁、只读检查及同 schema 的精确镜像切换。先配套备份，再拒绝迁移历史/SQL/拓扑/数据库镜像漂移与活动任务，不删除或降级数据库。发布包仅留源码和本机镜像 ID，避免重复镜像 TAR 占用存储。
+- full 增加 release-regression，CI 加入当前版本重建演练和脱敏报告；旧版本业务语义兼容、公网 HTTPS/主机配置、异地恢复、真实家庭/账单仍未验收。完整证据与失败记录待验证后补上。
+- 首次 full 12/13：release-regression、生成检查、格式/vet 与前端均通过，Go 数据库集成全部因 Docker Linux engine named pipe 缺失失败；学习部署也未能连接引擎。原 task 按 infrastructure 记录 failed，没有放宽集成条件。后台启动既有 D 盘 Docker Desktop，引擎 29.8.0 恢复；r1 task 已 start，重新完整验收。
+- r1 检查实际 CLI 身份边界时重现：docker ps -q 返回 12 位、严格发布检查要求 64 位。增加 --no-trunc，不降低身份校验；真实重建演练覆盖正向路径。r1 按 product 记录 failed，r2 regression/reproduced 已 start。修正发生在 r1 full 运行中，其摘要稳定检查应拒绝旧证据；最终重新完整验证。准备包也重复检查源码摘要、Git revision 与工作区未变才写完整清单。
+- r2 独立探测重现 Git archive --output=(Join-Path ...) 在 PowerShell 原生参数模式被拆分，Git 把输出路径当成 revision。改为公共 helper 的明确数组参数，release-regression 新增真实 git archive→ZIP 安全检查往返；r2 按 product 记录 failed，r3 regression/reproduced start。运行中的旧 full 不再作为最终证据，等待其 source-stable 拒绝后重跑。

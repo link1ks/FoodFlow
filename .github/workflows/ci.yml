@@ -76,6 +76,9 @@ jobs:
           ./tests/learning-security.ps1
           ./tests/smoke.ps1 -Base http://127.0.0.1:17173
           ./tests/learning-recovery.ps1
+          ./scripts/learning-release.ps1 prepare -Full .cache/harness/ci-full.json -Acceptance .cache/harness/ci-acceptance.json
+          $release = Get-ChildItem .cache/learning-releases -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          ./tests/learning-release.ps1 -Release $release.FullName
       - name: Upload bounded acceptance evidence
         uses: actions/upload-artifact@v4
         if: always()
@@ -92,6 +95,7 @@ jobs:
             .cache/harness/diagnostics.json
             .cache/harness/learning-security.json
             .cache/harness/learning-recovery.json
+            .cache/harness/learning-release.json
             .cache/harness/browser.json
             .cache/harness/browser-artifacts/**/*.png
             .cache/platform-evidence.json

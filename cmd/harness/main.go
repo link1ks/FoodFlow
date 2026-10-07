@@ -219,6 +219,7 @@ func main() {
 	}
 	if *mode == "full" || *mode == "fast" {
 		if *mode == "full" {
+			run("release-regression", func() (string, error) { return command("pwsh", "-File", "tests/release-bundle.ps1") })
 			run("dbgen-regression", func() (string, error) { return command("pwsh", "-File", "tests/generated-freshness.ps1") })
 			run("dbgen-check", func() (string, error) { return command("pwsh", "-File", "scripts/check-dbgen.ps1") })
 		}

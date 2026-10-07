@@ -39,6 +39,10 @@ function dc {
 }
 $saved=@{}
 try {
+  $saved['FOODFLOW_SOURCE_DIGEST']=[Environment]::GetEnvironmentVariable('FOODFLOW_SOURCE_DIGEST','Process')
+  $digest=(& go run ./cmd/harness -mode fingerprint).Trim()
+  if($LASTEXITCODE -ne 0 -or $digest -notmatch '^[a-f0-9]{64}$'){throw 'Cannot bind learning images to source.'}
+  $env:FOODFLOW_SOURCE_DIGEST=$digest
   # Shell environment must not silently override this isolated project's secrets.
   foreach($key in $values.Keys){
     $saved[$key]=[Environment]::GetEnvironmentVariable($key,'Process')
@@ -47,6 +51,10 @@ try {
   switch($Action){
     up {
       dc up --build -d --wait --wait-timeout 120
+      foreach($service in @('api','web')){
+        $bound=(& docker image inspect --format '{{index .Config.Labels "io.foodflow.source-digest"}}' "foodflow-${service}:learning").Trim()
+        if($LASTEXITCODE -ne 0 -or $bound -ne $digest){throw 'Learning image source binding failed.'}
+      }
       $ready=$false
       for($attempt=0;$attempt -lt 30;$attempt++){
         try {
