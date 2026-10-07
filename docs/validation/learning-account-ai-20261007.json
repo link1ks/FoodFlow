@@ -203,7 +203,12 @@
     "flaky": 0
   },
   "current_cloud": {
-    "status": "pending push"
+    "status": "in_progress",
+    "conclusion": null,
+    "run_id": 37571649612,
+    "url": "https://github.com/link1ks/FoodFlow/actions/runs/37571649612",
+    "revision": "061eb2d90b4e7abcd400852a13c093a9a0f35411",
+    "observed_at": "2026-10-07T04:30:46.0397504Z"
   },
   "limitations": [
     "pre-saved offline codes required; no mail ownership or real SMS delivery",
@@ -217,5 +222,6 @@
     "retry": "learning-account-ai-r1-20261007: passed"
   },
   "verification_revision": "64ee90ffac8dbaf33d270f6cf451e87fd5414292",
-  "worktree_dirty": true
+  "worktree_dirty": true,
+  "code_revision": "061eb2d90b4e7abcd400852a13c093a9a0f35411"
 }
