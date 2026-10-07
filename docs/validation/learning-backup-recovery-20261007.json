@@ -1,0 +1,193 @@
+{
+  "scope": "isolated local learning database/photo backup and recovery",
+  "source_digest": "8a883e8db5c7506c4ff1602efbc4402c42819e78b1ee4046fc2ce381a1ae2232",
+  "tasks": {
+    "first": "learning-backup-recovery-20261007: failed/unknown",
+    "implementation": "learning-backup-recovery-r2-20261007: passed",
+    "final_ci_cleanup": "learning-backup-ci-dedup-20261007: passed",
+    "retry": "learning-backup-recovery-r1-20261007: failed/product"
+  },
+  "full": {
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "quality-map",
+        "passed": true,
+        "duration_ms": 2
+      },
+      {
+        "name": "dbgen-regression",
+        "passed": true,
+        "duration_ms": 643
+      },
+      {
+        "name": "dbgen-check",
+        "passed": true,
+        "duration_ms": 3022
+      },
+      {
+        "name": "format",
+        "passed": true,
+        "duration_ms": 37
+      },
+      {
+        "name": "vet",
+        "passed": true,
+        "duration_ms": 665
+      },
+      {
+        "name": "go-tests",
+        "passed": true,
+        "duration_ms": 139460
+      },
+      {
+        "name": "web-api-check",
+        "passed": true,
+        "duration_ms": 777
+      },
+      {
+        "name": "web-test",
+        "passed": true,
+        "duration_ms": 1259
+      },
+      {
+        "name": "web-build",
+        "passed": true,
+        "duration_ms": 4110
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 23
+      }
+    ],
+    "run_id": "7f54a4ec3033fe2f5fdb25c53fcb26e4"
+  },
+  "browser": {
+    "startTime": "2026-10-07T03:55:23.222Z",
+    "duration": 36379.803,
+    "expected": 24,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cloud": {
+    "status": "pending push and workflow",
+    "prior_failed_run": 37566459044
+  },
+  "acceptance": {
+    "checks": [
+      {
+        "name": "architecture",
+        "passed": true,
+        "duration_ms": 3
+      },
+      {
+        "name": "knowledge",
+        "passed": true,
+        "duration_ms": 4
+      },
+      {
+        "name": "quality-map",
+        "passed": true,
+        "duration_ms": 1
+      },
+      {
+        "name": "read-recovery-regression",
+        "passed": true,
+        "duration_ms": 620
+      },
+      {
+        "name": "acceptance-stack",
+        "passed": true,
+        "duration_ms": 41154
+      },
+      {
+        "name": "acceptance-images",
+        "passed": true,
+        "duration_ms": 889
+      },
+      {
+        "name": "platform",
+        "passed": true,
+        "duration_ms": 33172
+      },
+      {
+        "name": "kitchen-flow",
+        "passed": true,
+        "duration_ms": 1922
+      },
+      {
+        "name": "gateway-recovery",
+        "passed": true,
+        "duration_ms": 8633
+      },
+      {
+        "name": "browser-fixture",
+        "passed": true,
+        "duration_ms": 1170
+      },
+      {
+        "name": "browser",
+        "passed": true,
+        "duration_ms": 37110
+      },
+      {
+        "name": "runtime-diagnostics",
+        "passed": true,
+        "duration_ms": 5134
+      },
+      {
+        "name": "source-stable",
+        "passed": true,
+        "duration_ms": 27
+      }
+    ],
+    "run_id": "07413b200673d12285651792e96e62fc"
+  },
+  "worktree_dirty": true,
+  "limitations": [
+    "same host with cached immutable images; no offsite/disaster acceptance",
+    "manual backups; no scheduler, encryption or automatic cutover",
+    "no actual cloud/HTTPS or insights/Kafka recovery",
+    "fictional accounts, no paid model or SMS; source data retained"
+  ],
+  "recorded_at": "2026-10-07T03:56:47.0724385Z",
+  "verification_revision": "489028a0732d71a38592134374f88a45fae993e7",
+  "recovery": {
+    "restore_seconds": 10.529,
+    "checks": [
+      "readiness",
+      "old token rejection",
+      "restored password login",
+      "300g inventory",
+      "photo SHA256",
+      "pre-backup idempotency replay",
+      "anonymous access rejected",
+      "fresh stock write after restore",
+      "original token/stock/photo preserved",
+      "corrupt artifact rejected before target creation",
+      "repeated private directory permissions",
+      "absent credential environment restored"
+    ],
+    "tables": 45,
+    "writer_pause_seconds": 5.49,
+    "recorded_at": "2026-10-07T03:49:54.3591562Z",
+    "image_files": 4,
+    "passed": true,
+    "limitations": [
+      "fictional accounts; no real model or SMS",
+      "same host with cached images; not offsite disaster recovery",
+      "source fixture and stopped restore targets retained"
+    ]
+  }
+}

@@ -49,6 +49,8 @@ The platform CI job runs the full harness and acceptance harness on the checked-
 
 CI additionally runs race detection, sqlc generation consistency, container builds and the event pipeline acceptance test. Docker unavailability must fail required checks. Real model calls are not included; existing deterministic fixtures verify confirmation, cancellation and schema constraints without charges.
 
+The platform job also runs isolated learning security and [paired database/photo recovery](BACKUP_RECOVERY.md) with fictional accounts. Recovery checks password login, precise stock, photo bytes, restored request replay, new writes and corrupt-artifact rejection before target creation. Only its redacted summary is uploaded; private backups/configurations and raw authenticated logs are excluded. These checks require the learning stack separately; the ordinary full harness does not imply recovery acceptance.
+
 ## Agent workflow
 
 Failed or blocked task outcomes can add `-failure-category product|fixture|infrastructure|unknown`; summary reports category counts. Existing uncategorized records remain unknown. See [quality maintenance](QUALITY.md) for bounded fuzz commands and remaining business-domain debt.

@@ -1,0 +1,64 @@
+# Fresh private targets only. No migration, seed, worker, web or host ports.
+name: ${RECOVERY_PROJECT:?Use scripts/learning-recovery.ps1}
+x-runtime: &runtime
+  image: ${RECOVERY_API_IMAGE:?Use the backup image identity}
+  user: '10001:10001'
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ['no-new-privileges:true']
+  tmpfs: ['/tmp:rw,noexec,nosuid,size=32m,uid=10001,gid=10001']
+  networks: [private]
+services:
+  db:
+    image: ${RECOVERY_DB_IMAGE:?Use the backup PostgreSQL image identity}
+    environment:
+      POSTGRES_DB: foodflow
+      POSTGRES_USER: foodflow
+      POSTGRES_PASSWORD: ${RECOVERY_POSTGRES_PASSWORD:?Set generated restore credentials}
+    volumes: [restore_db:/var/lib/postgresql/data]
+    networks: [private]
+    security_opt: ['no-new-privileges:true']
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U foodflow -d foodflow']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  image-init:
+    <<: *runtime
+    user: '0:0'
+    cap_add: [CHOWN]
+    command: [chown, '10001:10001', /app/data/images]
+    volumes: [restore_images:/app/data/images]
+  api:
+    <<: *runtime
+    init: true
+    stop_grace_period: 15s
+    environment:
+      DATABASE_URL: postgres://foodflow:${RECOVERY_POSTGRES_PASSWORD}@db:5432/foodflow?sslmode=disable
+      JWT_SECRET: ${RECOVERY_JWT_SECRET:?Set generated restore credentials}
+      APP_ORIGIN: http://127.0.0.1:17173
+      HTTP_ADDR: :8080
+      STORAGE_BACKEND: local
+      IMAGE_STORAGE_DIR: /app/data/images
+      MODEL_ENDPOINT: ''
+      MODEL_NAME: ''
+      MODEL_API_KEY: ''
+      VISION_MODEL_ENDPOINT: ''
+      VISION_MODEL_NAME: ''
+      VISION_MODEL_API_KEY: ''
+      SMS_PROVIDER: ''
+      MARKET_PRICE_SYNC: 'false'
+    volumes: [restore_images:/app/data/images]
+    depends_on:
+      db: {condition: service_healthy}
+      image-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, wget, -qO-, 'http://127.0.0.1:8080/health/ready']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+networks:
+  private: {internal: true}
+volumes:
+  restore_db:
+  restore_images:

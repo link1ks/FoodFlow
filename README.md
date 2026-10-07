@@ -188,6 +188,7 @@ Docker 必须可用。`full` 不允许通过跳过数据库集成测试获得成
 | [业务质量与技术债](docs/QUALITY.md) | 各业务域验收、测试定位、未覆盖风险与关闭证据 |
 | [本地部署](docs/LOCAL_DEPLOYMENT.md) | 启动、备份恢复与排错 |
 | [一个月学习部署](docs/LEARNING_DEPLOYMENT.md) / [阶段计划](docs/exec-plans/learning-release.md) | 独立安全部署、低成本学习与后续验收顺序 |
+| [学习环境备份恢复](docs/BACKUP_RECOVERY.md) | 数据库与图片配套备份、全新目标演练、账号与幂等验证 |
 | [验证报告](docs/VALIDATION_REPORT.md) / [平台验收](docs/PLATFORM_VALIDATION.md) | 测试环境、性能记录、恢复结果与限制 |
 | [技术复盘](docs/ENGINEERING_STORIES.md) | 并发库存、Worker 租约与模型确认边界 |
 

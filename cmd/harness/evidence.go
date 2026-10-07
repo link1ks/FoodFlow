@@ -38,6 +38,7 @@ func runID() string {
 // Digest versioned inputs and new source files, without reading .env or logs.
 func sourceDigest(root string) (string, error) {
 	files := []string{"go.mod", "go.sum", "sqlc.yaml", ".env.example", ".dockerignore", ".gitignore", "AGENTS.md", "README.md", "ARCHITECTURE.md", "openapi.yaml", "Dockerfile", "compose.yaml", "compose.acceptance.yaml", "compose.platform.yaml", "compose.trial.yaml", "compose.trial-deepseek.yaml", "compose.learning.yaml", ".github/workflows/ci.yml", "web/package.json", "web/pnpm-lock.yaml", "web/Dockerfile", "web/.dockerignore", "web/nginx.conf", "web/playwright.config.ts", "web/tsconfig.json", "web/vite.config.ts", "web/index.html", "web/pnpm-workspace.yaml", "docs/HARNESS.md", "docs/PLATFORM.md", knowledgePath}
+	files = append(files, "compose.restore.yaml")
 	for _, dir := range []string{"cmd", "internal", "sql", "scripts", "tests", "web/src", "web/e2e", "web/public", "docs/quality"} {
 		err := filepath.WalkDir(filepath.Join(root, dir), func(path string, d os.DirEntry, err error) error {
 			if err != nil {

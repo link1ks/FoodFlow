@@ -7,7 +7,8 @@
       "Exact quantities and compatible units only",
       "FEFO never allocates expired/spoiled stock or overdraws a batch",
       "Inventory, ledger and outbox commit atomically",
-      "Same-key replay never deducts twice"
+      "Same-key replay never deducts twice",
+      "Learning restore preserves all table fingerprints, sequence states, photos and request replay in a new private target"
     ],
     "checks": [
       {
@@ -33,6 +34,14 @@
       {
         "path": "internal/app/family_load_test.go",
         "anchor": "func TestFamilyMixedLoadConservesStockLedgerAndOutbox("
+      },
+      {
+        "path": "tests/learning-recovery.ps1",
+        "anchor": "fictional recovered account acceptance"
+      },
+      {
+        "path": "internal/recovery/archive_test.go",
+        "anchor": "func TestArchiveRejectsTraversalLinksDuplicatesAndTruncation("
       }
     ],
     "debts": [
@@ -340,7 +349,8 @@
       "API routes/methods match valid OpenAPI",
       "Main-flow real fixture requests and responses match schemas",
       "Quality mapping fails on lost scenarios",
-      "Task completion requires current full evidence including quality mapping"
+      "Task completion requires current full evidence including quality mapping",
+      "Corrupt learning backups fail before target creation; absent process credentials stay absent on Linux"
     ],
     "checks": [
       {
@@ -370,6 +380,14 @@
       {
         "path": "cmd/harness/images_test.go",
         "anchor": "func TestImageBindingRejectsStaleSourceAndContainerReplacement("
+      },
+      {
+        "path": "tests/learning-recovery.ps1",
+        "anchor": "Corrupt backup created a recovery target."
+      },
+      {
+        "path": "tests/learning-recovery.ps1",
+        "anchor": "Deploy left an empty process credential override."
       }
     ],
     "debts": [
