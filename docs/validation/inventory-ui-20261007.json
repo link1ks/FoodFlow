@@ -152,6 +152,12 @@
     "local learning deployment; no public hosting or provider invoicing validation"
   ],
   "cloud": {
-    "status": "pending push"
-  }
+    "status": "in_progress",
+    "conclusion": null,
+    "run_id": 37574155313,
+    "url": "https://github.com/link1ks/FoodFlow/actions/runs/37574155313",
+    "revision": "7df3af63a7f2827cc4cbd08dcc56f0d6cc84e0e9",
+    "observed_at": "2026-10-07T05:00:32.5059124Z"
+  },
+  "code_revision": "7df3af63a7f2827cc4cbd08dcc56f0d6cc84e0e9"
 }
