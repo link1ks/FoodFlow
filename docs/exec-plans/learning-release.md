@@ -6,7 +6,7 @@
 
 | 顺序 | 阶段 | 完成条件 | 当前状态 |
 | --- | --- | --- | --- |
-| 1 | 部署与安全 | 独立可复现部署，端口/代理信任/容器权限/浏览器策略验证，完整 harness 与相关验收通过，GitHub 同步 | 本机验证通过，GitHub 同步中；云端待有服务器后另验收 |
+| 1 | 部署与安全 | 独立可复现部署，端口/代理信任/容器权限/浏览器策略验证，完整 harness 与相关验收通过，GitHub 同步 | 本机验证通过，已推送 GitHub；CI 进行中，云端主机待有服务器后另验收 |
 | 2 | 备份恢复 | 主库与图片共同备份、脱敏清单与校验；在新空数据库和图片卷恢复并核对账号/流水/库存/图片；明确 RPO/RTO 与保管方式 | 待开始 |
 | 3 | 账号找回与 AI 限额 | 邮箱账号可用的恢复渠道、单次使用/过期/防枚举/限流与会话撤销；模型调用持久化预算预占与并发限制，失败/租约恢复不自动重复收费 | 待开始；现有短信恢复只通过 fixture，学习部署关闭真实模型 |
 | 4 | 家庭内测 | 获得成员同意，完成入库→规划→采购→做饭闭环和至少一周实际观察；记录使用负担、回访、失败与实际 AI 消耗，修复重现的问题 | 等前三阶段；自动测试不替代成员体验 |
@@ -25,3 +25,4 @@
 - 最终 r2 full 12/12（`99c6a1e8168265a4b7526d1bf7aa2e6d`），重建 acceptance 13/13（`d0e28ab72fbf5754ec0eceabe57a544b`），同摘要 `9e3607cb2575d93473fc037e4c0bfd61efe5cc8ea5415370ceecf9b2bdb1d8e9`。桌面/手机浏览器 24/24，0 失败/跳过/flaky；包含注入脚本被阻止以及登录、图片、PNG 导出可用。Redis/Kafka 恢复、网关替换与脱敏 diagnose 通过。完整验证再跑 10 家庭/20 客户端/30 秒混合负载，32,256 请求、0 错误/守恒失败，P95 9.057 ms；仅进程内 API+真实 PostgreSQL，不据此宣称公网容量或用户效率。
 - 独立学习项目 17173 的容器权限/端口/响应头检查、实际照片上传回读 SHA256 与厨房 smoke 通过；API/Worker/Web 为非 root，只读根目录且去除全部 capabilities。学习数据库和图片卷保留，未改原开发数据；原 Compose 回环端口调整只在后续按该配置重新创建时生效。受保护配置初始化拒绝覆盖现存凭证，模型与短信明确禁用。没有购买服务器、发送短信或调用真实模型。
 - `learning-deploy-security-r2-20261007` 已记录 passed；便携证据：[learning-deploy-security](../validation/learning-deploy-security-20261007.json)。CI 加入独立学习环境的实际安全/照片/厨房验收；对应提交的云端结果待 GitHub 运行后记录。本地通过不替代云端 CI，也不关闭 PLATFORM-OPS、AUTH-SMS-DELIVERY、AI-EVAL、UX-TRIAL 等剩余债务。
+- 已正常推送代码提交 `ba7510d936d414fdb157cca68be817be96dfd785` 到 main；提交后源码摘要仍与本机 full/acceptance 一致。[CI 37566459044](https://github.com/link1ks/FoodFlow/actions/runs/37566459044) 最近读取为 in_progress：frontend completed/success，backend/images/platform 仍在运行，无已报告失败步骤；尚未宣称全部云端通过。此后仅记录文档状态，不修改上述验证输入。
