@@ -93,6 +93,39 @@ flowchart LR
 
 依赖：Docker Compose。开发与验证另需 Go 1.26、Node.js 24、pnpm 11；平台验收脚本需要 PowerShell 7（`pwsh`）。
 
+### 下载一次，后续更新
+
+每台电脑首次使用 Git 下载一次项目，以后只需拉取新增提交，无需重新下载整个项目。需要安装 [Git](https://git-scm.com/downloads)。
+
+```powershell
+# 首次下载，目录可按需修改
+git clone https://github.com/link1ks/FoodFlow.git E:\FoodFlow
+cd E:\FoodFlow
+```
+
+以后在已有项目目录中更新：
+
+```powershell
+cd E:\FoodFlow
+git status --short
+git pull --ff-only
+```
+
+更新前先提交或移走需要保留的本地修改。`--ff-only` 在本地与远端提交发生分叉时会停止，需自行处理分支差异。使用 GitHub 的 **Download ZIP** 得到的文件夹不包含 Git 更新记录，需要先用 `git clone` 建立可更新的项目。
+
+源码更新后，运行中的 Docker 服务仍需重新构建。默认 `compose.yaml` 部署在备份数据库和照片后执行：
+
+```powershell
+docker compose up --build -d --wait --wait-timeout 180
+docker compose ps
+```
+
+继续使用原项目目录、配置和数据卷；不要用删除数据卷的方式更新。自定义 Compose、试用和学习环境应沿用原部署方式，学习环境见 [发布与回退流程](docs/LEARNING_RELEASE.md)。数据库迁移可能改变结构，代码回退不等于数据库回退。
+
+Windows 一键更新入口（`update.cmd`、`check-update.cmd`）目前已在本地实现，尚未发布到此仓库；发布前请使用上述 Git 命令。
+
+多电脑更新同步的是**代码**。每台独立部署的账号、库存和照片不会自动同步；若需要共享同一家庭数据，应访问同一个部署，或按 [配套备份恢复](docs/BACKUP_RECOVERY.md) 迁移数据库与照片。只有提交并推送到 GitHub 的代码，其他电脑才能获取。
+
 ### Docker Compose
 
 1. 将 `.env.example` 复制为 `.env`。
