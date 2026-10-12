@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PageSwitch } from "../GettingStarted";
 import { NutritionRadar } from "../NutritionRadar";
-import { Title, useBase } from "../app/shared";
+import { Title, useBase, useData, type Household } from "../app/shared";
 import { KitchenInsights } from "./KitchenInsights";
 import { StockHistory } from "./StockHistory";
 import { Jobs } from "./Jobs";
@@ -10,9 +10,13 @@ import { MonthlyReport } from "./MonthlyReport";
 export function Records() {
   const [view, setView] = useState("nutrition");
   const { p, token } = useBase();
+  const household = useData<Household>("household", p);
   return (
     <>
-      <Title title="厨房记录" subtitle="回顾家庭营养、食材用量和生成记录" />
+      <Title
+        title="厨房记录"
+        subtitle="回顾当前厨房的营养、食材用量和生成记录"
+      />
       <PageSwitch
         value={view}
         onChange={setView}
@@ -45,9 +49,13 @@ export function Records() {
         ]}
       />
       {view === "monthly" ? (
-        <MonthlyReport />
+        <MonthlyReport personal={household.data?.kind === "personal"} />
       ) : view === "nutrition" ? (
-        <NutritionRadar root={p} token={token} />
+        <NutritionRadar
+          root={p}
+          token={token}
+          personal={household.data?.kind === "personal"}
+        />
       ) : view === "usage" ? (
         <KitchenInsights />
       ) : view === "history" ? (

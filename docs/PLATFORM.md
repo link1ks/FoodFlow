@@ -26,6 +26,12 @@ Monthly quantities group by ingredient and exact unit; grams, milliliters and co
 
 ## Local deployment
 
+Kitchen API also owns [personal kitchens](PERSONAL_KITCHENS.md): the existing transactional household scope has a private/shared discriminator and a per-user default mapping. Explicit idempotent provisioning locks the account. Private access requires ownership as well as membership, and private kitchens cannot accept invitations. Optional families retain their data and roles; verified account merges preserve private histories under the retained owner. No inventory/cache/insights ownership boundaries change.
+
+Kitchen API also owns the global authenticated [recipe community](COMMUNITY.md): posts, catalogue-bound quantities, reactions, reviewed library admissions and an append-only cosmetic-points ledger. A separate transaction lock protects replay and balance consistency without taking kitchen inventory locks. Worker freezes the previous Shanghai calendar week's shortlist hourly; review requires an explicit `COMMUNITY_ADMIN_IDS` allowlist, independent of household roles. Community does not emit inventory events or query the insights database. Cover bytes are stored in kitchen PostgreSQL and included in its database backup.
+
+Community preliminary moderation runs in the same Worker using a PostgreSQL revision queue and fenced leases. A multimodal adapter receives only the consented recipe and normalized cover, with no database or publication tools. Its unique revision dispatch ledger shares the kitchen AI service allowance lock and aggregate limits. Failed, ambiguous or invalid outcomes stay non-public; ambiguity never triggers an automatic paid resend. Publication and its once-only points award commit together. Weekly library admission remains an explicit administrator decision. Acceptance uses a local deterministic HTTP fixture; it does not establish real model judgement quality.
+
 ```powershell
 pwsh -File scripts/local-acceptance.ps1 up
 pwsh -File scripts/platform-acceptance.ps1

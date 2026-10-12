@@ -69,6 +69,16 @@ test("household switching and member downgrade preserve server authorization", a
   }
   async function settings() {
     await page.getByRole("button", { name: "打开个人主页" }).click();
+    if (
+      await page
+        .getByRole("button", { name: "个人厨房偏好", exact: true })
+        .isVisible()
+    ) {
+      await page
+        .getByRole("button", { name: "使用家庭：共享厨房", exact: true })
+        .click();
+      await page.getByRole("button", { name: "打开个人主页" }).click();
+    }
     await page.getByRole("button", { name: "家庭成员与偏好" }).click();
     await expect(
       page.getByRole("heading", { name: "家庭设置", exact: true }),
@@ -90,7 +100,7 @@ test("household switching and member downgrade preserve server authorization", a
   await page.getByRole("button", { name: "退出登录", exact: true }).click();
   await login(member.email);
   await settings();
-  await page.getByLabel("切换家庭").selectOption(first.id);
+  await page.getByLabel("切换厨房").selectOption(first.id);
   const nav = page.getByRole("navigation", { name: "主导航" });
   await nav.getByRole("button", { name: /食材/ }).click();
   await expect(
@@ -111,7 +121,7 @@ test("household switching and member downgrade preserve server authorization", a
   );
   expect(denied.status()).toBe(403);
   await settings();
-  await page.getByLabel("切换家庭").selectOption(second.id);
+  await page.getByLabel("切换厨房").selectOption(second.id);
   await nav.getByRole("button", { name: /食材/ }).click();
   await expect(
     page.getByRole("heading", { name: "黄瓜", exact: true }),

@@ -29,11 +29,12 @@ export function AIAllowance({
               : "收费调用未启用；演示规划不预扣额度"}
           </p>
           <p>
-            本月家庭预扣 ¥{value.household_reserved} / ¥{value.monthly_limit}
+            本月当前厨房预扣 ¥{value.household_reserved} / ¥
+            {value.monthly_limit}
           </p>
           <p>
             本月服务预扣 ¥{value.service_reserved} / ¥{value.monthly_limit}
-            ，所有家庭共享此上限
+            ，个人厨房、家庭和社区初审共享此上限
           </p>
           <p>
             每次文字预扣 ¥{value.text_call_allowance}，图片预扣 ¥

@@ -2,7 +2,7 @@
 :root {
   font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   color: #183126;
-  background: #f4f4ec;
+  background: #edf1eb;
   font-synthesis: none;
 }
 body {
@@ -10,8 +10,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at 8% 0%, #dce9d8b0, transparent 48rem),
-    radial-gradient(ellipse at 95% 25%, #eee0c4a0, transparent 45rem), #f4f4ec;
+    radial-gradient(ellipse at 8% 0%, #dde8d980, transparent 48rem),
+    radial-gradient(ellipse at 95% 25%, #eee0c440, transparent 45rem), #edf1eb;
   line-height: 1.5;
 }
 button {
@@ -52,9 +52,8 @@ h3 {
   pointer-events: none;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 4% 5%, #d9e8d4b0, transparent 48%),
-    radial-gradient(ellipse at 96% 12%, #efe1caa0, transparent 45%),
-    radial-gradient(ellipse at 60% 95%, #e4eadc90, transparent 50%), #f4f4ec;
+    radial-gradient(ellipse at 4% 5%, #d9e8d450, transparent 48%),
+    radial-gradient(ellipse at 96% 12%, #efe1ca40, transparent 45%), #edf1eb;
 }
 .nature-backdrop::after {
   content: "";
@@ -186,10 +185,10 @@ h3 {
 @theme {
   --color-slate-50: #f7f8f4;
   --color-slate-100: #edf0e9;
-  --color-slate-200: #e0e5dc;
-  --color-slate-300: #c8d2c5;
-  --color-slate-400: #859184;
-  --color-slate-500: #657467;
+  --color-slate-200: #ccd6ca;
+  --color-slate-300: #a7b6a4;
+  --color-slate-400: #657461;
+  --color-slate-500: #53644f;
   --color-slate-600: #4d5f52;
   --color-slate-700: #354b3d;
   --color-slate-800: #243b2d;
@@ -212,7 +211,7 @@ button:disabled {
 }
 @layer components {
   .ff-card {
-    box-shadow: 0 3px 18px #203b2410;
+    box-shadow: 0 4px 18px #203b2412;
   }
   .ff-button {
     transition:
@@ -264,10 +263,17 @@ button:disabled {
   border-radius: 13px;
 }
 .ff-nav-button[aria-current="page"] {
-  background: #eaf1e4;
-  color: #1d5c3f;
+  background: #20553e;
+  color: #fff;
+  box-shadow: 0 3px 8px #20553e24;
 }
-.ff-nav-button:hover {
+.ff-nav-button[aria-current="page"] span span:last-child {
+  color: #dfecdc;
+}
+.ff-nav-button span span:last-child {
+  font-size: 11px;
+}
+.ff-nav-button:not([aria-current="page"]):hover {
   background: #f0f4eb;
 }
 .ff-main {
@@ -473,18 +479,36 @@ button:disabled {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 420px;
   align-items: center;
-  gap: 80px;
+  gap: 48px;
   width: 100%;
   max-width: 1040px;
   margin: auto;
 }
 .ff-auth-story {
+  position: relative;
   min-width: 0;
+  padding: 36px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #183e2d, #2d5a40);
+  box-shadow: 0 14px 40px #183e2d20;
+}
+.ff-auth-story h1,
+.ff-auth-story > p:first-of-type {
+  color: #fffdf3;
+}
+.ff-auth-story h1 span,
+.ff-auth-story > p:last-of-type,
+.ff-auth-story > a {
+  color: #d5e4d3;
+}
+.ff-auth-story .ff-brand-mark {
+  background: #f2dfac;
+  color: #244732;
 }
 .ff-auth-story .ff-harvest-photos {
-  width: 360px;
+  width: min(360px, 100%);
   height: 300px;
-  margin: 36px 0 0 28px;
+  margin: 28px 0 0;
 }
 .ff-auth-story .ff-harvest-circle {
   width: 280px;
@@ -497,12 +521,19 @@ button:disabled {
 .ff-auth-card {
   padding: 32px;
   border-radius: 24px;
-  box-shadow: 0 12px 50px #29452c10;
+  border-color: #bdccbd;
+  box-shadow: 0 12px 40px #29452c1a;
 }
 .ff-auth-link {
-  border-radius: 8px;
-  padding-block: 6px;
+  border-radius: 10px;
+  min-height: 40px;
+  padding: 8px 12px;
   transition: background 0.18s;
+}
+.ff-auth-link:first-of-type {
+  border: 1px solid #b3c4b4;
+  background: #f4f7f1;
+  font-weight: 600;
 }
 .ff-auth-link:hover {
   background: #f1f5eb;
@@ -544,7 +575,7 @@ button:disabled {
 }
 @media (max-width: 1023px) {
   .ff-auth-layout {
-    gap: 40px;
+    gap: 28px;
     grid-template-columns: minmax(0, 1fr) 380px;
   }
   .ff-today-hero {
@@ -572,15 +603,30 @@ button:disabled {
     display: none;
   }
   .ff-auth {
-    padding: 28px 20px;
+    padding: 20px 16px;
   }
   .ff-auth-layout {
     grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
+    gap: 18px;
     max-width: 440px;
   }
   .ff-auth-story .ff-harvest-photos {
     display: none;
+  }
+  .ff-auth-story {
+    padding: 22px 24px;
+    border-radius: 22px;
+  }
+  .ff-auth-story > div:first-child {
+    margin-bottom: 14px;
+  }
+  .ff-auth-story > p:first-of-type {
+    font-size: clamp(23px, 6vw, 27px);
+  }
+  .ff-auth-story > p:last-of-type {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.8;
   }
   .ff-auth-card {
     padding: 24px;

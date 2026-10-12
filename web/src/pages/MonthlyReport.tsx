@@ -10,7 +10,7 @@ import {
   type MonthlyReport as Report,
 } from "../monthlyReport";
 
-export function MonthlyReport() {
+export function MonthlyReport({ personal = false }: { personal?: boolean }) {
   const { p, token } = useBase();
   const [month, setMonth] = useState(""),
     [page, setPage] = useState(0),
@@ -103,7 +103,9 @@ export function MonthlyReport() {
               {new Date(report.as_of).toLocaleString()}
             </p>
             <Card>
-              <h2 className="font-semibold">家庭金额月报</h2>
+              <h2 className="font-semibold">
+                {personal ? "我的金额月报" : "家庭金额月报"}
+              </h2>
               <div className="my-4 grid gap-3 sm:grid-cols-3">
                 <p>
                   本月记录采购金额

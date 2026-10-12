@@ -47,7 +47,7 @@ export function Card({
   return (
     <section
       className={cn(
-        "ff-card min-w-0 rounded-2xl border border-slate-200 bg-white p-5",
+        "ff-card min-w-0 rounded-2xl border border-slate-200 bg-[#fffdf7] p-5",
         className,
       )}
     >
@@ -65,7 +65,7 @@ export function Field({
       {label}
       <input
         className={cn(
-          "mt-2 min-w-0 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 outline-none transition focus:border-emerald-600 focus:ring-3 focus:ring-emerald-100",
+          "mt-2 min-h-11 min-w-0 w-full rounded-xl border border-[#7c8e80] bg-slate-50 px-3 py-2.5 outline-none transition focus:border-emerald-600 focus:ring-3 focus:ring-emerald-100",
           className,
         )}
         {...props}

@@ -53,7 +53,7 @@ export function GettingStarted({ household }: { household: string }) {
       <div className="kitchen-welcome">
         <div>
           <p className="mb-2 flex items-center gap-2 text-xs font-semibold text-emerald-700">
-            <Leaf size={16} aria-hidden /> {household} · 我的家庭厨房
+            <Leaf size={16} aria-hidden /> {household} · 我的厨房
           </p>
           <h1 className="text-2xl font-bold leading-tight text-emerald-950 sm:text-3xl">
             从冰箱到餐桌，今天也好好吃饭。

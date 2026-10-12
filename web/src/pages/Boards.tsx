@@ -4,12 +4,13 @@ import { KitchenHome } from "../KitchenHome";
 import { Button } from "../ui";
 import { useUI } from "../store";
 import { useBase, useData, type Household } from "../app/shared";
-export function Today({ name }: { name: string }) {
+export function Today({ name, personal }: { name: string; personal: boolean }) {
   const { token, p } = useBase();
   return (
     <KitchenHome
       key={p}
       name={name}
+      personal={personal}
       token={token}
       household={p.slice("/households/".length)}
     />
@@ -32,6 +33,7 @@ export function Shopping() {
         token={token}
         household={p.slice("/households/".length)}
         canEdit={household.data?.role !== "viewer" && !!household.data}
+        personal={household.data?.kind === "personal"}
       />
     </>
   );

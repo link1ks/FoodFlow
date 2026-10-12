@@ -18,8 +18,8 @@ export function reportLines(report: MonthlyReport, page: number): string[] {
     (page + 1) * REPORT_PAGE_SIZE,
   );
   return [
-    `食光 FoodFlow · ${report.month} 家庭月报`,
-    `家庭时区：${report.timezone} · 第 ${page + 1}/${pages} 页`,
+    `食光 FoodFlow · ${report.month} 厨房月报`,
+    `厨房时区：${report.timezone} · 第 ${page + 1}/${pages} 页`,
     `数据截至：${report.as_of}`,
     `本月记录采购金额：¥${s.recorded_purchase_cost}（${s.purchase_records} 笔）`,
     `已知消耗成本：¥${s.known_consumed_cost} · 已知报损成本：¥${s.known_wasted_cost}`,

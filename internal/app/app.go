@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"foodflow/internal/agent"
 	"foodflow/internal/cache"
 	"foodflow/internal/core"
 	"foodflow/internal/dbgen"
@@ -24,10 +25,11 @@ import (
 )
 
 type App struct {
-	DB           *pgxpool.Pool
-	jwtKey       []byte
-	sms          sms.Sender
-	catalogCache *cache.Catalog
+	DB                *pgxpool.Pool
+	jwtKey            []byte
+	sms               sms.Sender
+	catalogCache      *cache.Catalog
+	communityReviewer agent.CommunityReviewer
 }
 
 var requestCount atomic.Uint64
@@ -80,7 +82,7 @@ func (a *App) Router() *gin.Engine {
 		}
 		c.Header("Access-Control-Allow-Origin", origin)
 		c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type, Idempotency-Key")
-		c.Header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
+		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
 		}
@@ -111,6 +113,7 @@ func (a *App) Router() *gin.Engine {
 	v.Use(a.auth)
 	v.POST("/logout", a.logout)
 	v.GET("/me", a.me)
+	v.PUT("/me/personal-kitchen", a.personalKitchen)
 	v.GET("/me/recovery-codes", a.recoveryStatus)
 	v.POST("/me/recovery-codes", a.limitAuth, a.issueRecoveryCodes)
 	v.POST("/me/phone/code", a.limitAuth, a.sendBindSMS)
@@ -121,6 +124,19 @@ func (a *App) Router() *gin.Engine {
 	v.POST("/households", a.createHousehold)
 	v.POST("/invites/accept", a.acceptInvite)
 	v.GET("/recipes", a.recipes)
+	v.GET("/community/posts", a.communityFeed)
+	v.POST("/community/posts", a.communityPublish)
+	v.GET("/community/posts/:post", a.communityDetail)
+	v.PATCH("/community/posts/:post", a.communityEdit)
+	v.DELETE("/community/posts/:post", a.communityRemove)
+	v.GET("/community/posts/:post/cover", a.communityPhoto)
+	v.POST("/community/posts/:post/reactions/:kind", a.communityReact)
+	v.GET("/community/account", a.communityAccount)
+	v.GET("/community/weekly", a.communityWeekly)
+	v.POST("/community/weeks/:week/finalize", a.communityFinalize)
+	v.POST("/community/candidates/:candidate/review", a.communityReview)
+	v.POST("/community/rewards/:reward/redeem", a.communityRedeem)
+	v.POST("/community/rewards/:reward/equip", a.communityEquipReward)
 	v.GET("/ingredient-catalog", a.ingredientCatalog)
 	v.GET("/capabilities", func(c *gin.Context) {
 		c.JSON(200, gin.H{"vision_enabled": visionConfigured(), "model_enabled": paidAIEnabled() && os.Getenv("MODEL_ENDPOINT") != "" && os.Getenv("MODEL_API_KEY") != "" && os.Getenv("MODEL_NAME") != "", "insights_enabled": os.Getenv("INSIGHTS_URL") != "" && len(os.Getenv("INSIGHTS_SERVICE_TOKEN")) >= 32})
@@ -388,6 +404,12 @@ func (a *App) membership(c *gin.Context) {
 		return
 	}
 	c.Set("role", role)
+	var kind string
+	if a.DB.QueryRow(c, "SELECT kind FROM households WHERE id=$1", hid(c)).Scan(&kind) != nil {
+		fail(c, 404, "household not found")
+		return
+	}
+	c.Set("kitchen_kind", kind)
 	c.Next()
 }
 func writable(c *gin.Context) bool {
@@ -405,7 +427,7 @@ func owner(c *gin.Context) bool {
 	return true
 }
 func (a *App) households(c *gin.Context) {
-	rows, e := a.DB.Query(c, "SELECT h.id,h.name,m.role,h.servings FROM households h JOIN members m ON m.household_id=h.id WHERE m.user_id=$1 ORDER BY h.created_at", uid(c))
+	rows, e := a.DB.Query(c, "SELECT h.id,h.name,m.role,h.servings,h.kind FROM households h JOIN members m ON m.household_id=h.id WHERE m.user_id=$1 AND (h.kind='family' OR h.owner_id=$1) ORDER BY (h.kind='personal') DESC,h.created_at,h.id", uid(c))
 	if e != nil {
 		fail(c, 500, "query failed")
 		return
@@ -413,10 +435,10 @@ func (a *App) households(c *gin.Context) {
 	defer rows.Close()
 	out := []gin.H{}
 	for rows.Next() {
-		var id, name, role string
+		var id, name, role, kind string
 		var servings int
-		if rows.Scan(&id, &name, &role, &servings) == nil {
-			out = append(out, gin.H{"id": id, "name": name, "role": role, "servings": servings})
+		if rows.Scan(&id, &name, &role, &servings, &kind) == nil {
+			out = append(out, gin.H{"id": id, "name": name, "role": role, "servings": servings, "kind": kind})
 		}
 	}
 	c.JSON(200, out)
@@ -472,7 +494,7 @@ func (a *App) household(c *gin.Context) {
 		fail(c, 404, "not found")
 		return
 	}
-	c.JSON(200, gin.H{"id": hid(c), "name": name, "servings": servings, "preferences": pref, "excluded_ingredients": excluded, "role": c.GetString("role")})
+	c.JSON(200, gin.H{"id": hid(c), "name": name, "servings": servings, "preferences": pref, "excluded_ingredients": excluded, "role": c.GetString("role"), "kind": c.GetString("kitchen_kind")})
 }
 func (a *App) updateHousehold(c *gin.Context) {
 	if !owner(c) {
@@ -522,7 +544,7 @@ func (a *App) members(c *gin.Context) {
 	c.JSON(200, out)
 }
 func (a *App) invite(c *gin.Context) {
-	if !owner(c) {
+	if !owner(c) || !sharedKitchen(c) {
 		return
 	}
 	var x struct{ Email, Role string }
@@ -559,6 +581,11 @@ func (a *App) acceptInvite(c *gin.Context) {
 		fail(c, 404, "invite unavailable")
 		return
 	}
+	var kind string
+	if tx.QueryRow(c, "SELECT kind FROM households WHERE id=$1", h).Scan(&kind) != nil || kind != "family" {
+		fail(c, 403, "个人厨房不能加入其他成员")
+		return
+	}
 	var actual string
 	_ = tx.QueryRow(c, "SELECT email FROM users WHERE id=$1", uid(c)).Scan(&actual)
 	if actual != email {
@@ -580,7 +607,7 @@ func (a *App) acceptInvite(c *gin.Context) {
 	c.JSON(200, gin.H{"household_id": h})
 }
 func (a *App) memberRole(c *gin.Context) {
-	if !owner(c) {
+	if !owner(c) || !sharedKitchen(c) {
 		return
 	}
 	var x struct{ Role string }

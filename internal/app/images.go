@@ -229,7 +229,7 @@ func (a *App) recognizeImage(ctx context.Context, j claimed) error {
 		return errors.New("invalid image job payload")
 	}
 	var role string
-	if e := a.DB.QueryRow(ctx, "SELECT role FROM members WHERE household_id=$1 AND user_id=$2", j.Household, j.Creator).Scan(&role); e != nil || role == "viewer" {
+	if e := a.DB.QueryRow(ctx, "SELECT m.role FROM members m JOIN households h ON h.id=m.household_id WHERE m.household_id=$1 AND m.user_id=$2 AND (h.kind='family' OR h.owner_id=m.user_id)", j.Household, j.Creator).Scan(&role); e != nil || role == "viewer" {
 		return errors.New("image tool permission denied")
 	}
 	store, e := imageStore()

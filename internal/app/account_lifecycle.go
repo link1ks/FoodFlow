@@ -150,6 +150,15 @@ func (a *App) mergeAccount(c *gin.Context) {
 		_, err = tx.Exec(c, "UPDATE households SET owner_id=$1 WHERE owner_id=$2", uid(c), source)
 	}
 	if err == nil {
+		// Keep the target's default; preserve the source's private kitchen/history
+		// under the merged owner without turning it into a shared family.
+		_, err = tx.Exec(c, `UPDATE personal_kitchens SET user_id=$1 WHERE user_id=$2
+ AND NOT EXISTS (SELECT 1 FROM personal_kitchens WHERE user_id=$1)`, uid(c), source)
+	}
+	if err == nil {
+		_, err = tx.Exec(c, "DELETE FROM personal_kitchens WHERE user_id=$1", source)
+	}
+	if err == nil {
 		_, err = tx.Exec(c, "DELETE FROM members WHERE user_id=$1", source)
 	}
 	if err == nil {

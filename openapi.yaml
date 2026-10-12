@@ -738,11 +738,16 @@ components:
             - viewer
         servings:
           type: integer
+        kind:
+          type: string
+          enum: [personal, family]
+          description: 个人厨房仅所有者可访问；家庭为可选共享空间。
       required:
         - id
         - name
         - role
         - servings
+        - kind
     HouseholdDetails:
       allOf:
         - $ref: '#/components/schemas/HouseholdSummary'
@@ -1424,6 +1429,18 @@ components:
               unknown_outbound_events:
                 type: integer
                 minimum: 0
+    CommunityIngredient: {"type":"object","properties":{"catalog_id":{"type":"string","format":"uuid"},"name":{"type":"string"},"quantity":{"type":"string"},"unit":{"type":"string"}},"required":["catalog_id","name","quantity","unit"]}
+    CommunityPost: {"type":"object","properties":{"id":{"type":"string","format":"uuid"},"author_id":{"type":"string","format":"uuid"},"author_name":{"type":"string"},"badge":{"type":"string"},"frame":{"type":"string"},"title":{"type":"string"},"story":{"type":"string"},"servings":{"type":"integer"},"minutes":{"type":"integer"},"tags":{"type":"array","items":{"type":"string"}},"ingredients":{"type":"array","items":{"$ref":"#/components/schemas/CommunityIngredient"}},"steps":{"type":"array","items":{"type":"string"}},"has_cover":{"type":"boolean"},"recipe_id":{"type":"string"},"created_at":{"type":"string","format":"date-time"},"likes":{"type":"integer"},"liked":{"type":"boolean"},"saved":{"type":"boolean"},"weekly_likes":{"type":"integer"},"review_status":{"enum":["legacy","pending","reviewing","approved","rejected","unavailable"],"type":"string"},"review_version":{"minimum":1,"type":"integer"},"review_note":{"type":"string"},"cover_reviewed":{"type":"boolean"}},"required":["id","author_id","author_name","badge","frame","title","story","servings","minutes","tags","ingredients","steps","has_cover","recipe_id","created_at","likes","liked","saved","weekly_likes","review_status","review_version","review_note","cover_reviewed"]}
+    CommunityFeed: {"type":"object","properties":{"posts":{"type":"array","items":{"$ref":"#/components/schemas/CommunityPost"}},"has_more":{"type":"boolean"}},"required":["posts","has_more"]}
+    CommunityReward: {"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"description":{"type":"string"},"cost":{"type":"integer"},"kind":{"type":"string"},"owned":{"type":"boolean"},"equipped":{"type":"boolean"}},"required":["id","name","description","cost","kind","owned","equipped"]}
+    CommunityLedgerEntry: {"type":"object","properties":{"amount":{"type":"integer"},"reason":{"type":"string"},"created_at":{"type":"string","format":"date-time"}},"required":["amount","reason","created_at"]}
+    CommunityAccount: {"type":"object","properties":{"user_id":{"type":"string","format":"uuid"},"is_admin":{"type":"boolean"},"balance":{"type":"integer"},"published":{"type":"integer"},"selected":{"type":"integer"},"badge":{"type":"string"},"frame":{"type":"string"},"theme":{"type":"string"},"rewards":{"type":"array","items":{"$ref":"#/components/schemas/CommunityReward"}},"ledger":{"type":"array","items":{"$ref":"#/components/schemas/CommunityLedgerEntry"}}},"required":["user_id","is_admin","balance","published","selected","badge","frame","theme","rewards","ledger"]}
+    CommunityCandidate: {"type":"object","properties":{"id":{"type":"string","format":"uuid"},"post_id":{"type":"string","format":"uuid"},"rank":{"type":"integer"},"votes":{"type":"integer"},"status":{"type":"string","enum":["pending","accepted","rejected"]},"review_note":{"type":"string"}},"required":["id","post_id","rank","votes","status","review_note"]}
+    CommunityWeekly: {"type":"object","properties":{"week_start":{"type":"string","format":"date"},"week_end":{"type":"string","format":"date"},"current":{"type":"array","items":{"$ref":"#/components/schemas/CommunityPost"}},"previous_week":{"type":"string","format":"date"},"finalized":{"type":"boolean"},"candidates":{"type":"array","items":{"$ref":"#/components/schemas/CommunityCandidate"}}},"required":["week_start","week_end","current","previous_week","finalized","candidates"]}
+    CommunityDraft: {"type":"object","properties":{"title":{"type":"string","minLength":2,"maxLength":60},"story":{"type":"string","maxLength":1000},"servings":{"type":"integer","minimum":1,"maximum":20},"minutes":{"type":"integer","minimum":1,"maximum":240},"tags":{"type":"array","minItems":1,"maxItems":3,"items":{"type":"string","enum":["家常","快手","早餐","轻食","汤羹","烘焙"]}},"ingredients":{"type":"array","minItems":1,"maxItems":30,"items":{"type":"object","properties":{"catalog_id":{"type":"string","format":"uuid"},"quantity":{"type":"string"},"unit":{"type":"string"}},"required":["catalog_id","quantity","unit"]}},"steps":{"type":"array","minItems":1,"maxItems":20,"items":{"type":"string","minLength":1,"maxLength":500}},"cover_base64":{"type":"string","description":"Optional base64 JPG/PNG; input <=2MB, dimensions <=1600; metadata stripped on server"},"confirm_public":{"type":"boolean"},"confirm_review":{"description":"Explicit consent to sending submitted recipe text and normalized cover to the moderation model","type":"boolean"},"remove_cover":{"description":"On editing a private submission, remove its existing cover; omitted cover otherwise preserves it","type":"boolean"}},"required":["title","servings","minutes","tags","ingredients","steps","confirm_public","confirm_review"]}
+    CommunityReaction: {"type":"object","properties":{"active":{"type":"boolean"}},"required":["active"]}
+    CommunityReview: {"type":"object","properties":{"accept":{"type":"boolean"},"confirm":{"type":"boolean"},"note":{"type":"string","maxLength":300},"workflow":{"type":"array","items":{"type":"object","properties":{"equipment":{"type":"string","enum":["board","stove"]},"duration_seconds":{"type":"integer","minimum":1,"maximum":14400}},"required":["equipment","duration_seconds"]}}},"required":["accept","confirm"]}
+    CommunityAction: {"type":"object","properties":{"id":{"type":"string","format":"uuid"},"active":{"type":"boolean"},"owned":{"type":"boolean"},"equipped":{"type":"boolean"},"removed":{"type":"boolean"},"finalized":{"type":"boolean"},"status":{"type":"string"},"recipe_id":{"type":"string"},"review_status":{"type":"string"},"review_version":{"type":"integer"}},"required":[]}
 paths:
   /me/recovery-codes:
     get:
@@ -2594,12 +2611,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /households:
-    get:
-      summary: 列出我的家庭
+  /me/personal-kitchen:
+    put:
+      summary: 获取或幂等创建我的个人厨房
+      description: 默认一人用餐，继承账号时区。并发请求返回同一个厨房；不会迁移、共享或覆盖已有家庭数据。
       responses:
         '200':
-          description: 家庭列表
+          description: 当前账号的默认私有厨房
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HouseholdSummary'
+        '401':
+          description: 需要有效登录
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: 厨房创建或读取暂不可用，可安全重试
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /households:
+    get:
+      summary: 列出我的个人厨房和可选家庭
+      responses:
+        '200':
+          description: 个人厨房优先的空间列表
           content:
             application/json:
               schema:
@@ -9047,3 +9087,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /community/posts: {"get":{"summary":"浏览社区配方","parameters":[{"in":"query","name":"filter","schema":{"type":"string","enum":["latest","popular","saved","mine","featured"]}},{"in":"query","name":"q","schema":{"type":"string","maxLength":60}},{"in":"query","name":"tag","schema":{"type":"string"}},{"in":"query","name":"offset","schema":{"type":"integer","minimum":0,"maximum":10000}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityFeed"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}},"post":{"summary":"提交配方与封面初审，通过后公开","parameters":[{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}},"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityDraft"}}}}}}
+  /community/posts/{post}: {"get":{"summary":"读取社区配方","parameters":[{"in":"path","name":"post","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityPost"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}},"delete":{"summary":"撤下自己的动态，或由社区管理员撤下","parameters":[{"in":"path","name":"post","required":true,"schema":{"type":"string","format":"uuid"}},{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}},"patch":{"summary":"修改自己的待审、未通过或审核异常配方并重新提交","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityDraft"}}},"required":true},"parameters":[{"in":"path","name":"post","required":true,"schema":{"type":"string","format":"uuid"}},{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}}}
+  /community/posts/{post}/cover: {"get":{"summary":"读取需登录的菜谱封面","parameters":[{"in":"path","name":"post","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"200":{"description":"照片","content":{"image/jpeg":{"schema":{"type":"string","format":"binary"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}}}
+  /community/posts/{post}/reactions/{kind}: {"post":{"summary":"设置点赞或收藏状态","parameters":[{"in":"path","name":"post","required":true,"schema":{"type":"string","format":"uuid"}},{"in":"path","name":"kind","required":true,"schema":{"type":"string","enum":["like","save"]}},{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}},"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityReaction"}}}}}}
+  /community/account: {"get":{"summary":"读取自己的积分和装饰","parameters":[],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAccount"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}}}
+  /community/weekly: {"get":{"summary":"读取本周榜和上周候选","parameters":[],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityWeekly"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}}}
+  /community/weeks/{week}/finalize: {"post":{"summary":"管理员结算已结束的自然周","parameters":[{"in":"path","name":"week","required":true,"schema":{"type":"string","format":"date"}},{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}}}
+  /community/candidates/{candidate}/review: {"post":{"summary":"管理员确认工序、审核入库或说明未收录原因","parameters":[{"in":"path","name":"candidate","required":true,"schema":{"type":"string","format":"uuid"}},{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}},"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityReview"}}}}}}
+  /community/rewards/{reward}/redeem: {"post":{"summary":"原子扣减积分并兑换装饰","parameters":[{"in":"path","name":"reward","required":true,"schema":{"type":"string"}},{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}}}
+  /community/rewards/{reward}/equip: {"post":{"summary":"使用已拥有的装饰","parameters":[{"in":"path","name":"reward","required":true,"schema":{"type":"string"}},{"in":"header","name":"Idempotency-Key","required":true,"schema":{"type":"string","minLength":8,"maxLength":128}}],"responses":{"200":{"description":"成功","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CommunityAction"}}}},"default":{"$ref":"#/components/responses/RecoveryAllowanceError"}}}}

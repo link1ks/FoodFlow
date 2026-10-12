@@ -1,0 +1,387 @@
+/* The saturated backdrop frames opaque reading surfaces on every route. */
+:root {
+  --ff-forest: #173f2d;
+  --ff-gold: #efd18a;
+  --ff-canvas: #f4f1e3;
+  background: var(--ff-forest);
+}
+body,
+.nature-backdrop {
+  background:
+    radial-gradient(ellipse at 100% 85%, #a99459 0%, transparent 62%),
+    radial-gradient(ellipse at 18% 0%, #4b7548 0%, transparent 58%),
+    linear-gradient(135deg, #173f2d 5%, #315c3d 55%, #657c46);
+}
+.foodflow-root {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+}
+.nature-backdrop::after {
+  background-image: radial-gradient(#f4dfb13b 0.7px, transparent 0.7px);
+  background-size: 6px 6px;
+  opacity: 0.42;
+}
+.nature-branch {
+  color: #e0d59b;
+  width: 320px;
+  height: 570px;
+  right: -45px;
+  top: 14%;
+  opacity: 0.35;
+}
+.nature-orbit {
+  border-color: #f1d89247;
+  opacity: 0.7;
+  box-shadow:
+    0 0 0 45px #d5c88e0c,
+    0 0 0 90px #d5c88e08;
+}
+.ff-header {
+  background: #173e2df5;
+  border-bottom: 1px solid #89a87566;
+  box-shadow: 0 6px 24px #0b261d30;
+}
+.ff-header-inner {
+  padding-block: 9px;
+}
+.ff-header .ff-brand-mark {
+  background: var(--ff-gold);
+  color: #264631;
+  box-shadow: 0 3px 12px #081f2230;
+}
+.ff-header-brand {
+  color: #fff7db;
+}
+.ff-header-brand > span {
+  color: #d5e3cb;
+}
+.ff-header .ff-nav {
+  padding: 5px;
+  border: 1px solid #6e94634d;
+  border-radius: 18px;
+  background: #244b36;
+}
+.ff-header .ff-nav-button {
+  color: #f1f3df;
+}
+.ff-header .ff-nav-hint {
+  color: #d0dfc5;
+}
+.ff-header .ff-nav-button:not([aria-current="page"]):hover {
+  background: #376447;
+  color: #fff;
+}
+.ff-header .ff-nav-button[aria-current="page"] {
+  background: var(--ff-gold);
+  color: #243f2c;
+  box-shadow: 0 3px 12px #09231838;
+}
+.ff-header .ff-nav-button[aria-current="page"] .ff-nav-hint {
+  color: #465637;
+}
+.ff-header-account > .ff-button {
+  color: #e2edda;
+}
+.ff-header-account > .ff-button:hover,
+.ff-account-trigger:hover,
+.ff-account-trigger[aria-current="page"] {
+  background: #315c40;
+}
+.ff-account-name {
+  color: #fff4d5;
+}
+.ff-account-caption {
+  color: #cfdfc6;
+}
+.ff-connection-status {
+  color: #ffdc91;
+}
+.ff-header button:focus-visible {
+  outline-color: #ffe1a3;
+}
+.ff-main,
+.ff-entry-canvas {
+  position: relative;
+  width: calc(100% - 40px);
+  margin-block: 24px;
+  padding: 28px;
+  background: var(--ff-canvas);
+  border: 1px solid #fcf2cecc;
+  border-radius: 28px;
+  box-shadow: 0 18px 55px #09271838;
+}
+.ff-main {
+  min-height: calc(100dvh - 215px);
+}
+.ff-entry-canvas {
+  margin-block: 40px;
+}
+.ff-page-title {
+  padding: 25px 28px;
+  border: 1px solid #a9be90;
+  border-radius: 20px;
+  background: linear-gradient(115deg, #d6e2be, #f0e1b7);
+  box-shadow: 0 4px 14px #4d65350a;
+}
+.ff-page-title:before {
+  top: 28px;
+  left: 13px;
+  height: 30px;
+  background: #8b652d;
+}
+.ff-page-title h1 {
+  color: #233e2b;
+  font-size: clamp(26px, 3vw, 34px);
+}
+.ff-page-title p {
+  color: #435a3c;
+  margin-top: 10px;
+}
+.ff-today-hero {
+  background: linear-gradient(115deg, #19432f, #356143);
+  border-color: #315b3b;
+  box-shadow: 0 10px 28px #19432f25;
+}
+.ff-today-hero h1 {
+  color: #fff9e8;
+}
+.ff-today-hero .ff-hero-copy > p:not(.ff-household-label) {
+  color: #e1ead4;
+}
+.ff-today-hero .ff-hero-copy > p:nth-of-type(2) {
+  color: #f1d58b;
+}
+.ff-household-label {
+  background: #315a3c;
+  color: #e5eddb;
+  border-color: #91ad7880;
+}
+.ff-today-hero .ff-hero-copy .ff-button:first-child {
+  background: var(--ff-gold);
+  color: #27452d;
+  border: 1px solid #f5dda5;
+}
+.ff-today-hero .ff-hero-copy .ff-button:first-child:hover {
+  background: #fce3a2;
+}
+.ff-today-hero .ff-hero-copy .ff-button:last-child {
+  background: #fff7df;
+  color: #284a31;
+  border-color: #fff7df;
+}
+.ff-today-hero .ff-button:focus-visible {
+  outline-color: #ffedb9;
+}
+.ff-today-hero .ff-photo-credit {
+  color: #e3ead1;
+}
+.ff-stat-card {
+  border-color: #b8c8aa;
+  border-top: 3px solid #487344;
+  box-shadow: 0 5px 18px #29473012;
+}
+.ff-stat-card:nth-child(2) {
+  border-top-color: #b48639;
+}
+.ff-stat-card:nth-child(3) {
+  border-top-color: #b66e4b;
+}
+.ff-stat-icon {
+  background: #d7e5bc;
+  color: #365b28;
+}
+.ff-stat-card:nth-child(2) .ff-stat-icon {
+  background: #f5dfaa;
+  color: #78531e;
+}
+.ff-stat-card:nth-child(3) .ff-stat-icon {
+  background: #f2d2bd;
+  color: #884a2d;
+}
+.ff-inventory-hero,
+.kitchen-welcome,
+.nature-welcome {
+  background: linear-gradient(115deg, #bfd4a3, #dbe2b5 55%, #edce89);
+  border-color: #94ae7c;
+  box-shadow: 0 8px 24px #42603914;
+}
+.ff-inventory-add {
+  background: #dce7c6;
+  border-color: #a6be91;
+}
+.ff-inventory-hero-copy > p,
+.ff-inventory-still-life > span,
+.kitchen-welcome > div > p,
+.nature-welcome > div > p {
+  color: #354f32;
+}
+.ff-inventory-stats > div,
+.ff-stock-card,
+.journey-card {
+  border-color: #b8c8a9;
+  box-shadow: 0 5px 18px #29473012;
+}
+.ff-stock-card-selected {
+  border-color: #537b41;
+  box-shadow:
+    0 0 0 2px #a5c589,
+    0 6px 20px #29473018;
+}
+.ff-page-switch {
+  background: #dbe5c9;
+  border-color: #a9bd92;
+  border-radius: 17px;
+}
+.ff-page-switch button[aria-pressed="true"] {
+  background: #fff9e5;
+  border-color: #759956;
+  box-shadow: 0 3px 10px #2a4c2420;
+}
+.ff-meal-empty {
+  background: linear-gradient(110deg, #e6edd2, #faf0d0);
+  border-color: #a4b98e;
+}
+.ff-empty-icon {
+  background: #cfdfb1;
+  color: #3e602c;
+}
+.ff-auth-layout {
+  align-items: stretch;
+  gap: 28px;
+}
+.ff-auth-story {
+  border: 1px solid #b6c99085;
+  background: linear-gradient(135deg, #163d2b, #386241);
+  box-shadow: 0 20px 65px #09271e45;
+}
+.ff-auth-story > p:first-of-type {
+  line-height: 1.35;
+}
+.ff-auth-card {
+  align-self: center;
+  background: #fffdf6;
+  border: 1px solid #f1e2b8;
+  box-shadow: 0 20px 65px #09271e45;
+  padding: 38px 34px;
+  border-radius: 26px;
+}
+.ff-auth-card > p:first-of-type {
+  color: #6d521e;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.ff-auth-card > h2 {
+  margin-bottom: 28px;
+  font-size: 29px;
+}
+.ff-auth-link:first-of-type {
+  background: #eef2e3;
+  border-color: #9fb390;
+}
+.ff-auth-card .ff-button {
+  box-shadow: 0 5px 14px #205a3720;
+}
+@layer components {
+  .ff-personal-space {
+    background: linear-gradient(110deg, #e1ebcd, #fff3d1);
+    border-color: #a9bd8e;
+  }
+  .ff-family-choice {
+    padding: 16px;
+    border: 1px solid #b5c5a4;
+    border-radius: 14px;
+    background: #fffdf7;
+    text-align: left;
+  }
+  .ff-family-choice:hover,
+  .ff-family-choice[aria-pressed="true"] {
+    border-color: #54763e;
+    background: #edf1db;
+  }
+  .ff-family-choice:focus-visible,
+  .ff-family-setup summary:focus-visible {
+    outline: 2px solid #3c642f;
+    outline-offset: 3px;
+  }
+  .ff-family-setup {
+    border-top: 1px solid #d5dec8;
+    padding-top: 16px;
+  }
+  .ff-family-setup summary {
+    width: fit-content;
+    cursor: pointer;
+    color: #35502f;
+    font-weight: 600;
+    border-radius: 4px;
+  }
+  .ff-card {
+    box-shadow: 0 5px 20px #29473012;
+  }
+  .ff-button:not(:disabled):hover {
+    box-shadow: 0 4px 12px #284b2b16;
+  }
+}
+@media (max-width: 767px) {
+  .nature-branch {
+    right: -165px;
+    opacity: 0.3;
+  }
+  .ff-main,
+  .ff-entry-canvas {
+    width: calc(100% - 12px);
+    padding: 14px;
+    margin-block: 12px;
+    border-radius: 22px;
+  }
+  .ff-entry-canvas {
+    width: calc(100% - 24px);
+    padding: 20px;
+  }
+  .ff-page-title {
+    padding: 21px 22px;
+    border-radius: 16px;
+  }
+  .ff-page-title:before {
+    left: 10px;
+    top: 24px;
+    width: 3px;
+    height: 25px;
+  }
+  .ff-auth-story {
+    padding: 22px 24px;
+  }
+  .ff-auth-card {
+    padding: 26px 24px;
+    border-radius: 22px;
+  }
+  .ff-auth-layout {
+    gap: 18px;
+  }
+}
+@media (max-width: 639px) {
+  .ff-header-inner {
+    padding-block: 4px;
+  }
+  .ff-header .ff-nav {
+    border-radius: 18px 18px 0 0;
+    border: 1px solid #cfdbbc;
+    border-bottom: 0;
+    padding: 7px 8px max(7px, env(safe-area-inset-bottom));
+    background: #fff9e9;
+    box-shadow: 0 -5px 24px #0e30202b;
+  }
+  .ff-header .ff-nav-button {
+    color: #3d5735;
+  }
+  .ff-header .ff-nav-button:not([aria-current="page"]):hover {
+    color: #264631;
+    background: #e7edd7;
+  }
+  .ff-header .ff-nav-button:focus-visible {
+    outline-color: #315a32;
+  }
+  .ff-main {
+    padding: 12px;
+  }
+}

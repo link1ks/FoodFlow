@@ -12,6 +12,7 @@ export function Settings() {
     preferences: string;
     excluded_ingredients: string[];
     role: string;
+    kind: "personal" | "family";
   }>("household", p);
   const members = useData<
     { id: string; name: string; email: string; role: string }[]
@@ -57,12 +58,19 @@ export function Settings() {
   }
   return (
     <>
-      <Title title="家庭设置" subtitle="维护家庭偏好、成员角色和邀请" />
+      <Title
+        title={d.data?.kind === "personal" ? "个人厨房设置" : "家庭设置"}
+        subtitle={
+          d.data?.kind === "personal"
+            ? "管理自己的用餐人数与饮食偏好，家庭共享可在个人中心开启"
+            : "维护家庭偏好、成员角色和邀请"
+        }
+      />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
-          <h2 className="mb-3 font-semibold">当前家庭</h2>
+          <h2 className="mb-3 font-semibold">当前厨房</h2>
           <label className="text-sm">
-            切换家庭
+            切换厨房
             <select
               className="mt-1 w-full rounded-xl border p-2"
               value={house}
@@ -70,6 +78,7 @@ export function Settings() {
             >
               {houses.data?.map((h) => (
                 <option key={h.id} value={h.id}>
+                  {h.kind === "personal" ? "个人 · " : "家庭 · "}
                   {h.name}
                 </option>
               ))}
@@ -99,50 +108,52 @@ export function Settings() {
             )}
           </div>
         </Card>
-        <Card>
-          <h2 className="mb-3 font-semibold">成员</h2>
-          {members.data?.map((m) => (
-            <div
-              key={m.id}
-              className="flex justify-between border-b py-2 text-sm"
-            >
-              <span>
-                {m.name} <span className="text-slate-500">{m.email}</span>
-              </span>
-              <MemberRoleControl
-                member={m}
-                canEdit={d.data?.role === "owner"}
-                token={token}
-                household={house}
-              />
-            </div>
-          ))}
-          {d.data?.role === "owner" && (
-            <div className="mt-4 space-y-3">
-              <Field
-                label="邀请邮箱"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <select
-                className="w-full rounded-xl border p-2"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
+        {d.data?.kind !== "personal" && (
+          <Card>
+            <h2 className="mb-3 font-semibold">成员</h2>
+            {members.data?.map((m) => (
+              <div
+                key={m.id}
+                className="flex justify-between border-b py-2 text-sm"
               >
-                <option value="editor">可编辑</option>
-                <option value="viewer">只读</option>
-              </select>
-              <Button onClick={invite}>生成邀请码</Button>
-              {code && (
-                <Notice>
-                  请将邀请码安全发给 {email}：
-                  <b className="break-all">{code}</b>
-                </Notice>
-              )}
-            </div>
-          )}
-        </Card>
+                <span>
+                  {m.name} <span className="text-slate-500">{m.email}</span>
+                </span>
+                <MemberRoleControl
+                  member={m}
+                  canEdit={d.data?.role === "owner"}
+                  token={token}
+                  household={house}
+                />
+              </div>
+            ))}
+            {d.data?.role === "owner" && (
+              <div className="mt-4 space-y-3">
+                <Field
+                  label="邀请邮箱"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <select
+                  className="w-full rounded-xl border p-2"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  <option value="editor">可编辑</option>
+                  <option value="viewer">只读</option>
+                </select>
+                <Button onClick={invite}>生成邀请码</Button>
+                {code && (
+                  <Notice>
+                    请将邀请码安全发给 {email}：
+                    <b className="break-all">{code}</b>
+                  </Notice>
+                )}
+              </div>
+            )}
+          </Card>
+        )}
       </div>
       {err && (
         <div className="mt-3">

@@ -1886,6 +1886,63 @@ export interface paths {
         };
         trace?: never;
     };
+    "/me/personal-kitchen": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * 获取或幂等创建我的个人厨房
+         * @description 默认一人用餐，继承账号时区。并发请求返回同一个厨房；不会迁移、共享或覆盖已有家庭数据。
+         */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 当前账号的默认私有厨房 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["HouseholdSummary"];
+                    };
+                };
+                /** @description 需要有效登录 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                /** @description 厨房创建或读取暂不可用，可安全重试 */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/households": {
         parameters: {
             query?: never;
@@ -1893,7 +1950,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** 列出我的家庭 */
+        /** 列出我的个人厨房和可选家庭 */
         get: {
             parameters: {
                 query?: never;
@@ -1903,7 +1960,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description 家庭列表 */
+                /** @description 个人厨房优先的空间列表 */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11624,6 +11681,495 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/community/posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 浏览社区配方 */
+        get: {
+            parameters: {
+                query?: {
+                    filter?: "latest" | "popular" | "saved" | "mine" | "featured";
+                    q?: string;
+                    tag?: string;
+                    offset?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityFeed"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        put?: never;
+        /** 提交配方与封面初审，通过后公开 */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CommunityDraft"];
+                };
+            };
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/posts/{post}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 读取社区配方 */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    post: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityPost"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        /** 撤下自己的动态，或由社区管理员撤下 */
+        delete: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    post: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        options?: never;
+        head?: never;
+        /** 修改自己的待审、未通过或审核异常配方并重新提交 */
+        patch: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    post: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CommunityDraft"];
+                };
+            };
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        trace?: never;
+    };
+    "/community/posts/{post}/cover": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 读取需登录的菜谱封面 */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    post: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 照片 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "image/jpeg": string;
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/posts/{post}/reactions/{kind}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 设置点赞或收藏状态 */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    post: string;
+                    kind: "like" | "save";
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CommunityReaction"];
+                };
+            };
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 读取自己的积分和装饰 */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAccount"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/weekly": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 读取本周榜和上周候选 */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityWeekly"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/weeks/{week}/finalize": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 管理员结算已结束的自然周 */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    week: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/candidates/{candidate}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 管理员确认工序、审核入库或说明未收录原因 */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    candidate: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CommunityReview"];
+                };
+            };
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/rewards/{reward}/redeem": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 原子扣减积分并兑换装饰 */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    reward: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/community/rewards/{reward}/equip": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 使用已拥有的装饰 */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    reward: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description 成功 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CommunityAction"];
+                    };
+                };
+                default: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -11890,6 +12436,11 @@ export interface components {
             /** @enum {string} */
             role: "owner" | "editor" | "viewer";
             servings: number;
+            /**
+             * @description 个人厨房仅所有者可访问；家庭为可选共享空间。
+             * @enum {string}
+             */
+            kind: "personal" | "family";
         };
         HouseholdDetails: components["schemas"]["HouseholdSummary"] & {
             preferences: string;
@@ -12135,6 +12686,143 @@ export interface components {
                 known_wasted_cost: string;
                 unknown_outbound_events: number;
             }[];
+        };
+        CommunityIngredient: {
+            /** Format: uuid */
+            catalog_id: string;
+            name: string;
+            quantity: string;
+            unit: string;
+        };
+        CommunityPost: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            author_id: string;
+            author_name: string;
+            badge: string;
+            frame: string;
+            title: string;
+            story: string;
+            servings: number;
+            minutes: number;
+            tags: string[];
+            ingredients: components["schemas"]["CommunityIngredient"][];
+            steps: string[];
+            has_cover: boolean;
+            recipe_id: string;
+            /** Format: date-time */
+            created_at: string;
+            likes: number;
+            liked: boolean;
+            saved: boolean;
+            weekly_likes: number;
+            /** @enum {string} */
+            review_status: "legacy" | "pending" | "reviewing" | "approved" | "rejected" | "unavailable";
+            review_version: number;
+            review_note: string;
+            cover_reviewed: boolean;
+        };
+        CommunityFeed: {
+            posts: components["schemas"]["CommunityPost"][];
+            has_more: boolean;
+        };
+        CommunityReward: {
+            id: string;
+            name: string;
+            description: string;
+            cost: number;
+            kind: string;
+            owned: boolean;
+            equipped: boolean;
+        };
+        CommunityLedgerEntry: {
+            amount: number;
+            reason: string;
+            /** Format: date-time */
+            created_at: string;
+        };
+        CommunityAccount: {
+            /** Format: uuid */
+            user_id: string;
+            is_admin: boolean;
+            balance: number;
+            published: number;
+            selected: number;
+            badge: string;
+            frame: string;
+            theme: string;
+            rewards: components["schemas"]["CommunityReward"][];
+            ledger: components["schemas"]["CommunityLedgerEntry"][];
+        };
+        CommunityCandidate: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            post_id: string;
+            rank: number;
+            votes: number;
+            /** @enum {string} */
+            status: "pending" | "accepted" | "rejected";
+            review_note: string;
+        };
+        CommunityWeekly: {
+            /** Format: date */
+            week_start: string;
+            /** Format: date */
+            week_end: string;
+            current: components["schemas"]["CommunityPost"][];
+            /** Format: date */
+            previous_week: string;
+            finalized: boolean;
+            candidates: components["schemas"]["CommunityCandidate"][];
+        };
+        CommunityDraft: {
+            title: string;
+            story?: string;
+            servings: number;
+            minutes: number;
+            tags: ("家常" | "快手" | "早餐" | "轻食" | "汤羹" | "烘焙")[];
+            ingredients: {
+                /** Format: uuid */
+                catalog_id: string;
+                quantity: string;
+                unit: string;
+            }[];
+            steps: string[];
+            /** @description Optional base64 JPG/PNG; input <=2MB, dimensions <=1600; metadata stripped on server */
+            cover_base64?: string;
+            confirm_public: boolean;
+            /** @description Explicit consent to sending submitted recipe text and normalized cover to the moderation model */
+            confirm_review: boolean;
+            /** @description On editing a private submission, remove its existing cover; omitted cover otherwise preserves it */
+            remove_cover?: boolean;
+        };
+        CommunityReaction: {
+            active: boolean;
+        };
+        CommunityReview: {
+            accept: boolean;
+            confirm: boolean;
+            note?: string;
+            workflow?: {
+                /** @enum {string} */
+                equipment: "board" | "stove";
+                duration_seconds: number;
+            }[];
+        };
+        CommunityAction: {
+            /** Format: uuid */
+            id?: string;
+            active?: boolean;
+            owned?: boolean;
+            equipped?: boolean;
+            removed?: boolean;
+            finalized?: boolean;
+            status?: string;
+            recipe_id?: string;
+            review_status?: string;
+            review_version?: number;
         };
     };
     responses: {

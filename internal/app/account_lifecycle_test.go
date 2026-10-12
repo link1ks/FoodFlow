@@ -97,6 +97,15 @@ func TestAccountRecoveryReplacementAndEpochFences(t *testing.T) {
 }
 
 func TestComplementaryAccountMergePreservesHistoryAndHouseholds(t *testing.T) {
+	for _, scenario := range []struct {
+		name           string
+		targetPersonal bool
+	}{{"transfer source default", false}, {"retain target default", true}} {
+		t.Run(scenario.name, func(t *testing.T) { testComplementaryAccountMergePreservesHistory(t, scenario.targetPersonal) })
+	}
+}
+
+func testComplementaryAccountMergePreservesHistory(t *testing.T, targetPersonal bool) {
 	db := testDB(t)
 	ctx := context.Background()
 	app := New(db)
@@ -109,11 +118,20 @@ func TestComplementaryAccountMergePreservesHistoryAndHouseholds(t *testing.T) {
 	code, v := h.call("POST", "/register", "", "", map[string]any{"email": core.ID() + "@example.test", "password": "Primary-pass-2026!", "name": "Primary"})
 	must(t, code, 200, v)
 	primary, target := get(v, "token"), get(v, "user_id")
+	primaryKitchen := ""
+	if targetPersonal {
+		code, v = h.call("PUT", "/me/personal-kitchen", primary, "", nil)
+		must(t, code, 200, v)
+		primaryKitchen = get(v, "id")
+	}
 	code, v = h.call("POST", "/auth/sms/code", "", "", map[string]any{"phone": "13800138103", "purpose": "register"})
 	must(t, code, 200, v)
 	code, v = h.call("POST", "/register", "", "", map[string]any{"phone": "13800138103", "password": "Source-pass-2026!", "name": "Source", "challenge_id": get(v, "challenge_id"), "code": sender.code})
 	must(t, code, 200, v)
 	sourceToken, source := get(v, "token"), get(v, "user_id")
+	code, v = h.call("PUT", "/me/personal-kitchen", sourceToken, "", nil)
+	must(t, code, 200, v)
+	sourceKitchen := get(v, "id")
 	code, v = h.call("POST", "/households", sourceToken, "", map[string]any{"name": "Source household", "servings": 2})
 	must(t, code, 201, v)
 	house := get(v, "id")
@@ -155,6 +173,20 @@ func TestComplementaryAccountMergePreservesHistoryAndHouseholds(t *testing.T) {
 		t.Fatal("login did not retain current account")
 	}
 	canonical := get(v, "token")
+	code, v = h.call("PUT", "/me/personal-kitchen", canonical, "", nil)
+	must(t, code, 200, v)
+	expectedKitchen := sourceKitchen
+	if targetPersonal {
+		expectedKitchen = primaryKitchen
+	}
+	if get(v, "id") != expectedKitchen {
+		t.Fatal("merge changed the retained default personal kitchen")
+	}
+	code, v = h.call("GET", "/households/"+sourceKitchen, canonical, "", nil)
+	must(t, code, 200, v)
+	if v["kind"] != "personal" || v["role"] != "owner" {
+		t.Fatal("merged private kitchen was shared or inaccessible")
+	}
 	code, v = h.call("GET", root, canonical, "", nil)
 	must(t, code, 200, v)
 	if v["role"] != "owner" {
