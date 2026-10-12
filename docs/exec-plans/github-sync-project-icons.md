@@ -13,12 +13,16 @@ Use deterministic application model fixtures only; preserve development/acceptan
 ## Final local evidence
 
 - Frozen-source full run `71f8ec5f356884ffa0b510fdce9bfd9d` passed all 15 checks, including required Docker Go tests (251.731s), generation, frontend, architecture, hygiene, knowledge, quality and source stability. Evidence: `.cache/harness/github-sync-readme-final-full.json`.
-- Final isolated acceptance passed all 14 checks, including platform recovery, gateway replacement and all 36 desktop/mobile cases (143.9s), zero skips/failures/retries; redacted diagnostics passed. Evidence: `.cache/harness/github-sync-readme-final-acceptance.json` and `.cache/harness/browser.json`.
+- Final isolated acceptance run `55970272d424c1ff6afc388c0403fddb` passed all 14 checks, including platform recovery, gateway replacement and all 36 desktop/mobile cases (143.9s), zero skips/failures/retries; redacted diagnostics passed. Evidence: `.cache/harness/github-sync-readme-final-acceptance.json` and `.cache/harness/browser.json`.
 - Final source digest: `6d653ca57f0eec3e53eeb8c1675ada340497d0aef13122407793d7fc2095f687`. No runtime source was changed during the final checks.
 - GitHub's own Markdown renderer preserved the mascot image; all local README links resolve. Local Edge previews inspected the header on desktop, narrow mobile and dark backgrounds. These previews do not execute GitHub's Mermaid enrichment scripts, so they do not establish its diagram rendering. Screenshots: `.cache/readme-preview`.
 - Previously requested features were published first in commit `f55d83dc31d9fd7d0d697243c024a40c03bdb1f4` on the review branch. Its exact cloud CI run [38209115114](https://github.com/link1ks/FoodFlow/actions/runs/38209115114) completed successfully. This is distinct from any later README commit's CI status.
 
-The review branch and pull request will carry the final README/mascot. Main publication remains pending explicit user confirmation because automatic review rejected the original broad main push. Development API/database remain healthy and Worker/Web run as before. Acceptance services will be stopped without removing volumes. No real application model calls or development-data deletion were performed; image generation used only the built-in image tool.
+The final README and mascot were published in commit `c5053cec0c0da9c5272f4b9f1fb5579d15c2cfb0`. Created and attached [PR #1](https://github.com/link1ks/FoodFlow/pull/1). The connector's integration returned 403 for PR creation, so the existing local Git Credential Manager authorization created the draft instead; credentials stayed in memory. Remote branch identity was verified and main was unchanged at that point.
+
+The user explicitly confirmed merging this exact PR into main after GitHub checks pass, including the accumulated multi-module changes. This resolves the insufficient-authorization reason from automatic review; no force push or premature merge is authorized. Cloud workflows for the README commit were still running at confirmation. Final publication identities/outcome are recorded in `.cache/harness/github-sync-publication.json`, separate from local model/browser checks. This documentation-only follow-up does not change the verified source digest.
+
+Development API/database remain healthy and Worker/Web run as before. Acceptance services were stopped without removing volumes. No real application model calls or development-data deletion were performed; image generation used only the built-in image tool. Local validation used installed Edge; cloud CI uses its own Chromium environment.
 
 ## Final image prompt
 
