@@ -1,31 +1,31 @@
-# 文档导航
+# 项目文档
 
-## 设计与开发
+## 使用与部署
 
-- [产品与启动](../README.md)、[开发与交付](../CONTRIBUTING.md)、[安全说明](../SECURITY.md)
-- [业务架构](../ARCHITECTURE.md)、[模块导航](../AGENTS.md)、[服务归属](PLATFORM.md)
-- [HTTP 契约](../openapi.yaml)、[生成契约与配置清单](generated/contracts.md)
-- [Harness 工作流](HARNESS.md)、[质量与未完成项](QUALITY.md)
+| 文档 | 内容 |
+| --- | --- |
+| [项目首页](../README.md) | 功能、快速启动、更新与开发入口 |
+| [个人厨房](PERSONAL_KITCHENS.md) | 个人默认厨房与可选家庭共享 |
+| [配方社区](COMMUNITY.md) | 发布、封面初审、每周精选、积分与管理员设置 |
+| [一键更新](UPDATING.md) | 首次下载、增量更新与 Docker 重建 |
+| [家庭试用](FAMILY_TRIAL.md) | 协作、厨房闭环与试用检查 |
+| [独立本机部署](LEARNING_DEPLOYMENT.md) | 独立数据库、端口与安全配置 |
+| [备份恢复](BACKUP_RECOVERY.md) | 数据库与图片共同备份、空目标恢复 |
+| [发布与回退](LEARNING_RELEASE.md) | 交付包检查、重建及数据库兼容边界 |
+| [账号与 AI 额度](ACCOUNT_RECOVERY_AI.md) | 找回、会话撤销与收费调用保护 |
 
-## 部署与运行
+## 开发与维护
 
-- [开发与隔离验收部署](LOCAL_DEPLOYMENT.md)
-- [本机学习部署](LEARNING_DEPLOYMENT.md)
-- [数据库与图片备份恢复](BACKUP_RECOVERY.md)
-- [账号找回与 AI 限额](ACCOUNT_RECOVERY_AI.md)
-- [发布包、更新与回退](LEARNING_RELEASE.md)
-- [家庭试用场景](FAMILY_TRIAL.md)
-- [食光社区、周榜及管理员设置](COMMUNITY.md)
+| 文档 | 内容 |
+| --- | --- |
+| [架构](../ARCHITECTURE.md) / [服务归属](PLATFORM.md) | 业务约束、事务与事件边界 |
+| [模块导航](../AGENTS.md) | 源码地图与维护规则 |
+| [API 契约](../openapi.yaml) / [生成清单](generated/contracts.md) | 接口、依赖与配置事实 |
+| [开发与贡献](../CONTRIBUTING.md) / [安全](../SECURITY.md) | 修改、交付与安全问题报告 |
+| [Harness](HARNESS.md) / [验收部署](LOCAL_DEPLOYMENT.md) | 可执行检查与隔离环境 |
+| [验证说明](VERIFICATION.md) / [质量台账](QUALITY.md) | 可复现场景、验证范围与未完成项 |
+| [平台维护计划](exec-plans/platform.md) / [Harness 约束](exec-plans/harness-hardening.md) | 当前维护与交付证据 |
+| [应用图标](assets/README.md) | 品牌资产、生成方式与使用位置 |
+| [更新日志](../CHANGELOG.md) | 用户可见变更 |
 
-## 验证与变更记录
-
-- [更新日志](../CHANGELOG.md)
-- [交付阶段与实际验证](exec-plans/learning-release.md)
-- [仓库整理记录](exec-plans/repository-hygiene.md)
-- [平台实施计划](exec-plans/platform.md)、[Harness 加固记录](exec-plans/harness-hardening.md)
-- [历史性能测量](VALIDATION_REPORT.md)、[历史平台故障验收](PLATFORM_VALIDATION.md)
-
-- [个人厨房与可选家庭](PERSONAL_KITCHENS.md)、[个人优先交付记录](exec-plans/personal-first-kitchen.md)
-- [社区配方与封面初审交付记录](exec-plans/community-agent-review.md)
-
-`exec-plans` 保存有来源的实现决策、失败和完成证据，`validation` 保存便携脱敏摘要。历史报告中的测试数量和性能仅属于其标注版本；当前结论以对应提交的 CI 和新运行报告为准。私人配置、备份、截图及原始运行产物保存在 Git 忽略的本地目录。
+仓库保留源代码、契约、部署工具、测试、授权资产和持续维护说明。已结束的逐次执行记录与旧运行摘要不随源码发布；历史内容可从 Git 历史查阅，新的本地运行证据保存在 Git 忽略的 `.cache/harness`，云端结果绑定到 GitHub Actions 的具体提交。

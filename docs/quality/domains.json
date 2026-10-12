@@ -51,7 +51,7 @@
         "status": "closed",
         "description": "Sustained multi-household mixed read/write load remains unverified",
         "completion": "Bounded 10-household/20-client/30-second API+PostgreSQL workload reports latency/errors/100ms lock sampling and checks precise stock, replay, ledger and outbox conservation; scope is not production capacity",
-        "evidence": "docs/exec-plans/family-completion.md"
+        "evidence": "docs/VERIFICATION.md"
       }
     ]
   },
@@ -121,7 +121,7 @@
         "status": "closed",
         "description": "Verified-phone recovery/replacement and complementary email/phone merge lifecycle",
         "completion": "Deterministic provider fixtures verify proofs, transaction rollback, historical preservation and session revocation; browser verifies unavailable states",
-        "evidence": "docs/exec-plans/family-completion.md"
+        "evidence": "docs/VERIFICATION.md"
       },
       {
         "id": "AUTH-SMS-DELIVERY",
@@ -231,7 +231,7 @@
         "status": "closed",
         "description": "Monthly CNY known-cost subtotals disclose unknown history and export bounded PNG pages",
         "completion": "Define cost coverage and unknown-history rules; verify exact monetary snapshots and exported report",
-        "evidence": "docs/exec-plans/family-completion.md"
+        "evidence": "docs/VERIFICATION.md"
       }
     ]
   },
@@ -467,7 +467,7 @@
         "status": "closed",
         "description": "Skip-build mode does not automatically bind running image IDs to source digest",
         "completion": "Build manifest records source digest and immutable API/web image IDs; base and platform services are checked before acceptance; unit regression rejects stale/missing/foreign bindings",
-        "evidence": "docs/exec-plans/family-completion.md"
+        "evidence": "docs/VERIFICATION.md"
       },
       {
         "id": "API-COVERAGE",
@@ -475,7 +475,7 @@
         "status": "closed",
         "description": "Success response media, fixture response validation and generated frontend types",
         "completion": "All successful routes declare JSON/binary/SSE schemas, real API fixtures validate responses, core UI uses generated types, freshness checked in full/CI",
-        "evidence": "docs/exec-plans/family-completion.md"
+        "evidence": "docs/VERIFICATION.md"
       },
       {
         "id": "API-JOB-SCHEMAS",

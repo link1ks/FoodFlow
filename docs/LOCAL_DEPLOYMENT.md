@@ -25,4 +25,4 @@ go run ./cmd/loadcheck -requests 500 -concurrency 8 -out .cache/loadcheck.json
 - Docker镜像下载失败并提到127.0.0.1代理：检查Docker Desktop代理设置与代理进程，不能据此判断代码镜像构建失败。
 - 端口已占用：先确认占用者，不终止未知服务。此验收环境默认使用15173/18080。
 - Go数据库测试被跳过：使用REQUIRE_INTEGRATION=true，CI会将Docker不可用视为失败。
-- 完整证据见 `docs/VALIDATION_REPORT.md`，未运行的项目不标为通过。
+- 场景与当前云端证据入口见 [验证说明](VERIFICATION.md)，未运行的项目不标为通过。

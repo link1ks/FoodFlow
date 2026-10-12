@@ -61,4 +61,4 @@ v1.1 的 `internal/engine/matcher` 将原料键离散为多字位集，使用 `m
 
 烹饪服务 `cooking_service.go` 与调味品服务 `pantry_service.go` 接收 `context.Context`、调用方事务和显式家庭/操作者作用域；HTTP Handler 负责鉴权与参数解析，幂等包装控制提交。服务不自行提交事务，确保库存、流水、餐次状态与补货写入共享回滚边界。其余历史 Handler 仍在逐步整理，当前保持模块化单体。
 
-API 支持 SIGTERM 最多 10 秒优雅退出；SSE 无全局写超时，关闭期限届满后终止剩余连接。独立验收 Compose 使用专属数据库和图片卷、随机密钥与本机端口，复现脚本和实际测量见 `docs/LOCAL_DEPLOYMENT.md` 与 `docs/VALIDATION_REPORT.md`。
+API 支持 SIGTERM 最多 10 秒优雅退出；SSE 无全局写超时，关闭期限届满后终止剩余连接。独立验收 Compose 使用专属数据库和图片卷、随机密钥与本机端口，复现脚本与验证范围见 `docs/LOCAL_DEPLOYMENT.md` 和 `docs/VERIFICATION.md`。

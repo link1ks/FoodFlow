@@ -37,4 +37,4 @@ pwsh -File scripts/learning-release.ps1 switch -Release .cache/learning-releases
 
 full 的 `release-regression` 检查私密路径/归档穿越/重复项、文件损坏、摘要漂移、验证缺失及 schema/history/topology/image 变化拒绝。`tests/learning-release.ps1` 在固定学习项目以当前版本进行真实重建，检查配套备份、数据库身份、七类库存/流水/幂等/成本表指纹、照片字节及部署安全。CI 同样执行，仅上传脱敏结果，不上传发布包或私人备份。
 
-当前演练是同版本重新创建，尚未验证旧版业务兼容、异机恢复、HTTPS、域名、公网登录、真实账单和真实成员体验。实际证据见[交付计划](exec-plans/learning-release.md)。
+当前演练是同版本重新创建，尚未验证旧版业务兼容、异机恢复、HTTPS、域名、公网登录、真实账单和真实成员体验。场景与云端证据入口见 [验证说明](VERIFICATION.md)。

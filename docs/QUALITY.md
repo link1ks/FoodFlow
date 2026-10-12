@@ -36,4 +36,4 @@ go test ./internal/engine/scheduler -run '^$' -fuzz FuzzScheduleStockConservatio
 go run ./cmd/harness -mode summary -out .cache/harness/summary.json
 ```
 
-普通全量测试执行 fuzz seed；额外 fuzz 命令探索更多输入，不能将有限时长运行当作形式证明。当前交付证据见[执行计划](exec-plans/quality-photos.md)。
+普通全量测试执行 fuzz seed；额外 fuzz 命令探索更多输入，不能将有限时长运行当作形式证明。场景定位与已关闭技术债的依据见 [验证说明](VERIFICATION.md)，当前提交以其 CI 与新运行结果为准。
