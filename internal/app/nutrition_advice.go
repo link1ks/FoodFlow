@@ -136,7 +136,7 @@ func (a *App) runAdvice(ctx context.Context, j claimed) error {
 	}
 	var pref, role string
 	var excluded []string
-	err := a.DB.QueryRow(ctx, "SELECT h.preferences,h.excluded_ingredients,m.role FROM households h JOIN members m ON m.household_id=h.id WHERE h.id=$1 AND m.user_id=$2", j.Household, j.Creator).Scan(&pref, &excluded, &role)
+	err := a.DB.QueryRow(ctx, "SELECT h.preferences,h.excluded_ingredients,m.role FROM households h JOIN members m ON m.household_id=h.id WHERE h.id=$1 AND m.user_id=$2 AND (h.kind='family' OR h.owner_id=m.user_id)", j.Household, j.Creator).Scan(&pref, &excluded, &role)
 	if err != nil || role == "viewer" {
 		return fmt.Errorf("家庭权限已变化，无法生成建议")
 	}
@@ -214,7 +214,7 @@ func (a *App) runAdvice(ctx context.Context, j claimed) error {
 	defer tx.Rollback(context.Background())
 	tag, err := tx.Exec(ctx, `UPDATE jobs SET status='succeeded',progress=100,result=$1,lease_token=NULL,lease_until=NULL,lease_owner=NULL,updated_at=now()
  WHERE id=$2 AND lease_token=$3 AND lease_until>now() AND status='running' AND NOT cancel_requested
- AND EXISTS(SELECT 1 FROM members WHERE household_id=$4 AND user_id=$5 AND role!='viewer')`, core.JSON(gin.H{"mode": mode, "summary": result.Summary, "tips": result.Tips, "recipes": chosen, "selected_inventory": stock, "servings": req.Servings}), j.ID, j.Token, j.Household, j.Creator)
+ AND EXISTS(SELECT 1 FROM members m JOIN households h ON h.id=m.household_id WHERE m.household_id=$4 AND m.user_id=$5 AND m.role!='viewer' AND (h.kind='family' OR h.owner_id=m.user_id))`, core.JSON(gin.H{"mode": mode, "summary": result.Summary, "tips": result.Tips, "recipes": chosen, "selected_inventory": stock, "servings": req.Servings}), j.ID, j.Token, j.Household, j.Creator)
 	if err != nil {
 		return err
 	}

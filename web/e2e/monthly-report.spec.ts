@@ -58,6 +58,10 @@ test("monthly costs keep unknown history and export a PNG", async ({
   await page.getByLabel("手机号或邮箱", { exact: true }).fill(email);
   await page.getByLabel("密码", { exact: true }).fill(password);
   await page.getByRole("button", { name: "登录", exact: true }).click();
+  await page.getByRole("button", { name: "打开个人主页", exact: true }).click();
+  await page
+    .getByRole("button", { name: "使用家庭：月报厨房", exact: true })
+    .click();
   await page
     .getByRole("navigation", { name: "主导航" })
     .getByRole("button", { name: /记录/ })

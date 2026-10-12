@@ -1,4 +1,4 @@
-import {useRef,useState} from 'react'
+import {useEffect,useRef,useState} from 'react'
 import {useQuery,useQueryClient} from '@tanstack/react-query'
 import {api,idem} from './api'
 import {Button,Card,Field,Notice} from './ui'
@@ -9,11 +9,12 @@ const label:Record<string,string>={breakfast:'早餐',lunch:'午餐',dinner:'晚
 const shortQuantity=(s:string)=>s.replace(/\.0+$/,'').replace(/(\.\d*?)0+$/,'$1')
 function StockLines({items}:{items:Use[]}){return <ul className="mt-1 flex flex-wrap gap-1">{items.map(i=><li key={i.batch_id} title={'批次 '+i.batch_id} className="rounded-md bg-white/80 px-2 py-1 text-xs">{i.name} {shortQuantity(i.quantity)} {i.unit}{i.expiry_kind==='estimate'?' · 有效期估计':''}</li>)}</ul>}
 export function MultiMealPlanner({token,root}:{token:string;root:string}){
- const q=useQueryClient(),[open,setOpen]=useState(false),[count,setCount]=useState('5'),[servings,setServings]=useState('2'),[minutes,setMinutes]=useState('45')
+ const q=useQueryClient(),[open,setOpen]=useState(false),[count,setCount]=useState('5'),[servings,setServings]=useState('1'),[minutes,setMinutes]=useState('45')
  const [day,setDay]=useState(()=>{const d=new Date();d.setDate(d.getDate()+1);return d.toLocaleDateString('en-CA')}),[first,setFirst]=useState('lunch'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('')
  const pending=useRef<{identity:string;key:string}|null>(null)
  const proposals=useQuery({queryKey:['multi-meal',root],queryFn:()=>api<Proposal[]>(root+'/multi-meal',token),enabled:open})
- const household=useQuery({queryKey:['household',root],queryFn:()=>api<{role:string}>(root,token),enabled:open})
+ const household=useQuery({queryKey:['household',root],queryFn:()=>api<{role:string;servings:number}>(root,token),enabled:open})
+ useEffect(()=>{if(household.data)setServings(String(household.data.servings))},[household.data?.servings])
  const editable=household.data?.role==='owner'||household.data?.role==='editor'
  async function write(path:string,body:unknown){setBusy(true);setError('');setMessage('');const identity=path+JSON.stringify(body);if(pending.current?.identity!==identity)pending.current={identity,key:idem()}
   try{await api(path,token,'POST',body,pending.current.key);pending.current=null;await q.invalidateQueries();if((body as {action?:string}).action==='adopt')setMessage('已采纳到菜单；当天餐次会显示在「今天」。库存将在烹饪完成时扣减。')}

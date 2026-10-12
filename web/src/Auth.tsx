@@ -6,7 +6,6 @@ import { useUI } from "./store";
 import { Button, Card, Field, Notice } from "./ui";
 import { CookingPot, Leaf } from "lucide-react";
 import { IngredientPhoto } from "./CatalogArt";
-import { NatureBackdrop } from "./NatureTheme";
 
 export function Auth() {
   const setToken = useUI((s) => s.setToken);
@@ -48,7 +47,6 @@ export function Auth() {
   }
   return (
     <main className="foodflow-shell ff-auth">
-      <NatureBackdrop />
       <div className="ff-auth-layout">
         <div className="ff-auth-story">
           <div className="mb-7 flex items-center gap-3">
@@ -63,9 +61,9 @@ export function Auth() {
             </h1>
           </div>
           <p className="text-3xl font-bold leading-snug text-emerald-950 sm:text-4xl">
-            好好吃饭，
+            <span className="inline-block">好好吃饭，</span>
             <br className="hidden sm:block" />
-            少一点浪费。
+            <span className="inline-block">少一点浪费。</span>
           </p>
           <p className="mt-4 max-w-sm text-sm leading-7 text-slate-600">
             让家里的食材和每一餐有序流动。
@@ -118,7 +116,7 @@ export function Auth() {
                   <Notice tone="success">密码已重置，请使用新密码登录。</Notice>
                 )}
                 <p className="mb-2 text-xs font-medium tracking-widest text-emerald-700">
-                  我的家庭厨房
+                  我的厨房 · 我的食光
                 </p>
                 <h2 className="mb-6 text-2xl font-bold text-emerald-950">
                   {register ? "创建账号" : "欢迎回来"}

@@ -61,6 +61,10 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   await page.getByLabel("手机号或邮箱", { exact: true }).fill(email);
   await page.getByLabel("密码", { exact: true }).fill(password);
   await page.getByRole("button", { name: "登录", exact: true }).click();
+  await page.getByRole("button", { name: "打开个人主页", exact: true }).click();
+  await page
+    .getByRole("button", { name: "使用家庭：新鲜日常", exact: true })
+    .click();
   await page
     .getByRole("navigation", { name: "主导航" })
     .getByRole("button", { name: /食材/ })

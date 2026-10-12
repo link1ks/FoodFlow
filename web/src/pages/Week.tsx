@@ -1,7 +1,7 @@
 import { Jobs } from "./Jobs";
 import { ModelNotice } from "../app/Capabilities";
 import { Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageSwitch } from "../GettingStarted";
 import { MultiMealPlanner } from "../MultiMealPlanner";
 import { Quantity } from "../Quantity";
@@ -16,11 +16,13 @@ import {
   type Plan,
   type Recipe,
   type Job,
+  type Household,
 } from "../app/shared";
 import { Button, Card, Field, Notice } from "../ui";
 export function Week() {
   const [mode, setMode] = useState("single");
   const { token, p, q } = useBase();
+  const household = useData<Household>("household", p);
   const results = useData<Job[]>("jobs", p + "/jobs");
   const relatedResults =
     results.data?.filter(
@@ -33,13 +35,16 @@ export function Week() {
   const recipes = useData<Recipe[]>("recipes", "/recipes");
   const [day, setDay] = useState(new Date().toLocaleDateString("en-CA")),
     [meal, setMeal] = useState("dinner"),
-    [servings, setServings] = useState("2"),
+    [servings, setServings] = useState("1"),
     [max, setMax] = useState("30"),
     [preference, setPreference] = useState(""),
     [excluded, setExcluded] = useState(""),
     [recipe, setRecipe] = useState(""),
     [err, setErr] = useState("");
   const selectedRecipe = recipes.data?.find((r) => r.id === recipe);
+  useEffect(() => {
+    if (household.data) setServings(String(household.data.servings));
+  }, [household.data?.servings]);
   async function generate() {
     setErr("");
     try {
@@ -211,7 +216,7 @@ export function Week() {
               </ol>
               <p className="mt-3 text-xs text-slate-500">
                 {selectedRecipe.source}
-                。以上为基准份量，菜单按人数换算；调味用量另按估算扣减，需先在家庭常备调味品中确认。计时结束仍需检查食物熟透。
+                。以上为基准份量，菜单按人数换算；调味用量另按估算扣减，需先在厨房常备调味品中确认。计时结束仍需检查食物熟透。
               </p>
             </section>
           )}

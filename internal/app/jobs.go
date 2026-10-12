@@ -376,7 +376,7 @@ type recipeChoice struct {
 
 func (a *App) chooseRecipe(ctx context.Context, j claimed, req planJob) (string, string, error) {
 	var role string
-	e := a.DB.QueryRow(ctx, "SELECT role FROM members WHERE household_id=$1 AND user_id=$2", j.Household, j.Creator).Scan(&role)
+	e := a.DB.QueryRow(ctx, "SELECT m.role FROM members m JOIN households h ON h.id=m.household_id WHERE m.household_id=$1 AND m.user_id=$2 AND (h.kind='family' OR h.owner_id=m.user_id)", j.Household, j.Creator).Scan(&role)
 	if e != nil || role == "viewer" {
 		return "", "", fmt.Errorf("agent tool permission denied")
 	}
@@ -445,7 +445,7 @@ func (a *App) chooseRecipe(ctx context.Context, j claimed, req planJob) (string,
 	return "", "", fmt.Errorf("model selected unknown recipe")
 }
 func (a *App) makeReminders(ctx context.Context) {
-	_, e := a.DB.Exec(ctx, `INSERT INTO reminders(id,household_id,user_id,batch_id,due_on) SELECT gen_random_uuid(),b.household_id,u.id,b.id,b.expires_on FROM batches b JOIN members m ON m.household_id=b.household_id JOIN users u ON u.id=m.user_id WHERE b.quantity_milli>0 AND b.expires_on IS NOT NULL AND b.expires_on BETWEEN (now() AT TIME ZONE u.timezone)::date AND (now() AT TIME ZONE u.timezone)::date+u.remind_days ON CONFLICT DO NOTHING`)
+	_, e := a.DB.Exec(ctx, `INSERT INTO reminders(id,household_id,user_id,batch_id,due_on) SELECT gen_random_uuid(),b.household_id,u.id,b.id,b.expires_on FROM batches b JOIN members m ON m.household_id=b.household_id JOIN households h ON h.id=b.household_id JOIN users u ON u.id=m.user_id WHERE (h.kind='family' OR h.owner_id=m.user_id) AND b.quantity_milli>0 AND b.expires_on IS NOT NULL AND b.expires_on BETWEEN (now() AT TIME ZONE u.timezone)::date AND (now() AT TIME ZONE u.timezone)::date+u.remind_days ON CONFLICT DO NOTHING`)
 	if e != nil {
 		slog.Error("reminders", "error", e)
 	}

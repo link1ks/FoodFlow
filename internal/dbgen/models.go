@@ -80,6 +80,53 @@ type BusinessEvent struct {
 	CreatedAt   pgtype.Timestamptz
 }
 
+type CommunityCandidate struct {
+	ID         pgtype.UUID
+	WeekStart  pgtype.Date
+	PostID     pgtype.UUID
+	AuthorID   pgtype.UUID
+	Rank       int32
+	Votes      int32
+	Status     string
+	ReviewNote string
+	ReviewedBy pgtype.UUID
+	ReviewedAt pgtype.Timestamptz
+}
+
+type CommunityPoint struct {
+	ID        pgtype.UUID
+	UserID    pgtype.UUID
+	Amount    int32
+	Reason    string
+	EventKey  string
+	CreatedAt pgtype.Timestamptz
+}
+
+type CommunityPost struct {
+	ID            pgtype.UUID
+	AuthorID      pgtype.UUID
+	Title         string
+	Story         string
+	Servings      int32
+	Minutes       int32
+	Tags          []string
+	Ingredients   []byte
+	Steps         []string
+	Fingerprint   string
+	Cover         []byte
+	CoverType     string
+	RecipeID      pgtype.UUID
+	CreatedAt     pgtype.Timestamptz
+	DeletedAt     pgtype.Timestamptz
+	ReviewStatus  string
+	ReviewVersion int32
+	ReviewNote    string
+	ReviewToken   pgtype.UUID
+	ReviewUntil   pgtype.Timestamptz
+	ReviewedAt    pgtype.Timestamptz
+	CoverReviewed bool
+}
+
 type CommunityPriceRecord struct {
 	ID                  int64
 	FamilyID            pgtype.UUID
@@ -99,6 +146,52 @@ type CommunityPriceRecord struct {
 	CreatedAt           pgtype.Timestamptz
 	NormalizedUnit      pgtype.Text
 	NormalizedPrice     pgtype.Numeric
+}
+
+type CommunityProfile struct {
+	UserID pgtype.UUID
+	Badge  string
+	Frame  string
+	Theme  string
+}
+
+type CommunityReaction struct {
+	PostID    pgtype.UUID
+	UserID    pgtype.UUID
+	Kind      string
+	Active    bool
+	CreatedAt pgtype.Timestamptz
+}
+
+type CommunityReplay struct {
+	UserID      pgtype.UUID
+	Key         string
+	RequestHash string
+	Response    []byte
+	CreatedAt   pgtype.Timestamptz
+}
+
+type CommunityReviewCall struct {
+	PostID       pgtype.UUID
+	Version      int32
+	AuthorID     pgtype.UUID
+	Kind         string
+	Month        pgtype.Date
+	CeilingMilli int64
+	State        string
+	CreatedAt    pgtype.Timestamptz
+	FinishedAt   pgtype.Timestamptz
+}
+
+type CommunityReward struct {
+	UserID    pgtype.UUID
+	Reward    string
+	CreatedAt pgtype.Timestamptz
+}
+
+type CommunityWeek struct {
+	WeekStart   pgtype.Date
+	FinalizedAt pgtype.Timestamptz
 }
 
 type CookingSession struct {
@@ -131,6 +224,7 @@ type Household struct {
 	CreatedAt           pgtype.Timestamptz
 	ExcludedIngredients []string
 	Timezone            string
+	Kind                string
 }
 
 type Idempotency struct {
@@ -299,6 +393,11 @@ type PantryConsumption struct {
 	Unit           string
 	Basis          []byte
 	CreatedAt      pgtype.Timestamptz
+}
+
+type PersonalKitchen struct {
+	UserID      pgtype.UUID
+	HouseholdID pgtype.UUID
 }
 
 type Plan struct {

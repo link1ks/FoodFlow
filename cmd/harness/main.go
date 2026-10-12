@@ -77,7 +77,7 @@ func command(name string, args ...string) (string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Minute)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, name, args...)
-	blocked := map[string]bool{"TRUSTED_PROXIES": true, "TEST_DATABASE_URL": true, "MODEL_API_KEY": true, "MODEL_ENDPOINT": true, "MODEL_NAME": true, "VISION_MODEL_API_KEY": true, "VISION_MODEL_ENDPOINT": true, "VISION_MODEL_NAME": true, "REDIS_URL": true, "INSIGHTS_URL": true, "INSIGHTS_SERVICE_TOKEN": true, "AI_ALLOWANCE_ENABLED": true, "AI_MONTHLY_ALLOWANCE_CNY": true, "AI_TEXT_CALL_ALLOWANCE_CNY": true, "AI_IMAGE_CALL_ALLOWANCE_CNY": true, "AI_DAILY_CALL_LIMIT": true, "AI_CONCURRENT_CALL_LIMIT": true}
+	blocked := map[string]bool{"TRUSTED_PROXIES": true, "TEST_DATABASE_URL": true, "COMMUNITY_REVIEW_MODEL_ENDPOINT": true, "COMMUNITY_REVIEW_MODEL_NAME": true, "COMMUNITY_REVIEW_MODEL_API_KEY": true, "MODEL_API_KEY": true, "MODEL_ENDPOINT": true, "MODEL_NAME": true, "VISION_MODEL_API_KEY": true, "VISION_MODEL_ENDPOINT": true, "VISION_MODEL_NAME": true, "REDIS_URL": true, "INSIGHTS_URL": true, "INSIGHTS_SERVICE_TOKEN": true, "AI_ALLOWANCE_ENABLED": true, "AI_MONTHLY_ALLOWANCE_CNY": true, "AI_TEXT_CALL_ALLOWANCE_CNY": true, "AI_IMAGE_CALL_ALLOWANCE_CNY": true, "AI_DAILY_CALL_LIMIT": true, "AI_CONCURRENT_CALL_LIMIT": true}
 	for _, entry := range os.Environ() {
 		key, _, _ := strings.Cut(entry, "=")
 		if !blocked[key] {
@@ -219,6 +219,7 @@ func main() {
 		}
 	}
 	if *mode == "full" || *mode == "fast" {
+		run("update-regression", func() (string, error) { return command("pwsh", "-File", "tests/update-project.ps1") })
 		if *mode == "full" {
 			run("release-regression", func() (string, error) { return command("pwsh", "-File", "tests/release-bundle.ps1") })
 			run("dbgen-regression", func() (string, error) { return command("pwsh", "-File", "tests/generated-freshness.ps1") })

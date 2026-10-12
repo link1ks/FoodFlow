@@ -29,6 +29,25 @@ func main() {
 		panic(e)
 	}
 	slog.Info("worker started")
+	application := app.New(db)
+	defer application.Close()
+	go application.WorkCommunityReviews(ctx)
+	go func() {
+		ticker := time.NewTicker(time.Hour)
+		defer ticker.Stop()
+		for {
+			selectionCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+			if err := app.FinalizeCommunityPreviousWeek(selectionCtx, db); err != nil && ctx.Err() == nil {
+				slog.Error("community weekly selection failed")
+			}
+			cancel()
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+			}
+		}
+	}()
 	if os.Getenv("MARKET_PRICE_SYNC") == "true" {
 		go func() {
 			ticker := time.NewTicker(6 * time.Hour)
@@ -48,5 +67,5 @@ func main() {
 			}
 		}()
 	}
-	app.New(db).Work(ctx)
+	application.Work(ctx)
 }

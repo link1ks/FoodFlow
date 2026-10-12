@@ -24,6 +24,7 @@ test("saved recovery code resets an email account and revokes all previous sessi
     ({ token, id }) => {
       localStorage.setItem("ff_token", token);
       localStorage.setItem("ff_household", id);
+      localStorage.setItem("ff_workspace_v2", id);
     },
     { token: user.token, id: house.id },
   );
@@ -143,6 +144,7 @@ test("email account merge explains scope and requires configured SMS", async ({
     ({ token, id }) => {
       localStorage.setItem("ff_token", token);
       localStorage.setItem("ff_household", id);
+      localStorage.setItem("ff_workspace_v2", id);
     },
     { token: user.token, id: house.id },
   );

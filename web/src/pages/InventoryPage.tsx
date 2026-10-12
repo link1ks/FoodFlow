@@ -102,7 +102,8 @@ export function InventoryPage() {
       <section className="ff-inventory-hero" aria-label="食材库存概览">
         <div className="ff-inventory-hero-copy">
           <p className="ff-eyebrow">
-            <Leaf size={15} aria-hidden="true" /> 我的家庭冰箱
+            <Leaf size={15} aria-hidden="true" />{" "}
+            {household.data?.kind === "personal" ? "我的冰箱" : "家庭共享冰箱"}
           </p>
           <h1>食材库存</h1>
           <p className="ff-inventory-intro">新鲜有数，每一餐都有着落。</p>

@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { expectReadable } from "./readability";
 const { version } = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8"),
 ) as { version: string };
@@ -63,9 +64,32 @@ test("real login, stocked inventory and primary navigation", async ({
   await page.getByRole("button", { name: "登录", exact: true }).click();
   await expect(page.getByRole("navigation", { name: "主导航" })).toBeVisible();
   await expect(
+    page.getByText("个人厨房：我的厨房", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "打开个人主页" }).click();
+  await page.getByRole("button", { name: "使用家庭：4", exact: true }).click();
+  await expect(
     page.getByRole("heading", { name: "今天", exact: true }),
   ).toBeVisible();
   await expect(page.getByText("当前家庭：4", { exact: true })).toBeVisible();
+  await expectReadable(
+    page.getByRole("heading", { name: "今天", exact: true }),
+  );
+  await expectReadable(page.getByText("当前家庭：4", { exact: true }));
+  for (const copy of await page.locator(".ff-hero-copy > p").all()) {
+    await expectReadable(copy);
+  }
+  for (const label of await page
+    .locator(".ff-nav-button > span:first-of-type")
+    .all()) {
+    await expectReadable(label);
+  }
+  if (info.project.name !== "mobile") {
+    for (const hint of await page.locator(".ff-nav-hint").all()) {
+      await expectReadable(hint);
+    }
+    await expectReadable(page.locator(".ff-account-caption"));
+  }
   if (info.project.name === "mobile") {
     // A backdrop-filter on the header can trap a descendant fixed navigation.
     const bounds = await page
@@ -101,6 +125,19 @@ test("real login, stocked inventory and primary navigation", async ({
   }
 
   const nav = page.getByRole("navigation", { name: "主导航" });
+  await nav.getByRole("button", { name: /今天/ }).focus();
+  await page.keyboard.press("Tab");
+  const inventoryNavigation = nav.getByRole("button", { name: /食材/ });
+  await expect(inventoryNavigation).toBeFocused();
+  expect(
+    await inventoryNavigation.evaluate((el) =>
+      Number.parseFloat(getComputedStyle(el).outlineWidth),
+    ),
+  ).toBeGreaterThanOrEqual(2);
+  await page.keyboard.press("Enter");
+  await expect(
+    page.getByRole("heading", { name: "食材库存", exact: true }),
+  ).toBeVisible();
   for (const [label, heading] of [
     ["食材", "食材库存"],
     ["菜单", "安排菜单"],
@@ -111,6 +148,14 @@ test("real login, stocked inventory and primary navigation", async ({
     await expect(
       page.getByRole("heading", { name: heading, exact: true }).first(),
     ).toBeVisible();
+    await expectReadable(
+      page.getByRole("heading", { name: heading, exact: true }).first(),
+    );
+    for (const copy of await page
+      .locator(".ff-page-title p, .ff-inventory-hero p")
+      .all()) {
+      if (await copy.isVisible()) await expectReadable(copy);
+    }
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -148,7 +193,8 @@ test("real login, stocked inventory and primary navigation", async ({
       });
     }
   }
-  await expect(nav.getByRole("button")).toHaveCount(5);
+  await expect(nav.getByRole("button")).toHaveCount(6);
+  await expect(nav.getByRole("button", { name: /社区/ })).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -223,6 +269,7 @@ test("onboarding, continuous stock and configured capability states", async ({
     ({ token, household }) => {
       localStorage.setItem("ff_token", token);
       localStorage.setItem("ff_household", household);
+      localStorage.setItem("ff_workspace_v2", household);
     },
     { token: user.token, household: house.id },
   );
@@ -230,6 +277,9 @@ test("onboarding, continuous stock and configured capability states", async ({
   await expect(
     page.getByRole("heading", { name: "从冰箱到餐桌，今天也好好吃饭。" }),
   ).toBeVisible();
+  for (const copy of await page.locator(".kitchen-welcome > div > p").all()) {
+    await expectReadable(copy);
+  }
   await page.getByRole("button", { name: "收起指南，查看今日待办" }).click();
   await page.reload();
   await expect(

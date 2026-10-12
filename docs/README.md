@@ -15,6 +15,7 @@
 - [账号找回与 AI 限额](ACCOUNT_RECOVERY_AI.md)
 - [发布包、更新与回退](LEARNING_RELEASE.md)
 - [家庭试用场景](FAMILY_TRIAL.md)
+- [食光社区、周榜及管理员设置](COMMUNITY.md)
 
 ## 验证与变更记录
 
@@ -23,5 +24,8 @@
 - [仓库整理记录](exec-plans/repository-hygiene.md)
 - [平台实施计划](exec-plans/platform.md)、[Harness 加固记录](exec-plans/harness-hardening.md)
 - [历史性能测量](VALIDATION_REPORT.md)、[历史平台故障验收](PLATFORM_VALIDATION.md)
+
+- [个人厨房与可选家庭](PERSONAL_KITCHENS.md)、[个人优先交付记录](exec-plans/personal-first-kitchen.md)
+- [社区配方与封面初审交付记录](exec-plans/community-agent-review.md)
 
 `exec-plans` 保存有来源的实现决策、失败和完成证据，`validation` 保存便携脱敏摘要。历史报告中的测试数量和性能仅属于其标注版本；当前结论以对应提交的 CI 和新运行报告为准。私人配置、备份、截图及原始运行产物保存在 Git 忽略的本地目录。

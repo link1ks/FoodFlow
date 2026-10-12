@@ -26,6 +26,10 @@ test("UI kitchen workflow purchases shortages and consumes exactly once", async 
   await page.getByLabel("手机号或邮箱", { exact: true }).fill(email);
   await page.getByLabel("密码", { exact: true }).fill(password);
   await page.getByRole("button", { name: "登录", exact: true }).click();
+  await page.getByRole("button", { name: "打开个人主页", exact: true }).click();
+  await page
+    .getByRole("button", { name: "使用家庭：完整流程厨房", exact: true })
+    .click();
   await page.getByRole("button", { name: "收起指南，查看今日待办" }).click();
   const nav = page.getByRole("navigation", { name: "主导航" });
   await nav.getByRole("button", { name: /食材/ }).click();

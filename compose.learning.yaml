@@ -21,6 +21,10 @@ x-app-env: &app_env
   STORAGE_BACKEND: local
   IMAGE_STORAGE_DIR: /app/data/images
   MARKET_PRICE_SYNC: 'false'
+  COMMUNITY_ADMIN_IDS: ${COMMUNITY_ADMIN_IDS:-}
+  COMMUNITY_REVIEW_MODEL_ENDPOINT: ''
+  COMMUNITY_REVIEW_MODEL_NAME: ''
+  COMMUNITY_REVIEW_MODEL_API_KEY: ''
   # Paid integrations stay off until recovery and budget controls are accepted.
   MODEL_ENDPOINT: ''
   MODEL_NAME: ''

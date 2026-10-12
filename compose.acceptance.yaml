@@ -35,6 +35,13 @@ services:
       IMAGE_STORAGE_DIR: /app/data/images
       STORAGE_BACKEND: local
       MARKET_PRICE_SYNC: 'false'
+      COMMUNITY_ADMIN_IDS: ${COMMUNITY_ADMIN_IDS:-}
+      COMMUNITY_REVIEW_MODEL_ENDPOINT: http://review-fixture:8080/v1
+      COMMUNITY_REVIEW_MODEL_NAME: deterministic-review-fixture
+      COMMUNITY_REVIEW_MODEL_API_KEY: fixture-only
+      AI_ALLOWANCE_ENABLED: 'true'
+      AI_MONTHLY_ALLOWANCE_CNY: '1000'
+      AI_DAILY_CALL_LIMIT: '1000'
     volumes: [acceptance_images:/app/data/images]
     ports: ['127.0.0.1:18080:8080']
     depends_on:
@@ -63,6 +70,17 @@ services:
     ports: ['127.0.0.1:15173:80']
     depends_on:
       api: {condition: service_healthy}
+  # Local deterministic model fixture only; never contacts a real provider.
+  review-fixture:
+    image: node:24-alpine
+    command: [node, /fixture/review-model.cjs]
+    volumes: ['./tests/fixtures/review-model.cjs:/fixture/review-model.cjs:ro']
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:8080/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
 volumes:
   acceptance_db:
   acceptance_images:

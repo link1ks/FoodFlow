@@ -9,7 +9,7 @@ type Day=Report['daily'][number]
 const axes=[{key:'energy',name:'热量',unit:'kcal',ref:2000},{key:'protein',name:'蛋白质',unit:'g',ref:60},{key:'fat',name:'脂肪',unit:'g',ref:60},{key:'carbs',name:'碳水',unit:'g',ref:300},{key:'fiber',name:'膳食纤维',unit:'g',ref:25}] as const
 const point=(i:number,r:number)=>`${160+Math.sin(i*2*Math.PI/5)*r},${145-Math.cos(i*2*Math.PI/5)*r}`
 const sum=(ds:Day[],key:keyof Day)=>ds.reduce((n,d)=>n+(typeof d[key]==='number'?Number(d[key]):0),0)
-export function NutritionRadar({root,token}:{root:string;token:string}){
+export function NutritionRadar({root,token,personal=false}:{root:string;token:string;personal?:boolean}){
  const [days,setDays]=useState(7)
  const q=useQuery({queryKey:['nutrition',root,days],queryFn:()=>api<Report>(`${root}/nutrition?days=${days}`,token)})
  const d=q.data,recorded=d?.daily.filter(x=>x.meals>0)||[],knownDays=recorded.filter(x=>x.known_lines>0).length
@@ -18,7 +18,7 @@ export function NutritionRadar({root,token}:{root:string;token:string}){
  const values=axes.map(a=>knownDays?sum(recorded,a.key)/recorded.length:null)
  const vegetable=sum(recorded,'vegetable_grams'),dark=sum(recorded,'dark_grams'),unknownVeg=sum(recorded,'unknown_vegetables')
  const darkRatio=vegetable>0&&unknownVeg===0&&known===lines?dark/vegetable:null
- return <Card className="mb-6 overflow-hidden"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-lg font-bold">家庭营养雷达</h2><p className="mt-1 text-sm text-slate-500">从已完成餐次，了解餐桌上的营养组成</p></div><div className="flex gap-1 rounded-xl bg-slate-100 p-1">{[7,30].map(n=><Button key={n} size="sm" variant={days===n?'default':'ghost'} aria-pressed={days===n} onClick={()=>setDays(n)}>近 {n} 天</Button>)}</div></div>
+ return <Card className="mb-6 overflow-hidden"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-lg font-bold">{personal ? "我的营养雷达" : "家庭营养雷达"}</h2><p className="mt-1 text-sm text-slate-500">从已完成餐次，了解餐桌上的营养组成</p></div><div className="flex gap-1 rounded-xl bg-slate-100 p-1">{[7,30].map(n=><Button key={n} size="sm" variant={days===n?'default':'ghost'} aria-pressed={days===n} onClick={()=>setDays(n)}>近 {n} 天</Button>)}</div></div>
  {q.isPending&&<p className="py-8 text-slate-500" role="status">正在汇总烹饪记录…</p>}
  {q.isError&&<div className="mt-4"><Notice tone="error">{String(q.error)} <Button size="sm" onClick={()=>q.refetch()}>重新加载</Button></Notice></div>}
  {d&&<><div className="mt-5 grid grid-cols-3 gap-2 text-center"><div className="rounded-xl bg-emerald-50 p-3"><strong className="block text-xl text-emerald-800">{sum(recorded,'meals')}</strong><span className="text-xs text-slate-600">完成餐次</span></div><div className="rounded-xl bg-emerald-50 p-3"><strong className="block text-xl text-emerald-800">{recorded.length} / {days}</strong><span className="text-xs text-slate-600">有记录的天数</span></div><div className="rounded-xl bg-emerald-50 p-3"><strong className="block text-xl text-emerald-800">{lines?Math.round(100*known/lines)+'%':'—'}</strong><span className="text-xs text-slate-600">消耗条目可计算率</span></div></div>

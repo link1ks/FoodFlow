@@ -67,7 +67,7 @@ func (a *App) aiAllowance(c *gin.Context) {
  COALESCE(sum(ceiling_milli) FILTER (WHERE month=date_trunc('month',now() AT TIME ZONE 'Asia/Shanghai')::date),0),
  COALESCE(sum(ceiling_milli) FILTER (WHERE month=date_trunc('month',now() AT TIME ZONE 'Asia/Shanghai')::date AND household_id=$1),0),
  count(*) FILTER (WHERE (created_at AT TIME ZONE 'Asia/Shanghai')::date=(now() AT TIME ZONE 'Asia/Shanghai')::date),
- count(*) FILTER (WHERE state IN ('pending','uncertain')) FROM ai_call_allowances`, hid(c)).Scan(&global, &house, &daily, &active)
+ count(*) FILTER (WHERE state IN ('pending','uncertain')) FROM `+paidCalls, hid(c)).Scan(&global, &house, &daily, &active)
 	if err != nil {
 		fail(c, 503, "AI 额度暂不可用")
 		return
@@ -100,8 +100,8 @@ func (a *App) allowanceGuard(j claimed, kind string) agent.CallGuard {
 			return nil, errors.New("AI 额度锁不可用")
 		}
 		var valid bool
-		err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM jobs j JOIN members m ON m.household_id=j.household_id AND m.user_id=j.created_by
- WHERE j.id=$1 AND j.household_id=$2 AND j.created_by=$3 AND j.lease_token=$4 AND j.lease_until>now() AND j.status='running' AND NOT j.cancel_requested AND m.role IN ('owner','editor'))`, j.ID, j.Household, j.Creator, j.Token).Scan(&valid)
+		err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM jobs j JOIN members m ON m.household_id=j.household_id AND m.user_id=j.created_by JOIN households h ON h.id=j.household_id
+ WHERE j.id=$1 AND j.household_id=$2 AND j.created_by=$3 AND j.lease_token=$4 AND j.lease_until>now() AND j.status='running' AND NOT j.cancel_requested AND m.role IN ('owner','editor') AND (h.kind='family' OR h.owner_id=m.user_id))`, j.ID, j.Household, j.Creator, j.Token).Scan(&valid)
 		if err != nil || !valid {
 			return nil, errors.New("AI 任务权限或租约已失效")
 		}
@@ -111,7 +111,7 @@ func (a *App) allowanceGuard(j claimed, kind string) agent.CallGuard {
  COALESCE(sum(ceiling_milli) FILTER (WHERE month=date_trunc('month',now() AT TIME ZONE 'Asia/Shanghai')::date),0),
  COALESCE(sum(ceiling_milli) FILTER (WHERE month=date_trunc('month',now() AT TIME ZONE 'Asia/Shanghai')::date AND household_id=$1),0),
  count(*) FILTER (WHERE (created_at AT TIME ZONE 'Asia/Shanghai')::date=(now() AT TIME ZONE 'Asia/Shanghai')::date),
- count(*) FILTER (WHERE state IN ('pending','uncertain')) FROM ai_call_allowances`, j.Household).Scan(&used, &house, &daily, &active)
+ count(*) FILTER (WHERE state IN ('pending','uncertain')) FROM `+paidCalls, j.Household).Scan(&used, &house, &daily, &active)
 		if err != nil {
 			return nil, errors.New("AI 额度查询失败")
 		}

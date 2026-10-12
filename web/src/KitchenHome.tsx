@@ -23,10 +23,12 @@ export function KitchenHome({
   name,
   token,
   household,
+  personal = false,
 }: {
   name: string;
   token: string;
   household: string;
+  personal?: boolean;
 }) {
   const root = "/households/" + household;
   const inventory = useData<Inventory>("inventory", root + "/inventory");
@@ -74,7 +76,9 @@ export function KitchenHome({
         <div className="ff-hero-copy">
           <p className="ff-household-label">
             <Leaf size={14} aria-hidden="true" />
-            <span>当前家庭：{name}</span>
+            <span>
+              {personal ? "个人厨房" : "当前家庭"}：{name}
+            </span>
           </p>
           <h1 className="mt-5 text-4xl font-bold text-emerald-950 sm:text-5xl">
             今天

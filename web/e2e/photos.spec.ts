@@ -41,6 +41,10 @@ test("real catalogue photos, family upload priority and failed-image fallback", 
   await page.getByLabel("手机号或邮箱", { exact: true }).fill(email);
   await page.getByLabel("密码", { exact: true }).fill(password);
   await page.getByRole("button", { name: "登录", exact: true }).click();
+  await page.getByRole("button", { name: "打开个人主页", exact: true }).click();
+  await page
+    .getByRole("button", { name: "使用家庭：照片验收厨房", exact: true })
+    .click();
   const nav = page.getByRole("navigation", { name: "主导航" });
   await expect(nav).toBeVisible();
   await nav.getByRole("button", { name: /食材/ }).click();

@@ -7,14 +7,15 @@ import {
   LogOut,
   RefreshCw,
   ShoppingBasket,
+  Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { version } from "../../package.json";
 import { AccountMerge, PhoneBinding } from "../AccountLifecycle";
 import { RecoveryCodes } from "../RecoveryCodes";
 import { AIAllowance } from "../AIAllowance";
 import { Avatar } from "../Avatar";
-import { NatureBackdrop } from "../NatureTheme";
 import { api } from "../api";
 import {
   ErrorLine,
@@ -33,58 +34,53 @@ import {
 } from "../pages/Settings";
 import { Week } from "../pages/Week";
 import { Records } from "../pages/Records";
+import { Community } from "../pages/Community";
+import { KitchenSpaces } from "../pages/KitchenSpaces";
 import { KitchenHelp } from "../KitchenHome";
 import { useUI } from "../store";
-import { Button, Card, Field, Notice } from "../ui";
+import { Button, Card, Notice } from "../ui";
 export function HouseholdGate() {
   const { token, q } = useBase();
   const query = useData<Household[]>("households", "/households");
+  const personal = useQuery({
+    queryKey: ["personal-kitchen"],
+    queryFn: () => api<Household>("/me/personal-kitchen", token, "PUT"),
+    enabled: !!token,
+    staleTime: Infinity,
+  });
   const setHouse = useUI((s) => s.setHousehold),
     setToken = useUI((s) => s.setToken),
     house = useUI((s) => s.household);
-  const [name, setName] = useState(""),
-    [servings, setServings] = useState("2"),
-    [code, setCode] = useState(""),
-    [err, setErr] = useState("");
-  const current = query.data?.find((x) => x.id === house);
+  const current =
+    query.data?.find((x) => x.id === house) ||
+    (personal.data?.id === house ? personal.data : undefined);
   useEffect(() => {
-    if (query.data?.length && !current) setHouse(query.data[0].id);
-  }, [query.data, current, setHouse]);
-  async function create() {
-    try {
-      const v = await api<{ id: string }>("/households", token, "POST", {
-        name,
-        servings: Number(servings),
-        preferences: "",
-      });
-      await query.refetch();
-      setHouse(v.id);
-    } catch (e) {
-      setErr(String(e));
-    }
-  }
-  async function join() {
-    try {
-      const v = await api<{ household_id: string }>(
-        "/invites/accept",
-        token,
-        "POST",
-        { code },
-      );
-      await query.refetch();
-      setHouse(v.household_id);
-    } catch (e) {
-      setErr(String(e));
-    }
-  }
-  if (query.isLoading) return <div className="p-10">正在加载家庭…</div>;
-  if (query.error)
+    if (!query.isPending && personal.data && !current)
+      setHouse(personal.data.id);
+  }, [query.isPending, personal.data, current, setHouse]);
+  if (query.isPending || personal.isPending)
     return (
-      <main className="mx-auto max-w-md p-6">
+      <div className="ff-entry-canvas mx-auto max-w-md" role="status">
+        正在准备你的厨房…
+      </div>
+    );
+  if (query.error || personal.error)
+    return (
+      <main className="ff-entry-canvas mx-auto max-w-md">
         <Card>
-          <ErrorLine error={query.error} />
+          <ErrorLine error={query.error || personal.error} />
+          <Button
+            className="mt-3 mr-2"
+            onClick={() => {
+              personal.refetch();
+              query.refetch();
+            }}
+          >
+            重试加载
+          </Button>
           <Button
             className="mt-3"
+            variant="outline"
             onClick={() => {
               setToken("");
               q.clear();
@@ -95,55 +91,20 @@ export function HouseholdGate() {
         </Card>
       </main>
     );
-  if (current) return <AppShell household={current} />;
+  if (current) return <AppShell key={current.id} household={current} />;
   return (
-    <main className="mx-auto max-w-lg px-4 py-12">
-      <h1 className="mb-6 text-3xl font-bold">开始使用食光</h1>
-      <Card>
-        <h2 className="mb-4 text-xl font-semibold">创建家庭</h2>
-        <div className="space-y-3">
-          <Field
-            label="家庭名称"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Field
-            label="默认用餐人数"
-            type="number"
-            min="1"
-            max="20"
-            value={servings}
-            onChange={(e) => setServings(e.target.value)}
-          />
-          <Button onClick={create}>创建</Button>
-        </div>
-      </Card>
-      <Card className="mt-4">
-        <h2 className="mb-4 text-xl font-semibold">接受邀请</h2>
-        <Field
-          label="邀请码"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
-        <Button className="mt-3" variant="outline" onClick={join}>
-          加入家庭
-        </Button>
-      </Card>
-      {err && (
-        <div className="mt-4">
-          <Notice tone="error">{err}</Notice>
-        </div>
-      )}
-    </main>
+    <div className="ff-entry-canvas mx-auto max-w-md" role="status">
+      正在打开个人厨房…
+    </div>
   );
 }
-
 export const nav = [
   ["today", "今天", Home, "厨房待办"],
   ["inventory", "食材", Boxes, "库存 · 保鲜"],
   ["week", "菜单", CalendarDays, "安排 · 做饭"],
   ["shopping", "采购", ShoppingBasket, "清单 · 菜价"],
   ["records", "记录", BarChart3, "营养 · 用量"],
+  ["community", "社区", Users, "分享 · 精选"],
 ] as const;
 
 export function AppShell({ household }: { household: Household }) {
@@ -206,7 +167,6 @@ export function AppShell({ household }: { household: Household }) {
   }
   return (
     <div className="foodflow-shell min-h-screen pb-24">
-      <NatureBackdrop />
       <header className="ff-header sticky top-0 z-20">
         <div className="ff-header-inner flex min-h-16 flex-wrap items-center gap-x-5 px-4 sm:px-6 xl:flex-nowrap xl:px-8">
           <button
@@ -217,7 +177,7 @@ export function AppShell({ household }: { household: Household }) {
             <span className="ff-brand-mark" aria-hidden="true">
               <CookingPot size={24} strokeWidth={1.6} />
             </span>
-            <span className="text-xl font-extrabold tracking-tight text-emerald-800">
+            <span className="ff-header-brand text-xl font-extrabold tracking-tight text-emerald-800">
               食光
               <span className="mt-0.5 block text-[10px] font-medium tracking-[.16em] text-slate-500">
                 FoodFlow
@@ -240,7 +200,7 @@ export function AppShell({ household }: { household: Household }) {
                 }
                 onClick={() => setPage(id)}
                 className={
-                  "ff-nav-button group relative flex h-14 flex-col justify-center shrink-0 items-center gap-1 whitespace-nowrap sm:flex-row sm:gap-2 px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-emerald-600 " +
+                  "ff-nav-button group relative flex h-14 flex-col justify-center shrink-0 items-center gap-1 whitespace-nowrap sm:flex-row sm:gap-2 px-1.5 sm:px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-emerald-600 " +
                   (page === id ||
                   (id === "shopping" && page === "prices") ||
                   (id === "records" && page === "insights")
@@ -255,16 +215,19 @@ export function AppShell({ household }: { household: Household }) {
                 />
                 <span className="text-left">
                   <span className="block">{label}</span>
-                  <span className="mt-0.5 hidden sm:block text-[10px] font-normal text-slate-500">
+                  <span className="ff-nav-hint mt-0.5 hidden sm:block text-[10px] font-normal text-slate-500">
                     {hint}
                   </span>
                 </span>
               </button>
             ))}
           </nav>
-          <div className="order-2 ml-auto flex shrink-0 items-center gap-2 xl:order-3 xl:gap-4">
+          <div className="ff-header-account order-2 ml-auto flex shrink-0 items-center gap-2 xl:order-3 xl:gap-4">
             {!connected && (
-              <span role="status" className="text-xs text-amber-700">
+              <span
+                role="status"
+                className="ff-connection-status text-xs text-amber-700"
+              >
                 重连中
               </span>
             )}
@@ -281,7 +244,7 @@ export function AppShell({ household }: { household: Household }) {
               aria-label="打开个人主页"
               aria-current={page === "profile" ? "page" : undefined}
               className={
-                "group flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition focus-visible:outline-2 focus-visible:outline-emerald-600 " +
+                "ff-account-trigger group flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition focus-visible:outline-2 focus-visible:outline-emerald-600 " +
                 (page === "profile" ? "bg-emerald-50" : "hover:bg-slate-50")
               }
             >
@@ -289,10 +252,10 @@ export function AppShell({ household }: { household: Household }) {
                 <Avatar name={me.data?.name} />
               </span>
               <span className="hidden text-left sm:block">
-                <span className="block max-w-24 truncate text-xs font-semibold text-slate-700">
+                <span className="ff-account-name block max-w-24 truncate text-xs font-semibold text-slate-700">
                   {me.data?.name || "我的账号"}
                 </span>
-                <span className="block text-[11px] text-slate-400">
+                <span className="ff-account-caption block text-[11px] text-slate-400">
                   个人中心
                 </span>
               </span>
@@ -307,7 +270,10 @@ export function AppShell({ household }: { household: Household }) {
         {page === "today" ? (
           <>
             <div id="today-meals">
-              <Today name={household.name} />
+              <Today
+                name={household.name}
+                personal={household.kind === "personal"}
+              />
             </div>
           </>
         ) : page === "inventory" ? (
@@ -322,6 +288,8 @@ export function AppShell({ household }: { household: Household }) {
           <Jobs />
         ) : page === "records" || page === "insights" ? (
           <Records />
+        ) : page === "community" ? (
+          <Community />
         ) : page === "profile" ? (
           <div className="mx-auto max-w-3xl">
             <Title
@@ -351,13 +319,16 @@ export function AppShell({ household }: { household: Household }) {
             </Card>
             <div className="my-4 flex flex-wrap gap-3">
               <Button variant="outline" onClick={() => setPage("settings")}>
-                家庭成员与偏好
+                {household.kind === "personal"
+                  ? "个人厨房偏好"
+                  : "家庭成员与偏好"}
               </Button>
               <Button variant="outline" onClick={() => setPage("help")}>
                 使用帮助
               </Button>
             </div>
             <p className="mb-4 text-xs text-slate-500">FoodFlow v{version}</p>
+            <KitchenSpaces current={household} />
             <ProfileSettings />
             <RecoveryCodes token={token} />
             <AIAllowance token={token} house={household.id} />
