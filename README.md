@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="#可以做什么">功能</a> ·
+  <a href="#架构与技术栈">技术栈</a> ·
   <a href="#快速开始">快速开始</a> ·
   <a href="#下载一次后续一键更新">一键更新</a> ·
   <a href="docs/README.md">项目文档</a>
@@ -86,11 +87,47 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/update.ps1 -Restart
 
 更新同步的是**代码**；不同电脑独立部署的账号、库存和照片不会自动同步。共享数据需访问同一个部署，迁移数据需配套备份数据库与照片。详细说明见 [一键更新](docs/UPDATING.md) 和 [备份恢复](docs/BACKUP_RECOVERY.md)。
 
-## 技术与开发
+## 架构与技术栈
 
 前端采用 **React、TypeScript、Vite**，后端为 **Go API 与独立 Worker**，核心业务使用 **PostgreSQL**。Redis 是可选公共目录缓存；Kafka 与独立 Insights 服务用于异步统计。
 
+| 层次 | 技术 |
+| --- | --- |
+| 页面与状态 | React、TypeScript、Vite、Tailwind CSS、Radix、TanStack Query、Zustand |
+| API 与后台任务 | Go、Gin、OpenAPI、SSE、PostgreSQL 任务队列 |
+| 数据与迁移 | PostgreSQL、pgx、sqlc、goose |
+| Agent 与模型 | Eino、兼容 Chat Completions 的模型适配器、结构化输出校验 |
+| 图片与部署 | 本地目录 / S3、Docker Compose、GitHub Actions |
+| 可选平台扩展 | Redis 公共目录缓存、Kafka / franz-go、独立 Insights 服务 |
+| 测试与工程反馈 | Go testing、Testcontainers、Vitest、Playwright、工程 Harness |
+
+```mermaid
+flowchart TB
+    Web["React 前端 · TypeScript / Vite"] -->|HTTP / SSE| API
+
+    subgraph Core["核心应用"]
+        API["Kitchen API · Go / Gin"] --> PG[("业务 PostgreSQL")]
+        Worker["模型 Worker · PostgreSQL 任务队列"] --> PG
+        Worker --> Model["Eino / 模型适配器"]
+        API --> Storage["图片存储 · 本地目录 / S3"]
+        Worker --> Storage
+    end
+
+    subgraph Platform["可选平台扩展"]
+        Redis[("Redis · 公共目录缓存")]
+        Relay["Outbox Relay"] --> Kafka["Kafka · 库存事件"]
+        Kafka --> Insights["Insights · 独立统计服务"]
+        Insights --> IPG[("统计 PostgreSQL")]
+    end
+
+    API -. 公共目录缓存 .-> Redis
+    PG -. 已提交的 Outbox 事件 .-> Relay
+    API -. 鉴权后查询 .-> Insights
+```
+
 库存、不可变流水与 Outbox 在同一事务提交；服务端校验厨房权限，幂等键防止重复写入。Redis 不保存权威库存或权限。设计细节见 [业务架构](ARCHITECTURE.md) 与 [服务边界](docs/PLATFORM.md)。
+
+### 开发与验证
 
 开发与验收需要 Go 1.26、Node.js 24、pnpm 11、PowerShell 7 和 Docker：
 
