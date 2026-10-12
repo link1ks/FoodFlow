@@ -10,7 +10,7 @@
 
 Service ownership and recovery commands: [PLATFORM](../PLATFORM.md). Checks and evidence rules: [HARNESS](../HARNESS.md). Verified scope and historical closure provenance: [VERIFICATION](../VERIFICATION.md).
 
-## Current task: repository curation and application icon
+## Previous task: repository curation and application icon
 
 Started 2026-10-12 (Asia/Shanghai), harness task `repository-curation-app-icon`. User requested removing nonessential uploaded text, improving README and redesigning the existing mascot as a software icon.
 
@@ -28,3 +28,13 @@ Run a new full harness and isolated acceptance against frozen inputs before publ
 - GitHub Markdown preserved the PNG; inspected desktop/mobile/dark README and 32/48/128/256px icon views. Preview JSON/screenshots: `.cache/repository-curation/preview`. Preview helper initially serialized PowerShell file metadata and depended on its legacy HTML parser; reading a plain UTF-8 string and using basic parsing corrected these fixture-only issues. No project tests or business protections were weakened. Local preview does not establish GitHub Mermaid enrichment.
 - Anonymous browser verification on the rebuilt acceptance web checked favicon, home-screen metadata, theme color and exact PNG bytes. Evidence: `.cache/harness/repository-curation-icon-acceptance.json`.
 - Final remote identities/cloud state and local main synchronization are recorded in `.cache/harness/repository-curation-publication.json`. Local pass does not imply cloud pass. The archive is intentionally ignored; it is not uploaded as replacement clutter.
+
+## Current task: preserve the mascot, refine its icon presentation
+
+2026-10-12, task `lively-kitchen-spirit-icon`. The user likes the original pot character and clarified that the required change is software-icon presentation. An exploratory hopping/winking character render was rejected and remains outside the repository. Final selection preserves the original front-facing shape, two open eyes, smile, lid, leaves and handles; refines the rounded tile, composition, margins and restrained material depth; and adds the user's requested magical accents. The user defines magic as the model, the pot as its harness and their combination as the agent. Gold sparkles and a thin arc surround the lid without covering the face. A transparent draft's fringe was corrected with the built-in editor; the selected master is opaque with a clean rounded tile. No business code, migrations, credentials or development data changed.
+
+Previous curation commit `fb0c7a11f01123f94c55cd70842ac3aeb6d6d11b` has now passed [CI 38214018458](https://github.com/link1ks/FoodFlow/actions/runs/38214018458). It does not establish checks for the new icon. After selection, run a new full harness, isolated browser/platform acceptance and actual served-PNG check. Record actual evidence and limitations here. Drafts and the previous PNG stay in local ignored storage; the shared application asset path remains unchanged.
+
+Final local full `f9f3cb2e4cf7eb2448da3559cdef09bd` and isolated acceptance `38264d03f554c14114599774d8743fe5` passed on source digest `0ec15d6f9637e6a73bdd10669b5e7b165d6cc87fc8cfb6d7b7096db9463e12a8`. Reports: `.cache/harness/kitchen-icon-full.json` and `.cache/harness/kitchen-icon-acceptance.json`. Browser tests used Edge and deterministic application-model fixtures; all 36 desktop/mobile scenarios passed with no failures, skips or retries. Cloud Chromium is a separate environment.
+
+Inspected original/refined 32/48/128/256px comparisons and GitHub Markdown desktop/mobile/light/dark previews in `.cache/kitchen-icon-refinement`. A reused-page dark screenshot missed an image repaint after a viewport change; independent page rendering with image decode and frame synchronization resolved the preview-only artifact. PNG metadata and byte identity passed on the rebuilt anonymous acceptance web. The standalone helper initially shared the harness output filename; its checks ran before the harness wrote the final report, and its output is now separated as `.cache/harness/kitchen-icon-image-acceptance.json` and `kitchen-icon-image-development.json`. The final full/acceptance reports remain intact. The tiny magical particles intentionally become secondary at favicon size. Local preview does not establish GitHub's Mermaid enrichment, native installation or model quality. Final remote/cloud state and served-image hash are recorded in `.cache/harness/kitchen-icon-publication.json`.
