@@ -187,6 +187,7 @@ export interface paths {
                             service_reserved: string;
                             text_call_allowance: string;
                             image_call_allowance: string;
+                            speech_call_allowance?: string;
                             daily_calls: number;
                             daily_limit: number;
                             active_or_uncertain: number;
@@ -2652,6 +2653,7 @@ export interface paths {
                     content: {
                         "application/json": {
                             vision_enabled: boolean;
+                            speech_enabled: boolean;
                             model_enabled: boolean;
                             insights_enabled: boolean;
                         };
@@ -8274,6 +8276,131 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/households/{household}/jobs/voice": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                household: components["parameters"]["household"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 同意后上传录音并排队使用百炼 Qwen ASR 转写
+         * @description 最大 5 MiB，支持 WAV、WebM、Ogg、MP3。需独立语音配置及收费预扣保护。Idempotency-Key 绑定用户、路径和音频摘要；重放不创建新任务。任务最多一次模型发送，不自动重试；处理后清理暂存音频。结果为可编辑草稿，不扣库存。
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    household: components["parameters"]["household"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "multipart/form-data": {
+                        /** Format: binary */
+                        audio: string;
+                        /** @enum {string} */
+                        consent: "true";
+                    };
+                };
+            };
+            responses: {
+                /** @description 新建或重放同一语音识别任务 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["QueuedJob"];
+                    };
+                };
+                400: components["responses"]["RecoveryAllowanceError"];
+                401: components["responses"]["RecoveryAllowanceError"];
+                403: components["responses"]["RecoveryAllowanceError"];
+                404: components["responses"]["RecoveryAllowanceError"];
+                409: components["responses"]["RecoveryAllowanceError"];
+                500: components["responses"]["RecoveryAllowanceError"];
+                503: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/households/{household}/jobs/{job}/voice/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                household: components["parameters"]["household"];
+                job: components["parameters"]["job"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 用户核对后一次性确认语音草稿的所有食材
+         * @description 服务端按目录确定名称与单位，不信任转写文字。全部批次、流水、Outbox 及任务成功状态共享事务；同键重放不重复入库，已处理任务换键仍拒绝。
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "Idempotency-Key": string;
+                };
+                path: {
+                    household: components["parameters"]["household"];
+                    job: components["parameters"]["job"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["VoiceConfirmation"];
+                };
+            };
+            responses: {
+                /** @description 所有确认项已入库 */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            items: {
+                                /** Format: uuid */
+                                ingredient_id: string;
+                                /** Format: uuid */
+                                batch_id: string;
+                            }[];
+                        };
+                    };
+                };
+                400: components["responses"]["RecoveryAllowanceError"];
+                401: components["responses"]["RecoveryAllowanceError"];
+                403: components["responses"]["RecoveryAllowanceError"];
+                404: components["responses"]["RecoveryAllowanceError"];
+                409: components["responses"]["RecoveryAllowanceError"];
+                500: components["responses"]["RecoveryAllowanceError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/households/{household}/jobs/image": {
         parameters: {
             query?: never;
@@ -12497,6 +12624,32 @@ export interface components {
             purchase_quantity?: components["schemas"]["Quantity"];
             /** Format: date-time */
             recorded_at?: string;
+        };
+        VoiceDraft: {
+            transcript: string;
+            warning: string;
+            items: {
+                catalog_id: string;
+                name: string;
+                unit: string;
+                /** @description 明确且可换算才预填，否则为空 */
+                quantity: string;
+                heard: string;
+                warning: string;
+            }[];
+        };
+        VoiceConfirmation: {
+            /** @enum {boolean} */
+            confirm: true;
+            items: {
+                /** Format: uuid */
+                catalog_id: string;
+                /** @description 目录默认单位的正数，最多三位小数 */
+                quantity: string;
+                location?: string;
+                bought_on?: string;
+                expires_on?: string;
+            }[];
         };
         QueuedJob: {
             /** Format: uuid */

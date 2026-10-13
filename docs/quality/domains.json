@@ -2,13 +2,14 @@
   {
     "id": "inventory",
     "owner": "internal/app",
-    "reviewed": "2026-10-01",
+    "reviewed": "2026-10-13",
     "acceptance": [
       "Exact quantities and compatible units only",
       "FEFO never allocates expired/spoiled stock or overdraws a batch",
       "Inventory, ledger and outbox commit atomically",
       "Same-key replay never deducts twice",
-      "Learning restore preserves all table fingerprints, sequence states, photos and request replay in a new private target"
+      "Learning restore preserves all table fingerprints, sequence states, photos and request replay in a new private target",
+      "Consented voice drafts never mutate stock until explicit atomic, idempotent multi-item confirmation"
     ],
     "checks": [
       {
@@ -42,6 +43,18 @@
       {
         "path": "internal/recovery/archive_test.go",
         "anchor": "func TestArchiveRejectsTraversalLinksDuplicatesAndTruncation("
+      },
+      {
+        "path": "internal/app/voice_test.go",
+        "anchor": "func TestVoiceIntakeConfirmationAuthorizationAndFencing("
+      },
+      {
+        "path": "internal/engine/intake/intake_test.go",
+        "anchor": "func TestConservativeSpeechDrafts("
+      },
+      {
+        "path": "web/e2e/voice-intake.spec.ts",
+        "anchor": "voice intake requires consent, editable quantities and explicit atomic confirmation"
       }
     ],
     "debts": [
@@ -52,6 +65,14 @@
         "description": "Sustained multi-household mixed read/write load remains unverified",
         "completion": "Bounded 10-household/20-client/30-second API+PostgreSQL workload reports latency/errors/100ms lock sampling and checks precise stock, replay, ledger and outbox conservation; scope is not production capacity",
         "evidence": "docs/VERIFICATION.md"
+      },
+      {
+        "id": "INV-VOICE-REAL",
+        "priority": "P2",
+        "status": "open",
+        "description": "Real Qwen ASR accuracy, hardware microphone capture and interrupted-job audio retention remain unverified",
+        "completion": "Explicitly authorized real-provider and physical microphone trials measure noisy Chinese ingredient/quantity transcription and inspect orphan-audio recovery without guessing package weights",
+        "evidence": "docs/VOICE_INTAKE.md"
       }
     ]
   },

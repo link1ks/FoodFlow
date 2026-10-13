@@ -139,7 +139,7 @@ func (a *App) Router() *gin.Engine {
 	v.POST("/community/rewards/:reward/equip", a.communityEquipReward)
 	v.GET("/ingredient-catalog", a.ingredientCatalog)
 	v.GET("/capabilities", func(c *gin.Context) {
-		c.JSON(200, gin.H{"vision_enabled": visionConfigured(), "model_enabled": paidAIEnabled() && os.Getenv("MODEL_ENDPOINT") != "" && os.Getenv("MODEL_API_KEY") != "" && os.Getenv("MODEL_NAME") != "", "insights_enabled": os.Getenv("INSIGHTS_URL") != "" && len(os.Getenv("INSIGHTS_SERVICE_TOKEN")) >= 32})
+		c.JSON(200, gin.H{"vision_enabled": visionConfigured(), "speech_enabled": speechConfigured(), "model_enabled": paidAIEnabled() && os.Getenv("MODEL_ENDPOINT") != "" && os.Getenv("MODEL_API_KEY") != "" && os.Getenv("MODEL_NAME") != "", "insights_enabled": os.Getenv("INSIGHTS_URL") != "" && len(os.Getenv("INSIGHTS_SERVICE_TOKEN")) >= 32})
 	})
 	h := v.Group("/households/:household")
 	h.Use(a.membership)
@@ -197,6 +197,8 @@ func (a *App) Router() *gin.Engine {
 	h.POST("/jobs/plan", a.enqueuePlan)
 	h.POST("/jobs/advice", a.enqueueAdvice)
 	h.POST("/jobs/image", a.enqueueImage)
+	h.POST("/jobs/voice", a.enqueueVoice)
+	h.POST("/jobs/:job/voice/confirm", a.confirmVoice)
 	h.GET("/jobs/:job/image", a.imagePreview)
 	h.POST("/jobs/:job/image/confirm", a.confirmImage)
 	h.GET("/jobs", a.jobs)

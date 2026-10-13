@@ -7,7 +7,15 @@ http.createServer((req, res) => {
   req.on('data', chunk => { size += chunk.length; if (size > 7 * 1024 * 1024) req.destroy(); else data += chunk; });
   req.on('end', () => {
     try {
-      const body = JSON.parse(data), content = body.messages[1].content;
+      const body = JSON.parse(data);
+      if (body.model === 'qwen3-asr-flash') {
+        const audio = body.messages?.[0]?.content?.[0]?.input_audio?.data;
+        if (typeof audio !== 'string' || !audio.startsWith('data:audio/')) { res.writeHead(400).end(); return; }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ choices: [{ message: { content: '西红柿半斤，鸡蛋六个，牛奶一瓶。' } }] }));
+        return;
+      }
+      const content = body.messages[1].content;
       const parts = Array.isArray(content) ? content : [];
       const recipe = JSON.parse(parts.length ? parts.find(p => p.type === 'text').text : content);
       const withCover = parts.some(p => p.type === 'image_url' && p.image_url.url.startsWith('data:image/jpeg;base64,'));

@@ -3,6 +3,7 @@ import { Button, Notice } from "../ui";
 
 export type Capabilities = {
   vision_enabled: boolean;
+  speech_enabled: boolean;
   model_enabled: boolean;
   insights_enabled: boolean;
 };

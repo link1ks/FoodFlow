@@ -14,9 +14,9 @@ import (
 
 // Amounts are exact milli-CNY policy allowances, not provider invoice amounts.
 type allowanceConfig struct {
-	Enabled              bool
-	Monthly, Text, Image int64
-	Daily, Concurrent    int
+	Enabled                      bool
+	Monthly, Text, Image, Speech int64
+	Daily, Concurrent            int
 }
 
 var allowanceAmount = regexp.MustCompile(`^[0-9]+(\.[0-9]{1,3})?$`)
@@ -26,7 +26,7 @@ func loadAllowanceConfig() (allowanceConfig, error) {
 	for _, v := range []struct {
 		Key, Default string
 		Target       *int64
-	}{{"AI_MONTHLY_ALLOWANCE_CNY", "5", &cfg.Monthly}, {"AI_TEXT_CALL_ALLOWANCE_CNY", "0.10", &cfg.Text}, {"AI_IMAGE_CALL_ALLOWANCE_CNY", "0.50", &cfg.Image}} {
+	}{{"AI_MONTHLY_ALLOWANCE_CNY", "5", &cfg.Monthly}, {"AI_TEXT_CALL_ALLOWANCE_CNY", "0.10", &cfg.Text}, {"AI_IMAGE_CALL_ALLOWANCE_CNY", "0.50", &cfg.Image}, {"AI_SPEECH_CALL_ALLOWANCE_CNY", "0.10", &cfg.Speech}} {
 		raw := os.Getenv(v.Key)
 		if raw == "" {
 			raw = v.Default
@@ -72,7 +72,7 @@ func (a *App) aiAllowance(c *gin.Context) {
 		fail(c, 503, "AI 额度暂不可用")
 		return
 	}
-	c.JSON(200, gin.H{"enabled": cfg.Enabled, "monthly_limit": core.Format(cfg.Monthly), "household_reserved": core.Format(house), "service_reserved": core.Format(global), "text_call_allowance": core.Format(cfg.Text), "image_call_allowance": core.Format(cfg.Image), "daily_calls": daily, "daily_limit": cfg.Daily, "active_or_uncertain": active, "concurrent_limit": cfg.Concurrent})
+	c.JSON(200, gin.H{"enabled": cfg.Enabled, "monthly_limit": core.Format(cfg.Monthly), "household_reserved": core.Format(house), "service_reserved": core.Format(global), "text_call_allowance": core.Format(cfg.Text), "image_call_allowance": core.Format(cfg.Image), "speech_call_allowance": core.Format(cfg.Speech), "daily_calls": daily, "daily_limit": cfg.Daily, "active_or_uncertain": active, "concurrent_limit": cfg.Concurrent})
 }
 func (a *App) allowanceGuard(j claimed, kind string) agent.CallGuard {
 	return func(ctx context.Context, requestBytes int) (func(bool), error) {
@@ -83,12 +83,18 @@ func (a *App) allowanceGuard(j claimed, kind string) agent.CallGuard {
 		if !cfg.Enabled {
 			return nil, errors.New("收费 AI 未启用额度保护，调用已阻止")
 		}
-		if kind == "text" && requestBytes > 32<<10 || kind == "image" && requestBytes > 7<<20 {
+		if kind != "text" && kind != "image" && kind != "speech" {
+			return nil, errors.New("未知 AI 调用类型")
+		}
+		if requestBytes <= 0 || kind == "text" && requestBytes > 32<<10 || (kind == "image" || kind == "speech") && requestBytes > 7<<20 {
 			return nil, errors.New("AI 请求超出大小限制")
 		}
 		amount := cfg.Text
 		if kind == "image" {
 			amount = cfg.Image
+		}
+		if kind == "speech" {
+			amount = cfg.Speech
 		}
 		tx, err := a.DB.Begin(ctx)
 		if err != nil {

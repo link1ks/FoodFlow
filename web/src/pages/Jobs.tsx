@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ImageReview } from "../ImageRecognition";
+import { VoiceReview, type VoiceResult } from "../VoiceIntake";
 import { AdviceView, type AdviceResult } from "../NutritionAdvice";
 import { api } from "../api";
 import {
@@ -41,11 +42,13 @@ export function Jobs({
         title={
           kind === "image"
             ? "识别结果"
-            : kind === "advice"
-              ? "搭配建议记录"
-              : kind === "plan"
-                ? "菜单生成结果"
-                : "生成记录"
+            : kind === "voice"
+              ? "语音识别结果"
+              : kind === "advice"
+                ? "搭配建议记录"
+                : kind === "plan"
+                  ? "菜单生成结果"
+                  : "生成记录"
         }
         subtitle="离开页面后，仍可在这里继续查看和确认"
       />
@@ -150,9 +153,11 @@ export function JobCard({
         <h2 className="font-semibold">
           {j.kind === "image"
             ? "图片识别"
-            : j.kind === "advice"
-              ? "食材营养建议"
-              : "菜单规划"}{" "}
+            : j.kind === "voice"
+              ? "语音添加食材"
+              : j.kind === "advice"
+                ? "食材营养建议"
+                : "菜单规划"}{" "}
           · {statusLabel(j.status)}
         </h2>
         <span className="text-xs text-slate-500">尝试 {j.attempts} 次</span>
@@ -187,6 +192,18 @@ export function JobCard({
             category={j.result.category || ""}
           />
         )}
+      {j.kind === "voice" &&
+        j.status === "awaiting_confirmation" &&
+        j.result?.transcript &&
+        j.result.items && (
+          <VoiceReview
+            token={token}
+            household={p.slice("/households/".length)}
+            job={id}
+            result={j.result as VoiceResult}
+            canEdit={!!household.data && household.data.role !== "viewer"}
+          />
+        )}
       {j.error && (
         <div className="mt-3">
           <Notice tone="error">{j.error}</Notice>
@@ -205,14 +222,21 @@ export function JobCard({
         </div>
       )}
       {(["queued", "running"].includes(j.status) ||
-        (j.kind === "image" && j.status === "awaiting_confirmation")) && (
+        (["image", "voice"].includes(j.kind) &&
+          j.status === "awaiting_confirmation")) && (
         <Button size="sm" variant="outline" className="mt-3" onClick={cancel}>
-          {j.kind === "image" && j.status === "awaiting_confirmation"
+          {["image", "voice"].includes(j.kind) &&
+          j.status === "awaiting_confirmation"
             ? "拒绝识别结果"
             : "取消任务"}
         </Button>
       )}
-      {j.status === "failed" && (
+      {j.status === "failed" && j.kind === "voice" && (
+        <Notice>
+          录音识别失败，不会自动重发。请回到添加食材处重新录音；原任务的费用状态不会因重录清除。
+        </Notice>
+      )}
+      {j.status === "failed" && j.kind !== "voice" && (
         <Button size="sm" variant="outline" className="mt-3" onClick={retry}>
           手动重试（可能再次调用模型）
         </Button>

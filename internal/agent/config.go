@@ -29,5 +29,6 @@ func (m VisionModel) Configured() bool {
 // Conservative retry protection also covers partially configured services.
 func ExternalModelConfigured() bool {
 	return os.Getenv("MODEL_ENDPOINT") != "" || os.Getenv("MODEL_API_KEY") != "" ||
-		os.Getenv("VISION_MODEL_ENDPOINT") != "" || os.Getenv("VISION_MODEL_API_KEY") != ""
+		os.Getenv("VISION_MODEL_ENDPOINT") != "" || os.Getenv("VISION_MODEL_API_KEY") != "" ||
+		os.Getenv("SPEECH_MODEL_ENDPOINT") != "" || os.Getenv("SPEECH_MODEL_API_KEY") != ""
 }

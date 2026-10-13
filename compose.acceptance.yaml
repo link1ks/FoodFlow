@@ -39,6 +39,9 @@ services:
       COMMUNITY_REVIEW_MODEL_ENDPOINT: http://review-fixture:8080/v1
       COMMUNITY_REVIEW_MODEL_NAME: deterministic-review-fixture
       COMMUNITY_REVIEW_MODEL_API_KEY: fixture-only
+      SPEECH_MODEL_ENDPOINT: http://review-fixture:8080/v1
+      SPEECH_MODEL_NAME: qwen3-asr-flash
+      SPEECH_MODEL_API_KEY: fixture-only
       AI_ALLOWANCE_ENABLED: 'true'
       AI_MONTHLY_ALLOWANCE_CNY: '1000'
       AI_DAILY_CALL_LIMIT: '1000'

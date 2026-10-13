@@ -895,6 +895,43 @@ components:
           format: date-time
       required:
         - recorded
+    VoiceDraft:
+      type: object
+      required: [transcript, items, warning]
+      properties:
+        transcript: {type: string, maxLength: 2000}
+        warning: {type: string}
+        items:
+          type: array
+          maxItems: 20
+          items:
+            type: object
+            required: [catalog_id, name, unit, quantity, heard, warning]
+            properties:
+              catalog_id: {type: string}
+              name: {type: string}
+              unit: {type: string}
+              quantity: {type: string, description: 明确且可换算才预填，否则为空}
+              heard: {type: string}
+              warning: {type: string}
+    VoiceConfirmation:
+      type: object
+      required: [confirm, items]
+      properties:
+        confirm: {type: boolean, enum: [true]}
+        items:
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            type: object
+            required: [catalog_id, quantity]
+            properties:
+              catalog_id: {type: string, format: uuid}
+              quantity: {type: string, description: 目录默认单位的正数，最多三位小数}
+              location: {type: string, maxLength: 100}
+              bought_on: {type: string}
+              expires_on: {type: string}
     QueuedJob:
       type: object
       properties:
@@ -1538,6 +1575,7 @@ paths:
                   service_reserved: {type: string}
                   text_call_allowance: {type: string}
                   image_call_allowance: {type: string}
+                  speech_call_allowance: {type: string}
                   daily_calls: {type: integer}
                   daily_limit: {type: integer}
                   active_or_uncertain: {type: integer}
@@ -3086,8 +3124,11 @@ paths:
                   - vision_enabled
                   - model_enabled
                   - insights_enabled
+                  - speech_enabled
                 properties:
                   vision_enabled:
+                    type: boolean
+                  speech_enabled:
                     type: boolean
                   model_enabled:
                     type: boolean
@@ -6771,6 +6812,80 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /households/{household}/jobs/voice:
+    parameters:
+      - $ref: '#/components/parameters/household'
+    post:
+      summary: 同意后上传录音并排队使用百炼 Qwen ASR 转写
+      description: 最大 5 MiB，支持 WAV、WebM、Ogg、MP3。需独立语音配置及收费预扣保护。Idempotency-Key 绑定用户、路径和音频摘要；重放不创建新任务。任务最多一次模型发送，不自动重试；处理后清理暂存音频。结果为可编辑草稿，不扣库存。
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 8, maxLength: 120}
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [audio, consent]
+              properties:
+                audio: {type: string, format: binary}
+                consent: {type: string, enum: ['true']}
+      responses:
+        '200':
+          description: 新建或重放同一语音识别任务
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/QueuedJob'}
+        '400': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '401': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '403': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '404': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '409': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '500': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '503': {$ref: '#/components/responses/RecoveryAllowanceError'}
+  /households/{household}/jobs/{job}/voice/confirm:
+    parameters:
+      - $ref: '#/components/parameters/household'
+      - $ref: '#/components/parameters/job'
+    post:
+      summary: 用户核对后一次性确认语音草稿的所有食材
+      description: 服务端按目录确定名称与单位，不信任转写文字。全部批次、流水、Outbox 及任务成功状态共享事务；同键重放不重复入库，已处理任务换键仍拒绝。
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 8, maxLength: 120}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/VoiceConfirmation'}
+      responses:
+        '200':
+          description: 所有确认项已入库
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required: [ingredient_id, batch_id]
+                      properties:
+                        ingredient_id: {type: string, format: uuid}
+                        batch_id: {type: string, format: uuid}
+        '400': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '401': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '403': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '404': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '409': {$ref: '#/components/responses/RecoveryAllowanceError'}
+        '500': {$ref: '#/components/responses/RecoveryAllowanceError'}
   /households/{household}/jobs/image:
     parameters:
       - $ref: '#/components/parameters/household'

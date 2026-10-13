@@ -96,13 +96,13 @@ func (a *App) cancelJob(c *gin.Context) {
 	}
 	var kind string
 	var payload []byte
-	e := a.DB.QueryRow(c, `UPDATE jobs SET cancel_requested=true,status='cancelled',lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND household_id=$2 AND (status IN ('queued','running') OR (kind='image' AND status='awaiting_confirmation')) RETURNING kind,payload`, c.Param("job"), hid(c)).Scan(&kind, &payload)
+	e := a.DB.QueryRow(c, `UPDATE jobs SET cancel_requested=true,status='cancelled',lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND household_id=$2 AND (status IN ('queued','running') OR (kind IN ('image','voice') AND status='awaiting_confirmation')) RETURNING kind,payload`, c.Param("job"), hid(c)).Scan(&kind, &payload)
 	if e != nil {
 		fail(c, 409, "job cannot be cancelled")
 		return
 	}
 	_, _ = a.DB.Exec(c, "INSERT INTO job_events(job_id,event) VALUES($1,'cancelled')", c.Param("job"))
-	if kind == "image" {
+	if kind == "image" || kind == "voice" {
 		var image imagePayload
 		if json.Unmarshal(payload, &image) == nil && image.Key != "" {
 			if store, err := imageStore(); err == nil {
@@ -116,7 +116,7 @@ func (a *App) retryJob(c *gin.Context) {
 	if !writable(c) {
 		return
 	}
-	tag, e := a.DB.Exec(c, "UPDATE jobs SET status='queued',attempts=0,error=NULL,progress=0,cancel_requested=false,run_at=now(),updated_at=now(),created_by=$3 WHERE id=$1 AND household_id=$2 AND status='failed'", c.Param("job"), hid(c), uid(c))
+	tag, e := a.DB.Exec(c, "UPDATE jobs SET status='queued',attempts=0,error=NULL,progress=0,cancel_requested=false,run_at=now(),updated_at=now(),created_by=$3 WHERE id=$1 AND household_id=$2 AND status='failed' AND kind<>'voice'", c.Param("job"), hid(c), uid(c))
 	if e != nil || tag.RowsAffected() == 0 {
 		fail(c, 409, "failed job required")
 		return
@@ -279,6 +279,14 @@ func (a *App) runJob(parent context.Context, j claimed, worker string) {
 	}()
 	if j.Kind == "image" {
 		e := a.recognizeImage(ctx, j)
+		close(done)
+		if e != nil {
+			a.finishError(parent, j, e)
+		}
+		return
+	}
+	if j.Kind == "voice" {
+		e := a.recognizeVoice(ctx, j)
 		close(done)
 		if e != nil {
 			a.finishError(parent, j, e)

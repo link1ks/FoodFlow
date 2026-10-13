@@ -12,6 +12,7 @@ import { BatchActions, freshness } from "../BatchActions";
 import { Jobs } from "./Jobs";
 import { ModelNotice } from "../app/Capabilities";
 import { ImageUpload } from "../ImageRecognition";
+import { VoiceUpload } from "../VoiceIntake";
 import { IngredientCatalogPicker } from "../IngredientCatalogPicker";
 import { IngredientDeleteControl } from "../IngredientDeleteControl";
 import { IngredientImageManager } from "../IngredientImages";
@@ -36,7 +37,9 @@ export function InventoryPage() {
   const results = useData<Job[]>("jobs", p + "/jobs");
   const relatedResults =
     results.data?.filter(
-      (j) => ["image", "advice"].includes(j.kind) && j.status !== "cancelled",
+      (j) =>
+        ["image", "advice", "voice"].includes(j.kind) &&
+        j.status !== "cancelled",
     ) || [];
   const household = useData<Household>("household", p);
   const [selected, setSelected] = useState(""),
@@ -450,6 +453,19 @@ export function InventoryPage() {
             />
           )}
           {canEdit && (
+            <VoiceUpload
+              key={p}
+              token={token}
+              household={p.slice("/households/".length)}
+              onQueued={() => {
+                q.invalidateQueries();
+                document
+                  .getElementById("inventory-results")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+            />
+          )}
+          {canEdit && (
             <ImageUpload
               token={token}
               household={p.slice("/households/".length)}
@@ -504,6 +520,9 @@ export function InventoryPage() {
               <ErrorLine error={results.error} />
               {relatedResults.some((j) => j.kind === "image") && (
                 <Jobs kind="image" />
+              )}
+              {relatedResults.some((j) => j.kind === "voice") && (
+                <Jobs kind="voice" />
               )}
               {relatedResults.some((j) => j.kind === "advice") && (
                 <Jobs kind="advice" />

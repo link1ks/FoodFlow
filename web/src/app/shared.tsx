@@ -4,6 +4,7 @@ import { api } from "../api";
 import { type InventoryBatch } from "../BatchActions";
 import type { components } from "../generated/api";
 import { type AdviceResult } from "../NutritionAdvice";
+import type { VoiceResult } from "../VoiceIntake";
 import { useUI } from "../store";
 import { Notice } from "../ui";
 export type Household = components["schemas"]["HouseholdSummary"];
@@ -53,7 +54,8 @@ export type Job = {
     mode?: string;
     name?: string;
     category?: string;
-  } & Partial<AdviceResult>;
+  } & Partial<AdviceResult> &
+    Partial<VoiceResult>;
 };
 
 export const qc = new QueryClient({

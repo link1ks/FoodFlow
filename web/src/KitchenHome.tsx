@@ -229,9 +229,11 @@ export function KitchenHome({
                 >
                   {j.kind === "image"
                     ? "图片识别"
-                    : j.kind === "advice"
-                      ? "搭配建议"
-                      : "菜单规划"}{" "}
+                    : j.kind === "voice"
+                      ? "语音添加食材"
+                      : j.kind === "advice"
+                        ? "搭配建议"
+                        : "菜单规划"}{" "}
                   ·{" "}
                   {j.status === "awaiting_confirmation"
                     ? "待确认"
