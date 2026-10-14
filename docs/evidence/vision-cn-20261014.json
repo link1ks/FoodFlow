@@ -1,0 +1,86 @@
+{
+  "actual_invoice_verified": false,
+  "max_requests": 5,
+  "model": "qwen3-vl-plus",
+  "provider": "Alibaba Bailian Beijing",
+  "results": [
+    {
+      "category_is_chinese": true,
+      "http_status": 200,
+      "input_tokens": 293,
+      "output_tokens": 10,
+      "response_complete": true,
+      "sample": "番茄",
+      "semantic_match": true,
+      "sha256": "6cc3663a73050f03bb13b32ece49decd20b10ed600e6edfe9f0bc31ae846c1c1",
+      "status": "completed",
+      "suggestion": {
+        "name": "番茄",
+        "category": "蔬菜"
+      }
+    },
+    {
+      "category_is_chinese": true,
+      "http_status": 200,
+      "input_tokens": 263,
+      "output_tokens": 10,
+      "response_complete": true,
+      "sample": "土豆",
+      "semantic_match": true,
+      "sha256": "fae4444bb0066998450d35dd3e57b5ed3a1a55b7ebe6f787da63b52fbc04e53d",
+      "status": "completed",
+      "suggestion": {
+        "name": "土豆",
+        "category": "蔬菜"
+      }
+    },
+    {
+      "category_is_chinese": true,
+      "http_status": 200,
+      "input_tokens": 248,
+      "output_tokens": 10,
+      "response_complete": true,
+      "sample": "胡萝卜",
+      "semantic_match": true,
+      "sha256": "0f6c40638f7cf84b7d5493c4a40fb601ba66de7943769c0cfdd0c2007d306ef9",
+      "status": "completed",
+      "suggestion": {
+        "name": "胡萝卜",
+        "category": "蔬菜"
+      }
+    },
+    {
+      "category_is_chinese": true,
+      "http_status": 200,
+      "input_tokens": 323,
+      "output_tokens": 10,
+      "response_complete": true,
+      "sample": "苹果",
+      "semantic_match": true,
+      "sha256": "34cd6740258ff36abfe779705b7e83e1b7a83089bf1def3072a60efb85ab8810",
+      "status": "completed",
+      "suggestion": {
+        "name": "苹果",
+        "category": "水果"
+      }
+    },
+    {
+      "category_is_chinese": true,
+      "http_status": 200,
+      "input_tokens": 248,
+      "output_tokens": 11,
+      "response_complete": true,
+      "sample": "鸡蛋",
+      "semantic_match": true,
+      "sha256": "35a08768f427bd0ceff5187a84fb2f24449c56d2a2a97456472e355c96a11fda",
+      "status": "completed",
+      "suggestion": {
+        "name": "鸡蛋",
+        "category": "蛋类"
+      }
+    }
+  ],
+  "scope": "adapter only; no database writes",
+  "tested_revision": "b8b7ca2ad7e9d109d9fb520b8d5cdb140219ea81",
+  "estimated_cny": 0.001885
+}

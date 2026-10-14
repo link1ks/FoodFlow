@@ -1,0 +1,125 @@
+{
+  "actual_invoice_verified": false,
+  "max_requests": 12,
+  "provider": "Alibaba OSS Beijing S3-compatible API",
+  "requests": [
+    {
+      "content_type": "",
+      "http_status": 200,
+      "method": "PUT",
+      "status": "returned"
+    },
+    {
+      "content_type": "text/plain",
+      "http_status": 200,
+      "method": "GET",
+      "status": "returned"
+    },
+    {
+      "content_type": "",
+      "http_status": 204,
+      "method": "DELETE",
+      "status": "returned"
+    },
+    {
+      "content_type": "application/xml",
+      "http_status": 404,
+      "method": "GET",
+      "status": "returned"
+    },
+    {
+      "content_type": "",
+      "http_status": 200,
+      "method": "PUT",
+      "status": "returned"
+    },
+    {
+      "content_type": "image/webp",
+      "http_status": 200,
+      "method": "GET",
+      "status": "returned"
+    },
+    {
+      "content_type": "",
+      "http_status": 204,
+      "method": "DELETE",
+      "status": "returned"
+    },
+    {
+      "content_type": "application/xml",
+      "http_status": 404,
+      "method": "GET",
+      "status": "returned"
+    },
+    {
+      "content_type": "",
+      "http_status": 200,
+      "method": "PUT",
+      "status": "returned"
+    },
+    {
+      "content_type": "audio/wav",
+      "http_status": 200,
+      "method": "GET",
+      "status": "returned"
+    },
+    {
+      "content_type": "",
+      "http_status": 204,
+      "method": "DELETE",
+      "status": "returned"
+    },
+    {
+      "content_type": "application/xml",
+      "http_status": 404,
+      "method": "GET",
+      "status": "returned"
+    }
+  ],
+  "results": [
+    {
+      "bytes": 42,
+      "delete": true,
+      "deleted_get_no_such_key": true,
+      "get_exact_bytes": true,
+      "put": true,
+      "sample": "text",
+      "sha256": "e091f1b6ac6eb58940814bd34b3ee9d1e91ac5c4b32773374816c77871edf218"
+    },
+    {
+      "bytes": 12552,
+      "delete": true,
+      "deleted_get_no_such_key": true,
+      "get_exact_bytes": true,
+      "put": true,
+      "sample": "image",
+      "sha256": "6cc3663a73050f03bb13b32ece49decd20b10ed600e6edfe9f0bc31ae846c1c1"
+    },
+    {
+      "bytes": 80,
+      "delete": true,
+      "deleted_get_no_such_key": true,
+      "get_exact_bytes": true,
+      "put": true,
+      "sample": "audio",
+      "sha256": "f494a9c9d62bad13e99d2885d6133335edd474409ecc791baf4cc314be213ea2"
+    }
+  ],
+  "scope": "fresh disposable synthetic keys only",
+  "prior_failures": [
+    {
+      "code": "SecondLevelDomainForbidden",
+      "stage": "path-style baseline",
+      "http_status": 403
+    },
+    {
+      "code": "SecondLevelDomainForbidden",
+      "stage": "stale verifier after failed cache build",
+      "http_status": 403
+    }
+  ],
+  "total_remote_requests": 14,
+  "tested_revision_base": "b8b7ca2ad7e9d109d9fb520b8d5cdb140219ea81",
+  "worktree_storage_fix": true,
+  "storage_source_sha256": "6d0a284fa24db71349bceefdcffe145be96d2db029e042c85b49e4f8b9202e7c"
+}

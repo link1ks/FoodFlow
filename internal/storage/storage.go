@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"io"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -88,9 +89,17 @@ func NewS3(endpoint, region, bucket, accessKey, secretKey string) (S3, error) {
 		return S3{}, errors.New("incomplete S3 configuration")
 	}
 	cfg := aws.Config{Region: region, Credentials: aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider(accessKey, secretKey, ""))}
-	client := s3.NewFromConfig(cfg, func(o *s3.Options) { o.BaseEndpoint = aws.String(endpoint); o.UsePathStyle = true })
+	client := s3.NewFromConfig(cfg, func(o *s3.Options) {
+		o.BaseEndpoint = aws.String(endpoint)
+		// OSS rejects path-style object requests; other compatible stores retain it.
+		u, err := url.Parse(endpoint)
+		o.UsePathStyle = err != nil || !ossS3Host.MatchString(u.Hostname())
+	})
 	return S3{Client: client, Bucket: bucket}, nil
 }
+
+var ossS3Host = regexp.MustCompile(`^s3\.oss-[a-z0-9-]+\.aliyuncs\.com$`)
+
 func (s S3) Put(ctx context.Context, key string, src io.Reader, contentType string) error {
 	if e := validate(key); e != nil {
 		return e

@@ -319,7 +319,7 @@
         "id": "AI-EVAL",
         "priority": "P1",
         "status": "open",
-        "description": "Five real catalogue-photo calls passed semantically, but revised Chinese prompt, representative photo accuracy and menu usefulness remain unevaluated",
+        "description": "Five original and five revised Chinese-prompt catalogue-photo adapter calls passed semantically; representative photo accuracy and menu usefulness remain unevaluated",
         "completion": "Authorize model budget separately; version dataset/model and report correctness, acceptance, latency and cost"
       },
       {
