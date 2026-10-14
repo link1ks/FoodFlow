@@ -28,3 +28,18 @@ func TestScale(t *testing.T) {
 		t.Fatal(q, e)
 	}
 }
+
+func TestQuantityDecimalSyntax(t *testing.T) {
+	for _, input := range []string{"1.-1", "1.+1", "0.+1", "1.-01", "+1", "-1", "1e3", ".5", "1.", "1.2.3", "１.２", "1.0001", "1000000000000000", "0", "0.000"} {
+		t.Run(input, func(t *testing.T) {
+			if q, err := Quantity(input); err == nil || q != 0 {
+				t.Fatalf("invalid decimal %q accepted: %d, %v", input, q, err)
+			}
+		})
+	}
+	for input, want := range map[string]int64{"1": 1000, "1.2": 1200, "1.23": 1230, "1.234": 1234, "0.001": 1, "0001.250": 1250, " 1.250 ": 1250, "999999999999999.999": 999999999999999999} {
+		if got, err := Quantity(input); err != nil || got != want {
+			t.Fatalf("valid decimal %q: got %d, %v; want %d", input, got, err, want)
+		}
+	}
+}

@@ -30,6 +30,18 @@ func Quantity(s string) (int64, error) {
 	if len(p) > 2 || len(p[0]) > 15 {
 		return 0, errors.New("invalid quantity")
 	}
+	// Both decimal components must contain only ASCII digits. ParseInt also
+	// accepts signs, which would otherwise turn "1.-1" into positive stock.
+	for _, part := range p {
+		if part == "" {
+			return 0, errors.New("invalid quantity")
+		}
+		for i := range part {
+			if part[i] < '0' || part[i] > '9' {
+				return 0, errors.New("invalid quantity")
+			}
+		}
+	}
 	whole, e := strconv.ParseInt(p[0], 10, 64)
 	if e != nil {
 		return 0, e

@@ -54,11 +54,16 @@ func (a *App) clearFridge(c *gin.Context) {
 		fail(c, 500, "preferences unavailable")
 		return
 	}
-	rows, err := a.DB.Query(c, `SELECT r.id,r.title,r.servings,r.minutes,ri.name,ri.quantity_milli,ri.unit,COALESCE(ri.catalog_id::text,ri.name)
-		FROM recipes r JOIN recipe_items ri ON ri.recipe_id=r.id
+	// Bound recipe IDs before joining so every admitted recipe has its full BOM.
+	rows, err := a.DB.Query(c, `WITH candidates AS (
+		SELECT r.id FROM recipes r
 		WHERE r.minutes<=$1 AND NOT EXISTS
 		(SELECT 1 FROM recipe_items blocked WHERE blocked.recipe_id=r.id AND blocked.name=ANY($2::text[]))
-		ORDER BY r.minutes,r.id,ri.name LIMIT 400`, request.MaxMinutes, excluded)
+		AND EXISTS (SELECT 1 FROM recipe_items item WHERE item.recipe_id=r.id)
+		ORDER BY r.minutes,r.id LIMIT 20
+	) SELECT r.id,r.title,r.servings,r.minutes,ri.name,ri.quantity_milli,ri.unit,COALESCE(ri.catalog_id::text,ri.name)
+		FROM candidates candidate JOIN recipes r ON r.id=candidate.id JOIN recipe_items ri ON ri.recipe_id=r.id
+		ORDER BY r.minutes,r.id,ri.name,ri.unit`, request.MaxMinutes, excluded)
 	if err != nil {
 		fail(c, 500, "recipes unavailable")
 		return
@@ -75,9 +80,6 @@ func (a *App) clearFridge(c *gin.Context) {
 			break
 		}
 		if recipes[id] == nil {
-			if len(recipes) == 20 {
-				continue
-			}
 			recipes[id] = &scheduler.Recipe{ID: id, Servings: servings, Minutes: minutes}
 			titles[id] = title
 		}

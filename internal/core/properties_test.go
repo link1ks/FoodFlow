@@ -1,6 +1,28 @@
 package core
 
-import "testing"
+import (
+	"regexp"
+	"strings"
+	"testing"
+)
+
+func FuzzQuantityRejectsMalformedDecimals(f *testing.F) {
+	for _, input := range []string{"1.-1", "1.+1", "0.+1", "+1", "1.250", "0.001", "1.0001", "１.２"} {
+		f.Add(input)
+	}
+	syntax := regexp.MustCompile(`^[0-9]{1,15}(\.[0-9]{1,3})?$`)
+	f.Fuzz(func(t *testing.T, input string) {
+		q, err := Quantity(input)
+		if err == nil {
+			if !syntax.MatchString(strings.TrimSpace(input)) || q <= 0 {
+				t.Fatalf("invalid positive decimal accepted: %q -> %d", input, q)
+			}
+			if roundTrip, err := Quantity(Format(q)); err != nil || roundTrip != q {
+				t.Fatalf("accepted quantity lost precision: %q", input)
+			}
+		}
+	})
+}
 
 func FuzzQuantityRoundTrip(f *testing.F) {
 	for _, seed := range []uint64{1, 999, 1000, 300001, 999999999999999} {
