@@ -21,3 +21,5 @@ Before declaring a change complete, run the harness and relevant integration sce
 Record bounded task start/outcome with harness task mode, including failed/blocked outcomes. Use diagnose mode for redacted acceptance-stack feedback and acceptance mode for browser/platform scenarios. Do not claim productivity improvement from a single successful run. Keep generated knowledge current and convert reproduced failures into regression checks.
 
 Never include `.env`, local database volumes, credentials or raw authenticated logs in commits. Do not delete development data for tests. Preserve request idempotency, server-side household authorization, precise quantities and explicit user confirmation. Architecture checks enforce these import boundaries in CI.
+
+After each task, synchronize important verified changes and findings to the existing GitHub remote. Promptly remove obsolete task files, while retaining required evidence, credentials, backups and development data locally; never include private artifacts in publication.

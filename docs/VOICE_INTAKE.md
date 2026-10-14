@@ -8,10 +8,12 @@
 
 ## 百炼配置
 
+北京地域新业务建议复制控制台当前业务空间的 Base URL，将下面 `<WorkspaceId>` 替换为业务空间 ID。旧 DashScope 域名仍可用，但已进入维护状态。[官方接入说明](https://help.aliyun.com/zh/model-studio/get-api-key/)
+
 在本地未提交的 `.env` 设置独立配置，API 与 Worker 都需要相同语音配置。不会继承文字/视觉模型的密钥。
 
 ```dotenv
-SPEECH_MODEL_ENDPOINT=https://dashscope.aliyuncs.com/compatible-mode/v1
+SPEECH_MODEL_ENDPOINT=https://<WorkspaceId>.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
 SPEECH_MODEL_NAME=qwen3-asr-flash
 SPEECH_MODEL_API_KEY=<你自己的北京地域百炼密钥>
 AI_ALLOWANCE_ENABLED=true

@@ -22,6 +22,9 @@ func TestVisionAdapterAndSchema(t *testing.T) {
 		if e := json.NewDecoder(r.Body).Decode(&request); e != nil || len(request.Messages) != 2 || !strings.Contains(string(request.Messages[1].Content), "data:image/png;base64,") {
 			t.Errorf("image not sent as data URL: %v", e)
 		}
+		if len(request.Messages) == 2 && (!strings.Contains(string(request.Messages[0].Content), "Simplified Chinese") || !strings.Contains(string(request.Messages[1].Content), "简体中文")) {
+			t.Error("ingredient draft request must specify the Chinese UI language")
+		}
 		_, _ = w.Write([]byte(`{"choices":[{"message":{"content":"{\"name\":\"番茄\",\"category\":\"蔬菜\"}"}}]}`))
 	}))
 	defer server.Close()

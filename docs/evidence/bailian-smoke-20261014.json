@@ -1,0 +1,264 @@
+{
+  "date": "2026-10-14",
+  "provider": "Alibaba Bailian Beijing",
+  "models": [
+    "qwen3-vl-plus",
+    "qwen3-asr-flash"
+  ],
+  "tested_revision": "a0f38a59a03e1c43fd700c22750d709475ccaf57",
+  "tested_source_digest": "6c34cf812c50204b7be4f09a42a39a692f8072b9cf2b9e82a5c822e27f849146",
+  "requests": [
+    {
+      "kind": "image",
+      "sample": "番茄",
+      "http_status": 200,
+      "input_tokens": 254,
+      "output_tokens": 16,
+      "audio_seconds": 0,
+      "response_complete": true
+    },
+    {
+      "kind": "image",
+      "sample": "土豆",
+      "http_status": 200,
+      "input_tokens": 224,
+      "output_tokens": 15,
+      "audio_seconds": 0,
+      "response_complete": true
+    },
+    {
+      "kind": "image",
+      "sample": "胡萝卜",
+      "http_status": 200,
+      "input_tokens": 209,
+      "output_tokens": 15,
+      "audio_seconds": 0,
+      "response_complete": true
+    },
+    {
+      "kind": "image",
+      "sample": "苹果",
+      "http_status": 200,
+      "input_tokens": 284,
+      "output_tokens": 13,
+      "audio_seconds": 0,
+      "response_complete": true
+    },
+    {
+      "kind": "image",
+      "sample": "鸡蛋",
+      "http_status": 200,
+      "input_tokens": 209,
+      "output_tokens": 17,
+      "audio_seconds": 0,
+      "response_complete": true
+    },
+    {
+      "kind": "speech",
+      "sample": "添加西红柿五百克",
+      "http_status": 200,
+      "input_tokens": 71,
+      "output_tokens": 12,
+      "audio_seconds": 2.734,
+      "response_complete": true
+    },
+    {
+      "kind": "speech",
+      "sample": "添加鸡蛋三个",
+      "http_status": 200,
+      "input_tokens": 59,
+      "output_tokens": 11,
+      "audio_seconds": 2.274,
+      "response_complete": true
+    },
+    {
+      "kind": "speech",
+      "sample": "买了土豆一点五千克",
+      "http_status": 200,
+      "input_tokens": 70,
+      "output_tokens": 13,
+      "audio_seconds": 2.704,
+      "response_complete": true
+    },
+    {
+      "kind": "speech",
+      "sample": "添加胡萝卜二百五十克和苹果两个",
+      "http_status": 200,
+      "input_tokens": 107,
+      "output_tokens": 16,
+      "audio_seconds": 4.163,
+      "response_complete": true
+    },
+    {
+      "kind": "speech",
+      "sample": "添加牛奶二百五十毫升",
+      "http_status": 200,
+      "input_tokens": 79,
+      "output_tokens": 13,
+      "audio_seconds": 3.054,
+      "response_complete": true
+    }
+  ],
+  "results": [
+    {
+      "kind": "image",
+      "sample": "番茄",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": false,
+      "suggestion": {
+        "name": "tomato",
+        "category": "fruitvegetable"
+      },
+      "transcript": null,
+      "items": null
+    },
+    {
+      "kind": "image",
+      "sample": "土豆",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": false,
+      "suggestion": {
+        "name": "potatoes",
+        "category": "vegetable"
+      },
+      "transcript": null,
+      "items": null
+    },
+    {
+      "kind": "image",
+      "sample": "胡萝卜",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": false,
+      "suggestion": {
+        "name": "carrot",
+        "category": "vegetable"
+      },
+      "transcript": null,
+      "items": null
+    },
+    {
+      "kind": "image",
+      "sample": "苹果",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": false,
+      "suggestion": {
+        "name": "apple",
+        "category": "fruit"
+      },
+      "transcript": null,
+      "items": null
+    },
+    {
+      "kind": "image",
+      "sample": "鸡蛋",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": false,
+      "suggestion": {
+        "name": "eggs",
+        "category": "dairy and eggs"
+      },
+      "transcript": null,
+      "items": null
+    },
+    {
+      "kind": "speech",
+      "sample": "添加西红柿五百克",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": true,
+      "suggestion": null,
+      "transcript": "添加西红柿五百克。",
+      "items": {
+        "name": "番茄",
+        "quantity": "500.000",
+        "unit": "g",
+        "warning": ""
+      }
+    },
+    {
+      "kind": "speech",
+      "sample": "添加鸡蛋三个",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": true,
+      "suggestion": null,
+      "transcript": "添加鸡蛋三个。",
+      "items": {
+        "name": "鸡蛋",
+        "quantity": "3.000",
+        "unit": "个",
+        "warning": ""
+      }
+    },
+    {
+      "kind": "speech",
+      "sample": "买了土豆一点五千克",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": true,
+      "suggestion": null,
+      "transcript": "买了土豆一点五千克。",
+      "items": {
+        "name": "土豆",
+        "quantity": "",
+        "unit": "g",
+        "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+      }
+    },
+    {
+      "kind": "speech",
+      "sample": "添加胡萝卜二百五十克和苹果两个",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": true,
+      "suggestion": null,
+      "transcript": "添加胡萝卜二百五十克和苹果两个。",
+      "items": [
+        {
+          "name": "胡萝卜",
+          "quantity": "250.000",
+          "unit": "g",
+          "warning": ""
+        },
+        {
+          "name": "苹果",
+          "quantity": "",
+          "unit": "g",
+          "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+        }
+      ]
+    },
+    {
+      "kind": "speech",
+      "sample": "添加牛奶二百五十毫升",
+      "status": "awaiting_confirmation",
+      "attempts": 1,
+      "voice_replay_same_job": true,
+      "suggestion": null,
+      "transcript": "添加牛奶二百五十毫升。",
+      "items": {
+        "name": "牛奶",
+        "quantity": "250.000",
+        "unit": "ml",
+        "warning": ""
+      }
+    }
+  ],
+  "batches": 0,
+  "stock_ledger": 0,
+  "stock_outbox": 0,
+  "completed_allowance_calls": 10,
+  "uncertain_allowance_calls": 0,
+  "application_reserved_cny": "3.000",
+  "estimated_image_cny": "0.001940",
+  "estimated_speech_cny": "0.00328438",
+  "estimated_total_cny": "0.00522438",
+  "actual_invoice_verified": false,
+  "post_fix_prompt_paid_retested": false,
+  "price_source": "https://help.aliyun.com/zh/model-studio/model-pricing"
+}

@@ -29,7 +29,9 @@ type Result struct {
 	Warning    string  `json:"warning"`
 }
 
-var amount = regexp.MustCompile(`([-+]?\d+(?:\.\d+)?|[零〇一二两三四五六七八九十百千万点半]+)\s*(公斤|千克|毫升|kg|ml|克|斤|两|升|g|l|个|枚|只|包|袋|盒|瓶|根)`)
+// After 点, only digits belong to the fraction. Otherwise 一点五千克
+// greedily consumes the unit's 千 and incorrectly parses 一点五千 + 克.
+var amount = regexp.MustCompile(`([-+]?\d+(?:\.\d+)?|[零〇一二两三四五六七八九十百千万半]+(?:点[零〇一二两三四五六七八九]+)?)\s*(公斤|千克|毫升|kg|ml|克|斤|两|升|g|l|个|枚|只|包|袋|盒|瓶|根)`)
 var separator = regexp.MustCompile(`[，,、；;。\n]`)
 
 func Parse(text string, catalog []CatalogItem) Result {

@@ -86,7 +86,7 @@
         "id": "INV-VOICE-REAL",
         "priority": "P2",
         "status": "open",
-        "description": "Real Qwen ASR accuracy, hardware microphone capture and interrupted-job audio retention remain unverified",
+        "description": "Five authorized synthetic Qwen ASR clips passed; representative accuracy, hardware microphones, noise/dialects and interrupted-job audio retention remain unverified",
         "completion": "Explicitly authorized real-provider and physical microphone trials measure noisy Chinese ingredient/quantity transcription and inspect orphan-audio recovery without guessing package weights",
         "evidence": "docs/VOICE_INTAKE.md"
       }
@@ -319,14 +319,14 @@
         "id": "AI-EVAL",
         "priority": "P1",
         "status": "open",
-        "description": "Real photo accuracy and menu usefulness have no representative evaluation",
+        "description": "Five real catalogue-photo calls passed semantically, but revised Chinese prompt, representative photo accuracy and menu usefulness remain unevaluated",
         "completion": "Authorize model budget separately; version dataset/model and report correctness, acceptance, latency and cost"
       },
       {
         "id": "AI-INVOICE",
         "priority": "P1",
         "status": "open",
-        "description": "Policy debits cap application allowances, not provider bills; real text/vision tariffs, usage reconciliation and price-change response remain unverified",
+        "description": "Bailian image usage and speech-duration estimates are recorded; actual invoice/free-tier reconciliation, text tariffs and price-change response remain unverified; policy debits do not cap provider bills",
         "completion": "Validate maximum billable request cost against selected provider/model/token/image constraints and live prices; reconcile authorized real-call usage before claiming a money ceiling"
       }
     ]
