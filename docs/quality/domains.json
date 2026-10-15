@@ -285,7 +285,7 @@
       "Cancelled/expired workers cannot persist results",
       "Image suggestions require explicit user confirmation",
       "Default verification uses deterministic fixtures",
-      "Paid requests require explicit enablement and durable exact allowances before dispatch, with shared monthly/daily/concurrency caps",
+      "Application paid requests require explicit enablement and durable exact allowances before dispatch, with shared monthly/daily/concurrency caps",
       "Same paid job is never redispatched; uncertain calls keep full debit and concurrency across restart/month rollover"
     ],
     "checks": [
@@ -312,6 +312,14 @@
       {
         "path": "internal/agent/guard_test.go",
         "anchor": "func TestCallGuardBlocksNetworkAndRedirectsCannotRepeatPaidRequests("
+      },
+      {
+        "path": "internal/engine/intake/proposal_test.go",
+        "anchor": "func TestProposalGroundingAndReviewBoundary("
+      },
+      {
+        "path": "cmd/intake-eval/main_test.go",
+        "anchor": "func TestRecordedWrongIntentCannotPassNumericGroundingAlone("
       }
     ],
     "debts": [
@@ -321,6 +329,14 @@
         "status": "open",
         "description": "Five original and five revised Chinese-prompt catalogue-photo adapter calls passed semantically; representative photo accuracy and menu usefulness remain unevaluated",
         "completion": "Authorize model budget separately; version dataset/model and report correctness, acceptance, latency and cost"
+      },
+      {
+        "id": "AI-INTAKE-SEMANTICS",
+        "priority": "P1",
+        "status": "open",
+        "description": "Frozen 100-case text prototype matches 75 gold answers but still emits seven wrong drafts versus seven for baseline; negation/ambiguity regress and proposal grounding does not prove intent",
+        "completion": "Preserve confirmation and independent intent safeguards; evaluate revised prompts/models on newly frozen independently reviewed held-out cases before production integration",
+        "evidence": "docs/INTAKE_SEMANTIC_EVAL.md"
       },
       {
         "id": "AI-INVOICE",
