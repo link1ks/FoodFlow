@@ -2,17 +2,8 @@
 services:
   api:
     environment:
-      REDIS_URL: redis://redis:6379/0
       INSIGHTS_URL: http://insights:8090
       INSIGHTS_SERVICE_TOKEN: ${INSIGHTS_SERVICE_TOKEN:?Run scripts/platform-acceptance.ps1}
-  redis:
-    image: redis:7.4-alpine
-    command: [redis-server, --maxmemory, 64mb, --maxmemory-policy, allkeys-lru]
-    healthcheck:
-      test: [CMD, redis-cli, ping]
-      interval: 3s
-      retries: 30
-    restart: unless-stopped
   kafka-volume-init:
     image: alpine:3.21
     user: '0:0'

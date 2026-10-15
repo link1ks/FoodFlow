@@ -52,7 +52,7 @@ cd E:\FoodFlow
 Copy-Item .env.example .env
 ```
 
-打开 `.env`，将 `JWT_SECRET` 设置为至少 32 字节的随机密钥；数据库密码也可在首次启动前设置。随后启动：
+打开 `.env`，将 `JWT_SECRET` 设置为至少 32 字节的随机密钥；数据库密码也可在首次启动前设置。随后启动（已包含必需的 Redis，无需额外启用平台扩展）：
 
 ```powershell
 docker compose up --build -d --wait --wait-timeout 180
@@ -91,16 +91,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/update.ps1 -Restart
 
 ## 架构与技术栈
 
-前端采用 **React、TypeScript、Vite**，后端为 **Go API 与独立 Worker**，核心业务使用 **PostgreSQL**。Redis 是可选公共目录缓存；Kafka 与独立 Insights 服务用于异步统计。
+前端采用 **React、TypeScript、Vite**，后端为 **Go API 与独立 Worker**，核心业务使用 **PostgreSQL**。**Redis 是必需依赖**，缓存公共食材目录、菜谱和官方价格查询；Kafka 与独立 Insights 服务用于可选的异步统计。
 
 | 层次 | 技术 |
 | --- | --- |
 | 页面与状态 | React、TypeScript、Vite、Tailwind CSS、Radix、TanStack Query、Zustand |
 | API 与后台任务 | Go、Gin、OpenAPI、SSE、PostgreSQL 任务队列 |
-| 数据与迁移 | PostgreSQL、pgx、sqlc、goose |
+| 数据、缓存与迁移 | PostgreSQL、Redis、pgx、sqlc、goose |
 | Agent 与模型 | Eino、兼容 Chat Completions 的模型适配器、结构化输出校验 |
 | 图片与部署 | 本地目录 / S3、Docker Compose、GitHub Actions |
-| 可选平台扩展 | Redis 公共目录缓存、Kafka / franz-go、独立 Insights 服务 |
+| 可选平台扩展 | Kafka / franz-go、独立 Insights 服务 |
 | 测试与工程反馈 | Go testing、Testcontainers、Vitest、Playwright、工程 Harness |
 
 ```mermaid
@@ -109,6 +109,7 @@ flowchart TB
 
     subgraph Core["核心应用"]
         API["Kitchen API · Go / Gin"] --> PG[("业务 PostgreSQL")]
+        API --> Redis[("Redis · 公共读取缓存")]
         Worker["模型 Worker · PostgreSQL 任务队列"] --> PG
         Worker --> Model["Eino / 模型适配器"]
         API --> Storage["图片存储 · 本地目录 / S3"]
@@ -116,18 +117,18 @@ flowchart TB
     end
 
     subgraph Platform["可选平台扩展"]
-        Redis[("Redis · 公共目录缓存")]
         Relay["Outbox Relay"] --> Kafka["Kafka · 库存事件"]
         Kafka --> Insights["Insights · 独立统计服务"]
         Insights --> IPG[("统计 PostgreSQL")]
     end
 
-    API -. 公共目录缓存 .-> Redis
     PG -. 已提交的 Outbox 事件 .-> Relay
     API -. 鉴权后查询 .-> Insights
 ```
 
 库存、不可变流水与 Outbox 在同一事务提交；服务端校验厨房权限，幂等键防止重复写入。Redis 不保存权威库存或权限。设计细节见 [业务架构](ARCHITECTURE.md) 与 [服务边界](docs/PLATFORM.md)。
+
+所有部署均自动启动 Redis，且不向主机发布 Redis 端口。直接运行 API 时必须设置可访问的 `REDIS_URL`；未配置或连接失败会拒绝启动。Redis 故障会使就绪检查返回 503，运行中的公共读取仍可短时回源数据库；缓存最多保留 60 秒，公共菜谱入库和官方价格更新可能在此期间显示旧值。
 
 ### 开发与验证
 

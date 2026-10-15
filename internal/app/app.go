@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
@@ -34,24 +35,34 @@ type App struct {
 
 var requestCount atomic.Uint64
 
+// New constructs the PostgreSQL business application used by Worker and isolated
+// business fixtures. HTTP service startup must use NewAPI to connect Redis.
 func New(db *pgxpool.Pool) *App {
 	key := os.Getenv("JWT_SECRET")
 	if len(key) < 32 {
 		panic("JWT_SECRET must contain at least 32 bytes")
 	}
-	a := &App{DB: db, jwtKey: []byte(key), sms: sms.FromEnv()}
-	if url := os.Getenv("REDIS_URL"); url != "" {
-		var err error
-		a.catalogCache, err = cache.New(url)
-		if err != nil {
-			panic("invalid REDIS_URL")
-		}
+	return &App{DB: db, jwtKey: []byte(key), sms: sms.FromEnv()}
+}
+
+// NewAPI requires a configured and reachable Redis before serving HTTP traffic.
+// Runtime catalog failures still fall back to PostgreSQL with bounded latency.
+func NewAPI(ctx context.Context, db *pgxpool.Pool) (*App, error) {
+	a := New(db)
+	catalog, err := cache.New(os.Getenv("REDIS_URL"))
+	if err != nil {
+		return nil, err
 	}
-	return a
+	if err = catalog.Ping(ctx); err != nil {
+		_ = catalog.Close()
+		return nil, err
+	}
+	a.catalogCache = catalog
+	return a, nil
 }
 func (a *App) Close() {
 	if a.catalogCache != nil {
-		_ = a.catalogCache.Client.Close()
+		_ = a.catalogCache.Close()
 	}
 }
 func fail(c *gin.Context, code int, msg string) { c.AbortWithStatusJSON(code, gin.H{"error": msg}) }
@@ -89,8 +100,14 @@ func (a *App) Router() *gin.Engine {
 	})
 	r.GET("/health/live", func(c *gin.Context) { c.JSON(200, gin.H{"status": "ok"}) })
 	r.GET("/health/ready", func(c *gin.Context) {
-		if e := a.DB.Ping(c); e != nil {
+		ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second)
+		defer cancel()
+		if e := a.DB.Ping(ctx); e != nil {
 			fail(c, 503, "database unavailable")
+			return
+		}
+		if a.catalogCache != nil && a.catalogCache.Ping(ctx) != nil {
+			fail(c, 503, "redis unavailable")
 			return
 		}
 		c.JSON(200, gin.H{"status": "ok"})
@@ -99,6 +116,7 @@ func (a *App) Router() *gin.Engine {
 		metrics := fmt.Sprintf("# HELP foodflow_http_requests_total HTTP requests handled.\n# TYPE foodflow_http_requests_total counter\nfoodflow_http_requests_total %d\n", requestCount.Load())
 		if a.catalogCache != nil {
 			metrics += fmt.Sprintf("foodflow_catalog_cache_hits_total %d\nfoodflow_catalog_cache_misses_total %d\nfoodflow_catalog_cache_errors_total %d\n", a.catalogCache.Hits.Load(), a.catalogCache.Misses.Load(), a.catalogCache.Errors.Load())
+			metrics += fmt.Sprintf("foodflow_public_cache_hits_total %d\nfoodflow_public_cache_misses_total %d\nfoodflow_public_cache_errors_total %d\n", a.catalogCache.PublicHits.Load(), a.catalogCache.PublicMisses.Load(), a.catalogCache.PublicErrors.Load())
 		}
 		c.Data(200, "text/plain; version=0.0.4", []byte(metrics))
 	})

@@ -2,11 +2,13 @@ package app
 
 import (
 	"fmt"
+	"foodflow/internal/cache"
 	"foodflow/internal/core"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -55,6 +57,16 @@ func (a *App) recipes(c *gin.Context) {
 	max := c.Query("max_minutes")
 	tag := c.Query("tag")
 	ingredient := c.Query("ingredient")
+	if max != "" {
+		if _, err := strconv.ParseInt(strings.TrimSpace(max), 10, 32); err != nil {
+			fail(c, 400, "invalid filter")
+			return
+		}
+	}
+	key := cache.PublicKey("recipes", max, tag, ingredient)
+	if a.publicCacheHit(c, key) {
+		return
+	}
 	rows, e := a.DB.Query(c, `SELECT r.id,r.title,r.servings,r.minutes,r.tags,r.steps,r.source FROM recipes r WHERE ($1='' OR r.minutes<=NULLIF($1,'')::int) AND ($2='' OR $2=ANY(r.tags)) AND ($3='' OR EXISTS(SELECT 1 FROM recipe_items ri WHERE ri.recipe_id=r.id AND ri.name ILIKE '%'||$3||'%')) ORDER BY r.minutes,r.title`, max, tag, ingredient)
 	if e != nil {
 		fail(c, 400, "invalid filter")
@@ -66,23 +78,39 @@ func (a *App) recipes(c *gin.Context) {
 		var id, title, source string
 		var servings, minutes int
 		var tags, steps []string
-		if rows.Scan(&id, &title, &servings, &minutes, &tags, &steps, &source) == nil {
-			ir, er := a.DB.Query(c, "SELECT name,quantity_milli,unit FROM recipe_items WHERE recipe_id=$1", id)
-			items := []gin.H{}
-			if er == nil {
-				for ir.Next() {
-					var name, unit string
-					var q int64
-					if ir.Scan(&name, &q, &unit) == nil {
-						items = append(items, gin.H{"name": name, "quantity": core.Format(q), "unit": unit})
-					}
-				}
-				ir.Close()
-			}
-			out = append(out, gin.H{"id": id, "title": title, "servings": servings, "minutes": minutes, "tags": tags, "steps": steps, "source": source, "ingredients": items})
+		if rows.Scan(&id, &title, &servings, &minutes, &tags, &steps, &source) != nil {
+			fail(c, 500, "recipes unavailable")
+			return
 		}
+		ir, err := a.DB.Query(c, "SELECT name,quantity_milli,unit FROM recipe_items WHERE recipe_id=$1", id)
+		if err != nil {
+			fail(c, 500, "recipes unavailable")
+			return
+		}
+		items := []gin.H{}
+		for ir.Next() {
+			var name, unit string
+			var q int64
+			if ir.Scan(&name, &q, &unit) != nil {
+				ir.Close()
+				fail(c, 500, "recipes unavailable")
+				return
+			}
+			items = append(items, gin.H{"name": name, "quantity": core.Format(q), "unit": unit})
+		}
+		err = ir.Err()
+		ir.Close()
+		if err != nil {
+			fail(c, 500, "recipes unavailable")
+			return
+		}
+		out = append(out, gin.H{"id": id, "title": title, "servings": servings, "minutes": minutes, "tags": tags, "steps": steps, "source": source, "ingredients": items})
 	}
-	c.JSON(200, out)
+	if rows.Err() != nil {
+		fail(c, 500, "recipes unavailable")
+		return
+	}
+	a.publicCacheJSON(c, key, out)
 }
 func (a *App) createPlan(c *gin.Context) {
 	if !writable(c) {

@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"foodflow/internal/cache"
 	"foodflow/internal/dbgen"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
@@ -40,12 +41,12 @@ func priceChange(current, previous string) *string {
 	s := delta.FloatString(2)
 	return &s
 }
-func benchmarkJSON(b dbgen.MarketBenchmarkPrice) gin.H {
+func benchmarkJSON(b dbgen.MarketBenchmarkPrice, today time.Time) gin.H {
 	return gin.H{"id": strconv.FormatInt(b.ID, 10), "ingredient_name": b.IngredientName, "category": b.Category, "city": b.CityName,
 		"price": numericText(b.Price), "unit": b.Unit, "source_agency": b.SourceAgency, "source_url": b.SourceUrl,
 		"source_item_name": b.SourceItemName, "specification": b.Specification, "price_type": b.PriceType,
 		"recorded_date": b.RecordedDate.Time.Format("2006-01-02"), "period_start": b.PeriodStart.Time.Format("2006-01-02"),
-		"collected_at": b.CollectedAt.Time, "historical": !isTodayPrice(b.RecordedDate.Time, b.PeriodStart.Time, priceToday())}
+		"collected_at": b.CollectedAt.Time, "historical": !isTodayPrice(b.RecordedDate.Time, b.PeriodStart.Time, today)}
 }
 func validPriceCity(city string) bool { return len([]rune(city)) > 0 && len([]rune(city)) <= 32 }
 
@@ -56,6 +57,11 @@ func (a *App) benchmarks(c *gin.Context) {
 		fail(c, 400, "请选择有效城市")
 		return
 	}
+	today := priceToday()
+	key := cache.PublicKey("price-benchmarks", today.Format("2006-01-02"), city, category)
+	if a.publicCacheHit(c, key) {
+		return
+	}
 	rows, e := dbgen.New(a.DB).ListBenchmarkPricesByCity(c, dbgen.ListBenchmarkPricesByCityParams{CityName: city, Column2: category})
 	if e != nil {
 		fail(c, 500, "官方基准读取失败")
@@ -63,9 +69,9 @@ func (a *App) benchmarks(c *gin.Context) {
 	}
 	out := []gin.H{}
 	for _, row := range rows {
-		out = append(out, benchmarkJSON(row))
+		out = append(out, benchmarkJSON(row, today))
 	}
-	c.JSON(200, out)
+	a.publicCacheJSON(c, key, out)
 }
 
 func (a *App) priceDashboard(c *gin.Context) {
@@ -73,6 +79,11 @@ func (a *App) priceDashboard(c *gin.Context) {
 	name := strings.TrimSpace(c.Query("ingredient_name"))
 	if !validPriceCity(city) || len([]rune(name)) == 0 || len([]rune(name)) > 64 {
 		fail(c, 400, "请选择城市与食材")
+		return
+	}
+	today := priceToday()
+	key := cache.PublicKey("price-dashboard", today.Format("2006-01-02"), city, name)
+	if a.publicCacheHit(c, key) {
 		return
 	}
 	q := dbgen.New(a.DB)
@@ -93,11 +104,11 @@ func (a *App) priceDashboard(c *gin.Context) {
 	out := []gin.H{}
 	for _, r := range rows {
 		b := dbgen.MarketBenchmarkPrice{ID: r.ID, CityCode: r.CityCode, CityName: r.CityName, IngredientCatalogID: r.IngredientCatalogID, IngredientName: r.IngredientName, Category: r.Category, Price: r.Price, Unit: r.Unit, SourceAgency: r.SourceAgency, SourceUrl: r.SourceUrl, SourceItemName: r.SourceItemName, Specification: r.Specification, PriceType: r.PriceType, RecordedDate: r.RecordedDate, PeriodStart: r.PeriodStart, CollectedAt: r.CollectedAt}
-		item := benchmarkJSON(b)
+		item := benchmarkJSON(b, today)
 		item["weekly_change_percent"] = priceChange(numericText(r.Price), r.PreviousPrice)
 		out = append(out, item)
 	}
-	c.JSON(200, gin.H{"benchmarks": out, "as_of": priceToday().Format("2006-01-02")})
+	a.publicCacheJSON(c, key, gin.H{"benchmarks": out, "as_of": today.Format("2006-01-02")})
 }
 
 func isTodayPrice(end, start, today time.Time) bool {

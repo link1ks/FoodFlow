@@ -6,7 +6,7 @@ function dc {
   if($LASTEXITCODE -ne 0){throw 'Learning Compose check failed.'}
 }
 function Check($ok,$message){if(!$ok){throw $message}}
-foreach($service in @('db','api','worker','web')){
+foreach($service in @('db','redis','api','worker','web')){
   $id=(dc ps -q $service).Trim()
   Check (![string]::IsNullOrWhiteSpace($id)) "Missing learning service: $service"
   # Explicit field selection prevents authenticated environment values appearing.
@@ -21,7 +21,8 @@ foreach($service in @('db','api','worker','web')){
   Check ($LASTEXITCODE -eq 0 -and ('no-new-privileges:true' -in $opts -or 'no-new-privileges' -in $opts)) 'Privilege escalation guard missing.'
   if($service -ne 'db'){
     $user=(& docker inspect --format '{{.Config.User}}' $id).Trim()
-    Check ($LASTEXITCODE -eq 0 -and $user -match '^(10001:10001|101:101)$') 'Application must run as a non-root user.'
+    $expectedUser=if($service -eq 'redis'){'999:999'}elseif($service -eq 'web'){'101:101'}else{'10001:10001'}
+    Check ($LASTEXITCODE -eq 0 -and $user -eq $expectedUser) 'Application must run as its non-root user.'
     $readonly=(& docker inspect --format '{{.HostConfig.ReadonlyRootfs}}' $id).Trim()
     Check ($LASTEXITCODE -eq 0 -and $readonly -eq 'true') 'Application root filesystem must be read-only.'
     $caps=(& docker inspect --format '{{json .HostConfig.CapDrop}}' $id) | ConvertFrom-Json
@@ -51,6 +52,9 @@ $base='http://127.0.0.1:17173/api'
 $fixture='learning-security-'+[guid]::NewGuid().ToString('N')+'@example.test'
 $account=Invoke-RestMethod -Method Post -Uri "$base/register" -ContentType application/json -Body (@{email=$fixture;password='Learning-Security-Fixture-2026!';name='隔离部署验收'}|ConvertTo-Json)
 $headers=@{Authorization='Bearer '+$account.token}
+$null=Invoke-WebRequest -Uri "$base/ingredient-catalog" -Headers $headers
+$catalog=Invoke-WebRequest -Uri "$base/ingredient-catalog" -Headers $headers
+Check ($catalog.Headers['X-Catalog-Cache'] -eq 'hit') 'Learning API must use Redis for the public catalog.'
 $household=Invoke-RestMethod -Method Post -Uri "$base/households" -Headers $headers -ContentType application/json -Body '{"name":"隔离部署验收","servings":2}'
 $ingredient=Invoke-RestMethod -Method Post -Uri "$base/households/$($household.id)/ingredients" -Headers $headers -ContentType application/json -Body '{"name":"番茄","category":"蔬菜","unit":"g"}'
 $photo=Get-ChildItem -LiteralPath web/public/ingredient-photos -Filter '*.webp' | Select-Object -First 1
@@ -61,7 +65,7 @@ $response=Invoke-WebRequest -Uri "$base/households/$($household.id)/ingredients/
 [byte[]]$received=$response.Content
 Check ($received.Length -gt 0) 'Missing image response bytes.'
 Check ([Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($original)) -eq [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($received))) 'Stored photo bytes differ.'
-$report=@{recorded_at=[DateTime]::UtcNow.ToString('o');project='foodflow-learning';passed=$true;checks=@('loopback-only gateway','no internal host ports','non-root readonly applications','capability and escalation guards','security headers on success/errors','no account caching','metrics blocked','gateway overwrites client identity','non-root household photo write/read SHA256');limitations=@('local Docker transport; no cloud or HTTPS acceptance','deterministic integrations only','not a backup/restore or real household trial')}
+$report=@{recorded_at=[DateTime]::UtcNow.ToString('o');project='foodflow-learning';passed=$true;checks=@('loopback-only gateway','no internal host ports including Redis','non-root readonly applications and Redis','capability and escalation guards','security headers on success/errors','no account caching','metrics blocked','gateway overwrites client identity','public catalog Redis hit','non-root household photo write/read SHA256');limitations=@('local Docker transport; no cloud or HTTPS acceptance','deterministic integrations only','not a backup/restore or real household trial')}
 New-Item -ItemType Directory -Force .cache/harness | Out-Null
 $report|ConvertTo-Json -Depth 5|Set-Content -LiteralPath .cache/harness/learning-security.json -Encoding utf8NoBOM
 Write-Output 'PASS: isolated learning deployment security checks; redacted evidence saved.'

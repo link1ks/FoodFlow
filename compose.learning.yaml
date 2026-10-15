@@ -14,6 +14,7 @@ x-runtime: &runtime
     options: {max-size: '10m', max-file: '3'}
 x-app-env: &app_env
   DATABASE_URL: postgres://foodflow:${POSTGRES_PASSWORD:?Initialize learning configuration}@db:5432/foodflow?sslmode=disable
+  REDIS_URL: redis://redis:6379/0
   JWT_SECRET: ${JWT_SECRET:?Initialize learning configuration}
   APP_ORIGIN: http://127.0.0.1:17173
   HTTP_ADDR: :8080
@@ -34,6 +35,22 @@ x-app-env: &app_env
   VISION_MODEL_API_KEY: ''
   SMS_PROVIDER: ''
 services:
+  redis:
+    image: redis:7.4-alpine
+    command: [redis-server, --maxmemory, 64mb, --maxmemory-policy, allkeys-lru, --save, '', --appendonly, 'no']
+    user: '999:999'
+    read_only: true
+    tmpfs: ['/data:rw,noexec,nosuid,size=1m,uid=999,gid=999']
+    cap_drop: [ALL]
+    security_opt: ['no-new-privileges:true']
+    networks: [database]
+    logging: *logging
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 3s
+      timeout: 2s
+      retries: 30
+    restart: unless-stopped
   db:
     image: postgres:16-alpine
     restart: unless-stopped
@@ -79,6 +96,7 @@ services:
     depends_on:
       migrate: {condition: service_completed_successfully}
       image-init: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
     healthcheck:
       test: [CMD, wget, -qO-, 'http://127.0.0.1:8080/health/ready']
       interval: 3s

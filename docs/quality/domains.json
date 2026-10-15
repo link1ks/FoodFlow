@@ -455,15 +455,45 @@
   {
     "id": "harness",
     "owner": "cmd/harness",
-    "reviewed": "2026-10-01",
+    "reviewed": "2026-10-15",
     "acceptance": [
       "API routes/methods match valid OpenAPI",
       "Main-flow real fixture requests and responses match schemas",
       "Quality mapping fails on lost scenarios",
       "Task completion requires current full evidence including quality mapping",
-      "Corrupt learning backups fail before target creation; absent process credentials stay absent on Linux"
+      "Corrupt learning backups fail before target creation; absent process credentials stay absent on Linux",
+      "Every API deployment requires healthy Redis; release checks reject missing/unhealthy Redis and preserve its container",
+      "Public reference caches preserve authentication, household authorization, filter/date separation and complete successful responses"
     ],
     "checks": [
+      {
+        "path": "cmd/harness/compose_test.go",
+        "anchor": "func TestComposeRequiresRedisForEveryAPI("
+      },
+      {
+        "path": "internal/app/redis_runtime_test.go",
+        "anchor": "func TestRedisReadinessOutageAndRecovery("
+      },
+      {
+        "path": "internal/app/public_cache_test.go",
+        "anchor": "func TestPublicRedisCachesShareReferencesAndPreserveAuthorization("
+      },
+      {
+        "path": "internal/app/public_cache_test.go",
+        "anchor": "func TestPublicRedisNeverCachesIncompleteRecipeMaterials("
+      },
+      {
+        "path": "internal/cache/public_test.go",
+        "anchor": "func TestPublicKeysSeparateResourcesFiltersAndDates("
+      },
+      {
+        "path": "tests/release-bundle.ps1",
+        "anchor": "unhealthy mandatory Redis"
+      },
+      {
+        "path": "tests/platform.ps1",
+        "anchor": "redis-required-readiness"
+      },
       {
         "path": "internal/app/openapi_test.go",
         "anchor": "func TestContractRejectsQuantityAndRequiredFieldDrift("

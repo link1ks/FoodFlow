@@ -13,6 +13,13 @@ function Check($ok,$message){if(!$ok){throw $message}}
 function WaitSummary($predicate){
  Wait-ReadModel -Read {Call GET ($root+'/insights') $null $user.token} -Ready $predicate
 }
+function WaitAPIReady {
+ for($attempt=0;$attempt -lt 30;$attempt++){
+  try{if((Invoke-WebRequest -Uri 'http://127.0.0.1:18080/health/ready' -TimeoutSec 2).StatusCode -eq 200){return}}catch{}
+  Start-Sleep -Milliseconds 500
+ }
+ throw 'API readiness did not recover after Redis restart'
+}
 $suffix=[guid]::NewGuid().ToString('N')
 $user=Call POST /register @{email="platform-$suffix@example.test";password='Platform-Test-2026!';name='Platform test'}
 $household=Call POST /households @{name='Event pipeline acceptance';servings=2} $user.token
@@ -32,6 +39,10 @@ $first=WaitSummary {param($s) $s.items.Count -eq 1 -and $s.items[0].inbound_mill
 Check ($first.items[0].unit -eq 'g') 'Unit corrupted'
 try{
  dc stop redis | Out-Null
+ $unready=Invoke-WebRequest -Uri 'http://127.0.0.1:18080/health/ready' -SkipHttpErrorCheck -TimeoutSec 3
+ Check ($unready.StatusCode -eq 503) 'API remained ready without required Redis'
+ $live=Invoke-WebRequest -Uri 'http://127.0.0.1:18080/health/live' -TimeoutSec 3
+ Check ($live.StatusCode -eq 200) 'Redis outage incorrectly failed API liveness'
  $fallback=Invoke-WebRequest -Uri ($base+'/ingredient-catalog') -Headers $headers
  Check ($fallback.StatusCode -eq 200 -and $fallback.Headers['X-Catalog-Cache'] -eq 'database') 'Redis outage did not fall back'
  dc stop kafka | Out-Null
@@ -39,6 +50,10 @@ try{
  $inventory=Call GET ($root+'/inventory') $null $user.token
  Check ($inventory.items[0].quantity -eq '90.000') 'Broker outage affected authoritative inventory'
 }finally{dc start redis kafka | Out-Null}
+WaitAPIReady
+$null=Invoke-WebRequest -Uri ($base+'/ingredient-catalog') -Headers $headers
+$recovered=Invoke-WebRequest -Uri ($base+'/ingredient-catalog') -Headers $headers
+Check ($recovered.Headers['X-Catalog-Cache'] -eq 'hit') 'Catalog did not resume Redis after restart'
 $after=WaitSummary {param($s) $s.items[0].consumed_milli -eq '10000'}
 try{
  dc stop insights | Out-Null
@@ -58,6 +73,6 @@ $count=dc exec -T insights-db psql -U insights -d insights -At -c "SELECT count(
 Check ($count.Trim() -eq '3') 'Repeated Kafka delivery counted more than once'
 $other=Call POST /register @{email="outsider-$suffix@example.test";password='Platform-Test-2026!';name='Outsider'}
 try{Call GET ($root+'/insights') $null $other.token|Out-Null;throw 'Cross-household projection access succeeded'}catch{if(!$_.Exception.Response -or [int]$_.Exception.Response.StatusCode -ne 404){throw}}
-$evidence=@{recorded_at=[DateTimeOffset]::UtcNow.ToString('o');passed=$true;scenarios=@('redis-hit','cached-auth','redis-fallback','broker-outage-stock-write','consumer-restart','duplicate-delivery','invalid-event-quarantine','household-isolation');projection_fact_count=3}
+$evidence=@{recorded_at=[DateTimeOffset]::UtcNow.ToString('o');passed=$true;scenarios=@('redis-hit','cached-auth','redis-required-readiness','redis-independent-liveness','redis-fallback','redis-recovery','broker-outage-stock-write','consumer-restart','duplicate-delivery','invalid-event-quarantine','household-isolation');projection_fact_count=3}
 $evidence|ConvertTo-Json -Depth 3|Set-Content -LiteralPath .cache/platform-evidence.json
-Write-Output 'PASS: Redis hit/auth/fallback, atomic Kafka outage stock write, consumer restart, duplicate delivery, invalid event quarantine and household isolation'
+Write-Output 'PASS: required Redis readiness/liveness/fallback/recovery, cached authorization, atomic Kafka outage stock write, consumer restart, duplicate delivery, invalid event quarantine and household isolation'

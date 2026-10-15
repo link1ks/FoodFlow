@@ -1,4 +1,19 @@
 services:
+  # Required public reference cache; PostgreSQL remains the durable source of truth.
+  redis:
+    image: redis:7.4-alpine
+    command: [redis-server, --maxmemory, 64mb, --maxmemory-policy, allkeys-lru, --save, '', --appendonly, 'no']
+    user: '999:999'
+    read_only: true
+    tmpfs: ['/data:rw,noexec,nosuid,size=1m,uid=999,gid=999']
+    cap_drop: [ALL]
+    security_opt: ['no-new-privileges:true']
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 3s
+      timeout: 2s
+      retries: 30
+    restart: unless-stopped
   db:
     image: postgres:16-alpine
     environment:
@@ -24,6 +39,7 @@ services:
     environment:
       DATABASE_URL: postgres://foodflow:${POSTGRES_PASSWORD:-foodflow}@db:5432/foodflow?sslmode=disable
       HTTP_ADDR: :8080
+      REDIS_URL: redis://redis:6379/0
 
       COMMUNITY_ADMIN_IDS: ${COMMUNITY_ADMIN_IDS:-}
       COMMUNITY_REVIEW_MODEL_ENDPOINT: ${COMMUNITY_REVIEW_MODEL_ENDPOINT:-}
@@ -62,6 +78,7 @@ services:
     volumes: [image_data:/app/data/images]
     depends_on:
       migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
     ports: ["127.0.0.1:8080:8080"]
     healthcheck:
       test: [CMD, "wget", "-qO-", "http://localhost:8080/health/ready"]

@@ -4,7 +4,7 @@
 flowchart LR
  UI[React] --> API[Kitchen API]
  API --> PG[(Kitchen PostgreSQL)]
- API --> R[(Redis catalog cache)]
+ API --> R[(Required Redis public read cache)]
  PG --> Relay[Outbox relay]
  Relay --> K[Kafka stock topic]
  K --> I[Insights service]
@@ -18,7 +18,9 @@ Kitchen API also owns recovery-code hashes tied to credential epochs and durable
 
 Kitchen API owns [voice ingredient intake](VOICE_INTAKE.md): consented recordings use the shared private object store and a single-attempt Worker job. The independently configured Qwen ASR adapter transcribes under the same durable paid-call guard; the pure `internal/engine/intake` parser creates editable catalogue drafts without I/O. Recognition changes no stock. Explicit confirmation commits all batches, immutable ledger facts and outbox events in one kitchen transaction. This first version supports common quantity expressions and leaves ambiguous units blank; real recognition quality and interrupted-job audio cleanup remain documented limits.
 
-Redis caches the public catalog for 60 seconds after authentication. Keys contain no household data. Reads/writes use short deadlines, no retry storm, and database fallback. Inventory balance, permissions and idempotency remain authoritative in PostgreSQL. Cache metrics are on API `/metrics`; catalog responses expose `X-Catalog-Cache`. Catalog updates can be stale for one TTL.
+Redis is a required API dependency in development, acceptance, learning and restore deployments. The API rejects missing/invalid `REDIS_URL` and failed startup PING without exposing credentials. `/health/ready` checks both PostgreSQL and Redis; Redis outage returns 503 while `/health/live` remains available. Worker uses PostgreSQL jobs and does not need a Redis connection.
+
+Redis caches the public catalog, recipe list and official benchmark/dashboard reads for at most 60 seconds after authentication and, for household routes, current membership checks. Keys contain no household data; public query keys hash structured filters and price keys also include the Shanghai calendar day. Only complete successful results are cached. Reads/writes use short deadlines, no retry storm, and database fallback during runtime outages. Inventory balance, permissions, session revocation, idempotency and paid-call/lease fencing remain authoritative in PostgreSQL. Cache metrics are on API `/metrics`; catalog responses expose `X-Catalog-Cache`, other public cached reads expose `X-Public-Cache`. Public data updates, including accepted community recipes and official price imports, can be stale for one TTL. Redis contents are disposable and are rebuilt from PostgreSQL after restart; business recovery does not restore a Redis snapshot.
 
 Migration 028 creates outbox events in the same transaction as the immutable ledger, after its historical snapshot trigger. Existing snapshot-backed rows are initialized with their original facts; older rows without snapshots are not invented. Relay holds an outbox row lock through bounded broker acknowledgement, then marks it published. A crash between broker acknowledgement and DB commit may republish the same ID. Broker outage queues events while core writes continue.
 
@@ -39,7 +41,7 @@ pwsh -File scripts/local-acceptance.ps1 up
 pwsh -File scripts/platform-acceptance.ps1
 ```
 
-The second script enables `compose.platform.yaml` over the isolated acceptance stack. Redis and Kafka bind no host ports; service traffic stays on its network. Insights has a separate PostgreSQL database/container and secret; volumes persist independently. The main development Compose remains usable without these components. The application is available at `http://127.0.0.1:15173`.
+The first script starts the isolated base stack including required Redis. The second enables optional Kafka/Relay/Insights through `compose.platform.yaml`. Redis and Kafka bind no host ports; service traffic stays on its network. Insights has a separate PostgreSQL database/container and secret; volumes persist independently. The main development Compose also includes Redis and remains usable without Kafka/Insights. The application is available at `http://127.0.0.1:15173`. Container API uses `redis://redis:6379/0`; native API development requires a separately reachable Redis endpoint in `REDIS_URL` because Compose does not publish port 6379.
 
 Local single-node Kafka uses KRaft without ZooKeeper, one replica and plaintext internal traffic. Production requires replication, SASL/TLS, Redis ACL/TLS, managed secrets, network isolation, alerts for outbox age/consumer lag/quarantine, retention and backup policies. Keeping the two databases on distinct containers demonstrates ownership; it is not a claim of production high availability.
 

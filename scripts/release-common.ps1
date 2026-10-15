@@ -1,4 +1,19 @@
 # Release bundles contain only committed source and public runtime identities.
+function Get-ReleaseRuntimeContainers([scriptblock]$Docker){
+  $ids=@{}
+  foreach($service in @('db','redis','api','worker','web')){
+    $id=(& $Docker @('ps','-q','--no-trunc','--filter','label=com.docker.compose.project=foodflow-learning','--filter',"label=com.docker.compose.service=$service") 'learning identity').Trim()
+    if($id -notmatch '^[a-f0-9]{64}$' -or (& $Docker @('inspect','--format','{{.State.Running}}',$id) 'release identity').Trim() -ne 'true'){throw 'Expected exactly one running learning service.'}
+    if($service -eq 'redis' -and (& $Docker @('inspect','--format','{{.State.Health.Status}}',$id) 'Redis health').Trim() -ne 'healthy'){throw 'Required learning Redis must be healthy before release operations.'}
+    $ids[$service]=$id
+  }
+  return $ids
+}
+function Assert-ReleaseDependenciesPreserved($Before,$After){
+  foreach($service in @('db','redis')){
+    if($Before[$service] -notmatch '^[a-f0-9]{64}$' -or $After[$service] -cne $Before[$service]){throw 'Database or Redis container changed unexpectedly during switch.'}
+  }
+}
 function Write-ReleaseSourceArchive([string]$Directory,[string]$Revision){
   $path=Join-Path $Directory 'source.zip'
   & git @('archive','--format=zip',('--output='+$path),$Revision)

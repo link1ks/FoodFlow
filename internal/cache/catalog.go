@@ -1,24 +1,33 @@
-// Package cache caches public catalog data only, with bounded fallback latency.
+// Package cache caches public reference data only, with bounded fallback latency.
 package cache
 
 import (
 	"context"
+	"errors"
 	"github.com/redis/go-redis/v9"
+	"strings"
 	"sync/atomic"
 	"time"
 )
 
 const CatalogKey = "foodflow:catalog:v1"
 
+const operationTimeout = 120 * time.Millisecond
+
 type Catalog struct {
-	Client               *redis.Client
-	Hits, Misses, Errors atomic.Uint64
+	Client                                 *redis.Client
+	Hits, Misses, Errors                   atomic.Uint64
+	PublicHits, PublicMisses, PublicErrors atomic.Uint64
 }
 
 func New(url string) (*Catalog, error) {
+	if strings.TrimSpace(url) == "" {
+		return nil, errors.New("REDIS_URL is required")
+	}
 	opts, err := redis.ParseURL(url)
 	if err != nil {
-		return nil, err
+		// Parse errors can contain the configured URL, including credentials.
+		return nil, errors.New("invalid REDIS_URL")
 	}
 	opts.DialTimeout = 100 * time.Millisecond
 	opts.ReadTimeout = 100 * time.Millisecond
@@ -27,8 +36,21 @@ func New(url string) (*Catalog, error) {
 	opts.ContextTimeoutEnabled = true
 	return &Catalog{Client: redis.NewClient(opts)}, nil
 }
+
+// Ping checks the required API dependency without exposing connection details.
+func (c *Catalog) Ping(ctx context.Context) error {
+	ctx, cancel := context.WithTimeout(ctx, operationTimeout)
+	defer cancel()
+	if c.Client.Ping(ctx).Err() != nil {
+		return errors.New("redis unavailable")
+	}
+	return nil
+}
+
+func (c *Catalog) Close() error { return c.Client.Close() }
+
 func (c *Catalog) Get(ctx context.Context) ([]byte, bool) {
-	ctx, cancel := context.WithTimeout(ctx, 120*time.Millisecond)
+	ctx, cancel := context.WithTimeout(ctx, operationTimeout)
 	defer cancel()
 	raw, err := c.Client.Get(ctx, CatalogKey).Bytes()
 	if err == redis.Nil {
@@ -43,7 +65,7 @@ func (c *Catalog) Get(ctx context.Context) ([]byte, bool) {
 	return raw, true
 }
 func (c *Catalog) Set(ctx context.Context, raw []byte) {
-	ctx, cancel := context.WithTimeout(ctx, 120*time.Millisecond)
+	ctx, cancel := context.WithTimeout(ctx, operationTimeout)
 	defer cancel()
 	if err := c.Client.Set(ctx, CatalogKey, raw, 60*time.Second).Err(); err != nil {
 		c.Errors.Add(1)

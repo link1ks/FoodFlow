@@ -11,6 +11,42 @@ function Archive([string[]]$Names){
   try{foreach($name in $Names){$entry=$zip.CreateEntry($name);$stream=$entry.Open();try{$stream.WriteByte(65)}finally{$stream.Dispose()}}}finally{$zip.Dispose()}
 }
 try{
+  # Mock only the Docker boundary: release preflight must reject missing or
+  # unhealthy mandatory Redis even though the application switch uses --no-deps.
+  $script:releaseFixtureIDs=@{db=('1'*64);redis=('2'*64);api=('3'*64);worker=('4'*64);web=('5'*64)}
+  $script:releaseFixtureMode='healthy'
+  $runtimeDocker={param([string[]]$Arguments,[string]$Label)
+    if($Arguments[0] -eq 'ps'){
+      if($Arguments -notcontains 'label=com.docker.compose.project=foodflow-learning'){throw 'Release inventory lost its fixed project boundary.'}
+      $service=($Arguments[-1] -split '=')[-1]
+      if($service -eq 'redis'){
+        if($script:releaseFixtureMode -eq 'missing'){return ''}
+        if($script:releaseFixtureMode -eq 'duplicate'){return $script:releaseFixtureIDs.redis+"`n"+('6'*64)}
+      }
+      return $script:releaseFixtureIDs[$service]
+    }
+    if($Arguments[0] -ne 'inspect'){throw 'Unexpected release fixture Docker operation.'}
+    if($Arguments[2] -eq '{{.State.Running}}'){
+      if($Arguments[3] -eq $script:releaseFixtureIDs.redis -and $script:releaseFixtureMode -eq 'stopped'){return 'false'}
+      return 'true'
+    }
+    if($Arguments[2] -eq '{{.State.Health.Status}}' -and $Arguments[3] -eq $script:releaseFixtureIDs.redis){
+      if($script:releaseFixtureMode -eq 'unhealthy'){return 'unhealthy'}
+      return 'healthy'
+    }
+    throw 'Unexpected release fixture inspection.'
+  }
+  $runtime=Get-ReleaseRuntimeContainers $runtimeDocker
+  if($runtime.Count -ne 5 -or $runtime.redis -cne $script:releaseFixtureIDs.redis){throw 'Required healthy Redis missing from release inventory.'}
+  foreach($mode in @('missing','duplicate','stopped','unhealthy')){
+    $script:releaseFixtureMode=$mode
+    Reject {Get-ReleaseRuntimeContainers $runtimeDocker}
+  }
+  Assert-ReleaseDependenciesPreserved $runtime $runtime
+  foreach($service in @('db','redis')){
+    $changed=$runtime.Clone();$changed[$service]='6'*64
+    Reject {Assert-ReleaseDependenciesPreserved $runtime $changed}
+  }
   Write-ReleaseSourceArchive $scratch 'HEAD'
   Assert-ReleaseSourceArchive (Join-Path $scratch 'source.zip')
   $base=@('README.md','compose.learning.yaml','scripts/learning-deploy.ps1','.env.example')
@@ -40,7 +76,7 @@ try{
   Reject {Assert-ReleaseVerified $full $accept ('d'*64)}
   $full.checks[0].passed=$false;Reject {Assert-ReleaseVerified $full $accept $hash};$full.checks[0].passed=$true
   $full.checks=@($full.checks|Where-Object {$_.name -ne 'web-build'});Reject {Assert-ReleaseVerified $full $accept $hash}
-  Write-Output 'PASS: private/traversal/duplicate archives, corruption, schema/history/topology/image drift and incomplete verification rejected.'
+  Write-Output 'PASS: missing/duplicate/stopped/unhealthy Redis, dependency replacement, private/traversal/duplicate archives, corruption, schema/history/topology/image drift and incomplete verification rejected.'
 }finally{
   $resolved=[IO.Path]::GetFullPath($scratch)
   if($resolved.StartsWith((Join-Path $root '.cache')+[IO.Path]::DirectorySeparatorChar) -and (Split-Path $resolved -Leaf) -like 'release-fixture-*'){

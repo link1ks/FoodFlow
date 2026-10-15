@@ -29,7 +29,10 @@ func main() {
 	if e = db.Ping(ctx); e != nil {
 		panic(e)
 	}
-	a := app.New(db)
+	a, e := app.NewAPI(ctx, db)
+	if e != nil {
+		panic(e)
+	}
 	defer a.Close()
 	addr := os.Getenv("HTTP_ADDR")
 	if addr == "" {

@@ -8,13 +8,7 @@ Set-Location -LiteralPath (Split-Path $PSScriptRoot -Parent)
 function ReleaseDocker([string[]]$Arguments,[string]$Label){Invoke-RecoveryDocker -Arguments $Arguments -Label $Label}
 function ReleaseInspect([string]$ID,[string]$Template){(ReleaseDocker @('inspect','--format',$Template,$ID) 'release identity').Trim()}
 function ReleaseContainers {
-  $ids=@{}
-  foreach($service in @('db','api','worker','web')){
-    $id=(ReleaseDocker @('ps','-q','--no-trunc','--filter','label=com.docker.compose.project=foodflow-learning','--filter',"label=com.docker.compose.service=$service") 'learning identity').Trim()
-    if($id -notmatch '^[a-f0-9]{64}$' -or (ReleaseInspect $id '{{.State.Running}}') -ne 'true'){throw 'Expected exactly one running learning service.'}
-    $ids[$service]=$id
-  }
-  return $ids
+  return Get-ReleaseRuntimeContainers {param([string[]]$Arguments,[string]$Label) ReleaseDocker $Arguments $Label}
 }
 function HistoryDigest([string]$DB){
   $history=ReleaseDocker @('exec',$DB,'psql','-U','foodflow','-d','foodflow','-At','-c','SELECT version_id,is_applied FROM goose_db_version ORDER BY id') 'migration history'
@@ -80,9 +74,10 @@ try {
       $null=ReleaseDocker @('compose','--env-file','.cache/learning.env','-f','compose.learning.yaml','-f',$overlay,'up','-d','--no-build','--no-deps','--force-recreate','--wait','--wait-timeout','120','api','worker','web') 'same-schema version switch'
       $after=ReleaseContainers
       foreach($service in @('api','worker','web')){if((ReleaseInspect $after[$service] '{{.Image}}') -cne $manifest.images[$(if($service -eq 'worker'){'api'}else{$service})]){throw 'Switched runtime image differs from release.'}}
-      if($after.db -cne $containers.db -or (HistoryDigest $after.db) -cne $manifest.history_digest){throw 'Database changed unexpectedly during switch.'}
+      Assert-ReleaseDependenciesPreserved $containers $after
+      if((HistoryDigest $after.db) -cne $manifest.history_digest){throw 'Database changed unexpectedly during switch.'}
       if((Invoke-WebRequest http://127.0.0.1:17173/health/ready -TimeoutSec 5).StatusCode -ne 200){throw 'Switched gateway is not ready.'}
-      Write-Output 'PASS: same-schema application switch ready; database container, volumes and migration history retained.'
+      Write-Output 'PASS: same-schema application switch ready; database and healthy Redis containers, volumes and migration history retained.'
     }else{Write-Output 'PASS: source artifact integrity, retained image bindings, current schema/history/topology verified; no services changed.'}
   }
 }finally{
