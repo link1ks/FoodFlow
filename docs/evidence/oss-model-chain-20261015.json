@@ -1,0 +1,536 @@
+{
+  "actual_invoice_verified": false,
+  "after_fix_scope": "local deterministic replay of actual ASR transcripts; no additional paid call",
+  "allowance_count": 10,
+  "budget_cny": 2,
+  "max_provider_requests": 11,
+  "model_estimated_cny_by_returned_seconds": 0.006113,
+  "model_estimated_cny_by_wav_seconds": 0.007015518820861678,
+  "oss_invoice_verified": false,
+  "paid_test_revision": "8e5f0a3c37217a899666f14319bbba3ccba1171e",
+  "policy_debit_milli_cny": 1400,
+  "provider_calls": [
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "c309152dee70e4a494500f84ce4d81e7217daffbe989b362a94f5610f7e23c17",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 15,
+        "completion_tokens_details": {
+          "text_tokens": 15
+        },
+        "prompt_tokens": 96,
+        "prompt_tokens_details": {
+          "audio_tokens": 93,
+          "text_tokens": 3
+        },
+        "seconds": 3,
+        "total_tokens": 111
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "ceb1a908224186c93cec6dc895aa6f2f7180314c1879c139f12c6fe0c625e520",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 13,
+        "completion_tokens_details": {
+          "text_tokens": 13
+        },
+        "prompt_tokens": 70,
+        "prompt_tokens_details": {
+          "audio_tokens": 67,
+          "text_tokens": 3
+        },
+        "seconds": 2,
+        "total_tokens": 83
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "d2ca67b2f801c9d2a0ce843da2a23189b2328aef441e360217482a9e1fccb826",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 12,
+        "completion_tokens_details": {
+          "text_tokens": 12
+        },
+        "prompt_tokens": 57,
+        "prompt_tokens_details": {
+          "audio_tokens": 54,
+          "text_tokens": 3
+        },
+        "seconds": 2,
+        "total_tokens": 69
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "3b552db49cba41d7cc6b8c44b2e44d4c5e085e9c6420e2c39da5633006e9420c",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 16,
+        "completion_tokens_details": {
+          "text_tokens": 16
+        },
+        "prompt_tokens": 113,
+        "prompt_tokens_details": {
+          "audio_tokens": 110,
+          "text_tokens": 3
+        },
+        "seconds": 4,
+        "total_tokens": 129
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "3e1d589508e24ad18dcdda8430d2da13ba88c240fba645a987782d7563edf6a7",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 15,
+        "completion_tokens_details": {
+          "text_tokens": 15
+        },
+        "prompt_tokens": 99,
+        "prompt_tokens_details": {
+          "audio_tokens": 96,
+          "text_tokens": 3
+        },
+        "seconds": 3,
+        "total_tokens": 114
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "d3aca8fd8fda1f5ab9c20225dcf24413f11ce6ec821c947762f9350db20dff48",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 13,
+        "completion_tokens_details": {
+          "text_tokens": 13
+        },
+        "prompt_tokens": 80,
+        "prompt_tokens_details": {
+          "audio_tokens": 77,
+          "text_tokens": 3
+        },
+        "seconds": 3,
+        "total_tokens": 93
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "d6568bb650977e8997bec7f508f86dc8353875a316ce235988c98670fa414296",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 14,
+        "completion_tokens_details": {
+          "text_tokens": 14
+        },
+        "prompt_tokens": 91,
+        "prompt_tokens_details": {
+          "audio_tokens": 88,
+          "text_tokens": 3
+        },
+        "seconds": 3,
+        "total_tokens": 105
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "a2d4e76903147846bd5ac551ea93f101a0b6ac60901e286a7aa40a9730da4e33",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 13,
+        "completion_tokens_details": {
+          "text_tokens": 13
+        },
+        "prompt_tokens": 80,
+        "prompt_tokens_details": {
+          "audio_tokens": 77,
+          "text_tokens": 3
+        },
+        "seconds": 3,
+        "total_tokens": 93
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "speech",
+      "sha256": "0e3d6e5bc907452c888123ab9ca936e0878f9ed19d60557d748059b5f7b89e6e",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 14,
+        "completion_tokens_details": {
+          "text_tokens": 14
+        },
+        "prompt_tokens": 88,
+        "prompt_tokens_details": {
+          "audio_tokens": 85,
+          "text_tokens": 3
+        },
+        "seconds": 3,
+        "total_tokens": 102
+      }
+    },
+    {
+      "http_status": 200,
+      "kind": "image",
+      "sha256": "6cc3663a73050f03bb13b32ece49decd20b10ed600e6edfe9f0bc31ae846c1c1",
+      "state": "returned",
+      "usage": {
+        "completion_tokens": 10,
+        "completion_tokens_details": {
+          "text_tokens": 10
+        },
+        "prompt_tokens": 293,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "image_tokens": 182,
+          "text_tokens": 111
+        },
+        "total_tokens": 303
+      }
+    }
+  ],
+  "provider_returned_speech_seconds": 26,
+  "results": [
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "番茄",
+          "quantity": "250.000",
+          "unit": "g",
+          "warning": ""
+        },
+        {
+          "name": "鸡蛋",
+          "quantity": "6.000",
+          "unit": "个",
+          "warning": ""
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 3.733605442176871,
+      "drafts": [
+        {
+          "name": "番茄",
+          "quantity": "250.000",
+          "unit": "g",
+          "warning": ""
+        },
+        {
+          "name": "鸡蛋",
+          "quantity": "6.000",
+          "unit": "个",
+          "warning": ""
+        }
+      ],
+      "kind": "speech",
+      "sample": "添加西红柿半斤，鸡蛋六个。",
+      "sha256": "c309152dee70e4a494500f84ce4d81e7217daffbe989b362a94f5610f7e23c17",
+      "status": "awaiting_confirmation",
+      "transcript": "添加西红柿半斤，鸡蛋六个。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "土豆",
+          "quantity": "1500.000",
+          "unit": "g",
+          "warning": ""
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 2.703628117913832,
+      "drafts": [
+        {
+          "name": "土豆",
+          "quantity": "1500.000",
+          "unit": "g",
+          "warning": ""
+        }
+      ],
+      "kind": "speech",
+      "sample": "买了土豆一点五千克。",
+      "sha256": "ceb1a908224186c93cec6dc895aa6f2f7180314c1879c139f12c6fe0c625e520",
+      "status": "awaiting_confirmation",
+      "transcript": "买了土豆一点五千克。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "鸡蛋",
+          "quantity": "",
+          "unit": "个",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 2.188888888888889,
+      "drafts": [
+        {
+          "name": "鸡蛋",
+          "quantity": "3.000",
+          "unit": "个",
+          "warning": ""
+        }
+      ],
+      "kind": "speech",
+      "sample": "别加鸡蛋三个。",
+      "sha256": "d2ca67b2f801c9d2a0ce843da2a23189b2328aef441e360217482a9e1fccb826",
+      "status": "awaiting_confirmation",
+      "transcript": "别加鸡蛋三个。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "牛奶",
+          "quantity": "",
+          "unit": "ml",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        },
+        {
+          "name": "牛奶",
+          "quantity": "",
+          "unit": "ml",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 4.428299319727891,
+      "drafts": [
+        {
+          "name": "牛奶",
+          "quantity": "250.000",
+          "unit": "ml",
+          "warning": ""
+        },
+        {
+          "name": "牛奶",
+          "quantity": "",
+          "unit": "ml",
+          "warning": "未找到唯一明确的数量与单位，请补充。"
+        }
+      ],
+      "kind": "speech",
+      "sample": "添加牛奶二百五十毫升，取消牛奶。",
+      "sha256": "3b552db49cba41d7cc6b8c44b2e44d4c5e085e9c6420e2c39da5633006e9420c",
+      "status": "awaiting_confirmation",
+      "transcript": "添加牛奶二百五十毫升，取消牛奶。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "鸡蛋",
+          "quantity": "",
+          "unit": "个",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        },
+        {
+          "name": "鸡蛋",
+          "quantity": "",
+          "unit": "个",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 3.873514739229025,
+      "drafts": [
+        {
+          "name": "鸡蛋",
+          "quantity": "3.000",
+          "unit": "个",
+          "warning": ""
+        },
+        {
+          "name": "鸡蛋",
+          "quantity": "4.000",
+          "unit": "个",
+          "warning": ""
+        }
+      ],
+      "kind": "speech",
+      "sample": "鸡蛋三个，不对，鸡蛋四个。",
+      "sha256": "3e1d589508e24ad18dcdda8430d2da13ba88c240fba645a987782d7563edf6a7",
+      "status": "awaiting_confirmation",
+      "transcript": "鸡蛋三个，不对，鸡蛋四个。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "牛奶",
+          "quantity": "",
+          "unit": "ml",
+          "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+        },
+        {
+          "name": "苹果",
+          "quantity": "",
+          "unit": "g",
+          "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 3.1186394557823127,
+      "drafts": [
+        {
+          "name": "牛奶",
+          "quantity": "",
+          "unit": "ml",
+          "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+        },
+        {
+          "name": "苹果",
+          "quantity": "",
+          "unit": "g",
+          "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+        }
+      ],
+      "kind": "speech",
+      "sample": "牛奶一瓶，苹果两个。",
+      "sha256": "d3aca8fd8fda1f5ab9c20225dcf24413f11ce6ec821c947762f9350db20dff48",
+      "status": "awaiting_confirmation",
+      "transcript": "牛奶一瓶，苹果两个。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "番茄",
+          "quantity": "",
+          "unit": "g",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        },
+        {
+          "name": "番茄",
+          "quantity": "",
+          "unit": "g",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 3.5434920634920637,
+      "drafts": [
+        {
+          "name": "番茄",
+          "quantity": "500.000",
+          "unit": "g",
+          "warning": ""
+        },
+        {
+          "name": "番茄",
+          "quantity": "",
+          "unit": "g",
+          "warning": "未找到唯一明确的数量与单位，请补充。"
+        }
+      ],
+      "kind": "speech",
+      "sample": "番茄五百克，去掉番茄。",
+      "sha256": "d6568bb650977e8997bec7f508f86dc8353875a316ce235988c98670fa414296",
+      "status": "awaiting_confirmation",
+      "transcript": "番茄五百克，去掉番茄。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "鸡蛋",
+          "quantity": "",
+          "unit": "个",
+          "warning": "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 3.1086621315192744,
+      "drafts": [
+        {
+          "name": "鸡蛋",
+          "quantity": "3.000",
+          "unit": "个",
+          "warning": ""
+        }
+      ],
+      "kind": "speech",
+      "sample": "鸡蛋三个，改成四个。",
+      "sha256": "a2d4e76903147846bd5ac551ea93f101a0b6ac60901e286a7aa40a9730da4e33",
+      "status": "awaiting_confirmation",
+      "transcript": "鸡蛋三个，改成四个。"
+    },
+    {
+      "after_fix_local_replay": [
+        {
+          "name": "番茄",
+          "quantity": "500.000",
+          "unit": "g",
+          "warning": ""
+        },
+        {
+          "name": "鸡蛋",
+          "quantity": "2.000",
+          "unit": "个",
+          "warning": ""
+        }
+      ],
+      "attempts": 1,
+      "audio_deleted": true,
+      "audio_seconds": 3.4036281179138324,
+      "drafts": [
+        {
+          "name": "番茄",
+          "quantity": "500.000",
+          "unit": "g",
+          "warning": ""
+        },
+        {
+          "name": "鸡蛋",
+          "quantity": "2.000",
+          "unit": "个",
+          "warning": ""
+        }
+      ],
+      "kind": "speech",
+      "sample": "番茄五百克，鸡蛋两个。",
+      "sha256": "0e3d6e5bc907452c888123ab9ca936e0878f9ed19d60557d748059b5f7b89e6e",
+      "status": "awaiting_confirmation",
+      "transcript": "番茄五百克，鸡蛋两个。"
+    },
+    {
+      "attempts": 1,
+      "audio_seconds": 0,
+      "image_cleanup_ok": true,
+      "kind": "image",
+      "outsider_preview_denied": true,
+      "preview_exact_bytes": true,
+      "sample": "番茄",
+      "sha256": "6cc3663a73050f03bb13b32ece49decd20b10ed600e6edfe9f0bc31ae846c1c1",
+      "status": "awaiting_confirmation",
+      "suggestion": {
+        "category": "蔬菜",
+        "name": "番茄"
+      }
+    }
+  ],
+  "scope": "real HTTP API + PostgreSQL queue + Worker code in-process + required Redis + private OSS + Bailian; synthetic accounts only",
+  "stock_counts": [
+    0,
+    0,
+    0
+  ],
+  "uncertain_allowance_count": 0,
+  "wav_seconds": 30.10235827664399
+}

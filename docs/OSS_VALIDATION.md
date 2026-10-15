@@ -1,5 +1,7 @@
 # 阿里云 OSS 真实验证
 
+后续：2026-10-15 已补充 [真实 API→OSS→Worker→百炼任务链路](OSS_MODEL_CHAIN.md)。下文保留首次验证的当时范围。
+
 2026-10-14，用户授权开通按量付费 OSS、创建专用私有测试 Bucket，以及生成仅限该 Bucket 对象上传、读取、删除的 RAM 凭据。北京地域、标准存储、本地冗余、阻止公共访问、OSS 托管 AES256 加密；未购买资源包。专用 RAM 用户没有控制台登录，策略仅含 `oss:PutObject`、`oss:GetObject`、`oss:DeleteObject`，资源为一个测试 Bucket 的对象。密钥仅保存本地 `.env`，一次性下载副本已删除。
 
 ## 真实结果

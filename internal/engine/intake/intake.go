@@ -34,8 +34,24 @@ type Result struct {
 var amount = regexp.MustCompile(`([-+]?\d+(?:\.\d+)?|[零〇一二两三四五六七八九十百千万半]+(?:点[零〇一二两三四五六七八九]+)?)\s*(公斤|千克|毫升|kg|ml|克|斤|两|升|g|l|个|枚|只|包|袋|盒|瓶|根)`)
 var separator = regexp.MustCompile(`[，,、；;。\n]`)
 
+// A correction can refer back across punctuation without repeating a name.
+// Until its scope is explicit, retain mentions but require review of the whole
+// utterance rather than treating either the original or revised amount as final.
+func needsQuantityReview(text string) bool {
+	for _, marker := range []string{"不对", "不是", "不要", "没有", "大概", "差不多", "左右", "别加", "别放", "别买", "不加", "不放", "不用", "不需要", "取消", "去掉", "去除", "删除", "撤回", "撤销", "改成", "改为", "改一下", "更正", "错了"} {
+		if strings.Contains(text, marker) {
+			return true
+		}
+	}
+	return false
+}
+
 func Parse(text string, catalog []CatalogItem) Result {
 	out := Result{Transcript: text, Items: []Draft{}, Warning: "请逐项核对；未提及的食材、数量、日期和位置不会自动补全。"}
+	reviewQuantities := needsQuantityReview(text)
+	if reviewQuantities {
+		out.Warning = "原文含修改、否定、撤回或估计；本次所有数量均留空，请核对原文、移除无效条目后填写。"
+	}
 	type alias struct {
 		name string
 		item CatalogItem
@@ -124,8 +140,8 @@ func Parse(text string, catalog []CatalogItem) Result {
 			case len(owners[h.a.name]) != 1:
 				d.CatalogID = ""
 				d.Warning = "名称匹配多个目录食材，请选择。"
-			case strings.Contains(clause, "不对") || strings.Contains(clause, "不是") || strings.Contains(clause, "不要") || strings.Contains(clause, "没有") || strings.Contains(clause, "大概") || strings.Contains(clause, "差不多") || strings.Contains(clause, "左右"):
-				d.Warning = "原文含修改、否定或估计，请核对数量或移除本项。"
+			case reviewQuantities:
+				d.Warning = "原文含修改、否定、撤回或估计，请核对数量或移除本项。"
 			case len(found) != 1:
 				d.Warning = "未找到唯一明确的数量与单位，请补充。"
 			case trailingHalf:

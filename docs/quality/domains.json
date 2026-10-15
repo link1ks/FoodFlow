@@ -86,7 +86,7 @@
         "id": "INV-VOICE-REAL",
         "priority": "P2",
         "status": "open",
-        "description": "Five authorized synthetic Qwen ASR clips passed; representative accuracy, hardware microphones, noise/dialects and interrupted-job audio retention remain unverified",
+        "description": "Fourteen synthetic Qwen ASR clips passed across two authorized trials, including nine real OSS task chains; representative accuracy, hardware microphones, noise/dialects and interrupted-job audio retention remain unverified",
         "completion": "Explicitly authorized real-provider and physical microphone trials measure noisy Chinese ingredient/quantity transcription and inspect orphan-audio recovery without guessing package weights",
         "evidence": "docs/VOICE_INTAKE.md"
       }

@@ -55,3 +55,32 @@ func TestConservativeSpeechDrafts(t *testing.T) {
 		t.Fatal("overlapping names")
 	}
 }
+
+func TestRetractionsAndCorrectionsNeverPrefillQuantities(t *testing.T) {
+	catalog := []CatalogItem{{"tomato", "番茄", "g", nil}, {"egg", "鸡蛋", "个", nil}, {"milk", "牛奶", "ml", nil}}
+	for _, text := range []string{
+		"别加鸡蛋三个。",
+		"添加牛奶二百五十毫升，取消牛奶。",
+		"鸡蛋三个，不对，鸡蛋四个。",
+		"番茄五百克，去掉番茄。",
+		"鸡蛋三个，改成四个。",
+		"鸡蛋三个。改为四个。",
+		"番茄500克；撤回刚才的操作。",
+		"番茄500克，鸡蛋大概三个。",
+		"不用鸡蛋三个，番茄500克。",
+		"删除番茄500克",
+		"番茄500克，错了",
+	} {
+		t.Run(text, func(t *testing.T) {
+			got := Parse(text, catalog)
+			if len(got.Items) == 0 {
+				t.Fatal("reviewable ingredient mentions lost")
+			}
+			for _, item := range got.Items {
+				if item.Quantity != "" || item.Warning == "" {
+					t.Fatalf("ambiguous utterance prefilled a quantity: %+v", item)
+				}
+			}
+		})
+	}
+}
