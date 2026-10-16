@@ -77,8 +77,8 @@ func loadCorpus(path string) (corpus, []byte, error) {
 	if e != nil || json.Unmarshal(b, &c) != nil {
 		return c, nil, errors.New("invalid corpus")
 	}
-	if len(c.Cases) != 100 {
-		return c, nil, errors.New("corpus must have exactly 100 cases")
+	if len(c.Cases) < 1 || len(c.Cases) > 200 {
+		return c, nil, errors.New("offline corpus must have 1–200 cases")
 	}
 	seen := map[string]bool{}
 	seenText := map[string]bool{}
@@ -182,11 +182,12 @@ func main() {
 	}
 }
 func run() error {
-	mode := flag.String("mode", "baseline", "baseline (offline), paid, or replay")
+	mode := flag.String("mode", "baseline", "baseline/scoped (offline), paid, or replay")
 	caseFile := flag.String("cases", "tests/fixtures/intake-semantic-100.json", "frozen synthetic corpus")
 	journal := flag.String("journal", "", "fresh ignored .cache/harness journal")
 	requests := flag.Int("paid-requests", 0, "explicit paid request limit, must be 100")
 	budget := flag.String("authorized-budget-cny", "", "explicit task-authorized ceiling, maximum 2 CNY")
+	out := flag.String("out", "", "optional offline scoped report path")
 	flag.Parse()
 	c, raw, e := loadCorpus(*caseFile)
 	if e != nil {
@@ -199,6 +200,22 @@ func run() error {
 	if *mode == "baseline" {
 		b, _ := json.Marshal(metrics(base))
 		fmt.Println(string(b))
+		return nil
+	}
+	if *mode == "scoped" {
+		rows := []row{}
+		started := time.Now()
+		for _, tc := range c.Cases {
+			parsed := intake.Interpret(tc.Text, c.Catalog)
+			rows = append(rows, score(tc, intake.ProposalResult{Decision: parsed.Decision, Items: parsed.Items}, true))
+		}
+		b, _ := json.Marshal(metrics(rows))
+		fmt.Println(string(b))
+		if *out != "" {
+			report := map[string]any{"corpus_sha256": hash(raw), "scope": "offline bounded production interpreter; synthetic implementer-labelled cases", "baseline_metrics": metrics(base), "metrics": metrics(rows), "total_duration_ms": time.Since(started).Milliseconds(), "rows": rows}
+			b, _ := json.MarshalIndent(report, "", "  ")
+			return os.WriteFile(*out, b, 0600)
+		}
 		return nil
 	}
 	if *mode == "replay" {
@@ -229,6 +246,9 @@ func run() error {
 	}
 	if *mode != "paid" || *requests != 100 {
 		return errors.New("paid mode requires explicit 100-request authorization flags")
+	}
+	if len(c.Cases) != 100 {
+		return errors.New("paid legacy experiment requires exactly 100 cases")
 	}
 	ceiling, e := core.Quantity(*budget)
 	if e != nil || ceiling != 2000 {

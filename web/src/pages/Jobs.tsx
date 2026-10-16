@@ -236,7 +236,12 @@ export function JobCard({
           录音识别失败，不会自动重发。请回到添加食材处重新录音；原任务的费用状态不会因重录清除。
         </Notice>
       )}
-      {j.status === "failed" && j.kind !== "voice" && (
+      {j.status === "failed" && j.kind === "image" && (
+        <Notice>
+          本次图片未产生可用食材草稿。请拍摄单种清晰食材后重新提交，或使用食材目录。
+        </Notice>
+      )}
+      {j.status === "failed" && !["voice", "image"].includes(j.kind) && (
         <Button size="sm" variant="outline" className="mt-3" onClick={retry}>
           手动重试（可能再次调用模型）
         </Button>

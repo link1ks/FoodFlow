@@ -12,7 +12,18 @@ http.createServer((req, res) => {
         const audio = body.messages?.[0]?.content?.[0]?.input_audio?.data;
         if (typeof audio !== 'string' || !audio.startsWith('data:audio/')) { res.writeHead(400).end(); return; }
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ choices: [{ message: { content: '西红柿半斤，鸡蛋六个，牛奶一瓶。' } }] }));
+        const marker = Buffer.from(audio.split(',')[1], 'base64').at(-1);
+        const transcript = marker === 42 ? '明天提醒我买鸡蛋三个' : marker === 43 ? '鸡蛋三个，改成四个' : '西红柿半斤，鸡蛋六个，牛奶一瓶。';
+        res.end(JSON.stringify({ choices: [{ message: { content: transcript } }] }));
+        return;
+      }
+      if (body.model === 'deterministic-vision-fixture') {
+        const image = body.messages?.[1]?.content?.find(p => p.type === 'image_url')?.image_url?.url;
+        if (typeof image !== 'string' || !image.startsWith('data:image/')) { res.writeHead(400).end(); return; }
+        const marker = Buffer.from(image.split(',')[1], 'base64').at(-1);
+        const verdict = marker === 42 ? {scene:'photo',foods:[]} : {scene:'photo',foods:['番茄']};
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ choices: [{ message: { content: JSON.stringify(verdict) } }] }));
         return;
       }
       const content = body.messages[1].content;

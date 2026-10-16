@@ -8,6 +8,7 @@ import type { CatalogItem } from "./CatalogArt";
 import { Button, Card, Field, Notice } from "./ui";
 
 export type VoiceResult = {
+  decision?: "draft" | "clarify" | "noop";
   transcript: string;
   warning: string;
   items: {
@@ -296,6 +297,7 @@ export function VoiceReview({
   canEdit: boolean;
 }) {
   const query = useQueryClient();
+  canEdit = canEdit && result.decision !== "noop";
   const catalog = useData<CatalogItem[]>(
     "ingredient-catalog",
     "/ingredient-catalog",
@@ -368,7 +370,9 @@ export function VoiceReview({
         </p>
       </div>
       <Notice>
-        {result.warning} 请对照原文检查是否遗漏，并补充或移除草稿。
+        {result.warning}{" "}
+        {result.decision !== "noop" &&
+          "请对照原文检查是否遗漏，并补充或移除草稿。"}
       </Notice>
       {catalog.error && (
         <Notice tone="error">

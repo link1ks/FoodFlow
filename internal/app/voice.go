@@ -151,7 +151,7 @@ func (a *App) recognizeVoice(ctx context.Context, j claimed) error {
 	if err != nil {
 		return errors.New("食材目录读取失败")
 	}
-	result := intake.Parse(text, catalog)
+	result := intake.Interpret(text, catalog)
 	tx, err := a.DB.Begin(ctx)
 	if err != nil {
 		return err
@@ -220,6 +220,14 @@ func (a *App) confirmVoice(c *gin.Context) {
 		var status string
 		if err := tx.QueryRow(c, "SELECT status FROM jobs WHERE id=$1 AND household_id=$2 AND kind='voice' FOR UPDATE", job, hid(c)).Scan(&status); err != nil || status != "awaiting_confirmation" {
 			return nil, conflict("语音草稿已处理或不可用")
+		}
+		var raw []byte
+		if err := tx.QueryRow(c, "SELECT result FROM jobs WHERE id=$1", job).Scan(&raw); err != nil {
+			return nil, err
+		}
+		var result intake.Result
+		if json.Unmarshal(raw, &result) != nil || result.Decision == "noop" {
+			return nil, conflict("这段录音不属于本次新增食材，请重新录音或使用目录")
 		}
 		results := []gin.H{}
 		for i, item := range request.Items {

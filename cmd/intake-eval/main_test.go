@@ -70,3 +70,20 @@ func TestRecordedWrongIntentCannotPassNumericGroundingAlone(t *testing.T) {
 		}
 	}
 }
+
+func TestBoundedInterpreterOnNewFrozenCases(t *testing.T) {
+	c, _, err := loadCorpus("../../tests/fixtures/intake-scope-60.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(c.Cases) != 60 {
+		t.Fatal("new corpus was silently narrowed")
+	}
+	for _, sample := range c.Cases {
+		parsed := intake.Interpret(sample.Text, c.Catalog)
+		r := score(sample, intake.ProposalResult{Decision: parsed.Decision, Items: parsed.Items}, true)
+		if !r.Strict {
+			t.Errorf("%s: %+v", sample.ID, parsed)
+		}
+	}
+}

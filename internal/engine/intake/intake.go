@@ -24,6 +24,7 @@ type Draft struct {
 	Warning   string `json:"warning"`
 }
 type Result struct {
+	Decision   string  `json:"decision,omitempty"`
 	Transcript string  `json:"transcript"`
 	Items      []Draft `json:"items"`
 	Warning    string  `json:"warning"`

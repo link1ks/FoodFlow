@@ -188,8 +188,12 @@ func (a *App) confirmImage(c *gin.Context) {
 		if e = json.Unmarshal(result, &suggestion); e != nil || suggestion.Name == "" {
 			return nil, conflict("recognition result unavailable")
 		}
+		var catalogID string
+		if e = tx.QueryRow(c, "SELECT id,name,category FROM ingredient_catalog WHERE name=$1", x.Name).Scan(&catalogID, &x.Name, &x.Category); e != nil {
+			return nil, bad("图片入库仅支持食材目录中的名称，请从目录核对食材")
+		}
 		ingredient := core.ID()
-		e = tx.QueryRow(c, "INSERT INTO ingredients(id,household_id,name,category,unit,dimension) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(household_id,name,unit) DO UPDATE SET category=EXCLUDED.category,archived_at=NULL RETURNING id", ingredient, hid(c), x.Name, x.Category, x.Unit, dim).Scan(&ingredient)
+		e = tx.QueryRow(c, "INSERT INTO ingredients(id,household_id,name,category,unit,dimension,catalog_id) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(household_id,name,unit) DO UPDATE SET category=EXCLUDED.category,catalog_id=EXCLUDED.catalog_id,archived_at=NULL RETURNING id", ingredient, hid(c), x.Name, x.Category, x.Unit, dim, catalogID).Scan(&ingredient)
 		if e != nil {
 			return nil, e
 		}
@@ -250,7 +254,18 @@ func (a *App) recognizeImage(ctx context.Context, j claimed) error {
 	model.Guard = a.allowanceGuard(j, "image")
 	suggestion, e := model.Recognize(ctx, data, payload.MIME)
 	if e != nil {
+		cleanup, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		_ = store.Delete(cleanup, payload.Key)
 		return e
+	}
+	// The model cannot expand the allowed domain or invent a category. Even a
+	// syntactically valid answer such as "chair" never becomes a food draft.
+	if e = a.DB.QueryRow(ctx, "SELECT name,category FROM ingredient_catalog WHERE (name=$1 OR $1=ANY(aliases)) AND (SELECT count(*) FROM ingredient_catalog WHERE name=$1 OR $1=ANY(aliases))=1", suggestion.Name).Scan(&suggestion.Name, &suggestion.Category); e != nil {
+		cleanup, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		_ = store.Delete(cleanup, payload.Key)
+		return errors.New("图片未匹配食材目录；请拍摄单种明确食材，或从目录手动选择")
 	}
 	tx, e := a.DB.Begin(ctx)
 	if e != nil {

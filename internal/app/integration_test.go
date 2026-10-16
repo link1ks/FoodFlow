@@ -29,8 +29,12 @@ import (
 
 func TestImageRecognitionConfirmation(t *testing.T) {
 	pool := testDB(t)
+	var answerMu sync.Mutex
+	answer := `{"scene":"photo","foods":["番茄"]}`
 	model := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		_, _ = w.Write([]byte(`{"choices":[{"message":{"content":"{\"name\":\"番茄\",\"category\":\"蔬菜\"}"}}]}`))
+		answerMu.Lock()
+		defer answerMu.Unlock()
+		_ = json.NewEncoder(w).Encode(map[string]any{"choices": []any{map[string]any{"message": map[string]string{"content": answer}}}})
 	}))
 	defer model.Close()
 	t.Setenv("MODEL_ENDPOINT", model.URL)
@@ -111,6 +115,9 @@ func TestImageRecognitionConfirmation(t *testing.T) {
 	confirmation := map[string]any{"name": "番茄", "category": "蔬菜", "unit": "个", "quantity": "2", "expires_on": ""}
 	code, v = h.call("POST", root+"/jobs/"+jobID+"/image/confirm", outsider, key, confirmation)
 	must(t, code, 404, v)
+	badConfirmation := map[string]any{"name": "笔记本电脑", "category": "蔬菜", "unit": "个", "quantity": "2"}
+	code, v = h.call("POST", root+"/jobs/"+jobID+"/image/confirm", user, core.ID(), badConfirmation)
+	must(t, code, 400, v)
 	code, v = h.call("POST", root+"/jobs/"+jobID+"/image/confirm", user, key, confirmation)
 	must(t, code, 200, v)
 	batch := get(v, "batch_id")
@@ -145,6 +152,40 @@ func TestImageRecognitionConfirmation(t *testing.T) {
 	must(t, code, 204, v)
 	code, v = h.call("POST", root+"/jobs/"+rejected+"/image/confirm", user, core.ID(), confirmation)
 	must(t, code, 409, v)
+	for _, raw := range []string{
+		`{"scene":"photo","foods":[]}`,
+		`{"scene":"photo","foods":["番茄","黄瓜"]}`,
+		`{"scene":"text","foods":["番茄"]}`,
+		`{"scene":"photo","foods":["笔记本电脑"]}`,
+	} {
+		answerMu.Lock()
+		answer = raw
+		answerMu.Unlock()
+		code, v = upload(user)
+		must(t, code, 202, v)
+		id := get(v, "id")
+		j, e = New(pool).claim(context.Background(), "test-worker")
+		if e != nil || j.ID != id {
+			t.Fatal("reject claim", e)
+		}
+		New(pool).runJob(context.Background(), j, "test-worker")
+		code, v = h.call("GET", root+"/jobs/"+id, user, "", nil)
+		must(t, code, 200, v)
+		if get(v, "status") != "failed" || v["result"] != nil {
+			t.Fatalf("unrelated image became food: %+v", v)
+		}
+		code, v = h.call("POST", root+"/jobs/"+id+"/image/confirm", user, core.ID(), confirmation)
+		must(t, code, 409, v)
+		code, v = h.call("POST", root+"/jobs/"+id+"/retry", user, "", map[string]any{})
+		must(t, code, 409, v)
+		if _, err := os.Stat(filepath.Join(imageDir, strings.TrimPrefix(root, "/households/"), id+".png")); !os.IsNotExist(err) {
+			t.Fatal("rejected image retained")
+		}
+	}
+	var batchCount, ledgerCount, outboxCount int
+	if e = pool.QueryRow(context.Background(), "SELECT (SELECT count(*) FROM batches),(SELECT count(*) FROM stock_ledger),(SELECT count(*) FROM stock_outbox)").Scan(&batchCount, &ledgerCount, &outboxCount); e != nil || batchCount != 1 || ledgerCount != 1 || outboxCount != 1 {
+		t.Fatal("rejected image changed stock", e)
+	}
 }
 
 func TestIngredientCatalogSelection(t *testing.T) {

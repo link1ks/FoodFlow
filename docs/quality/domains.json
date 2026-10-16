@@ -320,6 +320,14 @@
       {
         "path": "cmd/intake-eval/main_test.go",
         "anchor": "func TestRecordedWrongIntentCannotPassNumericGroundingAlone("
+      },
+      {
+        "path": "internal/engine/intake/semantic_test.go",
+        "anchor": "func TestBoundedIntakeSemantics("
+      },
+      {
+        "path": "web/e2e/intake-scope.spec.ts",
+        "anchor": "intake rejects unrelated voice and image and confirms explicit corrections"
       }
     ],
     "debts": [
@@ -327,16 +335,17 @@
         "id": "AI-EVAL",
         "priority": "P1",
         "status": "open",
-        "description": "Five original and five revised Chinese-prompt catalogue-photo adapter calls passed semantically; representative photo accuracy and menu usefulness remain unevaluated",
-        "completion": "Authorize model budget separately; version dataset/model and report correctness, acceptance, latency and cost"
+        "description": "Final scoped vision adapter meets 14/15 original image labels; eight nonfood/mixed cases rejected, six clean single foods accepted, and one original single-food label is inappropriate due to background foods. Reused development samples, hallucinations and representative photo quality remain open.",
+        "completion": "Authorize model budget separately; version dataset/model and report correctness, acceptance, latency and cost",
+        "evidence": "docs/INTAKE_SCOPE.md"
       },
       {
         "id": "AI-INTAKE-SEMANTICS",
         "priority": "P1",
         "status": "open",
-        "description": "Frozen 100-case text prototype matches 75 gold answers but still emits seven wrong drafts versus seven for baseline; negation/ambiguity regress and proposal grounding does not prove intent",
+        "description": "Production bounded addition grammar passes 91/100 original and 60/60 new synthetic labels with no wrong drafts; arbitrary language, real user frequency and independent labels remain unverified. The prior text-model prototype remains unintegrated.",
         "completion": "Preserve confirmation and independent intent safeguards; evaluate revised prompts/models on newly frozen independently reviewed held-out cases before production integration",
-        "evidence": "docs/INTAKE_SEMANTIC_EVAL.md"
+        "evidence": "docs/INTAKE_SCOPE.md"
       },
       {
         "id": "AI-INVOICE",

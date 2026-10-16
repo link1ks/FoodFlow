@@ -1,0 +1,82 @@
+[
+  {
+    "id": "food-01",
+    "path": "web/public/ingredient-photos/05bfc6a6f5f0.webp",
+    "expected_name": "番茄"
+  },
+  {
+    "id": "food-02",
+    "path": "web/public/ingredient-photos/c2b45fa98d74.webp",
+    "expected_name": "黄瓜"
+  },
+  {
+    "id": "food-03",
+    "path": "web/public/ingredient-photos/1dad5d8bedea.webp",
+    "expected_name": "土豆"
+  },
+  {
+    "id": "food-04",
+    "path": "web/public/ingredient-photos/7777978753af.webp",
+    "expected_name": "胡萝卜"
+  },
+  {
+    "id": "food-05",
+    "path": "web/public/ingredient-photos/50053cd5b9a3.webp",
+    "expected_name": "苹果"
+  },
+  {
+    "id": "food-06",
+    "path": "web/public/ingredient-photos/bb1db1e951bc.webp",
+    "expected_name": "鸡蛋"
+  },
+  {
+    "id": "food-07",
+    "path": "web/public/ingredient-photos/baed09b9aceb.webp",
+    "expected_name": "洋葱"
+  },
+  {
+    "id": "food-08",
+    "path": "web/public/ingredient-photos/42a7865ea3b4.webp",
+    "expected_name": "香蕉"
+  },
+  {
+    "id": "keyboard",
+    "path": "tests/fixtures/ingredient-scope/keyboard.jpg",
+    "expected_name": ""
+  },
+  {
+    "id": "mouse",
+    "path": "tests/fixtures/ingredient-scope/mouse.jpg",
+    "expected_name": ""
+  },
+  {
+    "id": "mascot-drawing",
+    "path": "web/public/foodflow-icon.png",
+    "expected_name": ""
+  },
+  {
+    "id": "blank",
+    "path": "tests/fixtures/ingredient-scope/blank.png",
+    "expected_name": ""
+  },
+  {
+    "id": "printed-name",
+    "path": "tests/fixtures/ingredient-scope/printed-name.png",
+    "expected_name": ""
+  },
+  {
+    "id": "instruction",
+    "path": "tests/fixtures/ingredient-scope/instruction.png",
+    "expected_name": ""
+  },
+  {
+    "id": "mixed-vegetables",
+    "path": "tests/fixtures/ingredient-scope/mixed-vegetables.jpg",
+    "expected_name": ""
+  },
+  {
+    "id": "mixed-egg-tomato",
+    "path": "tests/fixtures/ingredient-scope/mixed-egg-tomato.jpg",
+    "expected_name": ""
+  }
+]

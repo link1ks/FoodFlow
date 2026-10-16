@@ -110,21 +110,28 @@ func TestVoiceS3CorrectionRequiresReviewAndCleansAudio(t *testing.T) {
 		t.Fatal(err)
 	}
 	var result intake.Result
-	if json.Unmarshal(raw, &result) != nil || status != "awaiting_confirmation" || len(result.Items) != 2 {
+	if json.Unmarshal(raw, &result) != nil || status != "awaiting_confirmation" || len(result.Items) != 1 || result.Items[0].Quantity != "4.000" {
 		t.Fatal("missing editable correction draft")
 	}
 	items := []map[string]any{}
 	for _, item := range result.Items {
-		if item.Quantity != "" || item.Warning == "" {
-			t.Fatal("correction quantity prefilled")
-		}
-		items = append(items, map[string]any{"catalog_id": item.CatalogID, "quantity": item.Quantity})
+		items = append(items, map[string]any{"catalog_id": item.CatalogID, "quantity": ""})
 	}
 	code, v = h.call("POST", root+"/jobs/"+job+"/voice/confirm", token, core.ID(), map[string]any{"confirm": true, "items": items})
 	must(t, code, 400, v)
 	var batches, ledger, outbox int
 	if err := pool.QueryRow(ctx, "SELECT (SELECT count(*) FROM batches),(SELECT count(*) FROM stock_ledger),(SELECT count(*) FROM stock_outbox)").Scan(&batches, &ledger, &outbox); err != nil || batches != 0 || ledger != 0 || outbox != 0 {
 		t.Fatal("unresolved corrections mutated inventory")
+	}
+	items[0]["quantity"] = "4.000"
+	confirmKey := core.ID()
+	for range 2 {
+		code, v = h.call("POST", root+"/jobs/"+job+"/voice/confirm", token, confirmKey, map[string]any{"confirm": true, "items": items})
+		must(t, code, 200, v)
+	}
+	var total int64
+	if err := pool.QueryRow(ctx, "SELECT (SELECT count(*) FROM batches),(SELECT sum(quantity_milli) FROM batches),(SELECT count(*) FROM stock_ledger),(SELECT count(*) FROM stock_outbox)").Scan(&batches, &total, &ledger, &outbox); err != nil || batches != 1 || total != 4000 || ledger != 1 || outbox != 1 {
+		t.Fatal("corrected draft confirmation/replay", err, batches, total, ledger, outbox)
 	}
 	mu.Lock()
 	defer mu.Unlock()

@@ -1,0 +1,4780 @@
+{
+  "date": "2026-10-16",
+  "timezone": "Asia/Shanghai",
+  "base_revision": "c251b8e",
+  "scope": "synthetic text and public image adapter evaluation; no production inventory or paid browser scenarios",
+  "text": {
+    "original_100": {
+      "baseline_metrics": {
+        "false_noop": 2,
+        "http_200": 0,
+        "invalid_or_ungrounded": 0,
+        "safe_fallback": 46,
+        "strict": 45,
+        "total": 100,
+        "wrong_draft": 7
+      },
+      "corpus_sha256": "86a7bce09b711c0eb5d2e9fe96e8dd69f9c29e96e5bd6f98c59d16837cb4339b",
+      "metrics": {
+        "false_noop": 9,
+        "http_200": 0,
+        "invalid_or_ungrounded": 0,
+        "safe_fallback": 0,
+        "strict": 91,
+        "total": 100,
+        "wrong_draft": 0
+      },
+      "rows": [
+        {
+          "id": "normal-01",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "添加番茄500克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-02",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "250.000",
+                "heard": "买了西红柿半斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-03",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "6.000",
+                "heard": "鸡蛋六个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-04",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "250.000",
+                "heard": "添加牛奶250毫升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-05",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "1500.000",
+                "heard": "土豆一点五千克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-06",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "200.000",
+                "heard": "苹果200克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-07",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "100.000",
+                "heard": "洋葱二两",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-08",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "500.000",
+                "heard": "牛奶零点五升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-09",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "3.000",
+                "heard": "鸡蛋三枚",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-10",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "番茄500克，鸡蛋两个",
+                "warning": ""
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "2.000",
+                "heard": "番茄500克，鸡蛋两个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-01",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "125.000",
+                "heard": "番茄0.125公斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-02",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "2500.000",
+                "heard": "土豆2.5千克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-03",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "1250.000",
+                "heard": "牛奶1.25升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-04",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "320.000",
+                "heard": "洋葱三百二十克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-05",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "250.000",
+                "heard": "苹果半斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-06",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "500.000",
+                "heard": "牛奶500ml",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-07",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "土豆0.5kg",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-08",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "250.000",
+                "heard": "番茄250g",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-09",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "0.500",
+                "heard": "鸡蛋0.5个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "units-10",
+          "category": "units",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "150.000",
+                "heard": "西红柿三两，牛奶0.25升",
+                "warning": ""
+              },
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "250.000",
+                "heard": "西红柿三两，牛奶0.25升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "negation-01",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "negation-02",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "negation-03",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "negation-04",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "negation-05",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "negation-06",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "2.000",
+                "heard": "鸡蛋两个，不要番茄500克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "negation-07",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "别放洋葱100克，添加土豆500克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "negation-08",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "250.000",
+                "heard": "不要鸡蛋三个，牛奶250毫升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "negation-09",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "6.000",
+                "heard": "西红柿500克不用，鸡蛋六个要加",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "negation-10",
+          "category": "negation",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "retraction-01",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "retraction-02",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "retraction-03",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "retraction-04",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "retraction-05",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "retraction-06",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "2.000",
+                "heard": "番茄500克，鸡蛋两个，取消番茄",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "retraction-07",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "牛奶250毫升，土豆500克，去掉牛奶",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "retraction-08",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "100.000",
+                "heard": "洋葱100克，苹果200克，撤回苹果",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "retraction-09",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "3.000",
+                "heard": "番茄500克，取消番茄，再加鸡蛋三个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "retraction-10",
+          "category": "retraction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "500.000",
+                "heard": "鸡蛋三个，撤回。现在只加牛奶半升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-01",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "4.000",
+                "heard": "鸡蛋三个，不对，鸡蛋四个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-02",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "4.000",
+                "heard": "鸡蛋三个，改成四个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-03",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "土豆一公斤，改成半公斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-04",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "500.000",
+                "heard": "牛奶250毫升，不是，改为500毫升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-05",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "300.000",
+                "heard": "番茄500克，错了，是300克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-06",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "250.000",
+                "heard": "苹果200克，更正为250克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-07",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "150.000",
+                "heard": "洋葱二两，改为三两",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-08",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "3.000",
+                "heard": "鸡蛋六个，改成两个，再改成三个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-09",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "250.000",
+                "heard": "牛奶半升，纠正一下，是250毫升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-10",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "300.000",
+                "heard": "番茄500克不对300克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-01",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "番茄500克，鸡蛋三个，鸡蛋改成四个",
+                "warning": ""
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "4.000",
+                "heard": "番茄500克，鸡蛋三个，鸡蛋改成四个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-02",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "500.000",
+                "heard": "牛奶250毫升，土豆500克，牛奶改成半升",
+                "warning": ""
+              },
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "牛奶250毫升，土豆500克，牛奶改成半升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-03",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "200.000",
+                "heard": "苹果200克，洋葱100克，取消洋葱",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-04",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "4.000",
+                "heard": "鸡蛋三个不对四个，番茄半斤",
+                "warning": ""
+              },
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "250.000",
+                "heard": "鸡蛋三个不对四个，番茄半斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-05",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "3.000",
+                "heard": "别加牛奶一瓶，只加鸡蛋三个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-06",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "1000.000",
+                "heard": "土豆500克，不是番茄，土豆改成一公斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-07",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "300.000",
+                "heard": "番茄300克、洋葱100克和鸡蛋两个",
+                "warning": ""
+              },
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "100.000",
+                "heard": "番茄300克、洋葱100克和鸡蛋两个",
+                "warning": ""
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "2.000",
+                "heard": "番茄300克、洋葱100克和鸡蛋两个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-08",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "250.000",
+                "heard": "鸡蛋三个，牛奶250毫升，把鸡蛋删掉",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-09",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "不要苹果200克了，改买土豆500克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "mixed-10",
+          "category": "mixed",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "250.000",
+                "heard": "番茄500克，鸡蛋三个。番茄改成半斤，鸡蛋不变",
+                "warning": ""
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "3.000",
+                "heard": "番茄500克，鸡蛋三个。番茄改成半斤，鸡蛋不变",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-01",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "",
+                "heard": "番茄500克",
+                "warning": "请核对原文后填写。"
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋三个",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-02",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "",
+                "heard": "牛奶250毫升",
+                "warning": "请核对原文后填写。"
+              },
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "",
+                "heard": "土豆500克",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-03",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "",
+                "heard": "番茄大概500克",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-04",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋差不多三个",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-05",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "",
+                "heard": "牛奶半升左右",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-06",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "",
+                "heard": "加一些洋葱",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-07",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "ambiguity-08",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "ambiguity-09",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "",
+                "heard": "番茄500克",
+                "warning": "请核对原文后填写。"
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋两个",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ambiguity-10",
+          "category": "ambiguity",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋三个还是四个",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "packaging-01",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "",
+                "heard": "牛奶一瓶",
+                "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "packaging-02",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋一盒",
+                "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "packaging-03",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "",
+                "heard": "苹果两个",
+                "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "packaging-04",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "",
+                "heard": "土豆一袋",
+                "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "packaging-05",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "packaging-06",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "",
+                "heard": "牛奶两瓶",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "packaging-07",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "packaging-08",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "",
+                "heard": "洋葱一根",
+                "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "packaging-09",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "packaging-10",
+          "category": "packaging",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "",
+                "heard": "牛奶500克",
+                "warning": "数量或单位无法精确换算；包装、个数与重量不能自动互换。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "non_intake-01",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-02",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-03",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-04",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-05",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-06",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-07",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-08",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-09",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": []
+          }
+        },
+        {
+          "id": "non_intake-10",
+          "category": "non_intake",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "robustness-01",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "3.000",
+                "heard": "呃，那个，加鸡蛋，三个。",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "robustness-02",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "250.000",
+                "heard": "西红柿，半斤。",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "robustness-03",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "2.000",
+                "heard": "鸡蛋：两个；牛奶：250毫升",
+                "warning": ""
+              },
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "250.000",
+                "heard": "鸡蛋：两个；牛奶：250毫升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "robustness-04",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "添加土豆\n500克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "robustness-05",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "robustness-06",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "robustness-07",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": false,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": true,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "robustness-08",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "robustness-09",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "robustness-10",
+          "category": "robustness",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "",
+                "heard": "番茄500克",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        }
+      ],
+      "scope": "offline bounded production interpreter; synthetic implementer-labelled cases",
+      "total_duration_ms": 1
+    },
+    "new_60": {
+      "baseline_metrics": {
+        "false_noop": 0,
+        "http_200": 0,
+        "invalid_or_ungrounded": 0,
+        "safe_fallback": 25,
+        "strict": 20,
+        "total": 60,
+        "wrong_draft": 15
+      },
+      "corpus_sha256": "bf1f0bd01e414818d4cde2244206595ed3c60e39478dff57ede3da546fabd4e4",
+      "metrics": {
+        "false_noop": 0,
+        "http_200": 0,
+        "invalid_or_ungrounded": 0,
+        "safe_fallback": 0,
+        "strict": 60,
+        "total": 60,
+        "wrong_draft": 0
+      },
+      "rows": [
+        {
+          "id": "normal-01",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "8.000",
+                "heard": "请帮我添加鸡蛋八枚",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-02",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "750.000",
+                "heard": "刚买了番茄零点七五公斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-03",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "750.000",
+                "heard": "新增牛奶七百五十毫升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-04",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "1250.000",
+                "heard": "土豆1.25kg",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-05",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "150.000",
+                "heard": "苹果三两",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-06",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "150.000",
+                "heard": "洋葱0.15公斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-07",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "200.000",
+                "heard": "西红柿二百克和鸡蛋五个",
+                "warning": ""
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "5.000",
+                "heard": "西红柿二百克和鸡蛋五个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-08",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "8.000",
+                "heard": "鸡蛋，八个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-09",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "750.000",
+                "heard": "添加牛奶：0.75升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "normal-10",
+          "category": "normal",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "150.000",
+                "heard": "番茄150克；土豆350克",
+                "warning": ""
+              },
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "350.000",
+                "heard": "番茄150克；土豆350克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-01",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "8.000",
+                "heard": "鸡蛋五个，改成八个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-02",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "750.000",
+                "heard": "牛奶300毫升，改成零点七五升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-03",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "土豆两斤，不对，土豆一斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-04",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "150.000",
+                "heard": "苹果100克，改为150克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-05",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "100.000",
+                "heard": "洋葱半斤，改成二两",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-06",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "600.000",
+                "heard": "番茄400克不对600克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-07",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "8.000",
+                "heard": "鸡蛋五个，改成六个，再改成八个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-08",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "300.000",
+                "heard": "番茄200克，鸡蛋五个，番茄改成300克",
+                "warning": ""
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "5.000",
+                "heard": "番茄200克，鸡蛋五个，番茄改成300克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-09",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "200.000",
+                "heard": "牛奶200毫升，土豆400克，土豆改为半公斤",
+                "warning": ""
+              },
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "500.000",
+                "heard": "牛奶200毫升，土豆400克，土豆改为半公斤",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "correction-10",
+          "category": "correction",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "6.000",
+                "heard": "鸡蛋五个，改成六个，番茄200克",
+                "warning": ""
+              },
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "200.000",
+                "heard": "鸡蛋五个，改成六个，番茄200克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "exclusion-01",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "exclusion-02",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "exclusion-03",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "exclusion-04",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "exclusion-05",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "exclusion-06",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "200.000",
+                "heard": "鸡蛋八个，取消鸡蛋，再加牛奶200毫升",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "exclusion-07",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "8.000",
+                "heard": "不要番茄100克，鸡蛋八个",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "exclusion-08",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "200.000",
+                "heard": "土豆200克，牛奶700毫升，去掉牛奶",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "exclusion-09",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "100.000",
+                "heard": "别加苹果200克，只加洋葱100克",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "exclusion-10",
+          "category": "exclusion",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "draft",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "8.000",
+                "heard": "西红柿200克不用，鸡蛋八个要加",
+                "warning": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "outside-01",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-02",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-03",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-04",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-05",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-06",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-07",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-08",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-09",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-10",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-11",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-12",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-13",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-14",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-15",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-16",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-17",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-18",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-19",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "outside-20",
+          "category": "outside",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "noop",
+            "items": []
+          }
+        },
+        {
+          "id": "uncertain-01",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋八个",
+                "warning": "请核对原文后填写。"
+              },
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "",
+                "heard": "番茄200克",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-02",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "",
+                "heard": "牛奶700毫升左右",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-03",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "potato",
+                "name": "土豆",
+                "unit": "g",
+                "quantity": "",
+                "heard": "土豆大概一公斤",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-04",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "apple",
+                "name": "苹果",
+                "unit": "g",
+                "quantity": "",
+                "heard": "苹果差不多200克",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-05",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "onion",
+                "name": "洋葱",
+                "unit": "g",
+                "quantity": "",
+                "heard": "洋葱一些",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-06",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "",
+                "heard": "番茄200克",
+                "warning": "请核对原文后填写。"
+              },
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋八个",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-07",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "鸡蛋八个还是九个",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-08",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "milk",
+                "name": "牛奶",
+                "unit": "ml",
+                "quantity": "",
+                "heard": "牛奶两瓶",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-09",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "egg",
+                "name": "鸡蛋",
+                "unit": "个",
+                "quantity": "",
+                "heard": "把已有库存鸡蛋改成八个",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        },
+        {
+          "id": "uncertain-10",
+          "category": "uncertain",
+          "state": "",
+          "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0
+          },
+          "valid": true,
+          "strict": true,
+          "wrong_draft": false,
+          "safe_fallback": false,
+          "false_noop": false,
+          "result": {
+            "decision": "clarify",
+            "items": [
+              {
+                "catalog_id": "tomato",
+                "name": "番茄",
+                "unit": "g",
+                "quantity": "",
+                "heard": "番茄200克",
+                "warning": "请核对原文后填写。"
+              }
+            ]
+          }
+        }
+      ],
+      "scope": "offline bounded production interpreter; synthetic implementer-labelled cases",
+      "total_duration_ms": 0
+    }
+  },
+  "vision_versions": [
+    {
+      "actual_invoice_verified": false,
+      "authorized_token_limit": 320000,
+      "input_tokens": 12568,
+      "manifest_sha256": "bbb8f7c0c70d473c93a7efb3ed57bd05bee6fcd47f18093f225fcd1b1a64bb41",
+      "max_requests": 16,
+      "model": "qwen3-vl-plus",
+      "output_tokens": 215,
+      "prompt_sha256": "bc77d351dce5409a23f4440bd40663a1c9ccf0039ed09a6a74288ce5dbd7f31e",
+      "reserved_tokens": 300000,
+      "rows": [
+        {
+          "id": "food-02",
+          "sha256": "c5a9c6f8339db5b4aecaa91d67e9d81cf806e7577a9fb13062c514c96e563eb0",
+          "expected_name": "黄瓜",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 2004,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"黄瓜\",\"category\":\"蔬菜\"\n}",
+          "usage": {
+            "prompt_tokens": 647,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-03",
+          "sha256": "fae4444bb0066998450d35dd3e57b5ed3a1a55b7ebe6f787da63b52fbc04e53d",
+          "expected_name": "土豆",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 989,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"土豆\",\"category\":\"蔬菜\"\n}",
+          "usage": {
+            "prompt_tokens": 677,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-04",
+          "sha256": "0f6c40638f7cf84b7d5493c4a40fb601ba66de7943769c0cfdd0c2007d306ef9",
+          "expected_name": "胡萝卜",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1027,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"胡萝卜\",\"category\":\"蔬菜\"\n}",
+          "usage": {
+            "prompt_tokens": 662,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-05",
+          "sha256": "34cd6740258ff36abfe779705b7e83e1b7a83089bf1def3072a60efb85ab8810",
+          "expected_name": "苹果",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 887,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"苹果\",\"category\":\"水果\"\n}",
+          "usage": {
+            "prompt_tokens": 737,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-06",
+          "sha256": "35a08768f427bd0ceff5187a84fb2f24449c56d2a2a97456472e355c96a11fda",
+          "expected_name": "鸡蛋",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 931,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"鸡蛋\",\"category\":\"蛋类\"}",
+          "usage": {
+            "prompt_tokens": 662,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-07",
+          "sha256": "e544ee9912e19d3a64a3ebc6983ea42422e24f1fb7b6751938bdf459a915a36c",
+          "expected_name": "洋葱",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1021,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"洋葱\",\"category\":\"蔬菜\"\n}",
+          "usage": {
+            "prompt_tokens": 752,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-08",
+          "sha256": "1a6fa1a49da74d2d18bb40d7f9bfff249c6bc19dc3300d29c23742ca9f6b2625",
+          "expected_name": "香蕉",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 816,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"香蕉\",\"category\":\"水果\"\n}",
+          "usage": {
+            "prompt_tokens": 611,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "keyboard",
+          "sha256": "1654009cf4bd934e474226add0ad68e837149b2d82ba94544c1160551728759f",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1112,
+          "model_content": "{\"decision\":\"not_ingredient\",\"name\":\"\",\"category\":\"\"}",
+          "usage": {
+            "prompt_tokens": 1187,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mouse",
+          "sha256": "239f0c3d2b8a94847ac51e2a38f431720a571575e04821fc67f91ebbaa30d327",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1012,
+          "model_content": "{\"decision\":\"not_ingredient\",\"name\":\"\",\"category\":\"\"}",
+          "usage": {
+            "prompt_tokens": 1187,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mascot-drawing",
+          "sha256": "9d5378f84333ade1e7f2c2819fa0d247bea927a161a7a245d97753452edbc324",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 4906,
+          "model_content": "{\"decision\":\"not_ingredient\",\"name\":\"\",\"category\":\"\"}",
+          "usage": {
+            "prompt_tokens": 1551,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "blank",
+          "sha256": "d0953ebbb4a39871d61a377e22a1e0d96bb6044e3f6379f81ab340de4979f932",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 794,
+          "model_content": "{\"decision\":\"not_ingredient\",\"name\":\"\",\"category\":\"\"}",
+          "usage": {
+            "prompt_tokens": 747,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "printed-name",
+          "sha256": "4c07d9e4c0d3929cc56fb743750ab12800d1ea4f883e4617897c9a6e6002b7ed",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 970,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"番茄\",\"category\":\"蔬菜\"}",
+          "usage": {
+            "prompt_tokens": 747,
+            "completion_tokens": 14
+          },
+          "accepted": true,
+          "correct": false
+        },
+        {
+          "id": "instruction",
+          "sha256": "6088477e505b8400e1cfcf714d12103837eea5a95588c750c94213a442f150ed",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 807,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"番茄\",\"category\":\"蔬菜\"}",
+          "usage": {
+            "prompt_tokens": 747,
+            "completion_tokens": 14
+          },
+          "accepted": true,
+          "correct": false
+        },
+        {
+          "id": "mixed-vegetables",
+          "sha256": "75adcd8939f1e4d6ae1f2a35b45fac423b78f4a8d4cd760d0857716bb9ed99de",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1007,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"番茄\",\"category\":\"蔬菜\"\n}",
+          "usage": {
+            "prompt_tokens": 827,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": false
+        },
+        {
+          "id": "mixed-egg-tomato",
+          "sha256": "7ba09c607094b51cdf18d4101c4a160a767e84ce1127c54c39a25f553ba56e29",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1058,
+          "model_content": "{\"decision\":\"ingredient\",\"name\":\"番茄\",\"category\":\"蔬菜\"\n}",
+          "usage": {
+            "prompt_tokens": 827,
+            "completion_tokens": 15
+          },
+          "accepted": true,
+          "correct": false
+        }
+      ],
+      "scope": "public/synthetic adapter evaluation, no inventory/database/browser calls",
+      "version": "v1",
+      "returned": 15,
+      "correct_against_original_labels": 11,
+      "median_latency_ms": 1007
+    },
+    {
+      "actual_invoice_verified": false,
+      "authorized_token_limit": 320000,
+      "input_tokens": 13963,
+      "manifest_sha256": "bbb8f7c0c70d473c93a7efb3ed57bd05bee6fcd47f18093f225fcd1b1a64bb41",
+      "max_requests": 16,
+      "model": "qwen3-vl-plus",
+      "output_tokens": 280,
+      "prompt_sha256": "98f9cd84f1f8d2d51021bf8c385479f4fe95f5c5e15cbb1d11f6782f52916da8",
+      "reserved_tokens": 300000,
+      "rows": [
+        {
+          "id": "food-02",
+          "sha256": "c5a9c6f8339db5b4aecaa91d67e9d81cf806e7577a9fb13062c514c96e563eb0",
+          "expected_name": "黄瓜",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 9606,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"黄瓜\",\"胡萝卜\",\"豌豆\",\"玉米\",\"南瓜\",\"丝瓜\",\"土豆\",\"洋葱\",\"茄子\",\"青椒\",\"红椒\",\"莲藕\",\"韭菜\",\"香菜\",\"苹果\",\"香蕉\",\"橙子\",\"梨\",\"葡萄\",\"草莓\",\"蓝莓\",\"西瓜\",\"柠檬\",\"牛肉\",\"猪肉\",\"鸡肉\",\"鸡胸肉\",\"鸡腿\",\"排骨\",\"羊肉\",\"鸭肉\",\"虾\",\"鱼肉\",\"三文鱼\",\"带鱼\",\"贝类\",\"鸡蛋\",\"鸭蛋\",\"牛奶\",\"酸奶\",\"奶酪\",\"豆腐\",\"豆干\",\"豆皮\",\"豆浆\",\"黄豆",
+          "usage": {
+            "prompt_tokens": 740,
+            "completion_tokens": 120
+          },
+          "accepted": false,
+          "correct": false
+        },
+        {
+          "id": "food-03",
+          "sha256": "fae4444bb0066998450d35dd3e57b5ed3a1a55b7ebe6f787da63b52fbc04e53d",
+          "expected_name": "土豆",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 767,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"土豆\"]\n}",
+          "usage": {
+            "prompt_tokens": 770,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-04",
+          "sha256": "0f6c40638f7cf84b7d5493c4a40fb601ba66de7943769c0cfdd0c2007d306ef9",
+          "expected_name": "胡萝卜",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 809,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"胡萝卜\"]\n}",
+          "usage": {
+            "prompt_tokens": 755,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-05",
+          "sha256": "34cd6740258ff36abfe779705b7e83e1b7a83089bf1def3072a60efb85ab8810",
+          "expected_name": "苹果",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1557,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"苹果\"]\n}",
+          "usage": {
+            "prompt_tokens": 830,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-06",
+          "sha256": "35a08768f427bd0ceff5187a84fb2f24449c56d2a2a97456472e355c96a11fda",
+          "expected_name": "鸡蛋",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1143,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"鸡蛋\"]\n}",
+          "usage": {
+            "prompt_tokens": 755,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-07",
+          "sha256": "e544ee9912e19d3a64a3ebc6983ea42422e24f1fb7b6751938bdf459a915a36c",
+          "expected_name": "洋葱",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1379,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"洋葱\"]\n}",
+          "usage": {
+            "prompt_tokens": 845,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-08",
+          "sha256": "1a6fa1a49da74d2d18bb40d7f9bfff249c6bc19dc3300d29c23742ca9f6b2625",
+          "expected_name": "香蕉",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 825,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"香蕉\",\"红香蕉\",\"绿香蕉\"]\n}",
+          "usage": {
+            "prompt_tokens": 704,
+            "completion_tokens": 17
+          },
+          "accepted": false,
+          "correct": false
+        },
+        {
+          "id": "keyboard",
+          "sha256": "1654009cf4bd934e474226add0ad68e837149b2d82ba94544c1160551728759f",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1559,
+          "model_content": "{\"scene\":\"screenshot\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 1280,
+            "completion_tokens": 11
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mouse",
+          "sha256": "239f0c3d2b8a94847ac51e2a38f431720a571575e04821fc67f91ebbaa30d327",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1012,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 1280,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mascot-drawing",
+          "sha256": "9d5378f84333ade1e7f2c2819fa0d247bea927a161a7a245d97753452edbc324",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 3883,
+          "model_content": "{\"scene\":\"drawing\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 1644,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "blank",
+          "sha256": "d0953ebbb4a39871d61a377e22a1e0d96bb6044e3f6379f81ab340de4979f932",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1095,
+          "model_content": "{\"scene\":\"uncertain\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 840,
+            "completion_tokens": 11
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "printed-name",
+          "sha256": "4c07d9e4c0d3929cc56fb743750ab12800d1ea4f883e4617897c9a6e6002b7ed",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1204,
+          "model_content": "{\"scene\":\"text\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 840,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "instruction",
+          "sha256": "6088477e505b8400e1cfcf714d12103837eea5a95588c750c94213a442f150ed",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 851,
+          "model_content": "{\"scene\":\"text\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 840,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mixed-vegetables",
+          "sha256": "75adcd8939f1e4d6ae1f2a35b45fac423b78f4a8d4cd760d0857716bb9ed99de",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1041,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"番茄\",\"黄瓜\"]\n}",
+          "usage": {
+            "prompt_tokens": 920,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mixed-egg-tomato",
+          "sha256": "7ba09c607094b51cdf18d4101c4a160a767e84ce1127c54c39a25f553ba56e29",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1741,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"番茄\",\"鸡蛋\"]\n}",
+          "usage": {
+            "prompt_tokens": 920,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        }
+      ],
+      "scope": "public/synthetic adapter evaluation, no inventory/database/browser calls",
+      "version": "v2",
+      "returned": 15,
+      "correct_against_original_labels": 13,
+      "median_latency_ms": 1143
+    },
+    {
+      "actual_invoice_verified": false,
+      "authorized_token_limit": 320000,
+      "input_tokens": 10498,
+      "manifest_sha256": "bbb8f7c0c70d473c93a7efb3ed57bd05bee6fcd47f18093f225fcd1b1a64bb41",
+      "max_requests": 16,
+      "model": "qwen3-vl-plus",
+      "output_tokens": 274,
+      "prompt_sha256": "174cae766bca57503f9f03ae9a272a1dfe991b96b748a8e39777db3ea6d81bb3",
+      "reserved_tokens": 300000,
+      "rows": [
+        {
+          "id": "food-02",
+          "sha256": "c5a9c6f8339db5b4aecaa91d67e9d81cf806e7577a9fb13062c514c96e563eb0",
+          "expected_name": "黄瓜",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 9023,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"黄瓜\",\"胡萝卜\",\"豌豆\",\"菠萝\",\"番茄\",\"柠檬\",\"青椒\",\"土豆\",\"洋葱\",\"白菜\",\"芹菜\",\"苹果\",\"香蕉\",\"橙子\",\"梨\",\"桃\",\"葡萄\",\"草莓\",\"芒果\",\"猕猴桃\",\"西瓜\",\"哈密瓜\",\"甜瓜\",\"茄子\",\"辣椒\",\"南瓜\",\"西葫芦\",\"苦瓜\",\"丝瓜\",\"冬瓜\",\"莲藕\",\"山药\",\"红薯\",\"玉米\",\"花生\",\"大豆\",\"绿豆\",\"红豆\",\"黑豆\",\"黄豆\",\"芝麻\",\"核桃\",\"杏仁\",\"腰果\",\"开心果\",\"松子",
+          "usage": {
+            "prompt_tokens": 509,
+            "completion_tokens": 120
+          },
+          "accepted": false,
+          "correct": false
+        },
+        {
+          "id": "food-03",
+          "sha256": "fae4444bb0066998450d35dd3e57b5ed3a1a55b7ebe6f787da63b52fbc04e53d",
+          "expected_name": "土豆",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 847,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"土豆\"]\n}",
+          "usage": {
+            "prompt_tokens": 539,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-04",
+          "sha256": "0f6c40638f7cf84b7d5493c4a40fb601ba66de7943769c0cfdd0c2007d306ef9",
+          "expected_name": "胡萝卜",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1062,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"胡萝卜\"]\n}",
+          "usage": {
+            "prompt_tokens": 524,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-05",
+          "sha256": "34cd6740258ff36abfe779705b7e83e1b7a83089bf1def3072a60efb85ab8810",
+          "expected_name": "苹果",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 772,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"苹果\"]\n}",
+          "usage": {
+            "prompt_tokens": 599,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-06",
+          "sha256": "35a08768f427bd0ceff5187a84fb2f24449c56d2a2a97456472e355c96a11fda",
+          "expected_name": "鸡蛋",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1183,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"鸡蛋\"]\n}",
+          "usage": {
+            "prompt_tokens": 524,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-07",
+          "sha256": "e544ee9912e19d3a64a3ebc6983ea42422e24f1fb7b6751938bdf459a915a36c",
+          "expected_name": "洋葱",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1431,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"洋葱\"]\n}",
+          "usage": {
+            "prompt_tokens": 614,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "food-08",
+          "sha256": "1a6fa1a49da74d2d18bb40d7f9bfff249c6bc19dc3300d29c23742ca9f6b2625",
+          "expected_name": "香蕉",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 836,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"香蕉\"]\n}",
+          "usage": {
+            "prompt_tokens": 473,
+            "completion_tokens": 11
+          },
+          "accepted": true,
+          "correct": true
+        },
+        {
+          "id": "keyboard",
+          "sha256": "1654009cf4bd934e474226add0ad68e837149b2d82ba94544c1160551728759f",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1688,
+          "model_content": "{\"scene\":\"screenshot\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 1049,
+            "completion_tokens": 11
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mouse",
+          "sha256": "239f0c3d2b8a94847ac51e2a38f431720a571575e04821fc67f91ebbaa30d327",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1358,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 1049,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mascot-drawing",
+          "sha256": "9d5378f84333ade1e7f2c2819fa0d247bea927a161a7a245d97753452edbc324",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 4900,
+          "model_content": "{\"scene\":\"drawing\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 1413,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "blank",
+          "sha256": "d0953ebbb4a39871d61a377e22a1e0d96bb6044e3f6379f81ab340de4979f932",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 721,
+          "model_content": "{\"scene\":\"uncertain\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 609,
+            "completion_tokens": 11
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "printed-name",
+          "sha256": "4c07d9e4c0d3929cc56fb743750ab12800d1ea4f883e4617897c9a6e6002b7ed",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 772,
+          "model_content": "{\"scene\":\"text\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 609,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "instruction",
+          "sha256": "6088477e505b8400e1cfcf714d12103837eea5a95588c750c94213a442f150ed",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 746,
+          "model_content": "{\"scene\":\"text\",\"foods\":[]}",
+          "usage": {
+            "prompt_tokens": 609,
+            "completion_tokens": 10
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mixed-vegetables",
+          "sha256": "75adcd8939f1e4d6ae1f2a35b45fac423b78f4a8d4cd760d0857716bb9ed99de",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 877,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"番茄\",\"黄瓜\"]\n}",
+          "usage": {
+            "prompt_tokens": 689,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        },
+        {
+          "id": "mixed-egg-tomato",
+          "sha256": "7ba09c607094b51cdf18d4101c4a160a767e84ce1127c54c39a25f553ba56e29",
+          "expected_name": "",
+          "state": "returned",
+          "http_status": 200,
+          "latency_ms": 1168,
+          "model_content": "{\"scene\":\"photo\",\"foods\":[\"番茄\",\"鸡蛋\"]\n}",
+          "usage": {
+            "prompt_tokens": 689,
+            "completion_tokens": 13
+          },
+          "accepted": false,
+          "correct": true
+        }
+      ],
+      "scope": "public/synthetic adapter evaluation, no inventory/database/browser calls",
+      "version": "v3",
+      "returned": 15,
+      "correct_against_original_labels": 14,
+      "median_latency_ms": 1062
+    }
+  ],
+  "host_attempt": {
+    "sample": "food-01",
+    "state": "uncertain",
+    "http_status": 0,
+    "latency_ms": 12000,
+    "replayed": false
+  },
+  "observed_input_tokens": 37029,
+  "observed_output_tokens": 769,
+  "provider_requests": 46,
+  "http_200": 45,
+  "actual_invoice_verified": false,
+  "labels_independently_reviewed": false,
+  "adjudication": {
+    "sample": "food-02",
+    "original_label": "黄瓜",
+    "finding": "Original photo contains background carrots and pineapple; single-food label is inappropriate. Original 14/15 score retained. Final model also hallucinated/truncated its food list; the program rejected it. This is not credited as successful full scene understanding."
+  },
+  "limitations": [
+    "The same image set was used for prompt development; these are not independent blind tests.",
+    "No representative user accuracy, physical microphone, full paid browser, deployment or invoice/free-quota claim.",
+    "Catalogue membership cannot prove that the model correctly described the source image."
+  ]
+}
