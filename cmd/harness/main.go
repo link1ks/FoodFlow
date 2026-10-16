@@ -40,7 +40,7 @@ func architecture(root string) error {
 		}
 		rel, _ := filepath.Rel(root, path)
 		rel = filepath.ToSlash(rel)
-		f, err := parser.ParseFile(token.NewFileSet(), path, nil, parser.ImportsOnly)
+		f, err := parser.ParseFile(token.NewFileSet(), path, nil, 0)
 		if err != nil {
 			return err
 		}
@@ -48,6 +48,11 @@ func architecture(root string) error {
 			value, _ := strconv.Unquote(imp.Path.Value)
 			if msg := importViolation(rel, value); msg != "" {
 				return fmt.Errorf("%s imports %s: %s", rel, value, msg)
+			}
+		}
+		if strings.HasPrefix(rel, "internal/app/") {
+			if msg := pooledObjectContextViolation(f); msg != "" {
+				return fmt.Errorf("%s: %s", rel, msg)
 			}
 		}
 		return nil

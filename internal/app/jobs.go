@@ -106,7 +106,7 @@ func (a *App) cancelJob(c *gin.Context) {
 		var image imagePayload
 		if json.Unmarshal(payload, &image) == nil && image.Key != "" {
 			if store, err := imageStore(); err == nil {
-				_ = store.Delete(c, image.Key)
+				_ = store.Delete(c.Request.Context(), image.Key)
 			}
 		}
 	}

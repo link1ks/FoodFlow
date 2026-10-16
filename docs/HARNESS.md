@@ -47,6 +47,8 @@ Summary separates verification runs by mode from explicitly completed tasks. Dur
 
 ## Cloud evidence
 
+CI runs on pushes to `main`, all pull requests, and explicit manual dispatch. Development-branch pushes do not start another suite alongside their PR; open/update the PR or dispatch manually to verify a branch. PR opened/reopened/synchronize events retain GitHub's defaults. Concurrency is scoped by workflow and PR number (falling back to branch ref), and newer revisions cancel older runs in the same group without cancelling another PR. Main's post-integration verification is retained. `TestCIEventPolicyAvoidsDuplicateBranchRuns` checks the actual YAML event matrix against the duplicate branch-push regression. See [GitHub workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax).
+
 The platform CI job runs the full harness and acceptance harness on the checked-out commit, then uploads an explicit artifact allowlist for 14 days. `pwsh -File scripts/ci-status.ps1 -Revision <full-sha>` or `-RunId <id>` reads workflow/job outcomes with existing Git Credential Manager authorization. Credentials remain in memory and are never included in reports. A local green run does not substitute for a completed cloud run.
 
 CI additionally runs race detection, sqlc generation consistency, container builds and the event pipeline acceptance test. Docker unavailability must fail required checks. Real model calls are not included; existing deterministic fixtures verify confirmation, cancellation and schema constraints without charges.
@@ -66,6 +68,8 @@ Failed or blocked task outcomes can add `-failure-category product|fixture|infra
 5. Record commands, results, known limits and service recovery evidence in the plan.
 
 Architecture rules forbid I/O dependencies in pure algorithms and forbid kitchen-table imports in the independent projection. A new rule needs a test proving that a violating import is rejected. Tests check business invariants; implementation-shaped snapshots are insufficient.
+
+Architecture also rejects passing a handler's pooled `*gin.Context` directly to object-store Put/Open/Delete. Storage HTTP transports can inspect cancellation after a handler returns, when Gin may already reuse that wrapper. Pass `c.Request.Context()` or a derived standard context instead. This is a direct-argument AST guard, not complete context escape analysis; the S3 voice integration remains covered by race detection.
 
 Read [platform ownership](PLATFORM.md) and [execution plan](exec-plans/platform.md). Harness engineering here means this development feedback environment; it is not a claim that all future development runs autonomously or that model output is inherently correct.
 

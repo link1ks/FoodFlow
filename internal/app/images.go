@@ -89,13 +89,13 @@ func (a *App) enqueueImage(c *gin.Context) {
 	}
 	id := core.ID()
 	key := hid(c) + "/" + id + ext
-	if e = store.Put(c, key, bytes.NewReader(data), mime); e != nil {
+	if e = store.Put(c.Request.Context(), key, bytes.NewReader(data), mime); e != nil {
 		fail(c, 500, "image storage failed")
 		return
 	}
 	_, e = a.DB.Exec(c, "INSERT INTO jobs(id,household_id,kind,status,payload,created_by,max_attempts) VALUES($1,$2,'image','queued',$3,$4,1)", id, hid(c), core.JSON(imagePayload{key, mime}), uid(c))
 	if e != nil {
-		_ = store.Delete(c, key)
+		_ = store.Delete(c.Request.Context(), key)
 		fail(c, 500, "enqueue failed")
 		return
 	}
@@ -120,7 +120,7 @@ func (a *App) imagePreview(c *gin.Context) {
 		fail(c, 503, "image storage unavailable")
 		return
 	}
-	r, e := store.Open(c, image.Key)
+	r, e := store.Open(c.Request.Context(), image.Key)
 	if e != nil {
 		fail(c, 404, "image unavailable")
 		return
@@ -220,7 +220,7 @@ func (a *App) confirmImage(c *gin.Context) {
 			var image imagePayload
 			if json.Unmarshal(payload, &image) == nil && strings.HasPrefix(image.Key, hid(c)+"/") {
 				if store, err := imageStore(); err == nil {
-					_ = store.Delete(c, image.Key)
+					_ = store.Delete(c.Request.Context(), image.Key)
 				}
 			}
 		}

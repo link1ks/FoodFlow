@@ -80,7 +80,7 @@ func (a *App) enqueueVoice(c *gin.Context) {
 	digest := core.Hash(string(data))
 	written := false
 	a.idem(c, gin.H{"audio_digest": digest, "mime": mime, "consent": true}, func(tx pgx.Tx) (any, error) {
-		if err := store.Put(c, key, bytes.NewReader(data), mime); err != nil {
+		if err := store.Put(c.Request.Context(), key, bytes.NewReader(data), mime); err != nil {
 			return nil, errors.New("录音暂存失败")
 		}
 		written = true

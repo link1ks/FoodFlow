@@ -1,9 +1,15 @@
 name: CI
-on: [push, pull_request, workflow_dispatch]
+# Branches are verified through their PR; pushing one must not start a second
+# identical suite. Main still gets its own post-integration verification.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
   backend:

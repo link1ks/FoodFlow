@@ -23,14 +23,14 @@ func (a *App) uploadIngredientImage(c *gin.Context) {
 		return
 	}
 	key := hid(c) + "/ingredients/" + c.Param("ingredient") + "/" + core.ID() + ext
-	if e = store.Put(c, key, bytes.NewReader(data), mime); e != nil {
+	if e = store.Put(c.Request.Context(), key, bytes.NewReader(data), mime); e != nil {
 		fail(c, 500, "image storage failed")
 		return
 	}
 	committed := false
 	defer func() {
 		if !committed {
-			_ = store.Delete(c, key)
+			_ = store.Delete(c.Request.Context(), key)
 		}
 	}()
 	tx, e := a.DB.Begin(c)
@@ -59,7 +59,7 @@ func (a *App) uploadIngredientImage(c *gin.Context) {
 	}
 	committed = true
 	if oldKey != "" {
-		_ = store.Delete(c, oldKey)
+		_ = store.Delete(c.Request.Context(), oldKey)
 	}
 	c.JSON(200, gin.H{"has_image": true})
 }
@@ -76,7 +76,7 @@ func (a *App) ingredientImage(c *gin.Context) {
 		fail(c, 503, "image storage unavailable")
 		return
 	}
-	r, e := store.Open(c, key)
+	r, e := store.Open(c.Request.Context(), key)
 	if e != nil {
 		fail(c, 404, "ingredient image unavailable")
 		return
@@ -120,7 +120,7 @@ func (a *App) deleteIngredientImage(c *gin.Context) {
 	}
 	if key != "" {
 		if store, err := imageStore(); err == nil {
-			_ = store.Delete(c, key)
+			_ = store.Delete(c.Request.Context(), key)
 		}
 	}
 	c.Status(204)
