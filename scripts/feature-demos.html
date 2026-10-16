@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="zh-CN">
+  <meta charset="UTF-8" />
+  <title>FoodFlow 虚拟功能演示</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #f3f3e8;
+      font-family: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    }
+    svg {
+      display: block;
+      width: 1080px;
+      height: 640px;
+    }
+    text {
+      font-family: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    }
+  </style>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1080 640"
+    role="img"
+    aria-label="FoodFlow 虚拟功能演示"
+  ></svg>
+  <script>
+    const C = {
+      green: "#174c3b",
+      ink: "#183d31",
+      muted: "#617168",
+      gold: "#f2d58a",
+      paper: "#fffef7",
+      bg: "#f3f3e8",
+      line: "#d5dfcf",
+      soft: "#e8efdc",
+      mint: "#d9f0e6",
+      amber: "#fff0cc",
+      red: "#a84c39",
+    };
+    const svg = document.querySelector("svg");
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+    const ease = (v) => {
+      v = clamp(v);
+      return v * v * (3 - 2 * v);
+    };
+    const esc = (s) =>
+      String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    const rect = (x, y, w, h, fill = C.paper, r = 16, stroke = "none") =>
+      `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" stroke="${stroke}"/>`;
+    const txt = (
+      x,
+      y,
+      s,
+      size = 18,
+      fill = C.ink,
+      weight = 400,
+      anchor = "start",
+    ) =>
+      `<text x="${x}" y="${y}" font-size="${size}" fill="${fill}" font-weight="${weight}" text-anchor="${anchor}">${esc(s)}</text>`;
+    const line = (x1, y1, x2, y2, color = C.line, width = 2) =>
+      `<path d="M${x1},${y1} L${x2},${y2}" stroke="${color}" stroke-width="${width}" fill="none"/>`;
+    const chip = (x, y, s, fill = C.soft, color = C.green, w = 100) =>
+      rect(x, y, w, 28, fill, 14) +
+      txt(x + w / 2, y + 19, s, 13, color, 600, "middle");
+    const button = (x, y, w, s, active = true) =>
+      rect(x, y, w, 42, active ? C.green : C.soft, 12) +
+      txt(
+        x + w / 2,
+        y + 27,
+        s,
+        16,
+        active ? "#ffffff" : C.muted,
+        600,
+        "middle",
+      );
+    const check = (x, y, color = C.green) =>
+      `<path d="M${x - 6},${y} l4,4 l8,-9" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+    function leaf(x, y, scale = 1) {
+      return `<g transform="translate(${x} ${y}) scale(${scale})"><path d="M0 9 C-12 -5,5 -18,15 -12 C16 1,7 12,0 9Z" fill="#91b17c"/><path d="M-1 12 L11 -8" stroke="${C.green}" stroke-width="2"/></g>`;
+    }
+    function vegetable(x, y, kind) {
+      if (kind === "egg")
+        return `<g transform="translate(${x} ${y})"><path d="M0 -23 C-9 -23,-23 1,-22 13 C-20 34,20 34,22 13 C23 1,9 -23,0 -23Z" fill="#ead7a2"/><ellipse cx="-8" cy="2" rx="4" ry="9" fill="#fff5d6"/></g>`;
+      if (kind === "garlic")
+        return `<g transform="translate(${x} ${y})"><path d="M-3 -21 Q-8 -8,-21 1 Q-32 31,0 29 Q32 31,21 1 Q8 -8,5 -21Z" fill="#e6dac1"/><path d="M0 -15 Q-16 17,-4 27 M4 -15 Q18 17,6 27" stroke="#c6b591" fill="none"/></g>`;
+      if (kind === "lettuce")
+        return `<g transform="translate(${x} ${y})"><circle cx="-10" cy="3" r="20" fill="#79a666"/><circle cx="12" cy="0" r="21" fill="#9dc284"/><circle cy="17" r="19" fill="#b9d59e"/><path d="M0 32 L0 -11 M0 8 L-14 -1 M0 16 L14 4" stroke="#477d50" stroke-width="2"/></g>`;
+      return `<g transform="translate(${x} ${y})"><circle cy="9" r="27" fill="#db775e"/><ellipse cx="-10" cy="1" rx="7" ry="10" fill="#eea087"/><path d="M0 -11 l-14,-5 l10,-3 l4,-12 l5,12 l12,3 l-14,5Z" fill="#527c4d"/></g>`;
+    }
+    function pointer(x, y, t, start) {
+      const k = clamp((t - start) / 0.7);
+      if (k <= 0 || k >= 1) return "";
+      const opacity = Math.min(1, k * 6, (1 - k) * 6);
+      return `<g opacity="${opacity}" transform="translate(${x + 30 * (1 - ease(k * 2))} ${y + 35 * (1 - ease(k * 2))})"><circle r="${10 + 22 * k}" fill="none" stroke="${C.gold}" stroke-width="3" opacity="${1 - k}"/><path d="M0 0 L1 25 L8 18 L15 29 L21 25 L14 15 L25 14Z" fill="${C.gold}" stroke="${C.green}" stroke-width="1.5"/></g>`;
+    }
+    function shell(title, subtitle, label, t, duration) {
+      return (
+        rect(0, 0, 1080, 640, C.bg, 0) +
+        rect(0, 0, 1080, 64, C.green, 0) +
+        leaf(36, 31, 0.8) +
+        txt(59, 39, "食光 FoodFlow", 23, "#ffffff", 600) +
+        chip(874, 18, "虚拟流程演示", C.gold, C.green, 174) +
+        txt(34, 109, title, 29, C.ink, 600) +
+        txt(34, 140, subtitle, 16, C.muted) +
+        txt(34, 610, label, 14, C.muted) +
+        txt(
+          1046,
+          610,
+          `${Math.min(duration, Math.floor(t) + 1)} / ${duration} s`,
+          13,
+          C.muted,
+          400,
+          "end",
+        ) +
+        rect(34, 625, 1012, 4, C.line, 2) +
+        rect(34, 625, 1012 * clamp(t / duration), 4, C.green, 2)
+      );
+    }
+    function panel(title, kicker = "我的厨房") {
+      return (
+        rect(34, 164, 666, 410, C.paper, 20, C.line) +
+        rect(34, 164, 666, 45, C.soft, 20) +
+        rect(34, 190, 666, 19, C.soft, 0) +
+        txt(56, 193, kicker, 14, C.green, 600) +
+        txt(58, 246, title, 22, C.ink, 600)
+      );
+    }
+    function flow(stages, index, t, detail) {
+      let s =
+        rect(724, 164, 322, 410, "#e5ecda", 20) +
+        txt(748, 198, "每一步，都有明确状态", 17, C.green, 600);
+      stages.forEach((label, i) => {
+        const y = 224 + i * 68,
+          done = i < index,
+          active = i === index;
+        if (i < stages.length - 1)
+          s += line(771, y + 32, 771, y + 70, done ? C.green : "#bccbb1", 2);
+        s += rect(
+          744,
+          y,
+          282,
+          48,
+          active ? C.green : done ? C.mint : "#f3f5e9",
+          13,
+        );
+        s += `<circle cx="768" cy="${y + 24}" r="11" fill="${active ? C.gold : done ? C.green : "#d7dfc9"}"/>`;
+        s += done
+          ? check(768, y + 25, "#ffffff")
+          : txt(
+              768,
+              y + 29,
+              i + 1,
+              12,
+              active ? C.green : C.muted,
+              600,
+              "middle",
+            );
+        s += txt(
+          790,
+          y + 30,
+          label,
+          16,
+          active ? "#ffffff" : C.green,
+          active ? 600 : 400,
+        );
+      });
+      return s + txt(748, 550, detail, 13, C.muted);
+    }
+    function stockCard(x, y, name, amount, kind, w = 282) {
+      return (
+        rect(x, y, w, 94, C.bg, 14) +
+        vegetable(x + 42, y + 43, kind) +
+        txt(x + 84, y + 35, name, 18, C.ink, 600) +
+        txt(x + 84, y + 68, amount, 25, C.green, 600)
+      );
+    }
+    function intake(t) {
+      const duration = 11,
+        step = t < 2 ? 0 : t < 4 ? 1 : t < 7 ? 2 : 3,
+        confirmed = t >= 7;
+      let s = shell(
+        "说出食材，核对后记入冰箱",
+        "语音 / 图片 → 可修改草稿 → 明确确认 → 库存与流水",
+        "示例：番茄 500 g、鸡蛋 2 个；所有数据均为预设。",
+        t,
+        duration,
+      );
+      s += panel(
+        confirmed
+          ? "已经入库，记录可追溯"
+          : t < 2
+            ? "说一说，这次买了什么"
+            : "识别草稿 · 请核对数量与单位",
+      );
+      if (t < 2) {
+        s +=
+          rect(58, 275, 618, 150, C.soft, 16) +
+          txt(82, 314, "“番茄五百克，鸡蛋两个。”", 26, C.green, 600);
+        for (let i = 0; i < 39; i++) {
+          const h = 10 + 30 * Math.abs(Math.sin(i * 0.8 + t * 4));
+          s += rect(86 + i * 14, 363 - h / 2, 5, h, C.green, 2);
+        }
+        s +=
+          chip(80, 450, "正在转为草稿", C.amber, C.green, 154) +
+          txt(80, 513, "识别阶段，库存保持不变。", 18, C.muted);
+      } else {
+        const opacity = ease((t - 2) / 0.55);
+        s +=
+          `<g opacity="${opacity}" transform="translate(0 ${12 * (1 - opacity)})">` +
+          stockCard(
+            58,
+            273,
+            "番茄",
+            confirmed ? "500 g" : "500 g  ·  可修改",
+            "tomato",
+          ) +
+          stockCard(
+            358,
+            273,
+            "鸡蛋",
+            confirmed ? "2 个" : "2 个  ·  可修改",
+            "egg",
+          ) +
+          "</g>";
+        s +=
+          rect(58, 385, 600, 52, confirmed ? C.mint : C.amber, 12) +
+          txt(
+            78,
+            417,
+            confirmed
+              ? "已确认：2 个批次 + 2 条入库流水"
+              : "待确认：当前冰箱仍为 0 g / 0 个",
+            17,
+            C.green,
+            600,
+          );
+        s += confirmed
+          ? button(58, 468, 210, "✓ 已确认入库")
+          : button(58, 468, 210, "核对并确认入库", t >= 4);
+        s += txt(
+          294,
+          495,
+          confirmed ? "库存、流水同步更新" : "还可以修改，或取消本次草稿",
+          16,
+          C.muted,
+        );
+        s += pointer(177, 485, t, 6.6);
+      }
+      return (
+        s +
+        flow(
+          [
+            "识别食材线索",
+            "形成可修改草稿",
+            "等待用户确认",
+            "批次与流水一起提交",
+          ],
+          step,
+          t,
+          confirmed ? "确认之后，才改变库存。" : "草稿只提供线索与待核对字段。",
+        )
+      );
+    }
+    function plan(t) {
+      const duration = 14,
+        stage = t < 2 ? 0 : t < 5 ? 1 : t < 8.5 ? 2 : 3;
+      const purchased = t >= 8.5,
+        cooked = t >= 11,
+        confirmed = t >= 5;
+      let s = shell(
+        "从冰箱，到今晚这一餐",
+        "安排菜单 → 确认缺料 → 核对采购入库 → 确认烹饪扣库",
+        "蒜香生菜 · 1 人份 · 需求：生菜 150 g、蒜 10 g。",
+        t,
+        duration,
+      );
+      s += panel(
+        cooked
+          ? "烹饪完成，余额与流水已更新"
+          : purchased
+            ? "食材已备齐，等待烹饪确认"
+            : confirmed
+              ? "缺口已加入采购清单"
+              : t < 2
+                ? "先看看，家里还剩多少"
+                : "菜单草稿 · 蒜香生菜",
+      );
+      s +=
+        stockCard(
+          58,
+          272,
+          "生菜",
+          cooked ? "0 g" : purchased ? "150 g" : "50 g",
+          "lettuce",
+        ) +
+        stockCard(
+          358,
+          272,
+          "蒜",
+          cooked ? "0 g" : purchased ? "10 g" : "0 g",
+          "garlic",
+        );
+      if (t < 2)
+        s +=
+          txt(60, 414, "优先利用已有食材，按人数计算需求。", 18, C.muted) +
+          button(58, 470, 210, "安排这一餐");
+      else if (!confirmed)
+        s +=
+          rect(58, 385, 600, 53, C.amber, 12) +
+          txt(78, 418, "待确认方案：缺生菜 100 g、蒜 10 g", 18, C.green, 600) +
+          button(58, 470, 210, "确认菜单并生成采购") +
+          txt(295, 495, "生成草稿，库存仍是 50 g / 0 g", 15, C.muted);
+      else if (!purchased)
+        s +=
+          rect(58, 385, 600, 53, C.amber, 12) +
+          txt(78, 418, "待购买：生菜 100 g + 蒜 10 g", 18, C.green, 600) +
+          button(58, 470, 210, "核对实购并确认入库") +
+          txt(295, 495, "买到之后，核对数量再入库", 16, C.muted);
+      else if (!cooked)
+        s +=
+          rect(58, 385, 600, 53, C.mint, 12) +
+          txt(78, 418, "已入库：生菜 +100 g、蒜 +10 g", 18, C.green, 600) +
+          button(58, 470, 210, "确认烹饪完成并扣库") +
+          txt(295, 495, "完成确认前，余额保持不变", 16, C.muted);
+      else
+        s +=
+          rect(58, 385, 600, 53, C.mint, 12) +
+          txt(78, 418, "出库流水：生菜 −150 g、蒜 −10 g", 18, C.green, 600) +
+          button(58, 470, 210, "✓ 这一餐已完成") +
+          txt(295, 495, "重复提交不会重复扣减", 16, C.muted);
+      s +=
+        pointer(175, 488, t, 4.6) +
+        pointer(175, 488, t, 8.1) +
+        pointer(175, 488, t, 10.6);
+      return (
+        s +
+        flow(
+          [
+            "读取当前库存",
+            "用户确认菜单",
+            "按缺口采购并入库",
+            "用户确认烹饪完成",
+          ],
+          stage,
+          t,
+          cooked
+            ? "余额不为负；每次变动有流水。"
+            : "每种食材，始终保留原计量单位。",
+        )
+      );
+    }
+    function report(t) {
+      const duration = 11,
+        stage = t < 2.5 ? 0 : t < 5 ? 1 : t < 8 ? 2 : 3;
+      let s = shell(
+        "一笔变动，留下清楚的记录",
+        "已记录采购金额 / 已知出库成本 / 未知成本覆盖",
+        "虚拟月报：不以当前价格补齐历史未知成本，不推算节省金额。",
+        t,
+        duration,
+      );
+      s += panel(
+        t >= 8 ? "月报已准备好，可导出图片" : "我的金额月报 · 示例月份",
+      );
+      const values = [
+        ["记录采购金额", "¥38.00", "8 笔记录"],
+        ["已知消耗成本", t >= 2.5 ? "¥1.00" : "—", "按出库成本快照"],
+        ["已知报损成本", t >= 2.5 ? "¥0.40" : "—", "保留当时的成本"],
+      ];
+      values.forEach((v, i) => {
+        const x = 58 + i * 204;
+        s +=
+          rect(x, 275, 190, 112, i === 0 ? C.soft : C.bg, 14) +
+          txt(x + 16, 303, v[0], 15, C.muted) +
+          txt(x + 16, 340, v[1], 29, C.green, 600) +
+          txt(x + 16, 367, v[2], 13, C.muted);
+      });
+      s +=
+        rect(58, 404, 598, 52, t >= 5 ? C.amber : C.bg, 12) +
+        txt(
+          76,
+          437,
+          t >= 5
+            ? "成本覆盖 2/3 条 · 未知成本 1 条，保持未知"
+            : "按原始单位整理每笔入库、消耗与报损",
+          18,
+          C.green,
+          600,
+        );
+      s += button(
+        58,
+        485,
+        190,
+        t >= 8 ? "✓ PNG 已导出" : "导出月报图片",
+        t >= 5,
+      );
+      if (t >= 8)
+        s +=
+          rect(470, 465, 185, 80, C.mint, 12) +
+          txt(486, 492, "FOODFLOW 月报", 14, C.green, 600) +
+          line(486, 506, 635, 506, C.green, 3) +
+          line(486, 518, 604, 518, C.line, 3) +
+          txt(275, 511, "金额与覆盖说明一起保留", 16, C.muted);
+      s += pointer(169, 500, t, 7.6);
+      return (
+        s +
+        flow(
+          [
+            "整理不可变流水",
+            "汇总已知成本",
+            "明确标出未知记录",
+            "导出月报 PNG",
+          ],
+          stage,
+          t,
+          "同类同单位分组，数量不会混加。",
+        )
+      );
+    }
+    function community(t) {
+      const duration = 12,
+        stage = t < 2.5 ? 0 : t < 5 ? 1 : t < 8.5 ? 2 : 3,
+        approved = t >= 5,
+        admitted = t >= 10;
+      let s = shell(
+        "把拿手菜，分享给下一餐",
+        "完善配方 → 同意初审 → 公开互动 → 人工审核收录",
+        "示例审核结果与互动数量均为预设；初审通过不等于人工入库通过。",
+        t,
+        duration,
+      );
+      s += panel(
+        admitted
+          ? "管理员确认，署名收录食谱库"
+          : approved
+            ? "配方已公开，可点赞与收藏"
+            : t >= 2.5
+              ? "已提交初审，当前仍为私有"
+              : "分享一道拿手菜",
+      );
+      s +=
+        rect(58, 274, 150, 191, C.soft, 16) +
+        vegetable(133, 342, "tomato") +
+        txt(133, 425, "家常 · 快手", 15, C.green, 600, "middle");
+      s +=
+        txt(232, 301, "一碗热乎的番茄汤", 24, C.ink, 600) +
+        txt(232, 337, "番茄 200 g · 1 人份 · 15 分钟", 16, C.muted) +
+        txt(232, 376, "1. 洗净切块，保留汁水", 16, C.ink) +
+        txt(232, 409, "2. 下锅煮熟，确认熟透后盛出", 16, C.ink);
+      s += chip(
+        232,
+        432,
+        admitted
+          ? "已署名收录"
+          : approved
+            ? "初审通过 · 公开"
+            : t >= 2.5
+              ? "初审中 · 私有"
+              : "草稿 · 私有",
+        approved ? C.mint : C.amber,
+        C.green,
+        192,
+      );
+      s += button(
+        58,
+        490,
+        190,
+        admitted
+          ? "✓ 已收录"
+          : t >= 8.5
+            ? "管理员确认收录"
+            : approved
+              ? "♡ 点赞   ☆ 收藏"
+              : t >= 2.5
+                ? "等待审核结果"
+                : "同意并提交初审",
+        t < 2.5 || approved,
+      );
+      s += txt(
+        270,
+        516,
+        admitted
+          ? "保留作者署名与配方版本"
+          : t >= 8.5
+            ? "每周候选仍需人工确认"
+            : approved
+              ? "进入公开动态，参与每周候选"
+              : t >= 2.5
+                ? "失败或异常时保持私有"
+                : "提交前明确同意公开与审核",
+        16,
+        C.muted,
+      );
+      s += pointer(158, 503, t, 2.1) + pointer(158, 503, t, 9.6);
+      return (
+        s +
+        flow(
+          [
+            "写清用量与步骤",
+            "明确同意后提交初审",
+            "初审通过，公开互动",
+            "候选经管理员审核收录",
+          ],
+          stage,
+          t,
+          "审核异常时，内容保持私有。",
+        )
+      );
+    }
+    const scenes = { intake, plan, report, community };
+    window.renderDemo = (name, time) => {
+      if (!scenes[name]) throw new Error("Unknown animation");
+      svg.innerHTML = scenes[name](time);
+    };
+    window.demoScenes = { intake: 11, plan: 14, report: 11, community: 12 };
+    window.renderDemo("intake", 0);
+  </script>
+</html>

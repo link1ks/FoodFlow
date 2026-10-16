@@ -7,7 +7,7 @@
 <p align="center"><strong>从一人厨房开始，把食材、菜单和拿手菜连接起来。</strong></p>
 
 <p align="center">
-  <a href="#功能实景">界面展示</a> ·
+  <a href="#动态演示">动态演示</a> ·
   <a href="#可以做什么">功能</a> ·
   <a href="#架构与技术栈">技术栈</a> ·
   <a href="#快速开始">快速开始</a> ·
@@ -21,40 +21,37 @@
 
 FoodFlow 是个人食材管理与 AI 膳食规划应用。登录后直接使用个人厨房，家庭共享按需开启；库存、菜单、采购和烹饪记录各有归属。AI 提出方案，用户确认后才执行库存变更。
 
-## 功能实景
+<a id="功能实景"></a>
 
-从「今天」开始，查看家中食材、临期提醒、待确认方案和采购待办。
+## 动态演示
 
-![FoodFlow 今日厨房：9 种食材、临期提醒与今日菜单](docs/assets/showcase/today-desktop.png)
+用「简化界面 + 流程节点」观看关键功能的状态变化。以下四段为 **虚拟循环动图**，每段 11–14 秒，鼠标动作、数量与审核结果均为预设示例。
 
-以下为真实应用在隔离环境中的截图，使用虚构个人厨房与演示数据。菜单生成采用确定性演示模式，社区初审使用本地固定响应；本次展示未调用收费模型。点击图片可查看大图。
+### 食材入库 · 先识别，再核对确认
 
-| 食材库存 · 家里有什么 | 食材目录 · 选图入库 |
-| --- | --- |
-| [![食材库存：参考照片、精确数量、批次与存放位置](docs/assets/showcase/inventory-desktop.png)](docs/assets/showcase/inventory-desktop.png) | [![食材目录：91 种图文卡片、分类与计量筛选](docs/assets/showcase/catalog-desktop.png)](docs/assets/showcase/catalog-desktop.png) |
-| 查看余额与批次，勾选食材探索可做菜谱；临期提醒帮助安排处理顺序。 | 按名称、别名和分类寻找食材，核对数量后再确认入库。 |
+![虚拟动图：食材线索形成可修改草稿，明确确认后才更新库存与流水](docs/assets/demos/intake.gif)
 
-| 菜单规划 · 先看方案 | 采购入库 · 再次核对 |
-| --- | --- |
-| [![菜单生成结果处于等待确认，明确标注演示模式](docs/assets/showcase/ai-draft-desktop.png)](docs/assets/showcase/ai-draft-desktop.png) | [![采购确认弹窗：核对实购数量、位置、有效期与日期依据](docs/assets/showcase/purchase-confirm-desktop.png)](docs/assets/showcase/purchase-confirm-desktop.png) |
-| 按人数、时间与忌口安排菜单，确认方案后生成缺料清单；做饭完成再扣库存。 | 菜单缺口进入采购清单；买好后核对实际数量、存放位置和有效期。 |
+识别阶段保留可修改草稿；用户核对食材、数量和单位，确认后才一起创建批次与入库流水。
 
-| 金额月报 · 保留未知 | 配方社区 · 分享拿手菜 |
-| --- | --- |
-| [![金额月报：采购、消耗、报损与未知成本覆盖情况](docs/assets/showcase/monthly-desktop.png)](docs/assets/showcase/monthly-desktop.png) | [![社区配方：演示番茄汤、初审状态、收藏与每周候选](docs/assets/showcase/community-desktop.png)](docs/assets/showcase/community-desktop.png) |
-| 汇总已记录采购金额与已知出库成本，缺失成本保留未知，支持导出 PNG。 | 分享用量与步骤，初审通过后公开；支持点赞收藏与每周候选。 |
+### 菜单与采购 · 把一顿饭串起来
 
-<details>
-<summary><strong>查看手机界面</strong> · 今日待办与库存卡片</summary>
+![虚拟动图：库存到菜单、缺料采购、确认入库，再确认烹饪扣库](docs/assets/demos/plan.gif)
 
-<p align="center">
-  <a href="docs/assets/showcase/today-mobile.png"><img src="docs/assets/showcase/today-mobile.png" width="260" alt="手机今日厨房：待办卡片与底部六项导航" /></a>
-  <a href="docs/assets/showcase/inventory-mobile.png"><img src="docs/assets/showcase/inventory-mobile.png" width="260" alt="手机食材库存：搜索、分类、照片与批次数量" /></a>
-</p>
+按人数计算需求，确认菜单后生成缺料清单；核对实购后入库，确认烹饪完成后扣减库存。
 
-</details>
+### 金额月报 · 已知与未知都看清楚
 
-完整的操作串联、截图来源和重拍方法见 [功能图解](docs/SHOWCASE.md)。
+![虚拟动图：汇总采购与出库成本，保留未知成本并导出 PNG](docs/assets/demos/report.gif)
+
+汇总已记录采购金额和已知出库成本，保留未知记录与覆盖说明，支持导出月报图片。
+
+### 配方社区 · 从拿手菜到大家的下一餐
+
+![虚拟动图：配方草稿、同意初审、公开互动、人工审核收录](docs/assets/demos/community.gif)
+
+完善用量与步骤，明确同意后提交初审；通过后公开互动，每周候选还需管理员确认收录。
+
+动图用于解释操作顺序，不代表实际模型输出或真实运行结果。场景说明、业务边界与重建方法见 [虚拟动态演示](docs/SHOWCASE.md)。
 
 ## 可以做什么
 
