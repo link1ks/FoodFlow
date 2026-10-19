@@ -23,6 +23,7 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   const catalog = await request.get("/api/ingredient-catalog", { headers });
   expect(catalog.status()).toBe(200);
   const entries = await catalog.json();
+  expect(entries).toHaveLength(200);
   for (const [name, quantity] of [
     ["番茄", "300"],
     ["大米", "500"],
@@ -80,9 +81,37 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
     cards.first().getByRole("button", { name: "再买一批" }),
   ).toBeVisible();
   await cards.first().locator(".ff-stock-details > summary").click();
+  const tomatoCard = cards.filter({
+    has: page.getByRole("heading", { name: "番茄", exact: true }),
+  });
+  const nutrition = tomatoCard.getByRole("region", {
+    name: "番茄营养价值",
+    exact: true,
+  });
+  await expect(nutrition).toHaveCount(0);
+  if (info.project.name === "desktop") {
+    await tomatoCard.hover();
+    await page.waitForTimeout(1200);
+    await expect(nutrition).toHaveCount(0);
+    await expect(nutrition).toBeVisible({ timeout: 2500 });
+  } else {
+    await tomatoCard
+      .getByRole("button", { name: "查看番茄营养价值", exact: true })
+      .click();
+    await expect(nutrition).toBeVisible();
+  }
+  await expect(nutrition).toContainText("每 100 克");
+  await expect(nutrition).toContainText("蛋白质");
+  await page.screenshot({
+    path: info.outputPath("nutrition-overlay.png"),
+    fullPage: true,
+  });
+  await nutrition.getByRole("button", { name: "关闭营养信息" }).click();
+  await page.mouse.move(0, 0);
+  await expect(nutrition).toHaveCount(0);
   const stats = page.getByRole("region", { name: "库存统计" });
   await expect(stats).toContainText("家中有库存 2 种");
-  await expect(stats).toContainText("优先处理 0 批");
+  await expect(stats).toContainText("优先处理 2 批");
   await page.screenshot({
     path: info.outputPath("inventory-overview.png"),
     fullPage: true,
@@ -116,6 +145,19 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   ).toBeDisabled();
   const afterResponse = await request.get(root + "/inventory", { headers });
   expect(await afterResponse.json()).toEqual(before);
+  expect(
+    before.batches.every(
+      (b: { expires_on: string; expires_at: string }) =>
+        !b.expires_on && !b.expires_at,
+    ),
+  ).toBeTruthy();
+  const reminders = await (
+    await request.get(root + "/expiring", { headers })
+  ).json();
+  expect(reminders).toHaveLength(2);
+  expect(
+    reminders.every((r: { expires_on: string }) => r.expires_on === ""),
+  ).toBeTruthy();
   if (info.project.name === "mobile") {
     await page.setViewportSize({ width: 320, height: 740 });
     expect(
@@ -134,6 +176,10 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   await expect(
     picker.getByRole("button", { name: "蔬菜", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
+  await picker.getByLabel("搜索食材名称或别名").fill("芦笋");
+  await expect(
+    picker.getByRole("button", { name: "选择芦笋", exact: true }),
+  ).toBeVisible();
   await picker.getByLabel("搜索食材名称或别名").fill("番茄");
   await picker.getByRole("button", { name: "选择番茄", exact: true }).click();
   await expect(picker.getByLabel("本次入库数量（g）")).toBeVisible();

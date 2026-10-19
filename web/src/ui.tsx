@@ -40,12 +40,11 @@ export function Button({
 export function Card({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  ...props
+}: React.HTMLAttributes<HTMLElement>) {
   return (
     <section
+      {...props}
       className={cn(
         "ff-card min-w-0 rounded-2xl border border-slate-200 bg-[#fffdf7] p-5",
         className,

@@ -11,7 +11,7 @@ export type InventoryBatch={id:string;ingredient_id:string;quantity:string;locat
 
 export function freshness(batch:InventoryBatch){
   if(batch.condition==='spoiled')return {label:'已变质',tone:'rose',pct:0,urgent:true}
-  if(!batch.expires_at)return {label:'未记录有效期',tone:'slate',pct:0,urgent:false}
+  if(!batch.expires_at)return {label:'未设期限 · 按临期提醒',tone:'amber',pct:0,urgent:true}
   const remaining=new Date(batch.expires_at).getTime()-Date.now()
   if(!Number.isFinite(remaining))return {label:'有效期格式异常',tone:'slate',pct:0,urgent:false}
   const hours=remaining/3_600_000

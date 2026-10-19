@@ -5281,7 +5281,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/household'
     get:
-      summary: 七天内临期批次
+      summary: 七天内临期及未设期限的提醒批次
       responses:
         '200':
           description: 临期列表
@@ -5303,7 +5303,8 @@ paths:
                       type: string
                     expires_on:
                       type: string
-                      format: date
+                      description: 到期日期；未设期限时为空字符串
+                      pattern: '^$|^\d{4}-\d{2}-\d{2}$'
                     expiry_kind:
                       type: string
                   required:

@@ -28,7 +28,7 @@ func TestNutritionAdviceFlow(t *testing.T) {
 	token, root, house := home()
 	other, _, _ := home()
 	code, catalog := h.list("/ingredient-catalog", token)
-	if code != 200 || len(catalog) != 91 {
+	if code != 200 || len(catalog) != 200 {
 		t.Fatal(code, len(catalog))
 	}
 	var tomato string

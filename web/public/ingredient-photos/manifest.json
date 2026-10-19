@@ -1818,5 +1818,2185 @@
       1448,
       1086
     ]
+  },
+  {
+    "name": "西葫芦",
+    "src": "/ingredient-photos/dc60db73d730.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26328,
+    "sha256": "dc60db73d7307023c1bdbaf7beb050828a951f413a06337892f07a660ff4514a",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "苦瓜",
+    "src": "/ingredient-photos/c984cfc79df8.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 22318,
+    "sha256": "c984cfc79df85bffab1f52a9d0340613720acb872f8b09647b8260d367c6236c",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "秋葵",
+    "src": "/ingredient-photos/0eb8db5a977e.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 18758,
+    "sha256": "0eb8db5a977e4617361eebfac68c7f87a2f632cd98e1258d228aad30c405162d",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "芦笋",
+    "src": "/ingredient-photos/6b22892fd543.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21416,
+    "sha256": "6b22892fd5437604771a50b283566903b37bd44df913d75e47f56e3e9f73136a",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "莴笋",
+    "src": "/ingredient-photos/f502e99945cf.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 13036,
+    "sha256": "f502e99945cffd8834554eb2881c56899dd956de7c7635a15186e47b2758ebe9",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "茭白",
+    "src": "/ingredient-photos/f0d181fee690.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 11672,
+    "sha256": "f0d181fee690a42215d0f9a70f47bc137a132a8daed264bf466d7d1a912d5a86",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "竹笋",
+    "src": "/ingredient-photos/6ce7fcff3561.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 20818,
+    "sha256": "6ce7fcff3561dffe229ff889ca4fb8b17065b9b395bbcf46f5ad190228725451",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "山药",
+    "src": "/ingredient-photos/7df2428e0996.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21488,
+    "sha256": "7df2428e09969d6df941ed7edd0a6f488c9cccab486f9f8e904daf29ca4eee76",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "芋头",
+    "src": "/ingredient-photos/f0059767d9b8.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 33430,
+    "sha256": "f0059767d9b8a8e83fa834c8c219c84e40ded8c894a8bad3715013fcd3b4c84f",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-0.png",
+    "source_sha256": "5b3b6425c5bc12087842b32226347bb20e7967421729a88daba4537adfab81b7",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "紫甘蓝",
+    "src": "/ingredient-photos/af3e40367a27.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25062,
+    "sha256": "af3e40367a276be17b18e9181475da02a5dd93bd7c2d19b21f19ed1ad85a8401",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "芥蓝",
+    "src": "/ingredient-photos/3875e242e2e1.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 28690,
+    "sha256": "3875e242e2e18999b95ec496c6b48ba81f9c9b074320fd4318ac15ec48c24077",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "菜心",
+    "src": "/ingredient-photos/922fd0ea6f45.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 28840,
+    "sha256": "922fd0ea6f4597c2f592e4f16957d6e1a130016ceaff36724bff22b464b38ffd",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "茼蒿",
+    "src": "/ingredient-photos/87bbe35bda95.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 37770,
+    "sha256": "87bbe35bda950ee05eb432345e21b23581b95f5ff88863da75d7b0c579875574",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "空心菜",
+    "src": "/ingredient-photos/be8ade30bfde.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 31058,
+    "sha256": "be8ade30bfde5100f6a87fe20831580ba92c505529d7607b90a90bb1a8f9c45f",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "苋菜",
+    "src": "/ingredient-photos/f5f28e8ea8bc.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 38978,
+    "sha256": "f5f28e8ea8bcaa7769155e6d7ea31204cb0900f1cfc02305dd74537dede346f0",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "豆苗",
+    "src": "/ingredient-photos/cc89c6069953.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 41864,
+    "sha256": "cc89c606995362a2f8017f27d0c474a7237bfdf87140447cd2eae0742482a2d9",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "绿豆芽",
+    "src": "/ingredient-photos/50de2b910baf.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21038,
+    "sha256": "50de2b910baf5a628d6b86ab1adf09afc70f25be3fce13aa9c40baaceceb1e0b",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "黄豆芽",
+    "src": "/ingredient-photos/40d63e7f2967.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 20030,
+    "sha256": "40d63e7f2967a03ab7120d7b08988f14935acc356283443f349163d879e511fe",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-1.png",
+    "source_sha256": "8aa11cffee69361f6ccb9324808e07eea0fe3830e1a0e05099f8d409eff1167f",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "荷兰豆",
+    "src": "/ingredient-photos/ce974cc5efe9.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21110,
+    "sha256": "ce974cc5efe9554305a9333ade603eae70195475e72a9d41c8b96f892fafd904",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "甜豆",
+    "src": "/ingredient-photos/2cc4c5f18134.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21810,
+    "sha256": "2cc4c5f181341538bcc57e8f0ec84a30e2d85237829a097091b347afd9ad92bc",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "芥菜",
+    "src": "/ingredient-photos/12e88513fe92.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 35892,
+    "sha256": "12e88513fe920e970b857635e41bb16011af784d0fc7e9611c529c9a49ab9abb",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "雪里蕻",
+    "src": "/ingredient-photos/ca11847a5ca1.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 39212,
+    "sha256": "ca11847a5ca186c37d1559b786a85781685e67353a18083ff883cc0103140ff5",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "荠菜",
+    "src": "/ingredient-photos/ce13af18c1ad.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 36102,
+    "sha256": "ce13af18c1ad9a3bf521e6f6a4b834570b273bbc9f15e8f945511601052485ac",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "马蹄",
+    "src": "/ingredient-photos/1982347a10ad.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26962,
+    "sha256": "1982347a10adf006e2543bff6415482ce666b8bcb015750eb9c5d8bedafaa50e",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "百合",
+    "src": "/ingredient-photos/b3c20886b87f.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 16452,
+    "sha256": "b3c20886b87fba4e1b04d312371885f6e515c4dc7ef381bc40937e42b568129b",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "桃",
+    "src": "/ingredient-photos/7d982a526ed2.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 24064,
+    "sha256": "7d982a526ed2eaa233cd7199ce09aa330198cbfdf83c8d6a2fd1325cb28f4135",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "李子",
+    "src": "/ingredient-photos/fe4cdb795468.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25764,
+    "sha256": "fe4cdb795468f72dc050f9840c63b3d882f67cafa6ed4a01d0d094c5ed6db984",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-2.png",
+    "source_sha256": "cb8839a39ac7e2d953e23512418fd6e66a7d8a46aa52feaccbd382ff5e0d85e9",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "杏",
+    "src": "/ingredient-photos/ab42e819fdda.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 16676,
+    "sha256": "ab42e819fdda955f115b284992cb35f98955791539d1406d428602b4b321d582",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "猕猴桃",
+    "src": "/ingredient-photos/b6e82f0d603c.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25206,
+    "sha256": "b6e82f0d603cfc3ab83667187d3ac2965b61cb705aa824a09bf8fb2055c7a05f",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "芒果",
+    "src": "/ingredient-photos/71708c0a2486.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 16098,
+    "sha256": "71708c0a2486622490707e3fd71e891d17b8c388ca86052843c4b5c830cdf612",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "菠萝",
+    "src": "/ingredient-photos/c85964c2490a.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 29662,
+    "sha256": "c85964c2490a38d82a4cb8a43340fd93dd0bd45d1dade438dfc277e6da9b7f3c",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "哈密瓜",
+    "src": "/ingredient-photos/f1938e0094c7.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 33398,
+    "sha256": "f1938e0094c786b06b0c44c745ad725610b216800be0b4de1948ce104ffb334c",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "木瓜",
+    "src": "/ingredient-photos/dac5ec4de5e3.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 24228,
+    "sha256": "dac5ec4de5e3014f7d78322c4ec515067c660194a3ab233943a164c7d8e599c5",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "火龙果",
+    "src": "/ingredient-photos/a4fca4cecb94.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25104,
+    "sha256": "a4fca4cecb94633e2651d08c81f9e7f116bc304be9d01cb5b78896b898caa993",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "石榴",
+    "src": "/ingredient-photos/801e3584bc7a.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 30008,
+    "sha256": "801e3584bc7a9dcc79019876c82ea42196c4175287b6561702964b769070bf01",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "柚子",
+    "src": "/ingredient-photos/0615198c45db.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26086,
+    "sha256": "0615198c45db4d7979d12e35aad6378bf4209c8afe389335259f2439eca95869",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-3.png",
+    "source_sha256": "254274f79a9daf6235db7d8c3898ea6eef8e075ac9fece96a4818474309f9a25",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "橘子",
+    "src": "/ingredient-photos/97f03023f40e.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 24598,
+    "sha256": "97f03023f40ee24382deab2cf005801d938b4a29b004d1b0fd294b0ea00e4b01",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "樱桃",
+    "src": "/ingredient-photos/437813f59732.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 18456,
+    "sha256": "437813f597328cab1b17cbd2c2dcfb1b6fb478e9aea099efdcb748bb082fc415",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "荔枝",
+    "src": "/ingredient-photos/af7a83c4eca9.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26556,
+    "sha256": "af7a83c4eca9dcf5b67aeddd982757556629949af46d7b3cd0a7538c00ae0576",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "龙眼",
+    "src": "/ingredient-photos/2897715689b9.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 22020,
+    "sha256": "2897715689b9fbf577788eb37b3d74d35378ccb4e2f57250e21eba940ae18af7",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "枇杷",
+    "src": "/ingredient-photos/029edf66952a.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 16786,
+    "sha256": "029edf66952a779625abce606800d551713212e27bf0b85f10074c8ed1a00793",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "杨梅",
+    "src": "/ingredient-photos/24566cb0e6e1.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 38340,
+    "sha256": "24566cb0e6e1ab95fa5c3b4c9fe66b47ce84b04e6079da2bc6501ffaf9ba76c6",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "山楂",
+    "src": "/ingredient-photos/3f33f72bc6b7.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 29686,
+    "sha256": "3f33f72bc6b7205dde32d6662dff0ff82326d096220166dfc7b6ea0cdb3ab8a8",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "椰子",
+    "src": "/ingredient-photos/bfe13699a491.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 32932,
+    "sha256": "bfe13699a491066cfc839cceca66564d742907ea19f0649c6313ceb6defbba51",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "牛油果",
+    "src": "/ingredient-photos/80d903edf6f0.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25816,
+    "sha256": "80d903edf6f028a1c30137e0fa49800188d5b010bee3d58325e6ce77d27ca355",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-4.png",
+    "source_sha256": "9a36e4b49a6e9737079ea285aa190cacd2463e8aa42bc72e12e0ee481896a4ed",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "五花肉",
+    "src": "/ingredient-photos/e6198145cc0e.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21722,
+    "sha256": "e6198145cc0efdd7baaf1095ebe533185c22d41dcc0e083a92f791c0b39f6bb8",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "猪里脊",
+    "src": "/ingredient-photos/c89006f9a6fa.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 15238,
+    "sha256": "c89006f9a6fa18a0ca694788eb707564fa2a994228de77f88568192ed5ffa52a",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "猪蹄",
+    "src": "/ingredient-photos/3bb4c8a80a19.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 16492,
+    "sha256": "3bb4c8a80a194d239464367dfca31d22a7b9fbc31535c43dd0e22796d09c237b",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "猪肝",
+    "src": "/ingredient-photos/722c0f92f467.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25314,
+    "sha256": "722c0f92f467d3d7b59b529927f4db8043c351f211a11e44e0a52f968ec1a62b",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "猪肚",
+    "src": "/ingredient-photos/5b3b0a894c54.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 22822,
+    "sha256": "5b3b0a894c54bc0d8f7bd5b43c28fb8f54a8d00f11ccbaeda856a0bef0714969",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "牛腩",
+    "src": "/ingredient-photos/e23f6a912500.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 35338,
+    "sha256": "e23f6a912500f6cdeae8e64aeb265245f9ff35cc65bf333460cdc093e894c867",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "牛腱",
+    "src": "/ingredient-photos/b325bdefbb97.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 32466,
+    "sha256": "b325bdefbb972db7c810e1c8eda7283e5b2ee0e7579f509e30de745d858007d7",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "鸡翅",
+    "src": "/ingredient-photos/6c8b5c082065.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 27152,
+    "sha256": "6c8b5c0820658cc82330c7f674355b09bf7d97ae42a8be66abd5ce4a755015e7",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "鸡爪",
+    "src": "/ingredient-photos/588fe6ca0dfc.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 24210,
+    "sha256": "588fe6ca0dfcbed7aa8c3798b12104811d7d486bf44e8cb885176afa5f17fd9a",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-5.png",
+    "source_sha256": "b9452386d249eea4b43b8552a35bd21bd457ced0730121f850dc0685ebffc283",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "鸡胗",
+    "src": "/ingredient-photos/94c92a617bc9.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 22454,
+    "sha256": "94c92a617bc9e9988126027bf92678d48bf7138b3e44ba53b3bbb7f21fbda362",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "鸭腿",
+    "src": "/ingredient-photos/d702eb16ad37.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 13040,
+    "sha256": "d702eb16ad37647abce8fd5308174e6e059c890a4e53fa647c547f8315d93ff7",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "鹌鹑",
+    "src": "/ingredient-photos/8cad6bce2083.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 18828,
+    "sha256": "8cad6bce208337f3137f2f58e269ea1c24fee98839b622f3aa5244d3cbfaad8d",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "鲈鱼",
+    "src": "/ingredient-photos/e9f939433c9b.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21070,
+    "sha256": "e9f939433c9b90869f5fbb521958748b2ef84e4795250a7ce93504fe2d747bc4",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "鲫鱼",
+    "src": "/ingredient-photos/104b0d648fa6.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21860,
+    "sha256": "104b0d648fa6eeb1357dc092ab59f84363857dee8b4d96943722f18f7f9d5f58",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "草鱼",
+    "src": "/ingredient-photos/3646cf3a705d.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 18308,
+    "sha256": "3646cf3a705df51bc46799afcd0f1751c381d7be4a94b8035d442f33b7d37863",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "鳕鱼",
+    "src": "/ingredient-photos/d99ad34b6f88.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 14324,
+    "sha256": "d99ad34b6f8876aac2fa5bd94fe501895d793b7cb5fc8734917e482e8b732573",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "鲳鱼",
+    "src": "/ingredient-photos/41f85fb1f9d4.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 20244,
+    "sha256": "41f85fb1f9d49643500a9b1a63c32e4e5e77eed2a826c6d32c6c9ee3495a963e",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "黄花鱼",
+    "src": "/ingredient-photos/6e143f373cd7.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21460,
+    "sha256": "6e143f373cd76e8e731166560ecad8f436328ad754453c84e1626ae26fed4d00",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-6.png",
+    "source_sha256": "e1243469a9a513a2a512d082f216fbd34aabea5dd68eac94ff0319a5be211fe8",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "鲅鱼",
+    "src": "/ingredient-photos/9667fa19e7c3.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 16668,
+    "sha256": "9667fa19e7c3bd402ad885d6ee37342a5c5ef84e4379892e988ab355fa1c9c7e",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "鲍鱼",
+    "src": "/ingredient-photos/ec945c4b8ca1.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 33660,
+    "sha256": "ec945c4b8ca1bc7051bee6927b0c0015d28e0942f12b04a2bf9940b51b6522af",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "扇贝",
+    "src": "/ingredient-photos/56d4aa3f58f6.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26398,
+    "sha256": "56d4aa3f58f621fa1c39d16b4061ba78178fa022dd9ed6699580c2dfb9229eb5",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "生蚝",
+    "src": "/ingredient-photos/3e33481a3a1c.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 41352,
+    "sha256": "3e33481a3a1c680c4935c21c959bb49da580eecf46447a392c22370eadbc6d48",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "鱿鱼",
+    "src": "/ingredient-photos/91256156c899.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 22618,
+    "sha256": "91256156c899a0fefdb2b816356e7eceaabf310b698d6061f9b2917e1787530f",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "章鱼",
+    "src": "/ingredient-photos/b0819c6937be.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 36304,
+    "sha256": "b0819c6937be3b81eddfac4d55d46dbc942077c4055eadbb548153dc7a5220f9",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "鹌鹑蛋",
+    "src": "/ingredient-photos/41826f431c7d.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26880,
+    "sha256": "41826f431c7ddfab928f050f28fd303f65b62b551bbdf4e3708c7145ae152c0d",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "鹅蛋",
+    "src": "/ingredient-photos/35a65b333b53.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 8352,
+    "sha256": "35a65b333b535f7d83dcf13abaf344e9f08c1fa64a426b0d8f4a424cfc1a096b",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "皮蛋",
+    "src": "/ingredient-photos/cfa39b41b5dd.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 28338,
+    "sha256": "cfa39b41b5ddfbf5beb63ac1bcb8770d1233934a4eb7a45367075fc667b22a59",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-7.png",
+    "source_sha256": "d652c8b7752e4ace4409e234125b1e3e8975946ca2d579175478bda2df65a697",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "咸鸭蛋",
+    "src": "/ingredient-photos/6d0f22dae4f0.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 18024,
+    "sha256": "6d0f22dae4f098e93e4eba3d532f78a354eb7c8e47ebc4117cea00dac587668a",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "黄油",
+    "src": "/ingredient-photos/7bea472aa724.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 6242,
+    "sha256": "7bea472aa724567d6465b9440debb75f6c878259dccecfd7713a7522a1379c78",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "淡奶油",
+    "src": "/ingredient-photos/8fa49babdc2a.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 7194,
+    "sha256": "8fa49babdc2a88f96a51e07b8c020c5cbebcba998c42ff0ccd5182c493148f67",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "腐竹",
+    "src": "/ingredient-photos/73bbdb843c2c.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26340,
+    "sha256": "73bbdb843c2c2a27a03a6063e7735045e4621198077b68bea3d78dde722d1636",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "千张",
+    "src": "/ingredient-photos/7f336734eb8d.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 16976,
+    "sha256": "7f336734eb8d04e1010c8259455ca589e41cfad76c3e078b00c52590851d1abc",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "素鸡",
+    "src": "/ingredient-photos/4b99b06049f3.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 14350,
+    "sha256": "4b99b06049f36a054c8c08a3f86a5fca88714111829d22fb7569fd77613366a3",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "内酯豆腐",
+    "src": "/ingredient-photos/21e9d2788556.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 5510,
+    "sha256": "21e9d27885563653437a1a75b6aa47def348a59011ef910d248bd9da2a918ff8",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "红豆",
+    "src": "/ingredient-photos/671fc1fa0227.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 18680,
+    "sha256": "671fc1fa022713cc563beb4f3dfa51657ecbf58ffc3c794c3c17ff993b8a026e",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "绿豆",
+    "src": "/ingredient-photos/48896f3980f4.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 20326,
+    "sha256": "48896f3980f42e86a0caf572fb35430545c6e2a0e2da5d6e2cd73ad7b4f2ad49",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-8.png",
+    "source_sha256": "4c1a626b2f1c318e55b3988ca7d34e1ad8f91d11656262c48b9397d886500514",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "糙米",
+    "src": "/ingredient-photos/6925f6c8c2e7.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25112,
+    "sha256": "6925f6c8c2e7e46686ba87edbd45515db060e51dd5ed4ecd0ee6a368b3e95b0e",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "小米",
+    "src": "/ingredient-photos/6846278ce754.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 27944,
+    "sha256": "6846278ce754d21376b827f8b9d95858dcbe0da57308d774dd35ccef1dc308a4",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "黑米",
+    "src": "/ingredient-photos/adaad4db3965.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25592,
+    "sha256": "adaad4db39657587615fa6a855329f0d7683aae928d7caa92195411fb258b934",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "糯米",
+    "src": "/ingredient-photos/1d4508c2d0da.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 15040,
+    "sha256": "1d4508c2d0daaba8ef9d47a75fff153b618809c63f46a77e9353d2abe3dc28f2",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "玉米面",
+    "src": "/ingredient-photos/03e19ee1b8ea.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 28938,
+    "sha256": "03e19ee1b8ea21c84aa0f9db4e1955cce463349807c217b8f287505726b0ce19",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "荞麦",
+    "src": "/ingredient-photos/cc121e19ac19.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25610,
+    "sha256": "cc121e19ac19a94ef2368e74d99df3cda7d8e02763575ec07e262cbc53c65779",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "薏米",
+    "src": "/ingredient-photos/951bd452acb7.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 23218,
+    "sha256": "951bd452acb713507b1e780fe83bbcf6d7952546762c905790569b7aa590839c",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "大麦",
+    "src": "/ingredient-photos/7bd26e670ead.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25366,
+    "sha256": "7bd26e670eadb0bfc35bc5a34580f525b48c28b288967ef1700ab6a1c3e0eee1",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "高粱米",
+    "src": "/ingredient-photos/c5280852b569.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 28208,
+    "sha256": "c5280852b569066f6a637e56b40f97fb9478d7268d836d239723785a1573feda",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-9.png",
+    "source_sha256": "9d2d2bdb7855167879670cf084b8b45cec0058869164381a3ef5482b39d8bf7f",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "藜麦",
+    "src": "/ingredient-photos/d7b353d060c3.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 28342,
+    "sha256": "d7b353d060c3c60241a74d6d089d2b065525012a8ab3c8b1c365cf6e0b3ec960",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "意大利面",
+    "src": "/ingredient-photos/04d9dd0a7067.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 21152,
+    "sha256": "04d9dd0a7067dce366415e46c8396afeaa491b2255a036e2602455d0c60b1e73",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "粉丝",
+    "src": "/ingredient-photos/e8d767797d33.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 15386,
+    "sha256": "e8d767797d33fb407493b3731374a1fe7b66bbb34290a76ca3b702850a5f8e85",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "平菇",
+    "src": "/ingredient-photos/4ce97598746b.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 20344,
+    "sha256": "4ce97598746b768680a068b19e948940caf720bba350de43ab8929fc5134466f",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "白玉菇",
+    "src": "/ingredient-photos/adfd7b8719a8.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 13322,
+    "sha256": "adfd7b8719a84a314e0aa4648d1d9a4e0a0d7ab1a647a8ac38a9567238bd16b7",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "蟹味菇",
+    "src": "/ingredient-photos/5619d69cb7b4.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25370,
+    "sha256": "5619d69cb7b4fbe8e9ea99e2c9f2b0433849fa855752e4d6b6ade36471069e8c",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "银耳",
+    "src": "/ingredient-photos/fd05d1f314f1.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 14610,
+    "sha256": "fd05d1f314f1f54975daec03af853be48c133861a78e65c51c5fe3a077170867",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "猴头菇",
+    "src": "/ingredient-photos/b29530c4ed36.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 23252,
+    "sha256": "b29530c4ed36bec11e914bb391dff921e9e7b89bef9fae8e8c990191116e0c7a",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "八角",
+    "src": "/ingredient-photos/94c04f96b415.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 33052,
+    "sha256": "94c04f96b415ac7932db514c0d661c808c81a2bbd012ddb6d7cbe8ad2997f387",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-10.png",
+    "source_sha256": "99e8f81d9c0c609cbd5f4c8e53f79d8f97bee321612d979a253a314c36ce61d7",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "桂皮",
+    "src": "/ingredient-photos/1eae0321044e.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 26420,
+    "sha256": "1eae0321044edbfe9ac8843d70578fb90a8de36cb07590c7714807f3ad197dd3",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      4,
+      4,
+      479,
+      358
+    ]
+  },
+  {
+    "name": "香叶",
+    "src": "/ingredient-photos/dac97ff9b07b.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 22856,
+    "sha256": "dac97ff9b07bd0e06abce4a52c2e0a30743a8e1610764e2103303928d39a683f",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      487,
+      4,
+      961,
+      358
+    ]
+  },
+  {
+    "name": "花椒",
+    "src": "/ingredient-photos/263aa62fd73a.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 32068,
+    "sha256": "263aa62fd73a338eac9958b9c9b72926697e211c638c56a12075372d9101fd9d",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      969,
+      4,
+      1444,
+      358
+    ]
+  },
+  {
+    "name": "孜然",
+    "src": "/ingredient-photos/1ac66c3da6da.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 32294,
+    "sha256": "1ac66c3da6da6e79573d91617c5386b5d839041ae20ca47486e2d183bc455a9c",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      4,
+      366,
+      479,
+      720
+    ]
+  },
+  {
+    "name": "芝麻油",
+    "src": "/ingredient-photos/39899bfa59f5.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 17526,
+    "sha256": "39899bfa59f5db59e2dd7fca1414199a29f18480ed34d9da615f277ef13daeb5",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      487,
+      366,
+      961,
+      720
+    ]
+  },
+  {
+    "name": "料酒",
+    "src": "/ingredient-photos/6dfb62b6a317.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 13586,
+    "sha256": "6dfb62b6a3178503ac5ff8326ad91ebc64d7d5c604aa089f750164cd66c4e5cf",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      969,
+      366,
+      1444,
+      720
+    ]
+  },
+  {
+    "name": "花生",
+    "src": "/ingredient-photos/2964754502d6.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 22976,
+    "sha256": "2964754502d6588c10e25bf0d7800ce2f84fe80ed161167ea75bd10ba280f1df",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      4,
+      728,
+      479,
+      1082
+    ]
+  },
+  {
+    "name": "核桃",
+    "src": "/ingredient-photos/55bbc8257173.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 28372,
+    "sha256": "55bbc82571738b4a1671aecb6961b8ad44615c0743605ad6af8bd6d46e906a87",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      487,
+      728,
+      961,
+      1082
+    ]
+  },
+  {
+    "name": "杏仁",
+    "src": "/ingredient-photos/bfa6f4ac81e1.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 25426,
+    "sha256": "bfa6f4ac81e11cd448d0c7e57aeb3783c2e887e00cfc4c39cf0285f7831c7be1",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-11.png",
+    "source_sha256": "01dd7a507f7bb5507f015e95002fef1e5bb8418a577c6af97b8f9f733752f799",
+    "crop": [
+      969,
+      728,
+      1444,
+      1082
+    ]
+  },
+  {
+    "name": "南瓜籽",
+    "src": "/ingredient-photos/c7ffa2e84f74.webp",
+    "generated": true,
+    "style": "photorealistic-studio",
+    "width": 480,
+    "height": 360,
+    "bytes": 20340,
+    "sha256": "c7ffa2e84f747fac0bdc898351f44e7b5616b269aada0e02cc9a2a42a51cc7af",
+    "reviewed": "2026-10-19",
+    "background": "#faf8f3",
+    "source_asset": "catalog200-sheet-12.png",
+    "source_sha256": "268624733abd5812d18827362ac2a02e2ce99556626376069daf14a1f009f4e2",
+    "crop": [
+      0,
+      0,
+      1448,
+      1086
+    ]
   }
 ]

@@ -103,7 +103,7 @@ test("studio catalogue images, family upload priority and failed-image fallback"
     .toBeTruthy();
   await page.getByRole("button", { name: "＋ 添加食材" }).click();
   const picker = page.getByRole("dialog", { name: "选择食材" });
-  await expect(picker.getByRole("button", { name: /^选择/ })).toHaveCount(91);
+  await expect(picker.getByRole("button", { name: /^选择/ })).toHaveCount(200);
   await expect(picker.getByRole("link", { name: "图片说明" })).toHaveAttribute(
     "href",
     "/ingredient-photos/credits.html",

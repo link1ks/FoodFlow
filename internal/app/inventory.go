@@ -213,7 +213,7 @@ func (a *App) inventory(c *gin.Context) {
 	c.JSON(200, gin.H{"items": items, "batches": batches})
 }
 func (a *App) expiring(c *gin.Context) {
-	rows, e := a.DB.Query(c, "SELECT b.id,i.name,b.quantity_milli,i.unit,b.expires_on::text,b.expiry_kind FROM batches b JOIN ingredients i ON i.id=b.ingredient_id WHERE b.household_id=$1 AND i.archived_at IS NULL AND b.quantity_milli>0 AND b.expires_on<=current_date+interval '7 days' ORDER BY b.expires_on", hid(c))
+	rows, e := a.DB.Query(c, "SELECT b.id,i.name,b.quantity_milli,i.unit,COALESCE(b.expires_on::text,''),b.expiry_kind FROM batches b JOIN ingredients i ON i.id=b.ingredient_id WHERE b.household_id=$1 AND i.archived_at IS NULL AND b.quantity_milli>0 AND (b.expires_on<=current_date+interval '7 days' OR (b.expires_on IS NULL AND b.condition='normal')) ORDER BY b.expires_on NULLS LAST,b.id", hid(c))
 	if e != nil {
 		fail(c, 500, "query failed")
 		return

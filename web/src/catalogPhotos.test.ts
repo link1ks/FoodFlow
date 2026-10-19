@@ -41,8 +41,11 @@ describe("studio catalogue references", () => {
     const names = [
       ...seed.matchAll(/\('([^']+)',\s*'[^']+',\s*'[^']+'/g),
       ...extra.matchAll(/\('([^']+)'\)/g),
+      ...readFileSync(new URL("037_catalog_200.sql", schema), "utf8")
+        .split("-- +goose Down")[0]
+        .matchAll(/\('([^']+)',\s*'[^']+',\s*'[^']+'/g),
     ].map((m) => m[1]);
-    expect(names).toHaveLength(91);
+    expect(names).toHaveLength(200);
     expect(new Set(catalogPhotos.map((p) => p.name))).toEqual(new Set(names));
     expect(metadata).toHaveLength(names.length);
     for (const name of names) {

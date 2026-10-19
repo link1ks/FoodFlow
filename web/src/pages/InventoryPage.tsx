@@ -16,7 +16,7 @@ import { VoiceUpload } from "../VoiceIntake";
 import { IngredientCatalogPicker } from "../IngredientCatalogPicker";
 import { IngredientDeleteControl } from "../IngredientDeleteControl";
 import { IngredientImageManager } from "../IngredientImages";
-import { NutritionDetails } from "../Nutrition";
+import { NutritionHoverCard } from "../NutritionHoverCard";
 import { Quantity } from "../Quantity";
 import { RecipeExplorer } from "../RecipeExplorer";
 import { VirtualPantry } from "../VirtualPantry";
@@ -274,7 +274,9 @@ export function InventoryPage() {
               visibleItems.length ? (
                 <div className="ff-inventory-grid">
                   {visibleItems.map((i) => (
-                    <Card
+                    <NutritionHoverCard
+                      name={i.name}
+                      profile={i.nutrition}
                       key={i.id}
                       className={
                         "ff-stock-card " +
@@ -303,6 +305,17 @@ export function InventoryPage() {
                               <p className="text-xs text-slate-500">
                                 {i.category || "未分类"}
                               </p>
+                              {d.data.batches.some(
+                                (b) =>
+                                  b.ingredient_id === i.id &&
+                                  Number(b.quantity) > 0 &&
+                                  b.condition === "normal" &&
+                                  !b.expires_at,
+                              ) && (
+                                <span className="ff-undated-badge">
+                                  未设期限 · 临期提醒
+                                </span>
+                              )}
                             </div>
                             <div className="ff-stock-quantity text-right">
                               <b>
@@ -335,7 +348,6 @@ export function InventoryPage() {
                       </div>
                       <details className="ff-stock-details">
                         <summary>详情与管理</summary>
-                        <NutritionDetails profile={i.nutrition} />
                         <div className="mt-3 space-y-1">
                           {d.data.batches
                             .filter(
@@ -389,7 +401,7 @@ export function InventoryPage() {
                           </div>
                         )}
                       </details>
-                    </Card>
+                    </NutritionHoverCard>
                   ))}
                 </div>
               ) : (

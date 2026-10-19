@@ -5835,7 +5835,7 @@ export interface paths {
             };
             cookie?: never;
         };
-        /** 七天内临期批次 */
+        /** 七天内临期及未设期限的提醒批次 */
         get: {
             parameters: {
                 query?: never;
@@ -5859,7 +5859,7 @@ export interface paths {
                             name: string;
                             quantity: components["schemas"]["Quantity"];
                             unit: string;
-                            /** Format: date */
+                            /** @description 到期日期；未设期限时为空字符串 */
                             expires_on: string;
                             expiry_kind: string;
                         }[];

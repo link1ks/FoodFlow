@@ -15,6 +15,6 @@ it('distinguishes urgent, expired, unknown and spoiled batches',()=>{
   const batch={bought_on:'2026-09-25',expires_at:'2026-09-26T08:00:00Z',condition:'normal'} as InventoryBatch
   expect(freshness(batch)).toMatchObject({label:'剩 8 小时',tone:'rose',urgent:true})
   expect(freshness({...batch,expires_at:'2026-09-26T00:00:00Z'})).toMatchObject({label:'已过期',pct:0})
-  expect(freshness({...batch,expires_at:''})).toMatchObject({label:'未记录有效期',urgent:false})
+  expect(freshness({...batch,expires_at:''})).toMatchObject({label:'未设期限 · 按临期提醒',tone:'amber',urgent:true})
   expect(freshness({...batch,condition:'spoiled'})).toMatchObject({label:'已变质',pct:0,urgent:true})
 })

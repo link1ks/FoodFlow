@@ -219,7 +219,10 @@ export function TodayBoard({
             )}
             {reminders.data?.map((v, i) => (
               <div key={i} className="mb-2 rounded-xl bg-amber-50 p-3 text-sm">
-                {v.name} · {v.expires_on} 到期
+                {v.name} ·{" "}
+                {v.expires_on
+                  ? `${v.expires_on} 到期`
+                  : "未设期限 · 按临期提醒"}
                 {v.expiry_kind === "estimate" ? "（估计）" : ""}
               </div>
             ))}
