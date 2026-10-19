@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Mic, Square, Upload, X } from "lucide-react";
+import { Mic, Square, X } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { api, idem } from "./api";
 import { useData } from "./app/shared";
@@ -72,7 +72,7 @@ export function VoiceUpload({
       !navigator.mediaDevices?.getUserMedia ||
       typeof MediaRecorder === "undefined"
     ) {
-      setError("当前浏览器无法录音，请上传录音文件，或使用食材目录。");
+      setError("当前浏览器无法录音，请更换支持录音的浏览器，或使用食材目录。");
       return;
     }
     const mime = [
@@ -82,9 +82,7 @@ export function VoiceUpload({
       "audio/ogg",
     ].find((type) => MediaRecorder.isTypeSupported(type));
     if (!mime) {
-      setError(
-        "当前浏览器的录音格式暂不支持，请上传 WAV、WebM、Ogg 或 MP3 文件。",
-      );
+      setError("当前浏览器的录音格式暂不支持，请更换浏览器，或使用食材目录。");
       return;
     }
     setBusy(true);
@@ -111,7 +109,7 @@ export function VoiceUpload({
       };
       capture.onerror = () => {
         failed = true;
-        if (alive.current) setError("录音失败，请检查麦克风或上传录音文件。");
+        if (alive.current) setError("录音失败，请检查麦克风后重新录音。");
         stop();
       };
       capture.onstop = () => {
@@ -154,7 +152,7 @@ export function VoiceUpload({
       stream.current?.getTracks().forEach((track) => track.stop());
       if (alive.current) {
         setRecording(false);
-        setError("无法使用麦克风，请检查浏览器授权；也可以上传录音文件。");
+        setError("无法使用麦克风，请检查浏览器授权，或使用食材目录。");
       }
     } finally {
       if (alive.current) setBusy(false);
@@ -212,7 +210,10 @@ export function VoiceUpload({
         <p className="mt-3 text-sm">正在读取语音能力…</p>
       ) : !enabled ? (
         <div className="mt-3">
-          <Notice>语音识别尚未启用，可以继续使用食材目录添加。</Notice>
+          <Notice>
+            语音识别尚未启用，请联系管理员检查识别服务和 AI
+            额度开关。可继续使用食材目录添加。
+          </Notice>
         </div>
       ) : (
         <div className="mt-3 space-y-3">
@@ -236,36 +237,13 @@ export function VoiceUpload({
                 <Mic size={16} /> 开始录音
               </Button>
             )}
-            <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-lg border border-slate-300 px-3 text-sm">
-              <Upload size={16} />
-              上传录音
-              <input
-                aria-label="选择食材录音"
-                className="hidden"
-                type="file"
-                accept=".wav,.webm,.ogg,.mp3,audio/wav,audio/webm,audio/ogg,audio/mpeg"
-                disabled={busy || recording}
-                onChange={(e) => {
-                  const selected = e.target.files?.[0] || null;
-                  e.target.value = "";
-                  uploadKey.current = null;
-                  if (selected && selected.size > maxBytes) {
-                    setFile(null);
-                    setError("录音不能超过 5 MiB");
-                  } else {
-                    setFile(selected);
-                    setError("");
-                  }
-                }}
-              />
-            </label>
           </div>
           <p role="status" className="text-xs text-slate-500">
             {recording
               ? `录音中 · ${seconds} 秒，最长 60 秒`
               : file
-                ? `已选择录音 · ${file.name}`
-                : "录音最长 60 秒；上传支持 WAV、WebM、Ogg、MP3，最大 5 MiB。"}
+                ? `录音已完成，可以提交识别。`
+                : "点击开始录音，最长 60 秒，最大 5 MiB。"}
           </p>
           {file && !recording && (
             <Button disabled={!consent || busy} onClick={upload}>

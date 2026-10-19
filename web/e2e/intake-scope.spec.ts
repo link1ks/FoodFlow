@@ -1,5 +1,51 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { randomUUID } from "node:crypto";
+
+async function recordFixture(page: Page, marker: number) {
+  await page.evaluate((marker) => {
+    Object.defineProperty(navigator, "mediaDevices", {
+      configurable: true,
+      value: {
+        getUserMedia: async () => ({ getTracks: () => [{ stop() {} }] }),
+      },
+    });
+    class Capture {
+      static isTypeSupported() {
+        return true;
+      }
+      state = "inactive";
+      mimeType = "audio/webm";
+      ondataavailable: ((event: { data: Blob }) => void) | null = null;
+      onstop: (() => void) | null = null;
+      start() {
+        this.state = "recording";
+      }
+      stop() {
+        if (this.state !== "recording") return;
+        this.state = "inactive";
+        this.ondataavailable?.({
+          data: new Blob(
+            [
+              new Uint8Array([0x1a, 0x45, 0xdf, 0xa3]),
+              "webm fixture",
+              new Uint8Array([marker]),
+            ],
+            {
+              type: this.mimeType,
+            },
+          ),
+        });
+        this.onstop?.();
+      }
+    }
+    Object.defineProperty(window, "MediaRecorder", {
+      configurable: true,
+      value: Capture,
+    });
+  }, marker);
+  await page.getByRole("button", { name: "开始录音", exact: true }).click();
+  await page.getByRole("button", { name: "停止录音", exact: true }).click();
+}
 
 test("intake rejects unrelated voice and image and confirms explicit corrections", async ({
   page,
@@ -35,13 +81,7 @@ test("intake rejects unrelated voice and image and confirms explicit corrections
     .getByRole("button", { name: /食材/ })
     .click();
   await page.getByRole("checkbox", { name: /我同意将本次录音/ }).check();
-  const wav = Buffer.alloc(80);
-  wav.write("RIFF", 0);
-  wav.write("WAVE", 8);
-  wav[79] = 42;
-  await page
-    .getByLabel("选择食材录音")
-    .setInputFiles({ name: "outside.wav", mimeType: "audio/wav", buffer: wav });
+  await recordFixture(page, 42);
   await page.getByRole("button", { name: "识别这段录音", exact: true }).click();
   const outside = page
     .getByRole("region", { name: "语音食材草稿" })
@@ -102,14 +142,7 @@ test("intake rejects unrelated voice and image and confirms explicit corrections
     .click();
   await expect(page.getByLabel("识别食材目录")).toHaveCount(0);
 
-  wav[79] = 43;
-  await page
-    .getByLabel("选择食材录音")
-    .setInputFiles({
-      name: "corrected.wav",
-      mimeType: "audio/wav",
-      buffer: wav,
-    });
+  await recordFixture(page, 43);
   await page.getByRole("button", { name: "识别这段录音", exact: true }).click();
   const corrected = page
     .getByRole("region", { name: "语音食材草稿" })

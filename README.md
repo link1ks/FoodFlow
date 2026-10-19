@@ -105,7 +105,7 @@ docker compose --project-directory . ps
 
 需要独立、禁用收费集成的本机部署，可使用 [独立部署指南](docs/LEARNING_DEPLOYMENT.md)，地址为 `127.0.0.1:17173`，数据与默认部署分开保存。
 
-语音添加食材使用独立配置的百炼 Qwen ASR。录音识别后可修改食材与数量，核对确认才入库；模型未配置时继续使用目录。浏览器录音需要 HTTPS 或本机 localhost，也可上传音频文件。配置和边界见 [语音入库](docs/VOICE_INTAKE.md)。
+语音添加食材使用独立配置的百炼 Qwen ASR。录音识别后可修改食材与数量，核对确认才入库；模型未配置时继续使用目录。浏览器录音需要 HTTPS 或本机 localhost 和麦克风授权；不提供录音文件上传入口。配置和边界见 [语音入库](docs/VOICE_INTAKE.md)。
 
 ## 下载一次，后续一键更新
 

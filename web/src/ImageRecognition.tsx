@@ -68,7 +68,7 @@ export function ImageUpload({
       </p>
       {capabilities.data && !capabilities.data.vision_enabled ? (
         <Notice>
-          当前未配置视觉模型，图片识别不可用。可使用下方分类食材目录入库。
+          图片识别尚未启用，请联系管理员检查识别服务和 AI 额度开关。可继续使用下方食材目录添加。
         </Notice>
       ) : (
         <div className="space-y-3">

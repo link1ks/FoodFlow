@@ -50,7 +50,7 @@ test("voice intake requires consent, editable quantities and explicit atomic con
   await page.getByRole("checkbox", { name: /我同意将本次录音/ }).check();
   await start.click();
   await expect(
-    page.getByText("无法使用麦克风，请检查浏览器授权；也可以上传录音文件。", {
+    page.getByText("无法使用麦克风，请检查浏览器授权，或使用食材目录。", {
       exact: true,
     }),
   ).toBeVisible();
@@ -102,7 +102,7 @@ test("voice intake requires consent, editable quantities and explicit atomic con
   });
   await start.click();
   await expect(
-    page.getByText("无法使用麦克风，请检查浏览器授权；也可以上传录音文件。", {
+    page.getByText("无法使用麦克风，请检查浏览器授权，或使用食材目录。", {
       exact: true,
     }),
   ).toBeVisible();
@@ -111,7 +111,7 @@ test("voice intake requires consent, editable quantities and explicit atomic con
   await expect(page.getByText(/录音中 ·/)).toBeVisible();
   await page.getByRole("button", { name: "停止录音", exact: true }).click();
   await expect(
-    page.getByText("已选择录音 · ingredients.webm", { exact: true }),
+    page.getByText("录音已完成，可以提交识别。", { exact: true }),
   ).toBeVisible();
   expect(await (await request.get(root + "/jobs", { headers })).json()).toEqual(
     [],
@@ -133,14 +133,9 @@ test("voice intake requires consent, editable quantities and explicit atomic con
   ).toBeGreaterThan(stoppedBeforeLeaving);
   await navigation.getByRole("button", { name: /食材/ }).click();
   await page.getByRole("checkbox", { name: /我同意将本次录音/ }).check();
-  const wav = Buffer.alloc(80);
-  wav.write("RIFF", 0);
-  wav.write("WAVE", 8);
-  await page.getByLabel("选择食材录音").setInputFiles({
-    name: "ingredients.wav",
-    mimeType: "audio/wav",
-    buffer: wav,
-  });
+  await expect(page.getByLabel("选择食材录音")).toHaveCount(0);
+  await page.getByRole("button", { name: "开始录音", exact: true }).click();
+  await page.getByRole("button", { name: "停止录音", exact: true }).click();
   await page.getByRole("button", { name: "识别这段录音", exact: true }).click();
   const draft = page.getByRole("region", { name: "语音食材草稿" });
   await expect(draft).toBeVisible({ timeout: 20_000 });
