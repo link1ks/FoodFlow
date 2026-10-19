@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="web/public/foodflow-icon.png" width="112" height="112" alt="FoodFlow 应用图标：绿色碗、化作叶芽的金橙色蒸汽与奶油白圆角底板" />
+  <img src="web/public/foodflow-icon.png" width="112" height="112" alt="FoodFlow 应用图标：绿色碗与金橙色叶芽蒸汽，保留奶油白圆角底板、边框和投影，外部透明" />
 </p>
 
 <h1 align="center">FoodFlow 食光</h1>
