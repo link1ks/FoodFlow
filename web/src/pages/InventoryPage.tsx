@@ -1,3 +1,4 @@
+import { StockCardSummary, isUndatedStock } from "../StockCardSummary";
 import { useEffect, useState } from "react";
 import {
   ArrowDown,
@@ -186,24 +187,6 @@ export function InventoryPage() {
           </span>
         </div>
       </div>
-      {urgent.length > 0 && (
-        <Card className="mb-4 border-rose-200 bg-rose-50/80">
-          <h2 className="font-semibold text-rose-900">
-            优先处理 · {urgent.length} 批
-          </h2>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {urgent.map((b) => (
-              <span
-                key={b.id}
-                className="rounded-full bg-white px-3 py-1 text-xs text-rose-800"
-              >
-                {d.data?.items.find((i) => i.id === b.ingredient_id)?.name} ·{" "}
-                {freshness(b).label}
-              </span>
-            ))}
-          </div>
-        </Card>
-      )}
       <div className="ff-inventory-layout">
         <div id="inventory-list" className="min-w-0">
           <div className="ff-inventory-toolbar">
@@ -280,6 +263,11 @@ export function InventoryPage() {
                       key={i.id}
                       className={
                         "ff-stock-card " +
+                        (d.data.batches.some(
+                          (b) => b.ingredient_id === i.id && isUndatedStock(b),
+                        )
+                          ? "ff-stock-card-undated "
+                          : "") +
                         (selectedIDs.includes(i.id)
                           ? "ff-stock-card-selected"
                           : "")
@@ -313,7 +301,7 @@ export function InventoryPage() {
                                   !b.expires_at,
                               ) && (
                                 <span className="ff-undated-badge">
-                                  未设期限 · 临期提醒
+                                  优先处理
                                 </span>
                               )}
                             </div>
@@ -346,6 +334,13 @@ export function InventoryPage() {
                           </label>
                         </div>
                       </div>
+                      <StockCardSummary
+                        name={i.name}
+                        unit={i.unit}
+                        batches={d.data.batches.filter(
+                          (b) => b.ingredient_id === i.id,
+                        )}
+                      />
                       <details className="ff-stock-details">
                         <summary>详情与管理</summary>
                         <div className="mt-3 space-y-1">

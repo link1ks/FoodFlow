@@ -195,7 +195,8 @@ func (a *App) inventory(c *gin.Context) {
 	rows.Close()
 	br, e := a.DB.Query(c, `SELECT b.id,b.ingredient_id,b.quantity_milli,b.location,COALESCE(b.bought_on::text,''),
 		COALESCE(b.expires_on::text,''),COALESCE(to_char(b.expires_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS"Z"'),''),
-		b.expiry_kind,b.source,b.condition FROM batches b JOIN ingredients i ON i.id=b.ingredient_id
+		b.expiry_kind,b.source,b.condition,COALESCE(inbound.stocked,0) FROM batches b JOIN ingredients i ON i.id=b.ingredient_id
+        LEFT JOIN (SELECT batch_id,sum(delta_milli) AS stocked FROM stock_ledger WHERE household_id=$1 AND delta_milli>0 GROUP BY batch_id) inbound ON inbound.batch_id=b.id
 		WHERE b.household_id=$1 AND i.archived_at IS NULL ORDER BY b.expires_at NULLS LAST,b.created_at`, hid(c))
 	if e != nil {
 		fail(c, 500, "batches unavailable")
@@ -205,9 +206,9 @@ func (a *App) inventory(c *gin.Context) {
 	batches := []gin.H{}
 	for br.Next() {
 		var id, ingredient, location, bought, expires, expiresAt, kind, source, condition string
-		var q int64
-		if br.Scan(&id, &ingredient, &q, &location, &bought, &expires, &expiresAt, &kind, &source, &condition) == nil {
-			batches = append(batches, gin.H{"id": id, "ingredient_id": ingredient, "quantity": core.Format(q), "location": location, "bought_on": bought, "expires_on": expires, "expires_at": expiresAt, "expiry_kind": kind, "source": source, "condition": condition})
+		var q, stocked int64
+		if br.Scan(&id, &ingredient, &q, &location, &bought, &expires, &expiresAt, &kind, &source, &condition, &stocked) == nil {
+			batches = append(batches, gin.H{"id": id, "ingredient_id": ingredient, "quantity": core.Format(q), "stocked_quantity": core.Format(stocked), "location": location, "bought_on": bought, "expires_on": expires, "expires_at": expiresAt, "expiry_kind": kind, "source": source, "condition": condition})
 		}
 	}
 	c.JSON(200, gin.H{"items": items, "batches": batches})

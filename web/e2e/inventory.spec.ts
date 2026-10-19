@@ -56,6 +56,23 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
     },
   });
   expect(consumed.status()).toBe(200);
+  const rice = initial.items.find((i: { name: string }) => i.name === "大米");
+  const riceBatch = initial.batches.find(
+    (b: { ingredient_id: string }) => b.ingredient_id === rice.id,
+  );
+  expect(
+    (
+      await request.post(root + "/stock", {
+        headers: { ...headers, "Idempotency-Key": randomUUID() },
+        data: {
+          ingredient_id: rice.id,
+          batch_id: riceBatch.id,
+          quantity: "125",
+          reason: "consume",
+        },
+      })
+    ).status(),
+  ).toBe(200);
   const beforeResponse = await request.get(root + "/inventory", { headers });
   const before = await beforeResponse.json();
   await page.goto("/");
@@ -91,9 +108,9 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   await expect(nutrition).toHaveCount(0);
   if (info.project.name === "desktop") {
     await tomatoCard.hover();
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(900);
     await expect(nutrition).toHaveCount(0);
-    await expect(nutrition).toBeVisible({ timeout: 2500 });
+    await expect(nutrition).toBeVisible({ timeout: 1600 });
   } else {
     await tomatoCard
       .getByRole("button", { name: "查看番茄营养价值", exact: true })
@@ -102,13 +119,34 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   }
   await expect(nutrition).toContainText("每 100 克");
   await expect(nutrition).toContainText("蛋白质");
-  await page.screenshot({
+  await expect(nutrition.getByRole("link")).toHaveCount(0);
+  await expect(nutrition).not.toContainText("参考值不等于");
+  await tomatoCard.screenshot({
     path: info.outputPath("nutrition-overlay.png"),
-    fullPage: true,
+    animations: "disabled",
   });
   await nutrition.getByRole("button", { name: "关闭营养信息" }).click();
   await page.mouse.move(0, 0);
   await expect(nutrition).toHaveCount(0);
+  await expect(tomatoCard).toHaveClass(/ff-stock-card-undated/);
+  await expect(tomatoCard.locator(".ff-undated-badge")).toHaveText("优先处理");
+  await expect(tomatoCard.getByLabel("番茄期限与用量")).toContainText(
+    "未设期限",
+  );
+  await expect(
+    tomatoCard.getByRole("meter", { name: "番茄第1批剩余比例" }),
+  ).toHaveAttribute("aria-valuenow", "100");
+  const riceCard = cards.filter({
+    has: page.getByRole("heading", { name: "大米", exact: true }),
+  });
+  await expect(riceCard.getByLabel("大米期限与用量")).toContainText("375 g");
+  await expect(
+    riceCard.getByRole("meter", { name: "大米第1批剩余比例" }),
+  ).toHaveAttribute("aria-valuenow", "75");
+  expect(
+    before.batches.find((b: { id: string }) => b.id === riceBatch.id)
+      .stocked_quantity,
+  ).toBe("500.000");
   const stats = page.getByRole("region", { name: "库存统计" });
   await expect(stats).toContainText("家中有库存 2 种");
   await expect(stats).toContainText("优先处理 2 批");
@@ -196,4 +234,39 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   await expect(
     page.getByRole("checkbox", { name: "选作本次食材：番茄", exact: true }),
   ).toBeChecked();
+  // A replenishment has its own expiry and baseline; never blend batch percentages.
+  expect(
+    (
+      await request.post(root + "/catalog-stock", {
+        headers: { ...headers, "Idempotency-Key": randomUUID() },
+        data: {
+          catalog_id: entries.find((x: { name: string }) => x.name === "大米")
+            .id,
+          quantity: "100",
+          expires_on: "2099-01-01",
+        },
+      })
+    ).status(),
+  ).toBe(200);
+  await page.reload();
+  await page
+    .getByRole("navigation", { name: "主导航" })
+    .getByRole("button", { name: /食材/ })
+    .click();
+  const replenished = page
+    .locator(".ff-stock-card")
+    .filter({ has: page.getByRole("heading", { name: "大米", exact: true }) });
+  await expect(replenished.getByLabel("大米期限与用量")).toContainText(
+    "2099-01-01",
+  );
+  await expect(replenished.getByRole("meter")).toHaveCount(2);
+  await expect(replenished.getByRole("meter").first()).toHaveAttribute(
+    "aria-valuenow",
+    "100",
+  );
+  await expect(replenished.getByRole("meter").nth(1)).toHaveAttribute(
+    "aria-valuenow",
+    "75",
+  );
+  await expect(replenished.locator(".ff-stock-details[open]")).toHaveCount(0);
 });

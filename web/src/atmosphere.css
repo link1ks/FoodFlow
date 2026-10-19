@@ -670,3 +670,57 @@ body,
   font-size: 10px;
   line-height: 1.5;
 }
+.ff-stock-card.ff-stock-card-undated {
+  background: linear-gradient(155deg, #fff5c9, #ffecaa);
+  border-color: #e9ce79;
+}
+.ff-stock-card-undated.ff-stock-card-selected {
+  border-color: #b89834;
+  box-shadow: 0 0 0 2px #b8983433;
+}
+.ff-stock-summary {
+  padding: 0 14px 12px;
+}
+.ff-stock-batch-summary + .ff-stock-batch-summary {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid #7c806220;
+}
+.ff-stock-summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #6c725b;
+}
+.ff-stock-summary-line strong {
+  font-weight: 600;
+  color: #46553c;
+  text-align: right;
+}
+.ff-stock-summary-line small {
+  font-weight: 400;
+  opacity: 0.7;
+}
+.ff-stock-amount-track {
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #5364481a;
+}
+.ff-stock-amount-track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #b3c58c, #6f8f58);
+}
+.ff-stock-card-undated .ff-stock-amount-track > span {
+  background: linear-gradient(90deg, #e3c66f, #b89834);
+}
+.ff-stock-summary-empty {
+  font-size: 11px;
+  color: #7b806c;
+}

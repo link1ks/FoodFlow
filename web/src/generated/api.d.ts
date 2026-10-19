@@ -12414,6 +12414,8 @@ export interface components {
             ingredient_id: string;
             location: string;
             quantity: string;
+            /** @description 本批次流水中累计正向入库数量，包含纠正调增；0 表示无可用入库记录。 */
+            stocked_quantity?: string;
             source: string;
         };
         CatalogItem: {

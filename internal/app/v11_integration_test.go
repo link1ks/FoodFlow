@@ -153,6 +153,24 @@ func TestMealCompletionFEFOIdempotenceAndReplenishment(t *testing.T) {
 	if code != 409 {
 		t.Fatalf("stale correction accepted: %d", code)
 	}
+	// Read-side progress uses actual positive ledger deltas, including corrections.
+	code, v = h.call("PATCH", root+"/batches/"+expired+"/quantity", token, core.ID(), map[string]any{"expected_quantity": "0", "target_quantity": "100"})
+	must(t, code, 200, v)
+	code, v = h.call("GET", root+"/inventory", token, "", nil)
+	must(t, code, 200, v)
+	found := false
+	for _, raw := range v["batches"].([]any) {
+		b := raw.(map[string]any)
+		if b["id"] == expired {
+			found = true
+			if b["quantity"] != "100.000" || b["stocked_quantity"] != "600.000" {
+				t.Fatal("incorrect ledger progress basis", b)
+			}
+		}
+	}
+	if !found {
+		t.Fatal("missing corrected batch")
+	}
 }
 
 func TestMultiDishMealCombinesDemandAndRollsBackOnSharedShortage(t *testing.T) {

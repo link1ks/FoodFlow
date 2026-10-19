@@ -1,16 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Info, Leaf, X } from "lucide-react";
 import { Card } from "./ui";
-import type { NutritionProfile } from "./Nutrition";
-
-const nutrients = [
-  ["energy_kcal", "能量", "kcal"],
-  ["protein_g", "蛋白质", "g"],
-  ["fat_g", "脂肪", "g"],
-  ["carbs_g", "碳水", "g"],
-  ["fiber_g", "膳食纤维", "g"],
-  ["sodium_mg", "钠", "mg"],
-];
+import { nutritionFields, type NutritionProfile } from "./Nutrition";
 
 export function NutritionHoverCard({
   name,
@@ -43,7 +34,7 @@ export function NutritionHoverCard({
       onPointerEnter={(e) => {
         if (e.pointerType === "mouse" && !pinned.current) {
           clearTimer();
-          timer.current = setTimeout(() => setOpen(true), 3000);
+          timer.current = setTimeout(() => setOpen(true), 2000);
         }
       }}
       onPointerLeave={(e) => {
@@ -89,7 +80,7 @@ export function NutritionHoverCard({
           </p>
           {reference ? (
             <div className="ff-nutrition-grid">
-              {nutrients.map(([key, label, unit]) => (
+              {nutritionFields(profile).map(([key, label, unit]) => (
                 <div key={key}>
                   <span>{label}</span>
                   <strong>
@@ -105,20 +96,6 @@ export function NutritionHoverCard({
             </div>
           ) : (
             <p className="ff-nutrition-empty">请参考具体食材或包装营养标签。</p>
-          )}
-          <p className="ff-nutrition-note">
-            {reference
-              ? "参考值不等于当前库存总量；品种、生熟及品牌会影响数值。"
-              : profile?.note || "暂未匹配参考资料，不估算营养数值。"}
-          </p>
-          {reference && (
-            <a
-              href={profile.source_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {profile.source} ↗
-            </a>
           )}
         </section>
       )}

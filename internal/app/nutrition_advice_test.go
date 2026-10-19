@@ -31,6 +31,20 @@ func TestNutritionAdviceFlow(t *testing.T) {
 	if code != 200 || len(catalog) != 200 {
 		t.Fatal(code, len(catalog))
 	}
+	for _, r := range catalog {
+		name := r["name"].(string)
+		if name == "鱼肉" || name == "贝类" {
+			continue
+		}
+		profile := r["nutrition"].(map[string]any)
+		if profile["status"] != "reference" {
+			t.Fatal("catalog reference missing", name)
+		}
+		var stored string
+		if err := pool.QueryRow(ctx, "SELECT profile->>'source_id' FROM ingredient_nutrition_profiles WHERE catalog_id=$1", r["id"]).Scan(&stored); err != nil || stored != profile["source_id"] {
+			t.Fatal("database and card nutrition diverged", name, err)
+		}
+	}
 	var tomato string
 	for _, r := range catalog {
 		if r["nutrition"] == nil {

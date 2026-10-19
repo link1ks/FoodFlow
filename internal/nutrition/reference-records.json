@@ -1,0 +1,2355 @@
+{
+  "西葫芦": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "綠櫛瓜",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E7100201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去頭尾,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.0",
+        "protein_g": "2.2",
+        "sodium_mg": "0",
+        "energy_kcal": "13",
+        "fiber_g": "0.9",
+        "carbs_g": "1.8"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "苦瓜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "珍珠苦瓜",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E6500301",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,青苦瓜; 前處理描述:去蒂及囊籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "19",
+        "fiber_g": "1.9",
+        "carbs_g": "4.2",
+        "fat_g": "0.1",
+        "protein_g": "0.7",
+        "sodium_mg": "0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "秋葵": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "黃秋葵",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E7600101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去蒂,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "2.1",
+        "sodium_mg": "9",
+        "energy_kcal": "36",
+        "fiber_g": "3.7",
+        "carbs_g": "7.5"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "芦笋": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "綠蘆筍平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E17002",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去粗皮及粗莖,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "2.7",
+        "sodium_mg": "4",
+        "energy_kcal": "22",
+        "fiber_g": "1.2",
+        "carbs_g": "3.5"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "莴笋": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "嫩莖萵苣",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E1800101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去皮,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "sodium_mg": "22",
+        "energy_kcal": "16",
+        "fiber_g": "1.2",
+        "carbs_g": "3.1",
+        "fat_g": "0.2",
+        "protein_g": "1.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "茭白": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "茭白筍",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E1300101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去殼,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.3",
+        "sodium_mg": "5",
+        "energy_kcal": "20",
+        "fiber_g": "2.1",
+        "carbs_g": "4.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "竹笋": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "綠竹筍",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E1500101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去殼,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.7",
+        "sodium_mg": "0",
+        "energy_kcal": "25",
+        "fiber_g": "1.7",
+        "carbs_g": "4.7"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "山药": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "山藥(中國長品)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "B0100205",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去皮,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "74",
+        "fiber_g": "0.4",
+        "carbs_g": "15.5",
+        "fat_g": "0.1",
+        "protein_g": "2.5",
+        "sodium_mg": "1"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "芋头": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "芋頭",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "B0500101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去皮,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "1.1",
+        "protein_g": "2.5",
+        "sodium_mg": "5",
+        "energy_kcal": "128",
+        "fiber_g": "2.3",
+        "carbs_g": "26.4"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "紫甘蓝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "紫色甘藍",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E3000201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,紫色種; 前處理描述:去粗莖,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.5",
+        "sodium_mg": "13",
+        "energy_kcal": "28",
+        "fiber_g": "2.1",
+        "carbs_g": "5.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "芥蓝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "芥藍菜",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E3900101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去粗莖,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "carbs_g": "3.2",
+        "fat_g": "0.3",
+        "protein_g": "1.7",
+        "sodium_mg": "27",
+        "energy_kcal": "20",
+        "fiber_g": "1.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "菜心": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "油菜心",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E3201001",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.9",
+        "protein_g": "3.2",
+        "sodium_mg": "21",
+        "energy_kcal": "31",
+        "fiber_g": "2.3",
+        "carbs_g": "4.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "茼蒿": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "茼蒿",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E4600101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.3",
+        "protein_g": "1.7",
+        "sodium_mg": "69",
+        "energy_kcal": "16",
+        "fiber_g": "1.6",
+        "carbs_g": "2.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "空心菜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "蕹菜(土植)(7月取樣)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E5600103",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "1.9",
+        "sodium_mg": "97",
+        "energy_kcal": "17",
+        "fiber_g": "1.8",
+        "carbs_g": "2.8"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "苋菜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "白莧菜",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E4800101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去根部及粗莖,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fiber_g": "2.4",
+        "carbs_g": "2.6",
+        "fat_g": "0.3",
+        "protein_g": "1.9",
+        "sodium_mg": "20",
+        "energy_kcal": "17"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "豆苗": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豌豆苗",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E5400101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生(高山嫩豆苗); 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "31",
+        "fiber_g": "2.3",
+        "carbs_g": "4.4",
+        "fat_g": "0.5",
+        "protein_g": "3.7",
+        "sodium_mg": "4"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "绿豆芽": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "綠豆芽",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E7700701",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "24",
+        "fiber_g": "1.3",
+        "carbs_g": "4.1",
+        "fat_g": "0.2",
+        "protein_g": "2.3",
+        "sodium_mg": "16"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "黄豆芽": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "黃豆芽",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E7700401",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "1.6",
+        "protein_g": "5.3",
+        "sodium_mg": "7",
+        "energy_kcal": "47",
+        "fiber_g": "3.3",
+        "carbs_g": "5.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "荷兰豆": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豌豆莢",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "H1200201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去蒂頭,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "carbs_g": "7.1",
+        "fat_g": "0.2",
+        "protein_g": "2.9",
+        "sodium_mg": "4",
+        "energy_kcal": "41",
+        "fiber_g": "3.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "甜豆": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "甜豌豆莢",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "H1200401",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去蒂頭,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "3.0",
+        "sodium_mg": "2",
+        "energy_kcal": "42",
+        "fiber_g": "2.7",
+        "carbs_g": "7.4"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "芥菜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "芥菜平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E38004",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去根部,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.5",
+        "sodium_mg": "9",
+        "energy_kcal": "19",
+        "fiber_g": "1.6",
+        "carbs_g": "3.5"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "雪里蕻": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "雪裡蕻",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E3800402",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,芥菜; 前處理描述:去根部,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.5",
+        "sodium_mg": "14",
+        "energy_kcal": "20",
+        "fiber_g": "1.7",
+        "carbs_g": "3.8"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "马蹄": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "荸薺",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "B0800101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去皮,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "1.7",
+        "sodium_mg": "21",
+        "energy_kcal": "67",
+        "fiber_g": "2.1",
+        "carbs_g": "14.5"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "百合": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "百合鱗片",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E0500101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "3.8",
+        "sodium_mg": "4",
+        "energy_kcal": "137",
+        "fiber_g": "2.7",
+        "carbs_g": "32.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "桃": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "水蜜桃平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D28001",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:水蜜桃系; 前處理描述:去籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "0.9",
+        "sodium_mg": "2",
+        "energy_kcal": "39",
+        "fiber_g": "1.7",
+        "carbs_g": "9.7"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "李子": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "李子平均值(紅皮紅肉)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D24002",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:紅皮紅肉; 前處理描述:去籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.3",
+        "protein_g": "0.6",
+        "sodium_mg": "0",
+        "energy_kcal": "39",
+        "fiber_g": "1.7",
+        "carbs_g": "9.6"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "猕猴桃": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "奇異果",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D0500201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:綠肉種; 前處理描述:去皮,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.3",
+        "protein_g": "1.1",
+        "sodium_mg": "3",
+        "energy_kcal": "56",
+        "fiber_g": "2.7",
+        "carbs_g": "14.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "芒果": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "芒果平均值(西洋種)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D21002",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:西洋種; 前處理描述:去皮及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "0.6",
+        "sodium_mg": "5",
+        "energy_kcal": "50",
+        "fiber_g": "1.2",
+        "carbs_g": "13.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "菠萝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鳳梨平均值(雜交種)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D11002",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:雜交種; 前處理描述:去皮,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "0.7",
+        "sodium_mg": "0",
+        "energy_kcal": "53",
+        "fiber_g": "1.1",
+        "carbs_g": "13.6"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "哈密瓜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "新疆哈密瓜",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D2000302",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:哈蜜瓜種; 前處理描述:去皮及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "0.7",
+        "sodium_mg": "29",
+        "energy_kcal": "28",
+        "fiber_g": "0.7",
+        "carbs_g": "6.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "木瓜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "木瓜平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D02001",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:去皮及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "0.6",
+        "sodium_mg": "3",
+        "energy_kcal": "38",
+        "fiber_g": "1.4",
+        "carbs_g": "9.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "石榴": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "安石榴",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D0300101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:去皮及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "67",
+        "fiber_g": "4.6",
+        "carbs_g": "16.8",
+        "fat_g": "0.1",
+        "protein_g": "1.7",
+        "sodium_mg": "8"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "柚子": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "白柚",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D3500201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:取果肉,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "0.6",
+        "sodium_mg": "7",
+        "energy_kcal": "37",
+        "fiber_g": "1.2",
+        "carbs_g": "9.6"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "樱桃": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "櫻桃",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D3300101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:紅皮; 前處理描述:去籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.3",
+        "protein_g": "1.2",
+        "sodium_mg": "2",
+        "energy_kcal": "75",
+        "fiber_g": "1.3",
+        "carbs_g": "19.1"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "荔枝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "荔枝平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D22001",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:去殼及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.0",
+        "sodium_mg": "1",
+        "energy_kcal": "65",
+        "fiber_g": "0.8",
+        "carbs_g": "16.5"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "龙眼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "龍眼",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D2300101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:去殼及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.4",
+        "protein_g": "1.1",
+        "sodium_mg": "3",
+        "energy_kcal": "72",
+        "fiber_g": "1.8",
+        "carbs_g": "18.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "枇杷": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "枇杷",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D2500101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:去皮及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "0.3",
+        "sodium_mg": "4",
+        "energy_kcal": "38",
+        "fiber_g": "0.9",
+        "carbs_g": "9.8"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "牛油果": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "酪梨(綠皮)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "D0900101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:綠皮; 前處理描述:去皮及籽,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "3.7",
+        "protein_g": "1.6",
+        "sodium_mg": "2",
+        "energy_kcal": "65",
+        "fiber_g": "3.4",
+        "carbs_g": "7.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "猪里脊": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豬小里肌",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I0306101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,豬小里肌部位; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "5.4",
+        "protein_g": "21.1",
+        "sodium_mg": "46",
+        "energy_kcal": "139",
+        "carbs_g": "0.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "猪肝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豬肝",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I0320801",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,豬臟器; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "5.3",
+        "protein_g": "20.8",
+        "sodium_mg": "84",
+        "energy_kcal": "137",
+        "carbs_g": "1.7"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "猪肚": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豬肚",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I0321101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,豬臟器; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "11.0",
+        "protein_g": "12.4",
+        "sodium_mg": "62",
+        "energy_kcal": "152",
+        "carbs_g": "0.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "牛腱": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "牛後腿腱子心",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I0108301",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,牛後腿部位,冷凍產品; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "6.0",
+        "protein_g": "19.8",
+        "sodium_mg": "79",
+        "energy_kcal": "139",
+        "carbs_g": "0.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鸡翅": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "三節翅平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I04062",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,雞翅部位; 前處理描述:去骨,含皮,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "carbs_g": "0.0",
+        "fat_g": "14.6",
+        "protein_g": "18.3",
+        "sodium_mg": "75",
+        "energy_kcal": "210"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鸡爪": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "雞腳(肉雞)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I0420801",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,雞腳; 前處理描述:去骨,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "sodium_mg": "102",
+        "energy_kcal": "209",
+        "carbs_g": "1.2",
+        "fat_g": "13.3",
+        "protein_g": "20.7"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鸡胗": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "雞胗(肉雞)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I0420401",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,雞臟器; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "2.0",
+        "protein_g": "16.6",
+        "sodium_mg": "57",
+        "energy_kcal": "89",
+        "carbs_g": "0.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鸭腿": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鴨腿",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "I0504101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,鴨腿部位; 前處理描述:去骨,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "sodium_mg": "48",
+        "energy_kcal": "282",
+        "carbs_g": "3.4",
+        "fat_g": "24.5",
+        "protein_g": "14.4"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鲈鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "日本花鱸平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J04044",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去鱗,去皮,去頭尾,去內臟及骨刺,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "1.5",
+        "protein_g": "19.9",
+        "sodium_mg": "62",
+        "energy_kcal": "98",
+        "carbs_g": "0.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "草鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "草魚切片",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J0401301",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去皮及骨刺,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "8.3",
+        "protein_g": "21.4",
+        "sodium_mg": "53",
+        "energy_kcal": "166",
+        "carbs_g": "2.1"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鲳鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "銀鯧平均值(去皮)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J04153",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去鱗,去皮,去頭尾,去內臟及骨刺,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "4.4",
+        "protein_g": "17.7",
+        "sodium_mg": "248",
+        "energy_kcal": "115",
+        "carbs_g": "0.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "黄花鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "大黃魚",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J0410401",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去鱗,去皮,去頭尾,去內臟及骨刺,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "7.8",
+        "protein_g": "16.8",
+        "sodium_mg": "40",
+        "energy_kcal": "142",
+        "carbs_g": "0.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鲅鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "臺灣馬加鰆",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J0414501",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "以台湾马加鰆为参考，不代表所有马鲛鱼品种。樣品狀態:生; 前處理描述:去鱗,含皮,去頭尾,去內臟及骨刺,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "10.4",
+        "protein_g": "20.2",
+        "sodium_mg": "51",
+        "energy_kcal": "180",
+        "carbs_g": "0.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鲍鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鮑魚",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J3501301",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "69",
+        "carbs_g": "9.5",
+        "fat_g": "0.1",
+        "protein_g": "15.8",
+        "sodium_mg": "199"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "生蚝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "帶殼真牡蠣(生蠔)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J3100202",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去殼,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "1.9",
+        "protein_g": "9.8",
+        "sodium_mg": "103",
+        "energy_kcal": "59",
+        "carbs_g": "6.7"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鱿鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "阿根廷魷",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J3500301",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去外皮及骨刺,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "2.0",
+        "protein_g": "12.4",
+        "sodium_mg": "57",
+        "energy_kcal": "71",
+        "carbs_g": "0.4"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "章鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "章魚",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "J3500201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,小型; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.6",
+        "protein_g": "13.0",
+        "sodium_mg": "230",
+        "energy_kcal": "61",
+        "carbs_g": "0.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鹌鹑蛋": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鵪鶉蛋",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "K0300101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去殼,混合均質；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "13.0",
+        "protein_g": "12.7",
+        "sodium_mg": "142",
+        "energy_kcal": "172",
+        "carbs_g": "1.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "鹅蛋": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鵝蛋",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "K0500102",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去殼,混合均質；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "15.0",
+        "protein_g": "10.0",
+        "sodium_mg": "134",
+        "energy_kcal": "179",
+        "carbs_g": "3.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "皮蛋": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鴨皮蛋",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "K0213101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:鴨蛋製品(鴨蛋,鹼液,鹽,茶葉等); 前處理描述:去殼,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "11.4",
+        "protein_g": "12.8",
+        "sodium_mg": "590",
+        "energy_kcal": "164",
+        "carbs_g": "2.7"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "咸鸭蛋": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鴨熟鹹蛋",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "K0214102",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:熟,鴨蛋製品; 前處理描述:去殼,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "13.8",
+        "protein_g": "13.7",
+        "sodium_mg": "2068",
+        "energy_kcal": "183",
+        "carbs_g": "0.8"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "黄油": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "奶油(固態,不加鹽)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "M0900101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:混合均質(乳脂,水,非脂乳固形物等)；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "82.7",
+        "protein_g": "0.6",
+        "sodium_mg": "6",
+        "energy_kcal": "733",
+        "carbs_g": "0.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "红豆": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "紅豆",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "H0405101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:乾貨; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.6",
+        "protein_g": "20.9",
+        "sodium_mg": "1",
+        "energy_kcal": "328",
+        "fiber_g": "18.5",
+        "carbs_g": "61.5"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "绿豆": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "綠豆",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "H0705102",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:乾貨; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "1.1",
+        "protein_g": "22.8",
+        "sodium_mg": "1",
+        "energy_kcal": "344",
+        "fiber_g": "15.8",
+        "carbs_g": "63.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "糙米": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "糙稉米平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A05013",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "2.3",
+        "protein_g": "7.4",
+        "sodium_mg": "3",
+        "energy_kcal": "364",
+        "fiber_g": "4.5",
+        "carbs_g": "76.6"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "小米": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "小米",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A0200101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,已去殼; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "3.7",
+        "protein_g": "11.3",
+        "sodium_mg": "1",
+        "energy_kcal": "370",
+        "fiber_g": "2.2",
+        "carbs_g": "71.7"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "黑米": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "黑秈糙米",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A0501401",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,真空袋裝; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "3.5",
+        "protein_g": "7.5",
+        "sodium_mg": "1",
+        "energy_kcal": "363",
+        "fiber_g": "4.4",
+        "carbs_g": "74.0"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "糯米": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "稉型糯米平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A05005",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "358",
+        "fiber_g": "0.7",
+        "carbs_g": "77.4",
+        "fat_g": "0.8",
+        "protein_g": "8.3",
+        "sodium_mg": "3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "玉米面": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "玉米粉",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A0420101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:混合均勻；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.4",
+        "protein_g": "0.3",
+        "sodium_mg": "14",
+        "energy_kcal": "369",
+        "fiber_g": "0.2",
+        "carbs_g": "88.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "荞麦": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "蕎麥(甜蕎)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A0900101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "2.9",
+        "protein_g": "11.0",
+        "sodium_mg": "2",
+        "energy_kcal": "361",
+        "fiber_g": "3.5",
+        "carbs_g": "71.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "薏米": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "薏仁",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A1000101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "6.1",
+        "protein_g": "14.1",
+        "sodium_mg": "2",
+        "energy_kcal": "378",
+        "fiber_g": "1.8",
+        "carbs_g": "66.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "大麦": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "大麥仁",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A0100101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,已去殼; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "1.6",
+        "protein_g": "8.6",
+        "sodium_mg": "13",
+        "energy_kcal": "365",
+        "fiber_g": "8.5",
+        "carbs_g": "77.1"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "藜麦": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "紅藜麥",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "A1100101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "以生红藜麦为参考。樣品狀態:生; 前處理描述:混合均勻磨碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "379",
+        "fiber_g": "8.3",
+        "carbs_g": "66.8",
+        "fat_g": "6.7",
+        "protein_g": "12.1",
+        "sodium_mg": "2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "粉丝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "冬粉",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "R4600201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:混合均勻打碎(綠豆,澱粉,水等)；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "0.1",
+        "sodium_mg": "10",
+        "energy_kcal": "351",
+        "fiber_g": "1.4",
+        "carbs_g": "87.5"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "平菇": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "蠔菇",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "G1500101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,中溫系; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.3",
+        "protein_g": "2.1",
+        "sodium_mg": "4",
+        "energy_kcal": "26",
+        "fiber_g": "3.1",
+        "carbs_g": "4.8"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "白玉菇": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "雪白菇",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "G1900201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,鴻喜菇的白變種; 前處理描述:去菌柄基部,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.0",
+        "protein_g": "2.2",
+        "sodium_mg": "1",
+        "energy_kcal": "31",
+        "fiber_g": "2.4",
+        "carbs_g": "6.4"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "蟹味菇": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鴻喜菇",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "G1900101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:去菌柄基部,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.1",
+        "protein_g": "2.9",
+        "sodium_mg": "2",
+        "energy_kcal": "30",
+        "fiber_g": "2.2",
+        "carbs_g": "5.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "银耳": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "銀耳",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "G0200101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "以鲜银耳为参考，不用于干货重量。樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.0",
+        "protein_g": "1.1",
+        "sodium_mg": "5",
+        "energy_kcal": "31",
+        "fiber_g": "6.4",
+        "carbs_g": "7.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "猴头菇": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "猴頭菇",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "G2300101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "以鲜猴头菇为参考，不用于干货重量。樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "2.1",
+        "sodium_mg": "2",
+        "energy_kcal": "30",
+        "fiber_g": "2.3",
+        "carbs_g": "5.9"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "八角": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "八角",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "P0100101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "3.9",
+        "protein_g": "4.9",
+        "sodium_mg": "19",
+        "energy_kcal": "360",
+        "fiber_g": "55.8",
+        "carbs_g": "76.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "花椒": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "花椒粒",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "P0102201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:乾貨; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "12.5",
+        "protein_g": "10.3",
+        "sodium_mg": "2780",
+        "energy_kcal": "359",
+        "fiber_g": "45.7",
+        "carbs_g": "53.6"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "花生": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "去膜花生仁(生)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "C1705201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,散裝; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "45.4",
+        "protein_g": "28.8",
+        "sodium_mg": "2",
+        "energy_kcal": "558",
+        "fiber_g": "6.6",
+        "carbs_g": "19.1"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "核桃": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "生核桃",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "C0405101",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "67.9",
+        "protein_g": "15.4",
+        "sodium_mg": "5",
+        "energy_kcal": "667",
+        "fiber_g": "6.2",
+        "carbs_g": "11.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "油麦菜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "福山萵苣",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E5300104",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,不結球萵苣; 前處理描述:去根部,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.0",
+        "sodium_mg": "20",
+        "energy_kcal": "13",
+        "fiber_g": "1.4",
+        "carbs_g": "2.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "杏鲍菇": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "杏鮑菇平均值",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "G13002",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生; 前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "2.7",
+        "sodium_mg": "3",
+        "energy_kcal": "41",
+        "fiber_g": "3.1",
+        "carbs_g": "8.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "油菜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "青油菜(有機)",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "E3201901",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "樣品狀態:生,袋裝; 前處理描述:去根部,混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.2",
+        "protein_g": "1.5",
+        "sodium_mg": "49",
+        "energy_kcal": "14",
+        "fiber_g": "1.4",
+        "carbs_g": "2.2"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "馒头": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "白饅頭",
+      "source": "食品药物管理署 · 食品营养成分资料集",
+      "source_id": "R2400201",
+      "source_url": "https://data.gov.tw/dataset/8543",
+      "note": "前處理描述:混合均勻打碎；样品参考值，非当前批次检测值。",
+      "nutrients": {
+        "fat_g": "1.2",
+        "protein_g": "8.1",
+        "sodium_mg": "182",
+        "energy_kcal": "248",
+        "fiber_g": "1.1",
+        "carbs_g": "51.3"
+      }
+    },
+    "source_file_sha256": "8f6ce23302a929326786824e988c1a874811e01cc71a3f169dee97d6173d414b"
+  },
+  "杏": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Apricots, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "171697",
+      "source_url": "https://fdc.nal.usda.gov/food-details/171697/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fiber_g": "2",
+        "protein_g": "1.4",
+        "sodium_mg": "1",
+        "fat_g": "0.39",
+        "carbs_g": "11.12",
+        "energy_kcal": "48"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "橘子": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Tangerines, (mandarin oranges), raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "169105",
+      "source_url": "https://fdc.nal.usda.gov/food-details/169105/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fat_g": "0.31",
+        "sodium_mg": "2",
+        "carbs_g": "13.34",
+        "energy_kcal": "53",
+        "protein_g": "0.81",
+        "fiber_g": "1.8"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "椰子": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Nuts, coconut meat, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "170169",
+      "source_url": "https://fdc.nal.usda.gov/food-details/170169/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fiber_g": "9",
+        "sodium_mg": "20",
+        "protein_g": "3.33",
+        "fat_g": "33.49",
+        "carbs_g": "15.23",
+        "energy_kcal": "354"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "五花肉": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Pork, fresh, belly, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "167812",
+      "source_url": "https://fdc.nal.usda.gov/food-details/167812/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fat_g": "53.01",
+        "carbs_g": "0",
+        "energy_kcal": "518",
+        "fiber_g": "0",
+        "sodium_mg": "32",
+        "protein_g": "9.34"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "猪蹄": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Pork, fresh, variety meats and by-products, feet, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "167859",
+      "source_url": "https://fdc.nal.usda.gov/food-details/167859/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fat_g": "12.59",
+        "sodium_mg": "132",
+        "protein_g": "23.16",
+        "energy_kcal": "212",
+        "carbs_g": "0",
+        "fiber_g": "0"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "牛腩": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Beef, brisket, whole, separable lean and fat, trimmed to 1/8\" fat, all grades, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "168664",
+      "source_url": "https://fdc.nal.usda.gov/food-details/168664/nutrients",
+      "note": "以生牛胸腹肉、含瘦肉及脂肪为参考，修整至1/8英寸外脂。",
+      "nutrients": {
+        "carbs_g": "0.56",
+        "energy_kcal": "253",
+        "fiber_g": "0",
+        "sodium_mg": "69",
+        "protein_g": "18.42",
+        "fat_g": "19.06"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "鹌鹑": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Quail, meat only, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "172419",
+      "source_url": "https://fdc.nal.usda.gov/food-details/172419/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fat_g": "4.53",
+        "carbs_g": "0",
+        "energy_kcal": "134",
+        "protein_g": "21.76",
+        "fiber_g": "0",
+        "sodium_mg": "51"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "鳕鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Fish, cod, Atlantic, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "171955",
+      "source_url": "https://fdc.nal.usda.gov/food-details/171955/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "energy_kcal": "82",
+        "fiber_g": "0",
+        "sodium_mg": "54",
+        "protein_g": "17.81",
+        "fat_g": "0.67",
+        "carbs_g": "0"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "扇贝": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Mollusks, scallop, mixed species, raw",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "174220",
+      "source_url": "https://fdc.nal.usda.gov/food-details/174220/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "protein_g": "12.06",
+        "sodium_mg": "392",
+        "fat_g": "0.49",
+        "carbs_g": "3.18",
+        "energy_kcal": "69",
+        "fiber_g": "0"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "淡奶油": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Cream, fluid, heavy whipping",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "170859",
+      "source_url": "https://fdc.nal.usda.gov/food-details/170859/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fat_g": "36.08",
+        "energy_kcal": "340",
+        "sodium_mg": "27",
+        "protein_g": "2.84",
+        "fiber_g": "0",
+        "carbs_g": "2.84"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "内酯豆腐": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "MORI-NU, Tofu, silken, soft",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "174292",
+      "source_url": "https://fdc.nal.usda.gov/food-details/174292/nutrients",
+      "note": "以 MORI-NU 软绢豆腐产品为参考；不同凝固剂与品牌有差异，以包装营养表为准。",
+      "nutrients": {
+        "fat_g": "2.7",
+        "carbs_g": "2.9",
+        "sodium_mg": "5",
+        "protein_g": "4.8",
+        "fiber_g": "0.1",
+        "energy_kcal": "55"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "高粱米": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Sorghum grain",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "169716",
+      "source_url": "https://fdc.nal.usda.gov/food-details/169716/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "protein_g": "10.62",
+        "fiber_g": "6.7",
+        "sodium_mg": "2",
+        "fat_g": "3.46",
+        "carbs_g": "72.09",
+        "energy_kcal": "329"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "意大利面": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Pasta, dry, unenriched",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "168927",
+      "source_url": "https://fdc.nal.usda.gov/food-details/168927/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "protein_g": "13.04",
+        "fiber_g": "3.2",
+        "fat_g": "1.51",
+        "sodium_mg": "6",
+        "carbs_g": "74.67",
+        "energy_kcal": "371"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "桂皮": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Spices, cinnamon, ground",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "171320",
+      "source_url": "https://fdc.nal.usda.gov/food-details/171320/nutrients",
+      "note": "以干肉桂粉为参考，桂皮品种与形态可能影响组成。",
+      "nutrients": {
+        "fiber_g": "53.1",
+        "protein_g": "3.99",
+        "sodium_mg": "10",
+        "fat_g": "1.24",
+        "carbs_g": "80.59",
+        "energy_kcal": "247"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "香叶": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Spices, bay leaf",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "170917",
+      "source_url": "https://fdc.nal.usda.gov/food-details/170917/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "fiber_g": "26.3",
+        "sodium_mg": "23",
+        "protein_g": "7.61",
+        "fat_g": "8.36",
+        "carbs_g": "74.97",
+        "energy_kcal": "313"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "孜然": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Spices, cumin seed",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "170923",
+      "source_url": "https://fdc.nal.usda.gov/food-details/170923/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "protein_g": "17.81",
+        "fiber_g": "10.5",
+        "sodium_mg": "168",
+        "fat_g": "22.27",
+        "carbs_g": "44.24",
+        "energy_kcal": "375"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "杏仁": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Nuts, almonds",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "170567",
+      "source_url": "https://fdc.nal.usda.gov/food-details/170567/nutrients",
+      "note": "以甜扁桃仁（巴旦木）为参考，不是苦杏仁。",
+      "nutrients": {
+        "protein_g": "21.15",
+        "fiber_g": "12.5",
+        "fat_g": "49.93",
+        "carbs_g": "21.55",
+        "energy_kcal": "579",
+        "sodium_mg": "1"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "南瓜籽": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Seeds, pumpkin and squash seed kernels, dried",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "170556",
+      "source_url": "https://fdc.nal.usda.gov/food-details/170556/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "carbs_g": "10.71",
+        "energy_kcal": "559",
+        "protein_g": "30.23",
+        "fiber_g": "6",
+        "sodium_mg": "7",
+        "fat_g": "49.05"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "芝麻油": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "Oil, sesame, salad or cooking",
+      "source": "USDA FoodData Central · SR Legacy 2018",
+      "source_id": "171016",
+      "source_url": "https://fdc.nal.usda.gov/food-details/171016/nutrients",
+      "note": "参考食品的生熟与加工状态见原始名称；不是当前批次检测值。",
+      "nutrients": {
+        "protein_g": "0",
+        "fiber_g": "0",
+        "sodium_mg": "0",
+        "fat_g": "100",
+        "carbs_g": "0",
+        "energy_kcal": "884"
+      }
+    },
+    "source_file_sha256": "6d07e6fc062b09750c4d95112be5a5cdb56a2346efcfd0c96b7a7d705812d4bd"
+  },
+  "荠菜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "薺菜[薊菜，菱角菜](Shepherd's purse)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0503020453230",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "31",
+        "protein_g": "2.9",
+        "carbs_g": "4.7",
+        "fat_g": "0.4",
+        "insoluble_fiber_g": "1.7",
+        "sodium_mg": "31.6"
+      }
+    },
+    "source_file_sha256": "f6d4965ee8aa32ba09271dc14f5f67b607391469d85816aaddadae954410fc80"
+  },
+  "杨梅": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "楊梅[樹梅，山楊梅](Bayberry)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0504000650150",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "30",
+        "protein_g": "0.8",
+        "carbs_g": "6.7",
+        "fat_g": "0.2",
+        "insoluble_fiber_g": "1.0",
+        "sodium_mg": "0.7"
+      }
+    },
+    "source_file_sha256": "bec3dc3c4a69b8735b8974c2704ceef4ecde739d15eb14f990898d38f989d6c9"
+  },
+  "山楂": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "紅果[山裏紅，大山楂](Hawthorn, large)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0504000613010",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "102",
+        "protein_g": "0.5",
+        "carbs_g": "25.1",
+        "fat_g": "0.6",
+        "insoluble_fiber_g": "3.1",
+        "sodium_mg": "5.4"
+      }
+    },
+    "source_file_sha256": "1d464b1b4b0ee66ac042c04c771c49665762e2f349970859a7a1ca3a5737cd57"
+  },
+  "火龙果": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "火龍果(Dragon fruit)",
+      "source": "香港食物安全中心 · 食物安全中心轄下的食物研究化驗所 (FRL)",
+      "source_id": "10040000301",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。碳水为可利用碳水化合物。",
+      "nutrients": {
+        "energy_kcal": "56",
+        "protein_g": "1.1",
+        "carbs_g": "9.6",
+        "fat_g": "1.4",
+        "fiber_g": "1.7",
+        "sodium_mg": "0"
+      }
+    },
+    "source_file_sha256": "e146cf5512a1b046c99dd493fbc589d285bd5010c64d4d9b762ceb9ef709c0fa"
+  },
+  "鲫鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "鯽魚[喜頭魚，海附魚](Goldfish carp, freshwater)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0512001211230",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "108",
+        "protein_g": "17.1",
+        "carbs_g": "3.8",
+        "fat_g": "2.7",
+        "sodium_mg": "41.2"
+      }
+    },
+    "source_file_sha256": "5cd3b44dd7f33d69479bfe35af239aaf03d66995b72ea87bbb6c80326d39a2e9"
+  },
+  "腐竹": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "腐竹(Soybean milk film, stick shaped, skimmed from soy milk, dried)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0502000315070",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "461",
+        "protein_g": "44.6",
+        "carbs_g": "22.3",
+        "fat_g": "21.7",
+        "insoluble_fiber_g": "1.0",
+        "sodium_mg": "26.5"
+      }
+    },
+    "source_file_sha256": "9e9e933e2c19dba4868254a9aa32b4128fde932617de76386d5e0854373868ce"
+  },
+  "千张": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "千張[百頁](Soybean curd sheet, semisoft)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0502000315090",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "262",
+        "protein_g": "24.5",
+        "carbs_g": "5.5",
+        "fat_g": "16.0",
+        "insoluble_fiber_g": "1.0",
+        "sodium_mg": "20.6"
+      }
+    },
+    "source_file_sha256": "fca6c0570c42769e7a0b94f4e7b593e1dfcd9d2e7e10036ffab25d16f31061db"
+  },
+  "素鸡": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "素雞(“Soy chicken”, rolled sheet, cooked with spices, semisoft)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0502000315220",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "194",
+        "protein_g": "16.5",
+        "carbs_g": "4.2",
+        "fat_g": "12.5",
+        "insoluble_fiber_g": "0.9",
+        "sodium_mg": "373.8"
+      }
+    },
+    "source_file_sha256": "c79f1e5a6e723977413d39ae0424c6a92c414d9757ef7bdd25e9c5f4fd774f4c"
+  },
+  "料酒": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "黃酒(Yellow rice wine)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0517001713010",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "以黄酒为烹调酒参考；加盐料酒的钠含量须查包装，不能套用此值。每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "66",
+        "protein_g": "1.6",
+        "sodium_mg": "5.2"
+      }
+    },
+    "source_file_sha256": "672fb05bd5f89d88840c1d7e5a32329996bb18da0dd1ba304bb685d2ed4a4bde"
+  },
+  "韭菜": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "韭菜(Chives)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0503050444010",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "29",
+        "protein_g": "2.4",
+        "carbs_g": "4.6",
+        "fat_g": "0.4",
+        "insoluble_fiber_g": "1.4",
+        "sodium_mg": "8.1"
+      }
+    },
+    "source_file_sha256": "ebe277d3d21813b40d7309978571b45e59bb4b9836d1cf82594feb11afedf43e"
+  },
+  "带鱼": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "帶魚[白帶魚，刀魚](Hairtail or belt fish, marine)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0512001212030",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "127",
+        "protein_g": "17.7",
+        "carbs_g": "3.1",
+        "fat_g": "4.9",
+        "sodium_mg": "150.1"
+      }
+    },
+    "source_file_sha256": "4bd88fbdfc2cbc0fa05e565f916a28d4adcd71d3d287c10704e3c7343ecbe365"
+  },
+  "豆干": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豆腐乾(均值)(Soybean curd slab, semisoft (Mean))",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0502000315100",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "142",
+        "protein_g": "16.2",
+        "carbs_g": "11.5",
+        "fat_g": "3.6",
+        "insoluble_fiber_g": "0.8",
+        "sodium_mg": "76.5"
+      }
+    },
+    "source_file_sha256": "12bb38abe9bec905bb7f57400e9c236d5825e8caafe1fbf8159b33f26aca9791"
+  },
+  "豆皮": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豆腐皮(Soybean milk film, skimmed from soy milk, dried)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0502000315050",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "410",
+        "protein_g": "44.6",
+        "carbs_g": "18.8",
+        "fat_g": "17.4",
+        "insoluble_fiber_g": "0.2",
+        "sodium_mg": "9.4"
+      }
+    },
+    "source_file_sha256": "5807fa715106721f99f9d049121bcb030f066fedc9145fec7a18b3ab5f0eef0f"
+  },
+  "豆浆": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "豆漿(Soybean milk)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0516000314010",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "16",
+        "protein_g": "1.8",
+        "carbs_g": "1.1",
+        "fat_g": "0.7",
+        "insoluble_fiber_g": "1.1",
+        "sodium_mg": "3.0"
+      }
+    },
+    "source_file_sha256": "c967f023d263b352f43c81e8f570337e5381d1b42c0af4bfcd2756cdef111fda"
+  },
+  "蒜苔": {
+    "profile": {
+      "status": "reference",
+      "basis": "每100克可食部",
+      "reference_food": "蒜薹(Garlic flowering stalk)",
+      "source": "香港食物安全中心 · 中國疾病預防控制中心轄下的營養與食品安全所 (CFC2002Ed2)",
+      "source_id": "0503050441070",
+      "source_url": "https://www.cfs.gov.hk/tc_chi/nutrient/searchmenu.php",
+      "note": "每100克可食部参考；生熟及加工状态见原始名称。纤维项为不溶性纤维，不等同于总膳食纤维。",
+      "nutrients": {
+        "energy_kcal": "66",
+        "protein_g": "2.0",
+        "carbs_g": "15.4",
+        "fat_g": "0.1",
+        "insoluble_fiber_g": "2.5",
+        "sodium_mg": "3.8"
+      }
+    },
+    "source_file_sha256": "869d3e5d0e3198a999abc9772d1cf5167b25f9ba9a2c3a16d0ce1e8faec55147"
+  }
+}
