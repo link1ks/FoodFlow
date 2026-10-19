@@ -95,7 +95,7 @@ export function Auth() {
             target="_blank"
             rel="noreferrer"
           >
-            照片来源与授权
+            图片说明
           </a>
         </div>
         <Card className="ff-auth-card">

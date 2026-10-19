@@ -5,7 +5,7 @@ const photos = JSON.parse(
   readFileSync(new URL("../src/catalogPhotos.json", import.meta.url), "utf8"),
 ) as { name: string; src: string }[];
 
-test("real catalogue photos, family upload priority and failed-image fallback", async ({
+test("studio catalogue images, family upload priority and failed-image fallback", async ({
   page,
   request,
 }, info) => {
@@ -89,10 +89,11 @@ test("real catalogue photos, family upload priority and failed-image fallback", 
   await nav.getByRole("button", { name: /食材/ }).click();
   const photo = photos.find((item) => item.name === "番茄")!;
   const reference = page.getByRole("img", {
-    name: "番茄参考照片",
+    name: "番茄参考图",
     exact: true,
   });
   await expect(reference).toHaveAttribute("src", photo.src);
+  await expect(reference).not.toHaveAttribute("title");
   await expect
     .poll(() =>
       reference.evaluate(
@@ -103,13 +104,14 @@ test("real catalogue photos, family upload priority and failed-image fallback", 
   await page.getByRole("button", { name: "＋ 添加食材" }).click();
   const picker = page.getByRole("dialog", { name: "选择食材" });
   await expect(picker.getByRole("button", { name: /^选择/ })).toHaveCount(91);
-  await expect(
-    picker.getByRole("link", { name: "照片来源与授权" }),
-  ).toHaveAttribute("href", "/ingredient-photos/credits.html");
+  await expect(picker.getByRole("link", { name: "图片说明" })).toHaveAttribute(
+    "href",
+    "/ingredient-photos/credits.html",
+  );
   await expect
     .poll(() =>
       picker
-        .getByRole("img", { name: "番茄参考照片", exact: true })
+        .getByRole("img", { name: "番茄参考图", exact: true })
         .evaluate(
           (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
         ),
@@ -151,14 +153,15 @@ test("real catalogue photos, family upload priority and failed-image fallback", 
         r.request().method() === "DELETE" &&
         /\/ingredients\/[^/]+\/image$/.test(r.url()),
     ),
-    page.getByRole("button", { name: "移除", exact: true }).click(),
+    page.getByRole("button", { name: "移除番茄照片", exact: true }).click(),
   ]);
   expect(removed.status()).toBe(204);
   await expect(reference).toHaveAttribute("src", photo.src);
+  await expect(reference).not.toHaveAttribute("title");
   await page.route("**" + photo.src, (route) => route.abort());
   await page.reload();
   await nav.getByRole("button", { name: /食材/ }).click();
   await expect(
-    page.getByRole("img", { name: "番茄暂无实拍照片", exact: true }),
-  ).toHaveText("暂无实拍照片");
+    page.getByRole("img", { name: "番茄暂无参考图", exact: true }),
+  ).toHaveText("暂无参考图");
 });

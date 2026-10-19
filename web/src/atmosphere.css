@@ -385,3 +385,132 @@ body,
     padding: 12px;
   }
 }
+
+/* Photo-first pantry cards: controls and detailed stock history stay secondary. */
+.ff-inventory-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.ff-stock-card {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #dedfd3;
+  border-radius: 22px;
+  background: #fffdf7;
+  box-shadow: 0 5px 18px #3448330a;
+}
+.ff-stock-card .ff-stock-lead {
+  display: block;
+}
+.ff-stock-card .ff-stock-image {
+  position: relative;
+  width: 100%;
+}
+.ff-stock-card .ff-stock-image-frame {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+}
+.ff-stock-card .ff-stock-image-frame img {
+  border: 0;
+}
+.ff-stock-copy {
+  padding: 14px 16px 12px;
+}
+.ff-stock-card .ff-stock-copy > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ff-stock-card .ff-stock-quantity {
+  font-size: 16px;
+  text-align: left;
+}
+.ff-stock-card .ff-stock-select {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #d3ddce;
+  border-radius: 50%;
+  background: #fffef9ee;
+  box-shadow: 0 2px 8px #24452212;
+}
+.ff-stock-select input {
+  width: 18px;
+  height: 18px;
+  accent-color: #326b43;
+  cursor: pointer;
+}
+.ff-stock-details {
+  margin: 0 16px;
+  padding: 10px 0 12px;
+  border-top: 1px solid #ecebdd;
+  font-size: 13px;
+}
+.ff-stock-details > summary {
+  cursor: pointer;
+  color: #52634d;
+}
+.ff-stock-details[open] {
+  padding-bottom: 16px;
+}
+.ff-stock-card .ff-photo-actions {
+  position: absolute;
+  bottom: 9px;
+  right: 9px;
+  display: flex;
+  gap: 4px;
+  border-radius: 12px;
+  padding: 3px;
+  background: #fffef9ed;
+  color: #36593f;
+}
+.ff-photo-upload {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  border-radius: 9px;
+}
+.ff-photo-upload:focus-within {
+  outline: 2px solid #326b43;
+  outline-offset: 2px;
+}
+.ff-stock-card-selected {
+  border-color: #54805a;
+  box-shadow:
+    0 0 0 2px #d7e8cc,
+    0 6px 20px #334d3010;
+}
+@media (min-width: 1400px) {
+  .ff-inventory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .ff-inventory-grid {
+    gap: 10px;
+  }
+  .ff-stock-copy {
+    padding: 11px;
+  }
+  .ff-stock-details {
+    margin-inline: 11px;
+  }
+  .ff-stock-copy h3 {
+    font-size: 16px;
+  }
+  .ff-stock-card .ff-stock-quantity {
+    font-size: 14px;
+  }
+}

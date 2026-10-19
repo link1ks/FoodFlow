@@ -441,7 +441,7 @@
     "acceptance": [
       "Desktop/mobile share primary navigation",
       "Errors are distinct from disabled/empty states",
-      "Catalogue photographs match ingredients and retain attribution",
+      "Catalogue studio references match ingredients and retain generation provenance",
       "Successful UI writes refresh inventory and ledger",
       "Gateway blocks executable inline scripts, frames and MIME sniffing; security headers survive error responses"
     ],
@@ -456,11 +456,11 @@
       },
       {
         "path": "web/src/catalogPhotos.test.ts",
-        "anchor": "licensed local photograph"
+        "anchor": "local reviewed generated assets and provenance"
       },
       {
         "path": "web/e2e/photos.spec.ts",
-        "anchor": "real catalogue photos, family upload priority and failed-image fallback"
+        "anchor": "studio catalogue images, family upload priority and failed-image fallback"
       },
       {
         "path": "web/e2e/security.spec.ts",

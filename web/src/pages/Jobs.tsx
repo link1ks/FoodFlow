@@ -30,6 +30,7 @@ export function Jobs({
   const visible = jobs.data?.filter(
     (j) =>
       !hidden.includes(j.id) &&
+      j.status !== "cancelled" &&
       (!kind || j.kind === kind) &&
       (!activeOnly ||
         ["queued", "running", "awaiting_confirmation", "failed"].includes(
@@ -98,7 +99,18 @@ export function JobCard({
   const [err, setErr] = useState("");
   async function cancel() {
     try {
-      await api(p + "/jobs/" + id + "/cancel", token, "POST", {});
+      const planID =
+        d.data?.status === "awaiting_confirmation" && d.data?.kind === "plan"
+          ? d.data.result?.plan_id
+          : undefined;
+      await api(
+        planID
+          ? p + "/plans/" + planID + "/reject"
+          : p + "/jobs/" + id + "/cancel",
+        token,
+        "POST",
+        {},
+      );
       q.invalidateQueries();
     } catch (e) {
       setErr(String(e));
@@ -222,13 +234,15 @@ export function JobCard({
         </div>
       )}
       {(["queued", "running"].includes(j.status) ||
-        (["image", "voice"].includes(j.kind) &&
+        (["image", "voice", "plan"].includes(j.kind) &&
           j.status === "awaiting_confirmation")) && (
         <Button size="sm" variant="outline" className="mt-3" onClick={cancel}>
-          {["image", "voice"].includes(j.kind) &&
-          j.status === "awaiting_confirmation"
-            ? "拒绝识别结果"
-            : "取消任务"}
+          {j.kind === "plan" && j.status === "awaiting_confirmation"
+            ? "取消推荐方案"
+            : ["image", "voice"].includes(j.kind) &&
+                j.status === "awaiting_confirmation"
+              ? "拒绝识别结果"
+              : "取消任务"}
         </Button>
       )}
       {j.status === "failed" && j.kind === "voice" && (

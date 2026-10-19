@@ -45,6 +45,7 @@ test("batch edible mass confirmation preserves stock and ledger", async ({
     .getByRole("navigation", { name: "主导航" })
     .getByRole("button", { name: /食材/ })
     .click();
+  await page.locator(".ff-stock-details > summary").click();
   await page.getByRole("button", { name: "鸡蛋营养换算", exact: true }).click();
   await page.getByLabel("称量样本数量（个）").fill("2");
   await page.getByLabel("样本可食净重（g）").fill("100");

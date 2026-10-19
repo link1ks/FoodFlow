@@ -41,6 +41,9 @@ test("family recipe preview and scaled procurement", async ({
   await expect(preview).toContainText("菠菜洗净沥干，蒜切末");
   await expect(preview).toContainText("份量和耗时为估计");
   await page.getByLabel("人数", { exact: true }).fill("3");
+  await page
+    .getByRole("combobox", { name: "餐次", exact: true })
+    .selectOption("dinner");
   await page.getByRole("button", { name: "用这道菜安排" }).click();
   await expect(
     page.getByText("晚餐 · 蒜蓉菠菜", { exact: true }),

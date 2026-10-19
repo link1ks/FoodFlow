@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { api } from "./api";
 import { IngredientPhoto } from "./CatalogArt";
 import { Button } from "./ui";
+import { Camera, X } from "lucide-react";
 
 export function IngredientImageManager({
   id,
@@ -109,9 +110,12 @@ export function IngredientImageManager({
         />
       </div>
       {canEdit && (
-        <div className="mt-1 space-y-1">
-          <label className="block cursor-pointer text-center text-xs text-emerald-700">
-            {busy ? "处理中…" : hasImage ? "更换图片" : "上传实拍照片"}
+        <div className="ff-photo-actions">
+          <label className="ff-photo-upload">
+            <Camera size={16} aria-hidden="true" />
+            <span className="sr-only">
+              {busy ? "处理中…" : hasImage ? "更换图片" : "上传实拍照片"}
+            </span>
             <input
               type="file"
               aria-label={`为${name}上传图片`}
@@ -128,11 +132,12 @@ export function IngredientImageManager({
             <Button
               variant="ghost"
               size="sm"
-              className="h-6 w-full text-xs"
+              className="h-8 w-8 p-0"
+              aria-label={`移除${name}照片`}
               disabled={busy}
               onClick={remove}
             >
-              移除
+              <X size={15} aria-hidden="true" />
             </Button>
           )}
         </div>

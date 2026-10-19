@@ -34,18 +34,30 @@ export function Week() {
   );
   const recipes = useData<Recipe[]>("recipes", "/recipes");
   const [day, setDay] = useState(new Date().toLocaleDateString("en-CA")),
-    [meal, setMeal] = useState("dinner"),
+    [meal, setMeal] = useState(""),
     [servings, setServings] = useState("1"),
     [max, setMax] = useState("30"),
     [preference, setPreference] = useState(""),
     [excluded, setExcluded] = useState(""),
     [recipe, setRecipe] = useState(""),
-    [err, setErr] = useState("");
+    [err, setErr] = useState(""),
+    [generating, setGenerating] = useState(false);
+  const validArrangement =
+    !!day &&
+    !!meal &&
+    Number(servings) >= 1 &&
+    Number(servings) <= 20 &&
+    Number.isInteger(Number(servings)) &&
+    Number(max) >= 1 &&
+    Number(max) <= 240 &&
+    Number.isInteger(Number(max));
   const selectedRecipe = recipes.data?.find((r) => r.id === recipe);
   useEffect(() => {
     if (household.data) setServings(String(household.data.servings));
   }, [household.data?.servings]);
   async function generate() {
+    if (!validArrangement || generating) return;
+    setGenerating(true);
     setErr("");
     try {
       await api(p + "/jobs/plan", token, "POST", {
@@ -65,9 +77,12 @@ export function Week() {
         ?.scrollIntoView({ behavior: "smooth" });
     } catch (e) {
       setErr(String(e));
+    } finally {
+      setGenerating(false);
     }
   }
   async function manual() {
+    if (!validArrangement || !recipe) return;
     setErr("");
     try {
       await api(p + "/plans", token, "POST", {
@@ -139,6 +154,9 @@ export function Week() {
                 value={meal}
                 onChange={(e) => setMeal(e.target.value)}
               >
+                <option value="" disabled>
+                  请选择餐次
+                </option>
                 <option value="breakfast">早餐</option>
                 <option value="lunch">午餐</option>
                 <option value="dinner">晚餐</option>
@@ -176,8 +194,11 @@ export function Week() {
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button onClick={generate}>
-              <Sparkles size={16} /> 帮我推荐菜单
+            <Button
+              onClick={generate}
+              disabled={!validArrangement || generating}
+            >
+              <Sparkles size={16} /> {generating ? "正在提交…" : "帮我推荐菜单"}
             </Button>
             <select
               aria-label="选择菜谱手工规划"
@@ -192,7 +213,11 @@ export function Week() {
                 </option>
               ))}
             </select>
-            <Button variant="outline" disabled={!recipe} onClick={manual}>
+            <Button
+              variant="outline"
+              disabled={!recipe || !validArrangement}
+              onClick={manual}
+            >
               用这道菜安排
             </Button>
           </div>
@@ -221,7 +246,9 @@ export function Week() {
             </section>
           )}
           <p className="mt-3 text-xs text-slate-500">
-            生成后先看方案，确认满意再加入菜单。做饭完成后才扣库存。
+            {!meal
+              ? "请先选择餐次，再推荐或安排菜单。"
+              : "生成后可取消方案，确认满意再加入菜单。做饭完成后才扣库存。"}
           </p>
         </Card>
       )}
@@ -232,11 +259,13 @@ export function Week() {
       )}
       <h2 className="mb-3 text-lg font-semibold">最近方案</h2>
       <Load loading={plans.isLoading} error={plans.error}>
-        {plans.data?.length ? (
+        {plans.data?.some((x) => x.status !== "rejected") ? (
           <div className="space-y-4">
-            {plans.data.map((x) => (
-              <PlanCard key={x.id} id={x.id} />
-            ))}
+            {plans.data
+              .filter((x) => x.status !== "rejected")
+              .map((x) => (
+                <PlanCard key={x.id} id={x.id} />
+              ))}
           </div>
         ) : (
           <Card>还没有菜单方案。</Card>

@@ -1,548 +1,457 @@
 [
   {
     "name": "番茄",
-    "src": "/ingredient-photos/220395df206d.webp",
-    "author": "Softeis",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/ea5f0b29634f.webp",
+    "generated": true
   },
   {
     "name": "黄瓜",
-    "src": "/ingredient-photos/d20d2f5d0fc9.webp",
-    "author": "Olaasunbo",
-    "license": "CC0"
+    "src": "/ingredient-photos/c1ab7fc9b97f.webp",
+    "generated": true
   },
   {
     "name": "土豆",
-    "src": "/ingredient-photos/54b0cf77d024.webp",
-    "author": "Scott Bauer, USDA ARS",
-    "license": "Public domain"
+    "src": "/ingredient-photos/8748243e1715.webp",
+    "generated": true
   },
   {
     "name": "胡萝卜",
-    "src": "/ingredient-photos/893e77bca00f.webp",
-    "author": "Evan-Amos",
-    "license": "Public domain"
+    "src": "/ingredient-photos/22d4a582c0d3.webp",
+    "generated": true
   },
   {
     "name": "白萝卜",
-    "src": "/ingredient-photos/ded8f4034563.webp",
-    "author": "KimYunmi",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/4b740d7e2228.webp",
+    "generated": true
   },
   {
     "name": "洋葱",
-    "src": "/ingredient-photos/2eccdba12580.webp",
-    "author": "Colin",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/806bb3c49a5f.webp",
+    "generated": true
   },
   {
     "name": "西兰花",
-    "src": "/ingredient-photos/0ad578d52295.webp",
-    "author": "Roger prat",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/0a1b2e352510.webp",
+    "generated": true
   },
   {
     "name": "花菜",
-    "src": "/ingredient-photos/3a3aaf1b842a.webp",
-    "author": "Coyau",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/8ae052058894.webp",
+    "generated": true
   },
   {
     "name": "生菜",
-    "src": "/ingredient-photos/344b073db9ea.webp",
-    "author": "Dwight Sipler from Stow, MA, USA",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/c4181c8ee993.webp",
+    "generated": true
   },
   {
     "name": "菠菜",
-    "src": "/ingredient-photos/52c29615ed59.webp",
-    "author": "Nillerdk",
-    "license": "CC BY 3.0"
+    "src": "/ingredient-photos/52bc8bf6ff76.webp",
+    "generated": true
   },
   {
     "name": "小白菜",
-    "src": "/ingredient-photos/a895ee070502.webp",
-    "author": "spurekar",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/5200f545dbcf.webp",
+    "generated": true
   },
   {
     "name": "大白菜",
-    "src": "/ingredient-photos/5357b518a4ac.webp",
-    "author": "Bayartai",
-    "license": "CC0"
+    "src": "/ingredient-photos/af4d9886468d.webp",
+    "generated": true
   },
   {
     "name": "卷心菜",
-    "src": "/ingredient-photos/97f6953026fb.webp",
-    "author": "Iwai-Dialax",
-    "license": "CC BY 4.0"
+    "src": "/ingredient-photos/e53cf660ce2c.webp",
+    "generated": true
   },
   {
     "name": "油麦菜",
-    "src": "/ingredient-photos/57827414801d.webp",
-    "author": "Rock com cn",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/8c603d412aae.webp",
+    "generated": true
   },
   {
     "name": "芹菜",
-    "src": "/ingredient-photos/c1aac094563e.webp",
-    "author": "Lombroso",
-    "license": "Public domain"
+    "src": "/ingredient-photos/bce4e3e3f109.webp",
+    "generated": true
   },
   {
     "name": "茄子",
-    "src": "/ingredient-photos/9d2518f382ca.webp",
-    "author": "Aravind Sivaraj",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/dfdec0ed11dc.webp",
+    "generated": true
   },
   {
     "name": "青椒",
-    "src": "/ingredient-photos/08d2487a333d.webp",
-    "author": "Sebastián Rojas",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/8814e253349b.webp",
+    "generated": true
   },
   {
     "name": "红椒",
-    "src": "/ingredient-photos/359cc874ebce.webp",
-    "author": "AntanO",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/3bc754dfb0f2.webp",
+    "generated": true
   },
   {
     "name": "南瓜",
-    "src": "/ingredient-photos/4680126b8ecd.webp",
-    "author": "Infrogmation of New Orleans",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/46e5e2ce6417.webp",
+    "generated": true
   },
   {
     "name": "冬瓜",
-    "src": "/ingredient-photos/d943dc8422fe.webp",
-    "author": "Fumikas Sagisavas",
-    "license": "CC0"
+    "src": "/ingredient-photos/362ceb469b06.webp",
+    "generated": true
   },
   {
     "name": "丝瓜",
-    "src": "/ingredient-photos/a04bdaaef028.webp",
-    "author": "Anna Frodesiak",
-    "license": "CC0"
+    "src": "/ingredient-photos/ba57d53fe56e.webp",
+    "generated": true
   },
   {
     "name": "玉米",
-    "src": "/ingredient-photos/5c8c25d03080.webp",
-    "author": "The original Uploader was wstoakLL at English Wikipedia",
-    "license": "Public domain"
+    "src": "/ingredient-photos/f7749daad1a8.webp",
+    "generated": true
   },
   {
     "name": "豌豆",
-    "src": "/ingredient-photos/3751527c1822.webp",
-    "author": "Bill Ebbesen",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/7b61b65f2f91.webp",
+    "generated": true
   },
   {
     "name": "四季豆",
-    "src": "/ingredient-photos/99dfaa0267db.webp",
-    "author": "Lin dafni",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/8b8f30868169.webp",
+    "generated": true
   },
   {
     "name": "莲藕",
-    "src": "/ingredient-photos/47ef57b39d10.webp",
-    "author": "Fumikas Sagisavas",
-    "license": "CC0"
+    "src": "/ingredient-photos/bcf4f41cf47d.webp",
+    "generated": true
   },
   {
     "name": "韭菜",
-    "src": "/ingredient-photos/133790a78436.webp",
-    "author": "Seligne",
-    "license": "CC0"
+    "src": "/ingredient-photos/2bc9e72860c0.webp",
+    "generated": true
   },
   {
     "name": "香菜",
-    "src": "/ingredient-photos/b36a65b987f0.webp",
-    "author": "Rupeshm364",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/4b07e6f03ae1.webp",
+    "generated": true
   },
   {
     "name": "苹果",
-    "src": "/ingredient-photos/dadcdf4913a5.webp",
-    "author": "Abhijit Tembhekar from Mumbai, India",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/7d4cae6810ac.webp",
+    "generated": true
   },
   {
     "name": "香蕉",
-    "src": "/ingredient-photos/cccc8a05f307.webp",
-    "author": "TimothyPilgrim",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/7be3cc9405c6.webp",
+    "generated": true
   },
   {
     "name": "橙子",
-    "src": "/ingredient-photos/7b20f875655f.webp",
-    "author": "Ivar Leidus",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/5f9870618a8a.webp",
+    "generated": true
   },
   {
     "name": "梨",
-    "src": "/ingredient-photos/db5403b72762.webp",
-    "author": "Augustus Binu : flickr",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/5476c1316d5a.webp",
+    "generated": true
   },
   {
     "name": "葡萄",
-    "src": "/ingredient-photos/cd8f4fd7ff66.webp",
-    "author": "Vyacheslav Argenberg",
-    "license": "CC BY 4.0"
+    "src": "/ingredient-photos/866d36c61e69.webp",
+    "generated": true
   },
   {
     "name": "草莓",
-    "src": "/ingredient-photos/94deb272046e.webp",
-    "author": "Ivar Leidus",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/58fdd94a459a.webp",
+    "generated": true
   },
   {
     "name": "蓝莓",
-    "src": "/ingredient-photos/9e30f9280edf.webp",
-    "author": "Petar Milošević",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/70aca4e10d2a.webp",
+    "generated": true
   },
   {
     "name": "西瓜",
-    "src": "/ingredient-photos/85f19518f761.webp",
-    "author": "Ralff Nestor Nacor",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/7b9e0312abc7.webp",
+    "generated": true
   },
   {
     "name": "柠檬",
-    "src": "/ingredient-photos/eff1bb0c51df.webp",
-    "author": "André Karwath aka Aka",
-    "license": "CC BY-SA 2.5"
+    "src": "/ingredient-photos/f9c301fcc2f7.webp",
+    "generated": true
   },
   {
     "name": "牛肉",
-    "src": "/ingredient-photos/9ac4a7ba0b63.webp",
-    "author": "Michael C. Berch, aka MCB at en.wikipedia",
-    "license": "CC BY-SA 2.5"
+    "src": "/ingredient-photos/caec1330e621.webp",
+    "generated": true
   },
   {
     "name": "猪肉",
-    "src": "/ingredient-photos/7febc384e43e.webp",
-    "author": "Rainer Zenz",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/648e6fc88c45.webp",
+    "generated": true
   },
   {
     "name": "鸡肉",
-    "src": "/ingredient-photos/e39a8219c091.webp",
-    "author": "Ibrahim Husain Meraj",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/90585e65fb02.webp",
+    "generated": true
   },
   {
     "name": "鸡胸肉",
-    "src": "/ingredient-photos/569d6cf3d6a0.webp",
-    "author": "kakyusei",
-    "license": "CC0"
+    "src": "/ingredient-photos/16df5d1d75ab.webp",
+    "generated": true
   },
   {
     "name": "鸡腿",
-    "src": "/ingredient-photos/aad93e9d8b5d.webp",
-    "author": "Baoothersks",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/70590c060571.webp",
+    "generated": true
   },
   {
     "name": "排骨",
-    "src": "/ingredient-photos/16511f151dbf.webp",
-    "author": "Mendaliv",
-    "license": "Public domain"
+    "src": "/ingredient-photos/9d385676e8f9.webp",
+    "generated": true
   },
   {
     "name": "羊肉",
-    "src": "/ingredient-photos/c96943117973.webp",
-    "author": "I would appreciate being notified if you use my work outside Wikimedia.\nDo not copy this image illegally by ignoring the terms of the license below, as it is not in the public domain. If you would like special permission to use, license, or purchase the image please contact me to negotiate terms.\n\nMore of my work can be found in my personal gallery.",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/64a01d69deb3.webp",
+    "generated": true
   },
   {
     "name": "鸭肉",
-    "src": "/ingredient-photos/53fa53a53b06.webp",
-    "author": "cogdogblog",
-    "license": "CC0"
+    "src": "/ingredient-photos/0f71a2dd18a0.webp",
+    "generated": true
   },
   {
     "name": "虾",
-    "src": "/ingredient-photos/c0952f798eae.webp",
-    "author": "Fumikas Sagisavas",
-    "license": "CC0"
+    "src": "/ingredient-photos/32ad2f7e448a.webp",
+    "generated": true
   },
   {
     "name": "鱼肉",
-    "src": "/ingredient-photos/a2fce8b46635.webp",
-    "author": "Brücke-Osteuropa",
-    "license": "CC0"
+    "src": "/ingredient-photos/8f0057c8fb72.webp",
+    "generated": true
   },
   {
     "name": "三文鱼",
-    "src": "/ingredient-photos/7998cf132596.webp",
-    "author": "Tiia Monto",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/d8a3d51de5f3.webp",
+    "generated": true
   },
   {
     "name": "带鱼",
-    "src": "/ingredient-photos/06b74d078bf2.webp",
-    "author": "Takahashi",
-    "license": "Public domain"
+    "src": "/ingredient-photos/807335d8bf34.webp",
+    "generated": true
   },
   {
     "name": "贝类",
-    "src": "/ingredient-photos/173d6aa1a6db.webp",
-    "author": "Ken Hammond",
-    "license": "Public domain"
+    "src": "/ingredient-photos/86f5bad248a6.webp",
+    "generated": true
   },
   {
     "name": "鸡蛋",
-    "src": "/ingredient-photos/ea97d7deae4a.webp",
-    "author": "Evan-Amos",
-    "license": "Public domain"
+    "src": "/ingredient-photos/a42342443e38.webp",
+    "generated": true
   },
   {
     "name": "鸭蛋",
-    "src": "/ingredient-photos/e8f97860c12b.webp",
-    "author": "Nadia Prigoda-Lee from Toronto, Canada",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/8e83bb604b00.webp",
+    "generated": true
   },
   {
     "name": "牛奶",
-    "src": "/ingredient-photos/466f8b589e89.webp",
-    "author": "NIAID",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/ed658967d917.webp",
+    "generated": true
   },
   {
     "name": "酸奶",
-    "src": "/ingredient-photos/bd0f3d4806b2.webp",
-    "author": "No machine-readable author provided. Rainer Zenz assumed (based on copyright claims).",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/1514a14811f5.webp",
+    "generated": true
   },
   {
     "name": "奶酪",
-    "src": "/ingredient-photos/1fa3f35e4f7b.webp",
-    "author": "作者未署名（见来源页）",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/dd2dccc5e238.webp",
+    "generated": true
   },
   {
     "name": "豆腐",
-    "src": "/ingredient-photos/ab3bc4734c73.webp",
-    "author": "DryPot",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/05f9a5190eb8.webp",
+    "generated": true
   },
   {
     "name": "豆干",
-    "src": "/ingredient-photos/3aa367eedf2f.webp",
-    "author": "Fumikas Sagisavas",
-    "license": "CC0"
+    "src": "/ingredient-photos/c9726318ab81.webp",
+    "generated": true
   },
   {
     "name": "豆皮",
-    "src": "/ingredient-photos/4dfe6e973299.webp",
-    "author": "Andrea Nguyen",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/65731eb17318.webp",
+    "generated": true
   },
   {
     "name": "豆浆",
-    "src": "/ingredient-photos/6558d4ff9580.webp",
-    "author": "Kjokkenutstyr",
-    "license": "CC BY-SA 2.0"
+    "src": "/ingredient-photos/c8efd94ab9be.webp",
+    "generated": true
   },
   {
     "name": "黄豆",
-    "src": "/ingredient-photos/819f76322694.webp",
-    "author": "Fumikas Sagisavas",
-    "license": "CC0"
+    "src": "/ingredient-photos/5340927b4219.webp",
+    "generated": true
   },
   {
     "name": "大米",
-    "src": "/ingredient-photos/bf26356c694a.webp",
-    "author": "Seb35",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/9ca405ad2d9c.webp",
+    "generated": true
   },
   {
     "name": "面粉",
-    "src": "/ingredient-photos/93f56a1737fe.webp",
-    "author": "Veganbaking.net from USA",
-    "license": "CC BY-SA 2.0"
+    "src": "/ingredient-photos/f03febd24088.webp",
+    "generated": true
   },
   {
     "name": "面条",
-    "src": "/ingredient-photos/9f3e72b0dd3b.webp",
-    "author": "ProjectManhattan",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/0d67a08e1264.webp",
+    "generated": true
   },
   {
     "name": "米粉",
-    "src": "/ingredient-photos/6af8b379ad7e.webp",
-    "author": "Popo le Chien",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/a54c10dd466d.webp",
+    "generated": true
   },
   {
     "name": "燕麦",
-    "src": "/ingredient-photos/9fb4abd9f7d1.webp",
-    "author": "en:user:Hankwang",
-    "license": "Public domain"
+    "src": "/ingredient-photos/f4992f96ebf2.webp",
+    "generated": true
   },
   {
     "name": "面包",
-    "src": "/ingredient-photos/df5ef1b0a69c.webp",
-    "author": "3268zauber",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/c7e9400ef90a.webp",
+    "generated": true
   },
   {
     "name": "馒头",
-    "src": "/ingredient-photos/c3d4888a77bc.webp",
-    "author": "Aumrino970",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/88b65496f854.webp",
+    "generated": true
   },
   {
     "name": "红薯",
-    "src": "/ingredient-photos/ce7ad160c17b.webp",
-    "author": "Llez",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/aec533ac90ec.webp",
+    "generated": true
   },
   {
     "name": "香菇",
-    "src": "/ingredient-photos/122b8e463eb2.webp",
-    "author": "Batholith (talk)",
-    "license": "Public domain"
+    "src": "/ingredient-photos/1e4e006920d9.webp",
+    "generated": true
   },
   {
     "name": "口蘑",
-    "src": "/ingredient-photos/f0da0ef4cdcc.webp",
-    "author": "chris_73",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/fd7e1d266129.webp",
+    "generated": true
   },
   {
     "name": "金针菇",
-    "src": "/ingredient-photos/cee233fa5a1f.webp",
-    "author": "frankenstoen",
-    "license": "CC BY-SA 2.0"
+    "src": "/ingredient-photos/db1e76385797.webp",
+    "generated": true
   },
   {
     "name": "木耳",
-    "src": "/ingredient-photos/682f238f8737.webp",
-    "author": "François Nguyen",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/a42c8ffb91e4.webp",
+    "generated": true
   },
   {
     "name": "杏鲍菇",
-    "src": "/ingredient-photos/0a7d333d1e33.webp",
-    "author": "Diego Delso",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/9c2a60f41d5e.webp",
+    "generated": true
   },
   {
     "name": "蒜",
-    "src": "/ingredient-photos/628ac116c0d9.webp",
-    "author": "Ivar Leidus",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/8de43ac8a308.webp",
+    "generated": true
   },
   {
     "name": "姜",
-    "src": "/ingredient-photos/fac1274e0260.webp",
-    "author": "Sanjay Acharya",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/6632da4015f4.webp",
+    "generated": true
   },
   {
     "name": "葱",
-    "src": "/ingredient-photos/fd7481553096.webp",
-    "author": "Evan-Amos",
-    "license": "Public domain"
+    "src": "/ingredient-photos/5f1ea529c5b6.webp",
+    "generated": true
   },
   {
     "name": "食盐",
-    "src": "/ingredient-photos/b4d69efdab11.webp",
-    "author": "Poyraz 72",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/90b85c4a479b.webp",
+    "generated": true
   },
   {
     "name": "白糖",
-    "src": "/ingredient-photos/5a5cfe1237b5.webp",
-    "author": "User:Lcarsdata",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/598b5997169b.webp",
+    "generated": true
   },
   {
     "name": "食用油",
-    "src": "/ingredient-photos/6aa02919cf91.webp",
-    "author": "Lemone",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/6e7b3af6df53.webp",
+    "generated": true
   },
   {
     "name": "酱油",
-    "src": "/ingredient-photos/131fecc49f92.webp",
-    "author": "Bodhi Peace",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/aef2353677d6.webp",
+    "generated": true
   },
   {
     "name": "醋",
-    "src": "/ingredient-photos/bc7d42a8d519.webp",
-    "author": "Sotaque",
-    "license": "CC0"
+    "src": "/ingredient-photos/da6a0168383c.webp",
+    "generated": true
   },
   {
     "name": "黑胡椒",
-    "src": "/ingredient-photos/d0574db1fdce.webp",
-    "author": "Ryan Snyder",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/bbf7727ae5e4.webp",
+    "generated": true
   },
   {
     "name": "蜂蜜",
-    "src": "/ingredient-photos/565af0311b3f.webp",
-    "author": "Scott Bauer, USDA ARS",
-    "license": "Public domain"
+    "src": "/ingredient-photos/c2b3da9dd87e.webp",
+    "generated": true
   },
   {
     "name": "蚝油",
-    "src": "/ingredient-photos/5ae63695cba6.webp",
-    "author": "Gossipguy",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/a7ff94ab182a.webp",
+    "generated": true
   },
   {
     "name": "饮用水",
-    "src": "/ingredient-photos/44f0e9df6cd6.webp",
-    "author": "Mia Gaitanidis",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/c7e978ed5ff8.webp",
+    "generated": true
   },
   {
     "name": "椰奶",
-    "src": "/ingredient-photos/6600a1eba2ec.webp",
-    "author": "S Sepp",
-    "license": "CC BY-SA 3.0"
+    "src": "/ingredient-photos/23ee55fc9517.webp",
+    "generated": true
   },
   {
     "name": "咖啡",
-    "src": "/ingredient-photos/c7b300d34030.webp",
-    "author": "Bex Walton",
-    "license": "CC BY 2.0"
+    "src": "/ingredient-photos/205f8bc2b1b3.webp",
+    "generated": true
   },
   {
     "name": "油菜",
-    "src": "/ingredient-photos/a944db47ceb1.webp",
-    "author": "Tom Ackroyd",
-    "license": "CC0"
+    "src": "/ingredient-photos/a5e12832c13f.webp",
+    "generated": true
   },
   {
     "name": "萝卜",
-    "src": "/ingredient-photos/9f75a026e92f.webp",
-    "author": "Self, en:User:Jengod",
-    "license": "Public domain"
+    "src": "/ingredient-photos/58611a7befbe.webp",
+    "generated": true
   },
   {
     "name": "尖椒",
-    "src": "/ingredient-photos/13ffaae21ec7.webp",
-    "author": "Takeaway",
-    "license": "CC BY-SA 4.0"
+    "src": "/ingredient-photos/3a6ba54492a2.webp",
+    "generated": true
   },
   {
     "name": "豆角",
-    "src": "/ingredient-photos/87c108bc3a1d.webp",
-    "author": "David",
-    "license": "Public domain"
+    "src": "/ingredient-photos/e7ced7320263.webp",
+    "generated": true
   },
   {
     "name": "蒜苔",
-    "src": "/ingredient-photos/3441045e0b17.webp",
-    "author": "Canterel",
-    "license": "Public domain"
+    "src": "/ingredient-photos/b1420a372043.webp",
+    "generated": true
   }
 ]

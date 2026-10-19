@@ -47,6 +47,9 @@ test("UI kitchen workflow purchases shortages and consumes exactly once", async 
     })
     .first()
     .selectOption("10000000-0000-4000-8000-000000000004");
+  await page
+    .getByRole("combobox", { name: "餐次", exact: true })
+    .selectOption("dinner");
   await page.getByRole("button", { name: "用这道菜安排" }).click();
   await expect(
     page.getByText("晚餐 · 蒜香生菜", { exact: true }),

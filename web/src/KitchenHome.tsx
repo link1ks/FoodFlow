@@ -125,7 +125,7 @@ export function KitchenHome({
           target="_blank"
           rel="noreferrer"
         >
-          照片来源与授权
+          图片说明
         </a>
       </section>
       <section className="ff-kitchen-stats" aria-label="厨房状态">

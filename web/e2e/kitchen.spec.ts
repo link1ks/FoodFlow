@@ -345,6 +345,12 @@ test("onboarding, continuous stock and configured capability states", async ({
   await page.reload();
   await nav.getByRole("button", { name: /菜单/ }).click();
   await expect(page.getByText(/演示模式：使用示例方案/)).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "帮我推荐菜单" }),
+  ).toBeDisabled();
+  await page
+    .getByRole("combobox", { name: "餐次", exact: true })
+    .selectOption("dinner");
   await page.getByRole("button", { name: "帮我推荐菜单" }).click();
   await expect(
     page.getByRole("heading", { name: "菜单规划 · 等待确认" }),

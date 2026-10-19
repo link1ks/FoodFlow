@@ -71,6 +71,15 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
     .click();
   const cards = page.locator(".ff-stock-card");
   await expect(cards).toHaveCount(3);
+  await expect(page.locator(".ff-stock-details[open]")).toHaveCount(0);
+  await expect(
+    cards.getByRole("button", { name: "再买一批" }).first(),
+  ).not.toBeVisible();
+  await cards.first().locator(".ff-stock-details > summary").click();
+  await expect(
+    cards.first().getByRole("button", { name: "再买一批" }),
+  ).toBeVisible();
+  await cards.first().locator(".ff-stock-details > summary").click();
   const stats = page.getByRole("region", { name: "库存统计" });
   await expect(stats).toContainText("家中有库存 2 种");
   await expect(stats).toContainText("优先处理 0 批");

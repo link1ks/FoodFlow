@@ -300,14 +300,14 @@ export function IngredientCatalogPicker({
                 <div className="ff-catalog-results min-h-0 flex-1 overflow-y-auto p-4 md:px-6">
                   <p className="mb-3 text-xs text-slate-500">
                     显示 {matches.length} / {catalog.data?.length || 0} 种食材 ·
-                    实拍参考照片，可为家庭食材上传自己的照片 ·{" "}
+                    AI 生成参考图，可上传自己的实拍照片 ·{" "}
                     <a
                       href="/ingredient-photos/credits.html"
                       target="_blank"
                       rel="noreferrer"
                       className="underline"
                     >
-                      照片来源与授权
+                      图片说明
                     </a>
                   </p>
                   {catalog.isLoading ? (

@@ -283,7 +283,7 @@ export function InventoryPage() {
                           : "")
                       }
                     >
-                      <div className="flex gap-4">
+                      <div className="ff-stock-lead">
                         <IngredientImageManager
                           id={i.id}
                           name={i.name}
@@ -294,7 +294,7 @@ export function InventoryPage() {
                           household={p.slice("/households/".length)}
                           canEdit={canEdit}
                         />
-                        <div className="min-w-0 flex-1">
+                        <div className="ff-stock-copy min-w-0">
                           <div className="flex items-start justify-between gap-2">
                             <div>
                               <h3 className="text-lg font-semibold">
@@ -302,13 +302,6 @@ export function InventoryPage() {
                               </h3>
                               <p className="text-xs text-slate-500">
                                 {i.category || "未分类"}
-                                {Number(i.low) > 0 && (
-                                  <>
-                                    {" "}
-                                    · 补货线{" "}
-                                    <Quantity value={i.low} unit={i.unit} />
-                                  </>
-                                )}
                               </p>
                             </div>
                             <div className="ff-stock-quantity text-right">
@@ -322,7 +315,7 @@ export function InventoryPage() {
                               )}
                             </div>
                           </div>
-                          <label className="ff-stock-select mt-3 flex items-center gap-2 text-sm text-emerald-800">
+                          <label className="ff-stock-select">
                             <input
                               type="checkbox"
                               aria-label={`选作本次食材：${i.name}`}
@@ -336,63 +329,66 @@ export function InventoryPage() {
                                 )
                               }
                             />
-                            选作本次食材
+                            <span className="sr-only">选作本次食材</span>
                           </label>
                         </div>
                       </div>
-                      <NutritionDetails profile={i.nutrition} />
-                      <div className="mt-3 space-y-1">
-                        {d.data.batches
-                          .filter(
-                            (b) =>
-                              b.ingredient_id === i.id &&
-                              Number(b.quantity) > 0,
-                          )
-                          .map((b) => (
-                            <BatchActions
-                              key={b.id}
-                              batch={b}
+                      <details className="ff-stock-details">
+                        <summary>详情与管理</summary>
+                        <NutritionDetails profile={i.nutrition} />
+                        <div className="mt-3 space-y-1">
+                          {d.data.batches
+                            .filter(
+                              (b) =>
+                                b.ingredient_id === i.id &&
+                                Number(b.quantity) > 0,
+                            )
+                            .map((b) => (
+                              <BatchActions
+                                key={b.id}
+                                batch={b}
+                                name={i.name}
+                                unit={i.unit}
+                                token={token}
+                                household={p.slice("/households/".length)}
+                                canEdit={canEdit}
+                              />
+                            ))}
+                        </div>
+                        {canEdit && (
+                          <div className="mt-3 flex items-center justify-between gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setSelected(i.id);
+                                setQty("");
+                                setExpiry("");
+                                document
+                                  .getElementById("inventory-add")
+                                  ?.scrollIntoView({ behavior: "smooth" });
+                              }}
+                            >
+                              再买一批
+                            </Button>
+                            <IngredientDeleteControl
+                              id={i.id}
                               name={i.name}
+                              quantity={i.quantity}
                               unit={i.unit}
                               token={token}
                               household={p.slice("/households/".length)}
-                              canEdit={canEdit}
+                              onArchived={() => {
+                                setSelectedIDs((current) =>
+                                  current.filter((id) => id !== i.id),
+                                );
+                                if (selected === i.id) setSelected("");
+                                q.invalidateQueries();
+                              }}
                             />
-                          ))}
-                      </div>
-                      {canEdit && (
-                        <div className="mt-3 flex items-center justify-between gap-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              setSelected(i.id);
-                              setQty("");
-                              setExpiry("");
-                              document
-                                .getElementById("inventory-add")
-                                ?.scrollIntoView({ behavior: "smooth" });
-                            }}
-                          >
-                            再买一批
-                          </Button>
-                          <IngredientDeleteControl
-                            id={i.id}
-                            name={i.name}
-                            quantity={i.quantity}
-                            unit={i.unit}
-                            token={token}
-                            household={p.slice("/households/".length)}
-                            onArchived={() => {
-                              setSelectedIDs((current) =>
-                                current.filter((id) => id !== i.id),
-                              );
-                              if (selected === i.id) setSelected("");
-                              q.invalidateQueries();
-                            }}
-                          />
-                        </div>
-                      )}
+                          </div>
+                        )}
+                      </details>
                     </Card>
                   ))}
                 </div>

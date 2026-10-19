@@ -35,15 +35,15 @@ export function IngredientPhoto({
   const builtin =
     reference && !failed.includes(reference.src) ? reference.src : "";
   const source = family || builtin;
-  const kind = family ? "家庭照片" : "参考照片";
+  const kind = family ? "家庭照片" : "参考图";
   if (!source) {
     return (
       <span
         className={`ff-ingredient-photo ff-photo-empty ${className}`}
         role="img"
-        aria-label={`${name}暂无实拍照片`}
+        aria-label={`${name}暂无参考图`}
       >
-        暂无实拍照片
+        暂无参考图
       </span>
     );
   }
@@ -51,11 +51,6 @@ export function IngredientPhoto({
     <img
       src={source}
       alt={`${name}${kind}`}
-      title={
-        builtin && !family
-          ? `${reference?.author} · ${reference?.license}`
-          : undefined
-      }
       data-photo-kind={kind}
       loading="lazy"
       decoding="async"
