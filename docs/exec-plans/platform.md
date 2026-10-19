@@ -312,3 +312,5 @@ Final verification: full `8e27340730fdd303cd667a67ee346bad` passed 15/15; accept
 Cleanup: isolated acceptance services stopped; docker ps returned no running containers. All database/photo volumes and local evidence are retained. Docker Desktop is stopped after this task's verification.
 
 Publication limitation: automatic approval review rejected both a direct main push and the safer new-branch push. The second rejection requires explicit user approval of the GitHub destination/payload. Changes are committed locally on codex/ingredient-photo-layout; no remote push or cloud CI is claimed. Await approval to publish the reviewed source/docs/configuration changes to https://github.com/link1ks/FoodFlow.git, without private artifacts.
+
+Publication authorization resolved: user explicitly requested a direct main push after the approval block. Fetch confirmed origin/main and local main match; the verified implementation and evidence commits can be integrated by fast-forward without force. No new implementation changes or cloud CI result are implied by this authorization.
