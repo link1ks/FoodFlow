@@ -201,6 +201,6 @@ go run ./cmd/harness -mode acceptance
 
 项目尚未指定开源许可证，使用与分发授权由项目所有者明确。参考照片保留各自授权，见 [照片来源与署名](web/public/ingredient-photos/credits.html)。
 
-食材配图使用现有 91 张开放授权实拍照片，统一居中取景、4:3 食材卡片与自然色调；家庭上传照片优先，缺图显示文字占位，不使用 AI 图片、Emoji 食材图或插画。照片来源与许可保留在 `web/public/ingredient-photos/`。
+食材配图使用现有 91 张开放授权实拍照片，照片本身统一浅奶油白背景、居中主体和 4:3 画布；仅对原实拍做前景分割或局部裁切，食材不生成或重绘；家庭上传照片优先，缺图显示文字占位，不使用 AI 图片、Emoji 食材图或插画。照片来源与许可保留在 `web/public/ingredient-photos/`。
 
 目录约定：通用文档集中在 `docs/`，环境专用 Compose 文件在 `deploy/`，API 契约在 `api/openapi.yaml`，SQL 生成配置在 `sql/sqlc.yaml`（运行 `sqlc generate -f sql/sqlc.yaml`）。根目录保留 README、AGENTS 与默认 `compose.yaml` 入口。使用子目录 Compose 文件时必须从仓库根目录传入 `--project-directory .`，维护脚本已经统一处理，以保持构建路径、项目名和数据卷身份。

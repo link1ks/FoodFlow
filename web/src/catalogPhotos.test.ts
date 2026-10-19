@@ -16,6 +16,11 @@ describe("catalogue photographs", () => {
       width: number;
       height: number;
       reviewed: string;
+      background: string;
+      presentation: string;
+      mask: string;
+      mask_sha256: string;
+      original_asset: { sha256: string; revision: string };
     })[];
     const schema = new URL("../../sql/schema/", import.meta.url);
     const seed = readFileSync(
@@ -53,9 +58,20 @@ describe("catalogue photographs", () => {
       );
       expect(createHash("sha256").update(raw).digest("hex")).toBe(photo.sha256);
       expect(raw.length).toBeLessThanOrEqual(160_000);
-      expect(photo.width).toBeLessThanOrEqual(480);
-      expect(photo.height).toBeLessThanOrEqual(480);
-      expect(photo.reviewed).toBe("2026-10-01");
+      expect(photo.width).toBe(480);
+      expect(photo.height).toBe(360);
+      expect(photo.reviewed).toBe("2026-10-19");
+      expect(photo.background).toBe("#faf8f3");
+      expect(["foreground-cutout", "detail-crop"]).toContain(
+        photo.presentation,
+      );
+      expect(photo.original_asset.sha256).toMatch(/^[a-f0-9]{64}$/);
+      const mask = readFileSync(
+        new URL("../../" + photo.mask, import.meta.url),
+      );
+      expect(createHash("sha256").update(mask).digest("hex")).toBe(
+        photo.mask_sha256,
+      );
     }
     const files = readdirSync(
       new URL("../public/ingredient-photos/", import.meta.url),

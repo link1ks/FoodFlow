@@ -1195,14 +1195,14 @@ button:disabled {
   }
 }
 
-/* Shared natural-photo treatment; licensed source photographs stay unchanged. */
+/* Real catalogue photographs are prepared on a shared cream canvas. */
 .ff-ingredient-photo {
   display: block;
   object-fit: cover;
   object-position: center;
   background: #f4f1e9;
   border: 1px solid #e5e1d7;
-  filter: saturate(0.9) contrast(0.97);
+  filter: none;
 }
 .ff-photo-empty {
   display: flex;

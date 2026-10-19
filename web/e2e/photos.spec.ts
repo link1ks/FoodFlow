@@ -38,6 +38,41 @@ test("real catalogue photos, family upload priority and failed-image fallback", 
   );
   expect(stocked.status()).toBe(200);
   await page.goto("/");
+  const photoChecks = await page.evaluate(
+    async (items) =>
+      Promise.all(
+        items.map(async ({ src }) => {
+          const image = new Image();
+          image.src = src;
+          await image.decode();
+          const canvas = document.createElement("canvas");
+          canvas.width = 480;
+          canvas.height = 360;
+          const context = canvas.getContext("2d")!;
+          context.drawImage(image, 0, 0);
+          const corners = [
+            [0, 0],
+            [479, 0],
+            [0, 359],
+            [479, 359],
+          ].map(([x, y]) => Array.from(context.getImageData(x, y, 1, 1).data));
+          return {
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+            corners,
+          };
+        }),
+      ),
+    photos,
+  );
+  for (const photoCheck of photoChecks) {
+    expect([photoCheck.width, photoCheck.height]).toEqual([480, 360]);
+    for (const corner of photoCheck.corners) {
+      for (const [index, value] of [250, 248, 243].entries())
+        expect(Math.abs(corner[index] - value)).toBeLessThanOrEqual(4);
+      expect(corner[3]).toBe(255);
+    }
+  }
   await page.getByLabel("手机号或邮箱", { exact: true }).fill(email);
   await page.getByLabel("密码", { exact: true }).fill(password);
   await page.getByRole("button", { name: "登录", exact: true }).click();
@@ -47,6 +82,10 @@ test("real catalogue photos, family upload priority and failed-image fallback", 
     .click();
   const nav = page.getByRole("navigation", { name: "主导航" });
   await expect(nav).toBeVisible();
+  await expect(page.locator(".ff-header")).toHaveCSS(
+    "background-color",
+    "rgb(255, 249, 237)",
+  );
   await nav.getByRole("button", { name: /食材/ }).click();
   const photo = photos.find((item) => item.name === "番茄")!;
   const reference = page.getByRole("img", {

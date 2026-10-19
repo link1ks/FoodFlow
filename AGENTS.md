@@ -23,3 +23,5 @@ Record bounded task start/outcome with harness task mode, including failed/block
 Never include `.env`, local database volumes, credentials or raw authenticated logs in commits. Do not delete development data for tests. Preserve request idempotency, server-side household authorization, precise quantities and explicit user confirmation. Architecture checks enforce these import boundaries in CI.
 
 After each task, synchronize important verified changes and findings to the existing GitHub remote. Promptly remove obsolete task files, while retaining required evidence, credentials, backups and development data locally; never include private artifacts in publication.
+
+Use `main` directly unless the user explicitly requests another branch. After delivering an application update, rebuild and start the existing default Docker deployment, preserve its configuration and data volumes, and verify `http://localhost:5173` serves the new build. Back up the default database and photo volume before recreation; isolated acceptance success alone does not establish that the main site was updated.
