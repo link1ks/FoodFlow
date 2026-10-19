@@ -14,7 +14,7 @@ import (
 
 func loadContract(t *testing.T) *openapi3.T {
 	t.Helper()
-	doc, err := openapi3.NewLoader().LoadFromFile(filepath.Join("..", "..", "openapi.yaml"))
+	doc, err := openapi3.NewLoader().LoadFromFile(filepath.Join("..", "..", "api/openapi.yaml"))
 	if err != nil {
 		t.Fatal(err)
 	}

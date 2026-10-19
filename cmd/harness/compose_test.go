@@ -94,7 +94,7 @@ func composeServiceNetworks(t *testing.T, service composeTopologyService) map[st
 // Every independently started API must have a private, required Redis path.
 // In particular, learning and restored APIs cannot inherit the acceptance overlay.
 func TestComposeRequiresRedisForEveryAPI(t *testing.T) {
-	for _, file := range []string{"compose.yaml", "compose.acceptance.yaml", "compose.learning.yaml", "compose.restore.yaml"} {
+	for _, file := range []string{"compose.yaml", "deploy/compose.acceptance.yaml", "deploy/compose.learning.yaml", "deploy/compose.restore.yaml"} {
 		t.Run(file, func(t *testing.T) {
 			topology := readComposeTopology(t, file)
 			api := topology.Services["api"]
@@ -120,7 +120,7 @@ func TestComposeRequiresRedisForEveryAPI(t *testing.T) {
 			shared := false
 			for name := range redisNetworks {
 				shared = shared || apiNetworks[name]
-				if (file == "compose.learning.yaml" || file == "compose.restore.yaml") && !topology.Networks[name].Internal {
+				if (file == "deploy/compose.learning.yaml" || file == "deploy/compose.restore.yaml") && !topology.Networks[name].Internal {
 					t.Fatal("learning and restore Redis must stay on internal networks")
 				}
 			}
@@ -136,7 +136,7 @@ func TestComposeRequiresRedisForEveryAPI(t *testing.T) {
 }
 
 func TestComposeOverlaysPreserveRequiredRedis(t *testing.T) {
-	for _, file := range []string{"compose.platform.yaml", "compose.trial.yaml", "compose.trial-deepseek.yaml"} {
+	for _, file := range []string{"deploy/compose.platform.yaml", "deploy/compose.trial.yaml", "deploy/compose.trial-deepseek.yaml"} {
 		t.Run(file, func(t *testing.T) {
 			topology := readComposeTopology(t, file)
 			if _, ok := topology.Services["redis"]; ok {

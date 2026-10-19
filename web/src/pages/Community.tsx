@@ -29,7 +29,7 @@ import {
   X,
 } from "lucide-react";
 import { api } from "../api";
-import { catalogPhoto } from "../catalogPhotos";
+import { IngredientPhoto } from "../CatalogArt";
 import type { CatalogItem } from "../CatalogArt";
 import type { components } from "../generated/api";
 import { useBase, ErrorLine } from "../app/shared";
@@ -136,21 +136,16 @@ function PostPhoto({
     };
   }, [post.has_cover, post.id, post.review_version, token]);
   const ingredient = post.ingredients[0]?.name;
-  const photo = catalogPhoto(ingredient || "");
-  const source = url || photo?.src;
   return (
     <div className={`community-photo ${large ? "community-photo-large" : ""}`}>
-      {source ? (
-        <img
-          src={source}
-          alt={url ? post.title : `${ingredient}食材示意`}
-          loading="lazy"
-        />
-      ) : (
-        <ChefHat size={64} strokeWidth={1.1} />
-      )}
+      <IngredientPhoto
+        name={ingredient || post.title}
+        category=""
+        photo={url}
+        className="h-full w-full"
+      />
       <span className="community-photo-caption">
-        {url ? "作者的厨房" : `食材示意${ingredient ? " · " + ingredient : ""}`}
+        {url ? "作者的厨房" : `食材参考${ingredient ? " · " + ingredient : ""}`}
       </span>
       {!!post.recipe_id && (
         <span className="community-featured-stamp">
@@ -302,7 +297,11 @@ export function Community() {
           <div className="community-recipe-paper">
             <span>FROM OUR KITCHENS</span>
             <div className="community-paper-photo">
-              <img src={catalogPhoto("番茄")?.src} alt="" />
+              <IngredientPhoto
+                name="番茄"
+                category=""
+                className="h-full w-full"
+              />
               <span className="community-paper-photo-dot">
                 <Heart size={18} fill="currentColor" />
               </span>

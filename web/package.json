@@ -9,8 +9,8 @@
     "build": "tsc -b && vite build",
     "test": "vitest run src",
     "test:e2e": "playwright test",
-    "api:generate": "node node_modules/openapi-typescript/bin/cli.js ../openapi.yaml -o src/generated/api.d.ts",
-    "api:check": "node node_modules/openapi-typescript/bin/cli.js ../openapi.yaml -o src/generated/api.d.ts --check"
+    "api:generate": "node node_modules/openapi-typescript/bin/cli.js ../api/openapi.yaml -o src/generated/api.d.ts",
+    "api:check": "node node_modules/openapi-typescript/bin/cli.js ../api/openapi.yaml -o src/generated/api.d.ts --check"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",

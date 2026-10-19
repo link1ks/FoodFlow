@@ -50,7 +50,7 @@ AI_ALLOWANCE_ENABLED=true
 
 1. 用准备作为管理员的账号登录，在浏览器开发者工具查看 `GET /api/community/account` 响应中的 `user_id`。它是 UUID，不是邮箱或昵称。
 2. 在本机 `.env` 中设置 `COMMUNITY_ADMIN_IDS=用户UUID`，多个 UUID 用逗号分隔。不要提交 `.env`。
-3. `docker compose up -d --build api worker`；学习部署使用其专用环境文件和 Compose 参数。配置生效后，「每周精选」显示审核操作。
+3. `docker compose --project-directory . up -d --build api worker`；学习部署使用其专用环境文件和 Compose 参数。配置生效后，「每周精选」显示审核操作。
 
 Compose 开发、学习及验收配置均支持这个变量。社区操作要求登录及 `Idempotency-Key`；所有写入使用独立的社区事务锁，不改变库存写入和家庭授权。封面储存在 PostgreSQL，迁移 033 增加社区表，035 增加初审状态、版本租约及调用记录；数据库备份应包含这些表。
 

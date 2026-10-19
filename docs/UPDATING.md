@@ -41,7 +41,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/update.ps1 -Restart
 
 此命令先检查 `.env` 和 Docker，再更新源码，最后执行默认 Compose 的构建和启动，并等待健康检查。即使源码已经最新，也会重试构建启动。它使用原项目目录和已有数据卷；迁移可能升级数据库结构，Git 回退不等于数据库回退。构建失败会返回失败，保留已更新源码和数据，修复后可重试。
 
-如果使用 `compose.trial.yaml`、学习部署或其他自定义 Compose 配置，先双击 `update.cmd`，然后用原部署方式重建，例如 `pwsh -File scripts/local-trial.ps1 up`。学习部署应遵循 [发布流程](LEARNING_RELEASE.md)。`-Restart` 只适用于默认 Compose，不切换这些部署。
+如果使用 `deploy/compose.trial.yaml`、学习部署或其他自定义 Compose 配置，先双击 `update.cmd`，然后用原部署方式重建，例如 `pwsh -File scripts/local-trial.ps1 up`。学习部署应遵循 [发布流程](LEARNING_RELEASE.md)。`-Restart` 只适用于默认 Compose，不切换这些部署。
 
 ## 多电脑与发布新代码
 

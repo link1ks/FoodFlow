@@ -3,7 +3,7 @@ Set-Location -LiteralPath (Split-Path $PSScriptRoot -Parent)
 $digestTaskValue=(& go run ./cmd/harness -mode fingerprint).Trim()
 if($LASTEXITCODE -ne 0 -or $digestTaskValue -notmatch '^[a-f0-9]{64}$'){throw 'Cannot compute acceptance source digest'}
 $env:FOODFLOW_SOURCE_DIGEST=$digestTaskValue
-& docker compose --env-file .cache/acceptance.env -f compose.acceptance.yaml build
+& docker compose --project-directory . --env-file .cache/acceptance.env -f deploy/compose.acceptance.yaml build
 if($LASTEXITCODE -ne 0){throw 'Acceptance image build failed'}
 $images=@{}
 foreach($name in @('api','web')){

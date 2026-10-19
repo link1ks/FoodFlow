@@ -160,7 +160,7 @@ func contractInventory(root string) ([]byte, error) {
 	}
 	section("Documented configuration keys", keys)
 	var services []string
-	for _, file := range []string{"compose.acceptance.yaml", "compose.platform.yaml", "compose.trial.yaml", "compose.trial-deepseek.yaml", "compose.learning.yaml", "compose.restore.yaml"} {
+	for _, file := range []string{"deploy/compose.acceptance.yaml", "deploy/compose.platform.yaml", "deploy/compose.trial.yaml", "deploy/compose.trial-deepseek.yaml", "deploy/compose.learning.yaml", "deploy/compose.restore.yaml"} {
 		raw, err := os.ReadFile(filepath.Join(root, file))
 		if err != nil {
 			return nil, err
@@ -233,8 +233,8 @@ func stringLiteral(expr ast.Expr) (string, error) {
 var localLink = regexp.MustCompile(`\[[^\]\n]*\]\(([^)\n]+)\)`)
 
 func documentationLinks(root string) error {
-	files := []string{"README.md", "AGENTS.md", "ARCHITECTURE.md"}
-	for _, optional := range []string{"CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md"} {
+	files := []string{"README.md", "AGENTS.md", "docs/ARCHITECTURE.md"}
+	for _, optional := range []string{"docs/CONTRIBUTING.md", "docs/SECURITY.md", "docs/CHANGELOG.md"} {
 		if _, err := os.Stat(filepath.Join(root, optional)); err == nil {
 			files = append(files, optional)
 		}

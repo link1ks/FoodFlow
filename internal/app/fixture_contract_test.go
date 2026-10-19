@@ -28,7 +28,7 @@ func validateFixtureResponse(t *testing.T, req *http.Request, res *http.Response
 	t.Helper()
 	fixtureContract.Do(func() {
 		var doc *openapi3.T
-		doc, fixtureContract.err = openapi3.NewLoader().LoadFromFile(filepath.Join("..", "..", "openapi.yaml"))
+		doc, fixtureContract.err = openapi3.NewLoader().LoadFromFile(filepath.Join("..", "..", "api/openapi.yaml"))
 		if fixtureContract.err == nil {
 			doc.Servers = nil
 			fixtureContract.router, fixtureContract.err = legacy.NewRouter(doc)

@@ -1194,3 +1194,32 @@ button:disabled {
     padding-block: 16px;
   }
 }
+
+/* Shared natural-photo treatment; licensed source photographs stay unchanged. */
+.ff-ingredient-photo {
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  background: #f4f1e9;
+  border: 1px solid #e5e1d7;
+  filter: saturate(0.9) contrast(0.97);
+}
+.ff-photo-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  color: #697266;
+  font-size: 12px;
+  text-align: center;
+  filter: none;
+}
+
+.ff-stock-image-frame {
+  height: auto;
+  aspect-ratio: 4 / 3;
+}
+.ff-stock-image-frame > .ff-ingredient-photo {
+  height: 100%;
+  aspect-ratio: 4 / 3;
+}

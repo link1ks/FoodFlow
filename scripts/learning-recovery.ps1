@@ -3,7 +3,7 @@ $ErrorActionPreference='Stop'
 Set-Location -LiteralPath (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot 'recovery-common.ps1')
 $script:RecoveryProcessEnv=Read-RecoveryCredentials
-$sourceArgs=@('compose','--env-file','.cache/learning.env','-f','compose.learning.yaml')
+$sourceArgs=@('compose','--project-directory','.','--env-file','.cache/learning.env','-f','deploy/compose.learning.yaml')
 function SourceDocker([string[]]$Tail,[string]$Label){Invoke-RecoveryDocker -Arguments ($sourceArgs+$Tail) -Label $Label}
 function Inspect([string]$ID,[string]$Template){(Invoke-RecoveryDocker -Arguments @('inspect','--format',$Template,$ID) -Label 'identity').Trim()}
 function Snapshot {
@@ -83,7 +83,7 @@ try {
       $stream=[IO.File]::Open($config,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None);$stream.Dispose();Set-RecoveryPrivatePath $config
       [IO.File]::WriteAllText($config,(($restoreEnv.Keys|Sort-Object|ForEach-Object {$_+'='+$restoreEnv[$_]}) -join "`n")+"`n")
       foreach($key in $restoreEnv.Keys){$script:RecoveryProcessEnv[$key]=$restoreEnv[$key]}
-      $restoreArgs=@('compose','--env-file',$config,'-f','compose.restore.yaml')
+      $restoreArgs=@('compose','--project-directory','.','--env-file',$config,'-f','deploy/compose.restore.yaml')
       $null=Invoke-RecoveryDocker -Arguments ($restoreArgs+@('up','-d','--wait','--wait-timeout','90','db')) -Label 'fresh recovery target'
       $db=(Invoke-RecoveryDocker -Arguments ($restoreArgs+@('ps','-q','db')) -Label 'restore DB identity').Trim()
       if((Inspect $db '{{index .Config.Labels "com.docker.compose.project"}}') -ne $project){throw 'Foreign recovery database.'}

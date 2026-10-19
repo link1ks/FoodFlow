@@ -2,7 +2,7 @@
 $ErrorActionPreference='Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 $config=Join-Path $PWD '.cache/acceptance.env'
-function dc { & docker compose --env-file $config -f compose.acceptance.yaml -f compose.platform.yaml @args; if($LASTEXITCODE -ne 0){throw 'Acceptance compose failed'} }
+function dc { & docker compose --project-directory . --env-file $config -f deploy/compose.acceptance.yaml -f deploy/compose.platform.yaml @args; if($LASTEXITCODE -ne 0){throw 'Acceptance compose failed'} }
 function WaitGateway {
   for($attempt=0;$attempt -lt 40;$attempt++){
     try{

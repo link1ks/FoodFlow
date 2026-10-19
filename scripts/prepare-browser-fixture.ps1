@@ -2,7 +2,7 @@ $ErrorActionPreference='Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 $config=Join-Path $PWD '.cache/acceptance.env'
 if(!(Test-Path -LiteralPath $config)){throw 'Isolated acceptance configuration is missing'}
-$dbId=(& docker compose -p foodflow-acceptance --env-file $config -f compose.acceptance.yaml ps -q db)
+$dbId=(& docker compose --project-directory . -p foodflow-acceptance --env-file $config -f deploy/compose.acceptance.yaml ps -q db)
 if($LASTEXITCODE -ne 0 -or !$dbId){throw 'Isolated acceptance database is unavailable'}
 $dbId=$dbId.Trim()
 $labels=(& docker inspect --format '{{json .Config.Labels}}' $dbId) | ConvertFrom-Json

@@ -25,7 +25,7 @@ type Check struct {
 }
 
 func architecture(root string) error {
-	required := []string{"AGENTS.md", "docs/HARNESS.md", "docs/PLATFORM.md", "docs/exec-plans/platform.md", "openapi.yaml"}
+	required := []string{"AGENTS.md", "docs/HARNESS.md", "docs/PLATFORM.md", "docs/exec-plans/platform.md", "api/openapi.yaml"}
 	for _, p := range required {
 		if _, err := os.Stat(filepath.Join(root, p)); err != nil {
 			return fmt.Errorf("required knowledge entry missing: %s", p)

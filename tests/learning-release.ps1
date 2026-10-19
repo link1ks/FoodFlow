@@ -8,7 +8,7 @@ $script:RecoveryProcessEnv=Read-RecoveryCredentials
 function DBID {(Invoke-RecoveryDocker -Arguments @('ps','-q','--no-trunc','--filter','label=com.docker.compose.project=foodflow-learning','--filter','label=com.docker.compose.service=db') -Label 'learning DB').Trim()}
 function ReadState {
   # Test-only read: immutable inventory/ledger/photo facts, never raw authenticated logs.
-  $value=Invoke-RecoveryDocker -Arguments @('compose','--env-file','.cache/learning.env','-f','compose.learning.yaml','run','--rm','--no-deps','-T','api','/app/recovery','-mode','snapshot') -Label 'read-only release state'
+  $value=Invoke-RecoveryDocker -Arguments @('compose','--project-directory','.','--env-file','.cache/learning.env','-f','deploy/compose.learning.yaml','run','--rm','--no-deps','-T','api','/app/recovery','-mode','snapshot') -Label 'read-only release state'
   return $value|ConvertFrom-Json -AsHashtable
 }
 $before=ReadState;$db=DBID

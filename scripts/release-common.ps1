@@ -46,7 +46,8 @@ function Assert-ReleaseSourceArchive([string]$Path){
       # Git archives can encode symbolic links in their Unix mode.
       if((($entry.ExternalAttributes -shr 16) -band 0xf000) -eq 0xa000){throw 'Source archive must not contain symbolic links.'}
     }
-    foreach($required in @('compose.learning.yaml','scripts/learning-deploy.ps1','README.md')){if(!$names.Contains($required)){throw 'Source archive is incomplete.'}}
+    if(!$names.Contains('deploy/compose.learning.yaml') -and !$names.Contains('compose.learning.yaml')){throw 'Source archive is incomplete.'}
+    foreach($required in @('scripts/learning-deploy.ps1','README.md')){if(!$names.Contains($required)){throw 'Source archive is incomplete.'}}
   }finally{$zip.Dispose()}
 }
 function Assert-ReleaseBundle([string]$Directory){

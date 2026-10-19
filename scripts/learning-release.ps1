@@ -15,7 +15,7 @@ function HistoryDigest([string]$DB){
   return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($history.Replace("`r`n","`n")))).ToLowerInvariant()
 }
 function ValidateRuntime($Manifest,$Containers){
-  $compose=(Get-RecoveryArtifact (Join-Path $PWD 'compose.learning.yaml')).sha256
+  $compose=(Get-RecoveryArtifact (Join-Path $PWD 'deploy/compose.learning.yaml')).sha256
   Assert-ReleaseCompatible $Manifest (Get-ReleaseSchemaDigest $PWD) (HistoryDigest $Containers.db) $compose (ReleaseInspect $Containers.db '{{.Image}}')
   foreach($service in @('api','web')){
     $id=(ReleaseDocker @('image','inspect','--format','{{.Id}}',$Manifest.images[$service]) 'retained image').Trim()
@@ -48,7 +48,7 @@ try {
     $manifest=@{version=1;project='foodflow-learning';revision=$revision;created_at=[DateTime]::UtcNow.ToString('o');source_digest=$digest;schema_digest=(Get-ReleaseSchemaDigest $PWD);history_digest=(HistoryDigest $containers.db);images=@{api=(ReleaseInspect $containers.api '{{.Image}}');web=(ReleaseInspect $containers.web '{{.Image}}');db=(ReleaseInspect $containers.db '{{.Image}}')};verification=@{full=(Get-Content $Full -Raw|ConvertFrom-Json).run_id;acceptance=(Get-Content $Acceptance -Raw|ConvertFrom-Json).run_id};artifacts=@{}}
     if((ReleaseInspect $containers.worker '{{.Image}}') -cne $manifest.images.api){throw 'API and Worker image identities differ.'}
     Write-ReleaseSourceArchive $directory $revision
-    Copy-Item -LiteralPath compose.learning.yaml -Destination (Join-Path $directory 'compose.learning.yaml')
+    Copy-Item -LiteralPath deploy/compose.learning.yaml -Destination (Join-Path $directory 'compose.learning.yaml')
     foreach($name in @('source.zip','compose.learning.yaml')){$manifest.artifacts[$name]=Get-RecoveryArtifact (Join-Path $directory $name)}
     ValidateRuntime $manifest $containers
     Assert-ReleaseSourceArchive (Join-Path $directory 'source.zip')
@@ -71,7 +71,7 @@ try {
       Write-RecoveryPrivateJSON $overlay @{services=@{api=@{image=$manifest.images.api};worker=@{image=$manifest.images.api};web=@{image=$manifest.images.web}}}
       $null=ReleaseDocker @('image','tag',$manifest.images.api,'foodflow-api:learning') 'API tag'
       $null=ReleaseDocker @('image','tag',$manifest.images.web,'foodflow-web:learning') 'web tag'
-      $null=ReleaseDocker @('compose','--env-file','.cache/learning.env','-f','compose.learning.yaml','-f',$overlay,'up','-d','--no-build','--no-deps','--force-recreate','--wait','--wait-timeout','120','api','worker','web') 'same-schema version switch'
+      $null=ReleaseDocker @('compose','--project-directory','.','--env-file','.cache/learning.env','-f','deploy/compose.learning.yaml','-f',$overlay,'up','-d','--no-build','--no-deps','--force-recreate','--wait','--wait-timeout','120','api','worker','web') 'same-schema version switch'
       $after=ReleaseContainers
       foreach($service in @('api','worker','web')){if((ReleaseInspect $after[$service] '{{.Image}}') -cne $manifest.images[$(if($service -eq 'worker'){'api'}else{$service})]){throw 'Switched runtime image differs from release.'}}
       Assert-ReleaseDependenciesPreserved $containers $after

@@ -91,8 +91,8 @@ Copy-Item .env.example .env
 打开 `.env`，将 `JWT_SECRET` 设置为至少 32 字节的随机密钥；数据库密码也可在首次启动前设置。随后启动（已包含必需的 Redis，无需额外启用平台扩展）：
 
 ```powershell
-docker compose up --build -d --wait --wait-timeout 180
-docker compose ps
+docker compose --project-directory . up --build -d --wait --wait-timeout 180
+docker compose --project-directory . ps
 ```
 
 | 入口 | 地址 |
@@ -162,7 +162,7 @@ flowchart TB
     API -. 鉴权后查询 .-> Insights
 ```
 
-库存、不可变流水与 Outbox 在同一事务提交；服务端校验厨房权限，幂等键防止重复写入。Redis 不保存权威库存或权限。设计细节见 [业务架构](ARCHITECTURE.md) 与 [服务边界](docs/PLATFORM.md)。
+库存、不可变流水与 Outbox 在同一事务提交；服务端校验厨房权限，幂等键防止重复写入。Redis 不保存权威库存或权限。设计细节见 [业务架构](docs/ARCHITECTURE.md) 与 [服务边界](docs/PLATFORM.md)。
 
 所有部署均自动启动 Redis，且不向主机发布 Redis 端口。直接运行 API 时必须设置可访问的 `REDIS_URL`；未配置或连接失败会拒绝启动。Redis 故障会使就绪检查返回 503，运行中的公共读取仍可短时回源数据库；缓存最多保留 60 秒，公共菜谱入库和官方价格更新可能在此期间显示旧值。
 
@@ -183,11 +183,11 @@ go run ./cmd/harness -mode acceptance
 | --- | --- |
 | `cmd` / `internal` | 服务入口、业务、算法与模型适配器 |
 | `web` | 应用页面、共享状态与公共资产 |
-| `sql` / `openapi.yaml` | 数据库迁移、查询与 API 契约 |
+| `sql` / `api/openapi.yaml` | 数据库迁移、查询与 API 契约 |
 | `scripts` / `tests` | 更新、部署、备份和验收工具 |
 | `docs` | 项目设计、使用、维护和质量说明 |
 
-更多入口：[文档导航](docs/README.md) · [开发与贡献](CONTRIBUTING.md) · [安全说明](SECURITY.md)。
+更多入口：[文档导航](docs/README.md) · [开发与贡献](docs/CONTRIBUTING.md) · [安全说明](docs/SECURITY.md)。
 
 ## 当前范围
 
@@ -195,8 +195,12 @@ go run ./cmd/harness -mode acceptance
 - 真实模型准确度、短信送达、S3、公网 HTTPS 与生产高可用仍需验收；应用额度控制不等于服务商账单封顶。
 - 社区初审不替代人工入库审核；举报治理、多账号刷票防护与真实用户体验仍待完善。
 
-完整未完成项见 [质量台账](docs/QUALITY.md)。当前前端与 API 版本为 **v0.2.0**，后续变更见 [更新日志](CHANGELOG.md)。
+完整未完成项见 [质量台账](docs/QUALITY.md)。当前前端与 API 版本为 **v0.2.0**，后续变更见 [更新日志](docs/CHANGELOG.md)。
 
 ## 许可
 
 项目尚未指定开源许可证，使用与分发授权由项目所有者明确。参考照片保留各自授权，见 [照片来源与署名](web/public/ingredient-photos/credits.html)。
+
+食材配图使用现有 91 张开放授权实拍照片，统一居中取景、4:3 食材卡片与自然色调；家庭上传照片优先，缺图显示文字占位，不使用 AI 图片、Emoji 食材图或插画。照片来源与许可保留在 `web/public/ingredient-photos/`。
+
+目录约定：通用文档集中在 `docs/`，环境专用 Compose 文件在 `deploy/`，API 契约在 `api/openapi.yaml`，SQL 生成配置在 `sql/sqlc.yaml`（运行 `sqlc generate -f sql/sqlc.yaml`）。根目录保留 README、AGENTS 与默认 `compose.yaml` 入口。使用子目录 Compose 文件时必须从仓库根目录传入 `--project-directory .`，维护脚本已经统一处理，以保持构建路径、项目名和数据卷身份。

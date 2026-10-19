@@ -11,14 +11,14 @@ import (
 func knowledgeFixture(t *testing.T) string {
 	t.Helper()
 	root := t.TempDir()
-	for _, path := range []string{"internal/app/app.go", "internal/insights/http.go", "internal/events/stock.go", "go.mod", "web/package.json", ".env.example", "compose.acceptance.yaml", "compose.platform.yaml", "compose.trial.yaml", "compose.trial-deepseek.yaml", "compose.learning.yaml", "compose.restore.yaml", "sql/schema/028_stock_outbox.sql"} {
+	for _, path := range []string{"internal/app/app.go", "internal/insights/http.go", "internal/events/stock.go", "go.mod", "web/package.json", ".env.example", "deploy/compose.acceptance.yaml", "deploy/compose.platform.yaml", "deploy/compose.trial.yaml", "deploy/compose.trial-deepseek.yaml", "deploy/compose.learning.yaml", "deploy/compose.restore.yaml", "sql/schema/028_stock_outbox.sql"} {
 		raw, err := os.ReadFile(filepath.Join("../..", path))
 		if err != nil {
 			t.Fatal(err)
 		}
 		writeFixture(t, root, path, string(raw))
 	}
-	for _, path := range []string{"README.md", "AGENTS.md", "ARCHITECTURE.md", "docs/HARNESS.md"} {
+	for _, path := range []string{"README.md", "AGENTS.md", "docs/ARCHITECTURE.md", "docs/HARNESS.md"} {
 		writeFixture(t, root, path, "# Fixture\n")
 	}
 	for _, dir := range []string{"cmd", "scripts", "tests", "web/src", "web/e2e", "web/public", "docs/quality"} {

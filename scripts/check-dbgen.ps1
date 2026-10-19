@@ -7,8 +7,7 @@ $scratchTaskPath=Join-Path $cacheTaskRoot ('dbgen-check-'+[guid]::NewGuid().ToSt
 New-Item -ItemType Directory -Path $scratchTaskPath -Force | Out-Null
 try {
   Copy-Item -LiteralPath (Join-Path $repoTaskRoot 'sql') -Destination $scratchTaskPath -Recurse
-  Copy-Item -LiteralPath (Join-Path $repoTaskRoot 'sqlc.yaml') -Destination $scratchTaskPath
-  & go run github.com/sqlc-dev/sqlc/cmd/sqlc@v1.30.0 generate -f (Join-Path $scratchTaskPath 'sqlc.yaml')
+  & go run github.com/sqlc-dev/sqlc/cmd/sqlc@v1.30.0 generate -f (Join-Path $scratchTaskPath 'sql/sqlc.yaml')
   if($LASTEXITCODE -ne 0){throw 'sqlc generation failed'}
   $generatedTaskPath=Join-Path $scratchTaskPath 'internal/dbgen'
   $actualTaskPath=Join-Path $repoTaskRoot 'internal/dbgen'

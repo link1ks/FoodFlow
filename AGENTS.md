@@ -3,12 +3,12 @@
 Read `docs/HARNESS.md` for verification commands and `docs/PLATFORM.md` for service ownership.
 
 - Product and startup: `README.md`.
-- Business invariants: `ARCHITECTURE.md`.
+- Business invariants: `docs/ARCHITECTURE.md`.
 - Current delivery plan: `docs/exec-plans/platform.md`.
 - Generated contract/configuration inventory: `docs/generated/contracts.md`; refresh with harness knowledge mode when source facts change.
 - Harness hardening plan: `docs/exec-plans/harness-hardening.md`.
 - Business quality and technical debt: `docs/QUALITY.md`, machine-checked `docs/quality/domains.json`.
-- API contract: `openapi.yaml`; event contract: `internal/events/stock.go`.
+- API contract: `api/openapi.yaml`; event contract: `internal/events/stock.go`.
 - Pure algorithms: `internal/engine`; never import database, HTTP or messaging clients there.
 - Transactional kitchen writes: `internal/app`; keep inventory, immutable ledger and outbox in one PostgreSQL transaction.
 - Public read cache: `internal/cache`; do not cache household permissions or authoritative inventory.

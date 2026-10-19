@@ -120,6 +120,6 @@ test("real catalogue photos, family upload priority and failed-image fallback", 
   await page.reload();
   await nav.getByRole("button", { name: /食材/ }).click();
   await expect(
-    page.getByRole("img", { name: "番茄示意插画", exact: true }),
-  ).toHaveAttribute("src", /^data:image\/svg\+xml/);
+    page.getByRole("img", { name: "番茄暂无实拍照片", exact: true }),
+  ).toHaveText("暂无实拍照片");
 });

@@ -16,7 +16,7 @@ pwsh -File tests/smoke.ps1 -Base http://127.0.0.1:17173
 
 访问 <http://127.0.0.1:17173>。这是独立的 `foodflow-learning` 项目、账号、数据库与图片卷，不迁移或清空 5173 的开发数据，也不复用 15173 验收数据。`init` 只运行一次；已有配置会拒绝覆盖。暂停用 `pwsh -File scripts/learning-deploy.ps1 stop`，数据卷保留。
 
-凭证保存在 Git 忽略的 `.cache/learning.env`，仅创建者可读写。脚本使用随机数据库密码和 JWT 密钥，不输出凭证；不要提交此文件，也不要把 `docker compose config`、完整 inspect 或原始日志粘贴到 GitHub。这里的配置是两项生成凭证，不复制原 `.env` 中的 DeepSeek 等密钥。
+凭证保存在 Git 忽略的 `.cache/learning.env`，仅创建者可读写。脚本使用随机数据库密码和 JWT 密钥，不输出凭证；不要提交此文件，也不要把 `docker compose --project-directory . config`、完整 inspect 或原始日志粘贴到 GitHub。这里的配置是两项生成凭证，不复制原 `.env` 中的 DeepSeek 等密钥。
 
 ## 已配置的安全边界
 

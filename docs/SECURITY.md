@@ -1,6 +1,6 @@
 # 安全说明
 
-当前维护对象为 `main` 的开发版本。仓库提供本机学习部署和隔离验收；公网部署、真实短信送达、外部对象存储及真实模型账单仍需目标环境验证。已知限制与验收债务见 [业务质量](docs/QUALITY.md)。
+当前维护对象为 `main` 的开发版本。仓库提供本机学习部署和隔离验收；公网部署、真实短信送达、外部对象存储及真实模型账单仍需目标环境验证。已知限制与验收债务见 [业务质量](QUALITY.md)。
 
 ## 报告问题
 
@@ -15,4 +15,4 @@
 - 数据库与图片配套备份，私密保存并在空目标演练恢复。保留回退包引用的镜像，禁止通过清理数据卷来释放空间。
 - 不公开 `.env`、恢复配置、私人备份与原始认证日志。仓库路径检查只覆盖已定义的禁止路径，不证明不存在隐蔽敏感内容。
 
-操作流程见 [部署](docs/LEARNING_DEPLOYMENT.md)、[备份恢复](docs/BACKUP_RECOVERY.md)、[账号与 AI 额度](docs/ACCOUNT_RECOVERY_AI.md)、[发布与回退](docs/LEARNING_RELEASE.md)。
+操作流程见 [部署](LEARNING_DEPLOYMENT.md)、[备份恢复](BACKUP_RECOVERY.md)、[账号与 AI 额度](ACCOUNT_RECOVERY_AI.md)、[发布与回退](LEARNING_RELEASE.md)。

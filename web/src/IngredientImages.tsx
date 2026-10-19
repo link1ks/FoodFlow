@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "./api";
 import { IngredientPhoto } from "./CatalogArt";
-import { catalogPhoto } from "./catalogPhotos";
 import { Button } from "./ui";
 
 export function IngredientImageManager({
@@ -108,15 +107,6 @@ export function IngredientImageManager({
           photo={shown}
           className="h-full w-full object-cover"
         />
-        <span className="absolute bottom-1 left-1 rounded-md bg-white/90 px-1.5 py-0.5 text-[10px] text-slate-700">
-          {shown
-            ? "家庭照片"
-            : hasImage && !error
-              ? "照片加载中"
-              : catalogPhoto(name)
-                ? "参考照片"
-                : "示意插画"}
-        </span>
       </div>
       {canEdit && (
         <div className="mt-1 space-y-1">

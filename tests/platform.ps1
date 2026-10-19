@@ -3,7 +3,7 @@ Set-Location (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot 'read-model-helper.ps1')
 $base='http://127.0.0.1:18080/api'
 $config=Join-Path $PWD '.cache/acceptance.env'
-function dc { & docker compose --env-file $config -f compose.acceptance.yaml -f compose.platform.yaml @args; if($LASTEXITCODE -ne 0){throw 'Platform compose failed'} }
+function dc { & docker compose --project-directory . --env-file $config -f deploy/compose.acceptance.yaml -f deploy/compose.platform.yaml @args; if($LASTEXITCODE -ne 0){throw 'Platform compose failed'} }
 function Call($method,$path,$body=$null,$token='',$key='') {
  $headers=@{};if($token){$headers.Authorization='Bearer '+$token};if($method -ne 'GET'){$headers['Idempotency-Key']=if($key){$key}else{[guid]::NewGuid().ToString()}}
  $args=@{Method=$method;Uri=$base+$path;Headers=$headers;ContentType='application/json'}
@@ -62,7 +62,7 @@ try{
 $result=WaitSummary {param($s) $s.items[0].wasted_milli -eq '5000'}
 $raw=dc exec -T db psql -U foodflow -d foodflow -At -c "SELECT payload::text FROM stock_outbox WHERE household_id='$($household.id)' ORDER BY created_at LIMIT 1"
 $beforeRejected=dc exec -T insights-db psql -U insights -d insights -At -c 'SELECT count(*) FROM rejected_events'
-@(($raw -join "`n"),'{"version":99}') | & docker compose --env-file $config -f compose.acceptance.yaml -f compose.platform.yaml exec -T kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server kafka:9092 --topic foodflow.stock.v1
+@(($raw -join "`n"),'{"version":99}') | & docker compose --project-directory . --env-file $config -f deploy/compose.acceptance.yaml -f deploy/compose.platform.yaml exec -T kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server kafka:9092 --topic foodflow.stock.v1
 if($LASTEXITCODE -ne 0){throw 'Duplicate event injection failed'}
 for($i=0;$i -lt 30;$i++){
  $rejected=dc exec -T insights-db psql -U insights -d insights -At -c 'SELECT count(*) FROM rejected_events'

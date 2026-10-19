@@ -10,7 +10,7 @@
 pwsh -NoProfile -File scripts/local-trial.ps1 up
 ```
 
-打开 [食光网页](http://localhost:5173)。该启动方式使用 `compose.trial.yaml` 显式覆盖模型、短信和菜价同步配置，使用确定性演示和本地照片存储；保存过的 API 密钥仍留在 `.env`，不会打印、覆盖或调用。关闭电脑后重新运行同一命令；不要删除 Docker 数据卷。首次配置见 [README](../README.md)。
+打开 [食光网页](http://localhost:5173)。该启动方式使用 `deploy/compose.trial.yaml` 显式覆盖模型、短信和菜价同步配置，使用确定性演示和本地照片存储；保存过的 API 密钥仍留在 `.env`，不会打印、覆盖或调用。关闭电脑后重新运行同一命令；不要删除 Docker 数据卷。首次配置见 [README](../README.md)。
 
 已明确授权使用保存的 DeepSeek API 额度时，运行：
 
@@ -18,7 +18,7 @@ pwsh -NoProfile -File scripts/local-trial.ps1 up
 pwsh -NoProfile -File scripts/local-trial.ps1 up -UseDeepSeek
 ```
 
-该选项通过 `compose.trial-deepseek.yaml` 启用官方 HTTPS `deepseek-flash` 的文字与图片输入，菜单、营养建议和图片识别会产生 API 费用；两种模型使用同一 DeepSeek 端点与密钥，不沿用另一个视觉供应商的配置。短信、菜价同步仍关闭，照片仍保存在本地。密钥保持在 `.env` 中。再次运行不带 `-UseDeepSeek` 的 up 命令会恢复演示模式；status 显示实际运行服务的模型开关。余额不足或服务不可用时按页面错误处理。
+该选项通过 `deploy/compose.trial-deepseek.yaml` 启用官方 HTTPS `deepseek-flash` 的文字与图片输入，菜单、营养建议和图片识别会产生 API 费用；两种模型使用同一 DeepSeek 端点与密钥，不沿用另一个视觉供应商的配置。短信、菜价同步仍关闭，照片仍保存在本地。密钥保持在 `.env` 中。再次运行不带 `-UseDeepSeek` 的 up 命令会恢复演示模式；status 显示实际运行服务的模型开关。余额不足或服务不可用时按页面错误处理。
 
 真实模型连接检查须另行授权：`go run ./cmd/modelcheck` 会发送三次合成菜单/营养/图片请求，不读取个人厨房数据；通过仅说明这三个样本的调用与解析有效，不能证明真实照片准确率或持续推荐质量。完整 harness 和 CI 继续使用确定性 fixtures，不继承 `.env` 的模型密钥。
 
@@ -62,10 +62,10 @@ pwsh -NoProfile -File scripts/local-trial.ps1 up -UseDeepSeek
 
 ```powershell
 New-Item -ItemType Directory -Force .cache/trial-backups
-docker compose exec -T db pg_dump -U foodflow -d foodflow -Fc -f /tmp/foodflow-trial.dump
-docker compose cp db:/tmp/foodflow-trial.dump .cache/trial-backups/kitchen.dump
-docker compose exec -T api tar -cf /tmp/foodflow-trial-images.tar -C /app/data images
-docker compose cp api:/tmp/foodflow-trial-images.tar .cache/trial-backups/images.tar
+docker compose --project-directory . exec -T db pg_dump -U foodflow -d foodflow -Fc -f /tmp/foodflow-trial.dump
+docker compose --project-directory . cp db:/tmp/foodflow-trial.dump .cache/trial-backups/kitchen.dump
+docker compose --project-directory . exec -T api tar -cf /tmp/foodflow-trial-images.tar -C /app/data images
+docker compose --project-directory . cp api:/tmp/foodflow-trial-images.tar .cache/trial-backups/images.tar
 ```
 
 这两份文件分别保留数据库与图片，不是跨两者的原子快照；备份期间暂停录入和上传。恢复应先在新数据库和新图片目录验证，再决定切换，不直接覆盖现有数据。备份可能包含个人记录，仅保存在受保护的本机位置，不提交 GitHub。

@@ -19,14 +19,14 @@
 
 | 文档 | 内容 |
 | --- | --- |
-| [架构](../ARCHITECTURE.md) / [服务归属](PLATFORM.md) | 业务约束、事务与事件边界 |
+| [架构](ARCHITECTURE.md) / [服务归属](PLATFORM.md) | 业务约束、事务与事件边界 |
 | [模块导航](../AGENTS.md) | 源码地图与维护规则 |
-| [API 契约](../openapi.yaml) / [生成清单](generated/contracts.md) | 接口、依赖与配置事实 |
-| [开发与贡献](../CONTRIBUTING.md) / [安全](../SECURITY.md) | 修改、交付与安全问题报告 |
+| [API 契约](../api/openapi.yaml) / [生成清单](generated/contracts.md) | 接口、依赖与配置事实 |
+| [开发与贡献](CONTRIBUTING.md) / [安全](SECURITY.md) | 修改、交付与安全问题报告 |
 | [Harness](HARNESS.md) / [验收部署](LOCAL_DEPLOYMENT.md) | 可执行检查与隔离环境 |
 | [验证说明](VERIFICATION.md) / [质量台账](QUALITY.md) | 可复现场景、验证范围与未完成项 |
 | [平台维护计划](exec-plans/platform.md) / [Harness 约束](exec-plans/harness-hardening.md) | 当前维护与交付证据 |
 | [应用图标](assets/README.md) | 品牌资产、生成方式与使用位置 |
-| [更新日志](../CHANGELOG.md) | 用户可见变更 |
+| [更新日志](CHANGELOG.md) | 用户可见变更 |
 
 仓库保留源代码、契约、部署工具、测试、授权资产和持续维护说明。已结束的逐次执行记录与旧运行摘要不随源码发布；历史内容可从 Git 历史查阅，新的本地运行证据保存在 Git 忽略的 `.cache/harness`，云端结果绑定到 GitHub Actions 的具体提交。

@@ -3,7 +3,7 @@ $ErrorActionPreference='Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 # This command targets the isolated acceptance stack only; never dumps env or payloads.
 $config=Join-Path $PWD '.cache/acceptance.env'
-$compose=@('compose','--env-file',$config,'-f','compose.acceptance.yaml','-f','compose.platform.yaml')
+$compose=@('compose','--project-directory','.','--env-file',$config,'-f','deploy/compose.acceptance.yaml','-f','deploy/compose.platform.yaml')
 $checks=[Collections.Generic.List[object]]::new()
 $samples=@{}
 function Probe([string]$name,[scriptblock]$operation){

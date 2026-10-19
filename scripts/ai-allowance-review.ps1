@@ -4,7 +4,7 @@ Set-Location -LiteralPath (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot 'recovery-common.ps1')
 if($Action -eq 'acknowledge' -and (!$ConfirmProviderFinished -or $JobId -notmatch '^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$')){throw 'Confirm provider request has ended, review its bill, and provide the exact job UUID. No automatic refunds.'}
 $script:RecoveryProcessEnv=Read-RecoveryCredentials
-$db=(Invoke-RecoveryDocker -Arguments @('compose','--env-file','.cache/learning.env','-f','compose.learning.yaml','ps','-q','db') -Label 'learning database').Trim()
+$db=(Invoke-RecoveryDocker -Arguments @('compose','--project-directory','.','--env-file','.cache/learning.env','-f','deploy/compose.learning.yaml','ps','-q','db') -Label 'learning database').Trim()
 $project=(Invoke-RecoveryDocker -Arguments @('inspect','--format','{{index .Config.Labels "com.docker.compose.project"}}',$db) -Label 'learning database identity').Trim()
 if($project -ne 'foodflow-learning'){throw 'Refusing a foreign database.'}
 if($Action -eq 'status'){

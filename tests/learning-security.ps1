@@ -2,7 +2,7 @@
 $ErrorActionPreference='Stop'
 Set-Location -LiteralPath (Split-Path $PSScriptRoot -Parent)
 function dc {
-  & docker compose --env-file .cache/learning.env -f compose.learning.yaml @args
+  & docker compose --project-directory . --env-file .cache/learning.env -f deploy/compose.learning.yaml @args
   if($LASTEXITCODE -ne 0){throw 'Learning Compose check failed.'}
 }
 function Check($ok,$message){if(!$ok){throw $message}}

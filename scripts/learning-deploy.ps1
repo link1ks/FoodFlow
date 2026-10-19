@@ -34,7 +34,7 @@ foreach($line in [IO.File]::ReadAllLines($config)){
 if($values.Count -ne 2 -or $values.JWT_SECRET.Length -lt 64){throw 'Incomplete or weak learning configuration.'}
 function dc {
   # Bound output: never print resolved compose config, environments or raw logs.
-  & docker compose --env-file $config -f compose.learning.yaml @args
+  & docker compose --project-directory . --env-file $config -f deploy/compose.learning.yaml @args
   if($LASTEXITCODE -ne 0){throw 'Learning Compose command failed.'}
 }
 $saved=@{}

@@ -8,7 +8,7 @@ if(!(Test-Path -LiteralPath $config)){
   $secret=[Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(48))
   "POSTGRES_PASSWORD=$password`nJWT_SECRET=$secret" | Set-Content -LiteralPath $config
 }
-function dc { & docker compose --env-file $config -f compose.acceptance.yaml @args; if($LASTEXITCODE -ne 0){throw 'Docker Compose command failed'} }
+function dc { & docker compose --project-directory . --env-file $config -f deploy/compose.acceptance.yaml @args; if($LASTEXITCODE -ne 0){throw 'Docker Compose command failed'} }
 switch($Action){
   up { & pwsh -NoProfile -File scripts/build-acceptance-images.ps1; if($LASTEXITCODE -ne 0){throw 'Acceptance build failed'}; dc up -d --wait --wait-timeout 120 }
   restart { dc restart api worker web; Start-Sleep -Seconds 3; (Invoke-WebRequest http://127.0.0.1:18080/health/ready).StatusCode }

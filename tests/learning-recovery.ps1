@@ -44,7 +44,7 @@ try {
   Check $restored.passed 'Restore did not pass.'
   $config=Join-Path $PWD ('.cache/learning-restores/'+$restored.project+'.env')
   foreach($line in [IO.File]::ReadAllLines($config)){$parts=$line -split '=',2;Check ($parts.Count -eq 2) 'Invalid private restore configuration.';$script:RecoveryProcessEnv[$parts[0]]=$parts[1]}
-  $restoreArgs=@('compose','--env-file',$config,'-f','compose.restore.yaml')
+  $restoreArgs=@('compose','--project-directory','.','--env-file',$config,'-f','deploy/compose.restore.yaml')
   $null=Invoke-RecoveryDocker -Arguments ($restoreArgs+@('up','-d','--wait','--wait-timeout','90','api')) -Label 'restart fictional recovery target'
   $api=(Invoke-RecoveryDocker -Arguments ($restoreArgs+@('ps','-q','api')) -Label 'fictional restore identity').Trim()
   $probe=Invoke-RecoveryDocker -Arguments @('exec','-i',$api,'/app/recovery','-mode','probe') -InputText ($proof|ConvertTo-Json -Depth 10 -Compress) -Label 'fictional recovered account acceptance'
