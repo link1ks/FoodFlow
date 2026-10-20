@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "task": "python-agent-migration",
+  "criteria": [
+    {
+      "id": "python-agent-capabilities",
+      "description": "五类 Agent 能力及演示路径执行 Python，保留结构化输出与中文识别契约，移除 Eino 运行依赖。",
+      "business": ["AI", "MENU", "NUTRITION", "INTAKE", "COMMUNITY"],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentContracts",
+        "internal/agent/model_test.go#TestDemoAndSchema",
+        "internal/agent/model_test.go#TestOpenAIAdapter",
+        "internal/agent/vision_test.go#TestVisionAdapterAndSchema",
+        "internal/agent/speech_test.go#TestQwenSpeechRequestAndGuard",
+        "internal/agent/community_review_test.go#TestCommunityModelChecksImageWithGuardBeforeDispatch",
+        "internal/app/nutrition_advice_test.go#TestNutritionAdviceFlow"
+      ]
+    },
+    {
+      "id": "authorization-allowance-and-transactions",
+      "description": "保持收费前授权、精确请求大小、取消和不确定占额、不自动重试、业务事务和幂等；执行有界家庭负载。",
+      "business": ["AI", "STOCK", "INTAKE"],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentGuardMatchesExactUTF8RequestAndRejectsUnsafeRecipe",
+        "internal/agent/python_bridge_test.go#TestPythonAgentCancellationPreservesUncertainDebit",
+        "internal/agent/guard_test.go#TestCallGuardBlocksNetworkAndRedirectsCannotRepeatPaidRequests",
+        "internal/app/ai_allowance_test.go#TestAIAllowanceSerializesDebitsAndRetainsAmbiguousCalls",
+        "internal/app/voice_test.go#TestVoiceIntakeConfirmationAuthorizationAndFencing",
+        "internal/app/integration_test.go#TestWorkflowAndInvariants",
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox"
+      ]
+    },
+    {
+      "id": "isolated-browser-business-flows",
+      "description": "在隔离桌面和移动浏览器复核识别范围、语音明确确认、社区审核失败私有、菜单取消及厨房闭环。",
+      "business": ["AI", "INTAKE", "COMMUNITY", "MENU", "STOCK"],
+      "tests": [
+        "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation",
+        "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure",
+        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    },
+    {
+      "id": "hands-on-learning-support",
+      "description": "提供用户可手动运行的 Python 契约测试和 Go 连接测试，验证隔离环境不会继承业务密钥；用户实际操作和输出另记执行计划，自动测试不代替用户参与。",
+      "business": ["AI"],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentContracts",
+        "internal/agent/python_bridge_test.go#TestPythonAgentEnvironmentDoesNotInheritApplicationSecrets"
+      ]
+    }
+  ]
+}

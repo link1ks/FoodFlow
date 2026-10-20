@@ -134,7 +134,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/update.ps1 -Restart
 | 页面与状态 | React、TypeScript、Vite、Tailwind CSS、Radix、TanStack Query、Zustand |
 | API 与后台任务 | Go、Gin、OpenAPI、SSE、PostgreSQL 任务队列 |
 | 数据、缓存与迁移 | PostgreSQL、Redis、pgx、sqlc、goose |
-| Agent 与模型 | Eino、兼容 Chat Completions 的模型适配器、结构化输出校验 |
+| Agent 与模型 | Python 3.13、兼容 Chat Completions 的模型适配器、结构化输出校验；Go Worker 管理权限及额度 |
 | 图片与部署 | 本地目录 / S3、Docker Compose、GitHub Actions |
 | 可选平台扩展 | Kafka / franz-go、独立 Insights 服务 |
 | 测试与工程反馈 | Go testing、Testcontainers、Vitest、Playwright、工程 Harness |
@@ -147,7 +147,7 @@ flowchart TB
         API["Kitchen API · Go / Gin"] --> PG[("业务 PostgreSQL")]
         API --> Redis[("Redis · 公共读取缓存")]
         Worker["模型 Worker · PostgreSQL 任务队列"] --> PG
-        Worker --> Model["Eino / 模型适配器"]
+        Worker --> Model["Python Agent / 模型适配器"]
         API --> Storage["图片存储 · 本地目录 / S3"]
         Worker --> Storage
     end
@@ -168,9 +168,10 @@ flowchart TB
 
 ### 开发与验证
 
-开发与验收需要 Go 1.26、Node.js 24、pnpm 11、PowerShell 7 和 Docker：
+开发与验收需要 Go 1.26、Python 3.13、Node.js 24、pnpm 11、PowerShell 7 和 Docker：
 
 ```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-python-agent.ps1
 pnpm --dir web install --frozen-lockfile
 pnpm --dir web exec playwright install chromium
 go run ./cmd/harness -mode full
@@ -178,6 +179,12 @@ go run ./cmd/harness -mode acceptance
 ```
 
 `full` 检查源码约束、数据库集成、生成契约、前端测试与构建；`acceptance` 在独立环境验证浏览器、厨房流程和平台恢复。模型测试使用确定性 fixture。最新提交的云端结果见 [GitHub Actions](https://github.com/link1ks/FoodFlow/actions/workflows/ci.yml)，验证范围见 [验证说明](docs/VERIFICATION.md)。
+
+Agent 实现在 `internal/agent/python/runtime.py`，仅使用 Python 标准库，
+没有额外 pip 依赖。Go 桥接将版本一致的 Python 源码嵌入二进制，
+使用独立子进程执行；本地优先使用 `.cache/python-agent-venv`，
+也可用 `FOODFLOW_PYTHON` 指定解释器。Docker 镜像已包含 Python。
+具体调用顺序和学习步骤见 [Python Agent 迁移计划](docs/exec-plans/python-agent-migration.md)。
 
 | 目录 | 内容 |
 | --- | --- |

@@ -3,7 +3,6 @@ package agent
 import (
 	"context"
 	"errors"
-	"github.com/cloudwego/eino/schema"
 	"net/http"
 	"net/http/httptest"
 	"sync/atomic"
@@ -18,7 +17,7 @@ func TestCallGuardBlocksNetworkAndRedirectsCannotRepeatPaidRequests(t *testing.T
 	}))
 	defer destination.Close()
 	deny := func(context.Context, int) (func(bool), error) { return nil, errors.New("fixture allowance denied") }
-	if _, err := (OpenAIModel{Endpoint: destination.URL, Name: "fixture", Key: "fixture", Guard: deny}).Generate(context.Background(), []*schema.Message{schema.UserMessage("fixture")}); err == nil || calls.Load() != 0 {
+	if _, err := (OpenAIModel{Endpoint: destination.URL, Name: "fixture", Key: "fixture", Guard: deny}).Generate(context.Background(), []*Message{UserMessage("fixture")}); err == nil || calls.Load() != 0 {
 		t.Fatal("guard did not prevent text network call")
 	}
 	if _, err := (VisionModel{Endpoint: destination.URL, Name: "fixture", Key: "fixture", Guard: deny}).Recognize(context.Background(), []byte("fixture"), "image/png"); err == nil || calls.Load() != 0 {

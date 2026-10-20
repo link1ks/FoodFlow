@@ -15,7 +15,7 @@
         "internal/app/jwt.go",
         "internal/app/proxy.go"
       ],
-      "review_digest": "beb3d9bef42d6f27dde6af2e8b96d98c19daa5fa25434a476dced21cf6a09312",
+      "review_digest": "40566d73e0caf5ca52fbca1d6eb4e32f50dab1c48ab1ba5e8af51d47eda68464",
       "browser": [
         "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
         "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
@@ -32,7 +32,7 @@
         "internal/app/personal_kitchen.go",
         "docs/PERSONAL_KITCHENS.md"
       ],
-      "review_digest": "8598a250afec82ff35f9799cb454b008a944ff951dd1fc6de3c705b82316c15e",
+      "review_digest": "c1dc9c51ede7a668330598edea3203a1aa2ce7c2bd406e63a10277b2a7fa6736",
       "browser": [
         "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
       ],
@@ -56,7 +56,7 @@
         "internal/app/pantry.go",
         "internal/dbgen"
       ],
-      "review_digest": "719fd18c69229fb7bb98d789ce9c2e03955e3e0a905de677393efc4dc83249ec",
+      "review_digest": "08a325d6c94370e51b2af108588d8ccf8581f129a4dfd0220ad4ae126dc42dec",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -74,7 +74,7 @@
         "web/src/catalogPhotos.test.ts",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "e8d14ea00458c0e16d775a47a8196ab5c9810b0924df6c30b4650acdb2babe25",
+      "review_digest": "a2c265083ad7ebe5e575175c47840dcbc99cffab07e40cf85037e9d705697e25",
       "browser": [
         "web/e2e/photos.spec.ts#studio catalogue images, family upload priority and failed-image fallback"
       ],
@@ -98,7 +98,7 @@
         "internal/app/recipe_options.go",
         "internal/app/pipeline.go"
       ],
-      "review_digest": "7061aabbeea526e1b4205fd98a4be323c081c6724b9b60eb42ac00e2b46590d8",
+      "review_digest": "fe5f6305440e9ebd961226da2896dd91f03ecd56f0e13e8f91cf50a053feb957",
       "browser": [
         "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed"
       ],
@@ -115,7 +115,7 @@
         "internal/app/pantry_service.go",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "a6e0253afa9aeb1cf6cc5ebdf1528ae54ad5d0703463b05438fa7ed4ff3d345a",
+      "review_digest": "0a60a9451ebc3be01de42c7ae06404efa0ec048143697b3ab53aa730d7209287",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -134,7 +134,7 @@
         "cmd/intake-eval",
         "docs/INTAKE_SCOPE.md"
       ],
-      "review_digest": "659cfac56984c8fc9bddc8883e023075b1a1883b1806982e7c1824f71b7a6d44",
+      "review_digest": "a95de2a052e6f4e50d14212beb7a4fdf9e1cf111fdf7cf98e870e0a7c052240f",
       "browser": [
         "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections"
       ],
@@ -154,7 +154,7 @@
         "cmd/modelcheck/main.go",
         "cmd/worker/main.go"
       ],
-      "review_digest": "ed943f3d9ed09cdd7f493e119f1132993ca373845592779cf9a5fc882372d3c9",
+      "review_digest": "f2e4efb45d693338be3fd8fe01d16b20b8168ad6ba1103c37fdfc5e7444811f0",
       "browser": [
         "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
       ],
@@ -170,7 +170,7 @@
         "internal/app/community_moderation.go",
         "docs/COMMUNITY.md"
       ],
-      "review_digest": "f292991831dd202f88928b6e6759bf2613d87b2ccce5032d901a5a72bb49f0bc",
+      "review_digest": "f5517a658e5e2c714fddfc2e1c2aa6753f6334d19021977772d6a22d1931d589",
       "browser": [
         "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure"
       ],
@@ -193,7 +193,7 @@
         "cmd/insights/main.go",
         "cmd/relay/main.go"
       ],
-      "review_digest": "ac78099744b1a16c9981770a4bd13ba5c36d967f663484182fa547c1697b14ff",
+      "review_digest": "9e7ad4032d5d19d18800daa670b9565332b5a136d13216fcf56c962c0e4f9b73",
       "browser": [
         "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
       ],
@@ -211,7 +211,7 @@
         "internal/app/nutrition_advice.go",
         "docs/NUTRITION_REFERENCES.md"
       ],
-      "review_digest": "4298d8e48c4450bd32ed354a4829ebf5e586006325f0f4db0d27f71c5893c8a9",
+      "review_digest": "0eaa0d1b6c29105860fdcd974129982614d99fd8b4dbda7c63fc4b3c1018a79f",
       "browser": [
         "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger"
       ],
@@ -230,7 +230,7 @@
         "docs/ARCHITECTURE.md",
         "cmd/price-sync/main.go"
       ],
-      "review_digest": "19f210d72cd3b4b8ded3b372ecfe811220ba86d6fc7106796b125af8f82c95bb",
+      "review_digest": "8c66b66d00d38b2e088b96cf82b92d7daf623e6594018c319aa777a98acafeed",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
@@ -248,7 +248,7 @@
         "web/e2e",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "22579ff51348bc1fad813c031e8fb54bc3025c95132cd78dab681d40de9dd1ad",
+      "review_digest": "8892f54067d871781771456eef24ce74bd5569d639edcdba2b3f8208b7869e71",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
@@ -271,7 +271,7 @@
         "cmd/recovery/main.go",
         "cmd/recovery/probe.go"
       ],
-      "review_digest": "0992ff0d1907e87f349d42e95d86e84f0ea736189fda4e93a36d414540eadb75",
+      "review_digest": "fa4a8b2319585c635a0e0b0c63e06964404124869d65cdcee81cb5bff3399b1e",
       "browser": [
         "web/e2e/security.spec.ts#gateway security policy blocks injected scripts and permits the app"
       ],
@@ -295,7 +295,7 @@
         "cmd/loadcheck/main.go",
         "cmd/migrate/main.go"
       ],
-      "review_digest": "4261a0f1e8960c82d4775da9190b8a6c971486750e33aaa20de27bec031ed196",
+      "review_digest": "624bc4203b48a8f66a2cec9d9e654356f3b2d7e63696d54cf8e6bbeab47e1f08",
       "browser": [
         "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct"
       ],
@@ -437,12 +437,6 @@
       "id": "internal/agent/community_review_test.go#TestCommunityReviewPartialCredentialsNeverMixProviders",
       "requirements": [
         "COMMUNITY"
-      ]
-    },
-    {
-      "id": "internal/agent/config_test.go#TestDeepSeekOptions",
-      "requirements": [
-        "AI"
       ]
     },
     {
@@ -1440,6 +1434,35 @@
       "id": "cmd/harness/business_test.go#TestUnifiedCompletionAcceptsOnlyAllGatesAfterBinding",
       "requirements": [
         "HARNESS"
+      ]
+    },
+    {
+      "id": "internal/agent/python_bridge_test.go#TestPythonAgentContracts",
+      "requirements": [
+        "AI",
+        "MENU",
+        "NUTRITION",
+        "INTAKE",
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/agent/python_bridge_test.go#TestPythonAgentCancellationPreservesUncertainDebit",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/python_bridge_test.go#TestPythonAgentGuardMatchesExactUTF8RequestAndRejectsUnsafeRecipe",
+      "requirements": [
+        "AI",
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/agent/python_bridge_test.go#TestPythonAgentEnvironmentDoesNotInheritApplicationSecrets",
+      "requirements": [
+        "AI"
       ]
     }
   ]

@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"foodflow/internal/agent"
-	"github.com/cloudwego/eino/schema"
 	"github.com/joho/godotenv"
 	"image"
 	"image/color"
@@ -37,7 +36,7 @@ func main() {
 		}
 	}
 	check("menu", func(ctx context.Context) error {
-		r, e := m.Generate(ctx, []*schema.Message{schema.SystemMessage("Return JSON only: {\"recipe_id\":\"test-salad\"}. Select only this allowed recipe."), schema.UserMessage("Synthetic test: lettuce salad for two people.")})
+		r, e := m.Generate(ctx, []*agent.Message{agent.SystemMessage("Return JSON only: {\"recipe_id\":\"test-salad\"}. Select only this allowed recipe."), agent.UserMessage("Synthetic test: lettuce salad for two people.")})
 		if e != nil {
 			return e
 		}
@@ -51,7 +50,7 @@ func main() {
 		return nil
 	})
 	check("nutrition", func(ctx context.Context) error {
-		r, e := m.Generate(ctx, []*schema.Message{schema.SystemMessage("Return JSON with summary (Chinese string), tips (1-3 Chinese strings), recipe_ids (array containing only test-salad). Give general cooking advice, no invented nutrient values."), schema.UserMessage("Synthetic test inventory: 300 g lettuce. Allowed recipe test-salad: lettuce salad. Two people.")})
+		r, e := m.Generate(ctx, []*agent.Message{agent.SystemMessage("Return JSON with summary (Chinese string), tips (1-3 Chinese strings), recipe_ids (array containing only test-salad). Give general cooking advice, no invented nutrient values."), agent.UserMessage("Synthetic test inventory: 300 g lettuce. Allowed recipe test-salad: lettuce salad. Two people.")})
 		if e != nil {
 			return e
 		}

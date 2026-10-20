@@ -17,6 +17,13 @@ go run ./cmd/harness -mode cloud -out .cache/harness/task-cloud.json
 
 Full mode checks AST import rules, Go formatting, vet, all Go tests with required Docker integration, pinned sqlc generation consistency, generated frontend API type freshness, frontend tests and build. Fast mode explicitly uses `-short`; it cannot establish database or messaging acceptance. Results and bounded subprocess output are written to `.cache/harness/latest.json`. The harness clears production test-database and model/cache/service environment overrides from test subprocesses, uses fixed argument vectors and exits nonzero on failed checks.
 
+Agent tests require Python 3.13. `TestPythonAgentContracts` runs the offline
+Python unittest suite; its named Go result is the harness binding, and a failed
+Python assertion fails that Go test. Model adapter/integration tests execute the
+actual embedded Python runtime against local fixtures. Python sources under
+`internal/agent/python` participate in source digests and the reviewed AI source
+scope. `-B` prevents test imports from creating bytecode in the source tree.
+
 Full and fast also run `update-regression` (`pwsh -File tests/update-project.ps1`). This uses disposable local Git repositories to verify check-only/fast-forward updates, preservation of configuration/photos, refusal of local changes/divergence/unfinished operations, locking and failed fetches. Docker restart arguments and retry behavior are mocked; this check does not establish real container rebuild or migration compatibility. On Windows, `powershell -NoProfile -ExecutionPolicy Bypass -File tests/update-project.ps1` additionally verifies the one-click launcher's PowerShell 5.1 compatibility.
 
 ## Knowledge freshness

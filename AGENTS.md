@@ -1,5 +1,14 @@
 # FoodFlow repository map
 
+## Learning collaboration
+
+The user wants explanations for learning, but has explicitly delegated subsequent
+command execution to the agent (2026-10-20), superseding the earlier manual-command
+handoffs. Execute verification, backups, deployment switching and publication
+within the authorized task; explain significant actions and findings without
+requiring the user to run commands. Inspect actual results before claiming that
+verification, deployment or publication succeeded.
+
 Read `docs/HARNESS.md` for verification commands and `docs/PLATFORM.md` for service ownership.
 
 - Product and startup: `README.md`.

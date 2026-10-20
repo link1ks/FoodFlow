@@ -7,7 +7,7 @@ React + TanStack Query ──HTTP/SSE──> Gin API ──pgx/sqlc──> Postg
                                       │                  ↑
                                       └─ jobs 表 ──> 独立 Worker
                                                    ├─ 菜谱/库存/偏好只读工具
-                                                   └─ Eino 消息结构 + 模型适配器
+                                                   └─ Python Agent 子进程 + 模型适配器
 ```
 
 **家庭权限。** 新会话使用 HS256 JWT，严格校验算法、签发方、受众与有效期，再结合数据库令牌哈希实现退出撤销；家庭权限不写死在 JWT 中。API 通过会话查用户，家庭路由统一查询 `members`。Agent Worker 在使用家庭偏好、库存与菜谱前，再以任务创建者身份检查成员角色。模型不接收数据库连接、SQL 或命令执行能力。邀请令牌只存哈希，且绑定受邀邮箱。

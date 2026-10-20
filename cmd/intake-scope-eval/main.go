@@ -2,7 +2,6 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
@@ -12,7 +11,6 @@ import (
 	"fmt"
 	"foodflow/internal/agent"
 	"github.com/joho/godotenv"
-	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -42,36 +40,7 @@ type row struct {
 	Accepted bool   `json:"accepted"`
 	Correct  bool   `json:"correct"`
 }
-type capture struct{ row *row }
 
-func (c capture) RoundTrip(req *http.Request) (*http.Response, error) {
-	response, err := http.DefaultTransport.RoundTrip(req)
-	if err != nil {
-		return nil, err
-	}
-	c.row.HTTP = response.StatusCode
-	data, err := io.ReadAll(io.LimitReader(response.Body, 65537))
-	response.Body.Close()
-	if err != nil || len(data) > 65536 {
-		return nil, errors.New("bounded provider response unavailable")
-	}
-	var envelope struct {
-		Usage   usage `json:"usage"`
-		Choices []struct {
-			Message struct {
-				Content string `json:"content"`
-			} `json:"message"`
-		} `json:"choices"`
-	}
-	if json.Unmarshal(data, &envelope) == nil {
-		c.row.Usage = envelope.Usage
-		if len(envelope.Choices) == 1 {
-			c.row.Content = envelope.Choices[0].Message.Content
-		}
-	}
-	response.Body = io.NopCloser(bytes.NewReader(data))
-	return response, nil
-}
 func digest(data []byte) string { h := sha256.Sum256(data); return hex.EncodeToString(h[:]) }
 func main() {
 	if err := run(); err != nil {
@@ -170,7 +139,7 @@ func run() error {
 	f.Close()
 	rows := []row{}
 	reserved := 0
-	report := map[string]any{"model": cfg["VISION_MODEL_NAME"], "manifest_sha256": digest(manifest), "prompt_sha256": digest([]byte(agent.VisionPrompt)), "max_requests": 16, "authorized_token_limit": *tokenLimit, "actual_invoice_verified": false, "scope": "public/synthetic adapter evaluation, no inventory/database/browser calls"}
+	report := map[string]any{"model": cfg["VISION_MODEL_NAME"], "manifest_sha256": digest(manifest), "agent_runtime_sha256": agent.RuntimeDigest(), "max_requests": 16, "authorized_token_limit": *tokenLimit, "actual_invoice_verified": false, "scope": "public/synthetic adapter evaluation, no inventory/database/browser calls"}
 	save := func() error {
 		report["rows"] = rows
 		report["reserved_tokens"] = reserved
@@ -187,7 +156,23 @@ func run() error {
 		}
 		rows = append(rows, row{ID: s.ID, Digest: digest(inputs[i]), Expected: s.Name, State: "not_dispatched"})
 		entry := &rows[len(rows)-1]
-		model := agent.VisionModel{Endpoint: endpoint, Name: cfg["VISION_MODEL_NAME"], Key: key, Client: &http.Client{Transport: capture{entry}, Timeout: 12 * time.Second}}
+		model := agent.VisionModel{Endpoint: endpoint, Name: cfg["VISION_MODEL_NAME"], Key: key, Observe: func(status int, data []byte) {
+			entry.HTTP = status
+			var envelope struct {
+				Usage   usage `json:"usage"`
+				Choices []struct {
+					Message struct {
+						Content string `json:"content"`
+					} `json:"message"`
+				} `json:"choices"`
+			}
+			if json.Unmarshal(data, &envelope) == nil {
+				entry.Usage = envelope.Usage
+				if len(envelope.Choices) == 1 {
+					entry.Content = envelope.Choices[0].Message.Content
+				}
+			}
+		}}
 		model.Guard = func(context.Context, int) (func(bool), error) {
 			if reserved+20000 > *tokenLimit {
 				return nil, errors.New("local token reservation exhausted")

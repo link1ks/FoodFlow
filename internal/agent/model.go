@@ -1,110 +1,61 @@
 package agent
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/cloudwego/eino/components/model"
-	"github.com/cloudwego/eino/schema"
 	"io"
-	"net/http"
 	"strings"
-	"time"
 )
 
+type Message struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
+func SystemMessage(content string) *Message { return &Message{Role: "system", Content: content} }
+func UserMessage(content string) *Message   { return &Message{Role: "user", Content: content} }
+
+type ChatModel interface {
+	Generate(context.Context, []*Message) (*Message, error)
+}
+type CallGuard func(context.Context, int) (func(bool), error)
 type DemoModel struct{ RecipeID string }
 
-var _ model.BaseChatModel = DemoModel{}
-
-func (d DemoModel) Generate(_ context.Context, _ []*schema.Message, _ ...model.Option) (*schema.Message, error) {
-	raw, _ := json.Marshal(struct {
-		RecipeID string `json:"recipe_id"`
-	}{d.RecipeID})
-	return schema.AssistantMessage(string(raw), nil), nil
-}
-func (d DemoModel) Stream(context.Context, []*schema.Message, ...model.Option) (*schema.StreamReader[*schema.Message], error) {
-	return nil, errors.New("streaming not used by FoodFlow planner")
+func (d DemoModel) Generate(ctx context.Context, _ []*Message) (*Message, error) {
+	content, err := callPython(ctx, pythonRequest{Task: "demo", RecipeID: d.RecipeID}, nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &Message{Role: "assistant", Content: content}, nil
 }
 
 type OpenAIModel struct {
 	Endpoint, Name, Key string
-	Client              *http.Client
 	MaxTokens           int
 	Guard               CallGuard
+	Task                string
+	Context             any
 }
 
-// The application provides a durable allowance guard; adapters never own DB access.
-// knownComplete=false retains an uncertain debit/slot after network ambiguity.
-type CallGuard func(context.Context, int) (func(bool), error)
-
-func noRedirectClient(client *http.Client) *http.Client {
-	if client == nil {
-		client = &http.Client{Timeout: 25 * time.Second}
+func (m OpenAIModel) Generate(ctx context.Context, messages []*Message) (*Message, error) {
+	task := m.Task
+	if task == "" {
+		task = "text"
 	}
-	copy := *client
-	copy.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
-	return &copy
+	content, err := callPython(ctx, pythonRequest{Task: task, Endpoint: m.Endpoint, Model: m.Name, Key: m.Key, Messages: messages, MaxTokens: m.MaxTokens, Context: m.Context}, m.Guard, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &Message{Role: "assistant", Content: content}, nil
 }
-
-var _ model.BaseChatModel = OpenAIModel{}
-
-func (m OpenAIModel) Generate(ctx context.Context, messages []*schema.Message, _ ...model.Option) (*schema.Message, error) {
-	if m.Endpoint == "" || m.Name == "" || m.Key == "" {
-		return nil, errors.New("model configuration incomplete")
+func DemoAdvice(ctx context.Context, context any, allowed map[string]bool) (Advice, error) {
+	content, err := callPython(ctx, pythonRequest{Task: "demo_advice", Context: context}, nil, nil)
+	if err != nil {
+		return Advice{}, err
 	}
-	payload := map[string]any{"model": m.Name, "temperature": 0, "response_format": map[string]string{"type": "json_object"}, "messages": messages}
-	payload["max_tokens"] = 1600
-	applyProviderOptions(payload, m.Endpoint)
-	if m.MaxTokens > 0 {
-		payload["max_tokens"] = m.MaxTokens
-	}
-	body, _ := json.Marshal(payload)
-	req, e := http.NewRequestWithContext(ctx, "POST", strings.TrimRight(m.Endpoint, "/")+"/chat/completions", bytes.NewReader(body))
-	if e != nil {
-		return nil, e
-	}
-	req.Header.Set("Authorization", "Bearer "+m.Key)
-	req.Header.Set("Content-Type", "application/json")
-	knownComplete := false
-	if m.Guard != nil {
-		finish, err := m.Guard(ctx, len(body))
-		if err != nil {
-			return nil, err
-		}
-		defer func() { finish(knownComplete) }()
-	}
-	client := noRedirectClient(m.Client)
-	resp, e := client.Do(req)
-	if e != nil {
-		return nil, e
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
-		knownComplete = true
-		return nil, fmt.Errorf("model status %d", resp.StatusCode)
-	}
-	raw, e := io.ReadAll(io.LimitReader(resp.Body, 65537))
-	if e != nil {
-		return nil, e
-	}
-	if len(raw) > 65536 {
-		return nil, errors.New("model response too large")
-	}
-	knownComplete = true
-	var envelope struct {
-		Choices []struct {
-			Message schema.Message `json:"message"`
-		} `json:"choices"`
-	}
-	if e = json.Unmarshal(raw, &envelope); e != nil || len(envelope.Choices) != 1 {
-		return nil, errors.New("invalid model response")
-	}
-	return &envelope.Choices[0].Message, nil
-}
-func (m OpenAIModel) Stream(context.Context, []*schema.Message, ...model.Option) (*schema.StreamReader[*schema.Message], error) {
-	return nil, errors.New("streaming not used by FoodFlow planner")
+	return ParseAdvice(content, allowed)
 }
 func ParseRecipeID(content string) (string, error) {
 	decoder := json.NewDecoder(strings.NewReader(content))

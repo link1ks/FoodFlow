@@ -14,6 +14,17 @@ flowchart LR
 
 The API owns users, permissions, inventory, procurement, menus and authoritative writes. Model Worker keeps its existing PostgreSQL queue and lease fencing. Insights is a separate executable and database owner; its only kitchen input is the versioned stock event. API checks current household membership before forwarding a request authenticated with an internal service token. Statistics cannot mutate inventory.
 
+The Go Worker invokes an embedded Python 3.13 agent in a bounded child process.
+Python owns prompts, provider HTTP requests and structured model outputs for
+planning, nutrition advice, vision, speech and community review; demo selection
+also executes Python. Go retains database authorization, deterministic quantities,
+lease fencing and final business validation. Python receives no database credentials.
+Its private JSON pipe reports the exact UTF-8 provider request size before the
+Worker's durable allowance guard authorizes dispatch. Cancellation kills the child;
+missing/uncertain results retain the debit. There are no provider retries or
+redirects. `FOODFLOW_PYTHON` can select a native interpreter; Docker and CI pin
+Python 3.13. The source is embedded in Go so deployed agent code matches the binary.
+
 Kitchen API also owns recovery-code hashes tied to credential epochs and durable AI policy allowances. Worker commits a unique job debit under the service-wide PostgreSQL lock before each outbound paid request. Model adapters receive a guard callback, never a database client. Unknown outcomes retain debit/concurrency until explicit operator review; this ledger is an application policy, not provider invoicing. [Account and allowance guide](ACCOUNT_RECOVERY_AI.md) records the learning boundary.
 
 Kitchen API owns [voice ingredient intake](VOICE_INTAKE.md): consented recordings use the shared private object store and a single-attempt Worker job. The independently configured Qwen ASR adapter transcribes under the same durable paid-call guard; pure `internal/engine/intake.Interpret` enforces a bounded addition grammar, resolves explicit correction/retraction targets, and prepares catalogue drafts without I/O. Out-of-scope results cannot be confirmed. Recognition changes no stock. Explicit confirmation commits all batches, immutable ledger facts and outbox events in one kitchen transaction. Image intake also requires a photo observation with exactly one visible ingredient and a unique current catalogue match, rechecked during confirmation. [Scope evaluation](INTAKE_SCOPE.md) records false accepts, conservative rejection and model-call latency. Representative recognition quality and interrupted-job audio cleanup remain documented limits.

@@ -2,7 +2,6 @@ package agent
 
 import (
 	"context"
-	"github.com/cloudwego/eino/schema"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -35,7 +34,7 @@ func TestOpenAIAdapter(t *testing.T) {
 	}))
 	defer s.Close()
 	m := OpenAIModel{Endpoint: s.URL, Name: "test-model", Key: "test-key"}
-	answer, e := m.Generate(context.Background(), []*schema.Message{schema.UserMessage("pick")})
+	answer, e := m.Generate(context.Background(), []*Message{UserMessage("pick")})
 	if e != nil {
 		t.Fatal(e)
 	}

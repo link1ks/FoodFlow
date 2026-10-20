@@ -15,7 +15,7 @@
 | MENU | 菜单推荐只生成草案；明确选择餐次，确认重算缺口，烹饪再核对库存并只扣一次。取消推荐持久保留，排程受预算限制。 | [架构](ARCHITECTURE.md)、`internal/app/plans.go` |
 | SHOP | 已买和已入库不同；实际数量确认后才入库；软删除不删除已发生的库存事实；重复确认不得重复增加。 | [架构](ARCHITECTURE.md)、`internal/app/shopping_delete.go` |
 | INTAKE | 麦克风录音经用户同意后转写；本地有界语法生成草稿。图片模型返回 scene/foods，真实单种食材且匹配目录才允许草稿。数量由用户确认，确认前不改库存。 | [范围](INTAKE_SCOPE.md)、[语音](VOICE_INTAKE.md) |
-| AI | Worker 租约、取消和成员权限约束结果。收费请求先持久化预扣，同任务不重复发送，结果不明保留额度；程序额度不等于供应商账单上限。 | [额度](ACCOUNT_RECOVERY_AI.md)、`internal/app/ai_allowance.go` |
+| AI | Go Worker 约束租约、取消和成员权限；Python Agent 执行提示、模型请求和结构化输出。Python 准备确切请求后须等待 Go 持久化预扣批准；同任务不重复发送，进程取消或结果不明保留额度。程序额度不等于供应商账单上限。 | [额度](ACCOUNT_RECOVERY_AI.md)、[平台](PLATFORM.md)、`internal/app/ai_allowance.go` |
 | COMMUNITY | 明确同意后初审，失败保持私有；版本与派发受约束，发布和积分同事务。每周候选由全站管理员另行审核，家庭角色不能替代。 | [社区](COMMUNITY.md) |
 | REPORT | 金额读取历史快照，未知成本保留未知；原单位数量不混加。统计投影独立数据库，重复事件去重，错误事件隔离，故障恢复后追平。 | [平台](PLATFORM.md)、`internal/app/monthly_report.go` |
 | NUTRITION | 200 项目录中 198 项有参考值，泛指鱼和贝类保留未知。每 100 g 可食部参考值不是实际摄入；批次换算不扣库存，不重写历史营养快照。 | [营养来源](NUTRITION_REFERENCES.md) |

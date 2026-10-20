@@ -2,19 +2,6 @@ package agent
 
 import "testing"
 
-func TestDeepSeekOptions(t *testing.T) {
-	p := map[string]any{}
-	applyProviderOptions(p, "https://api.deepseek.com/v1")
-	if p["thinking"].(map[string]string)["type"] != "disabled" {
-		t.Fatal("structured tasks should disable thinking")
-	}
-	p = map[string]any{}
-	applyProviderOptions(p, "https://api.deepseek.com.example.org")
-	if len(p) != 0 {
-		t.Fatal("provider options leaked to another provider")
-	}
-}
-
 func TestVisionConfig(t *testing.T) {
 	t.Setenv("MODEL_ENDPOINT", "https://text.invalid/v1")
 	t.Setenv("MODEL_API_KEY", "text-secret")

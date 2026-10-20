@@ -1,16 +1,6 @@
 package agent
 
-import (
-	"net/url"
-	"os"
-)
-
-func applyProviderOptions(payload map[string]any, endpoint string) {
-	u, err := url.Parse(endpoint)
-	if err == nil && u.Hostname() == "api.deepseek.com" {
-		payload["thinking"] = map[string]string{"type": "disabled"}
-	}
-}
+import "os"
 
 // VisionFromEnv uses a separate credential pair when either override is set.
 // Never send the text service's key to an independently configured endpoint.

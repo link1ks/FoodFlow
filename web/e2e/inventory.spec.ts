@@ -121,8 +121,11 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   await expect(nutrition).toContainText("蛋白质");
   await expect(nutrition.getByRole("link")).toHaveCount(0);
   await expect(nutrition).not.toContainText("参考值不等于");
-  await tomatoCard.screenshot({
+  // Element screenshots can scroll a transient hover preview beneath the
+  // sticky navigation. Capture the page without repositioning the card.
+  await page.screenshot({
     path: info.outputPath("nutrition-overlay.png"),
+    fullPage: true,
     animations: "disabled",
   });
   await nutrition.getByRole("button", { name: "关闭营养信息" }).click();

@@ -1,5 +1,25 @@
 # Platform maintenance and delivery
 
+## 2026-10-20 — Python Agent migration, hands-on workflow
+
+Task `python-agent-migration` started (feature, baseline unknown). The user
+requests migration of the Agent to Python and explicitly reserves important
+commands for hands-on learning. Implementation and automated tests belong to the
+assistant; environment initialization, selected checks, backups, deployment
+switching and publication belong to the user. See the
+[migration and learning plan](python-agent-migration.md) for scope, proposed
+protocol, actual preparation evidence and pending steps. This is an unfinished
+migration until the published commit's cloud report and version-2 completion
+gate pass. Final local full (18 checks, 155 named results), acceptance (42
+desktop/mobile results), diagnose and main-site pass at source digest
+`1ca4ddc8bcd5f43cf10b958c8e701612c52ec19106a96d90a36ff372b8d5f877`.
+The default deployment now runs Python after a verified paired backup and
+configuration/data preservation checks. The linked plan records the initial
+browser fixture failure, missing old image content, successful local rollback
+preservation and corrected Compose switching command. No paid probe was made.
+The user's latest instruction delegates all subsequent commands to the assistant;
+the earlier hands-on handoffs remain historical learning records.
+
 ## Current task: eliminate duplicate CI runs
 
 2026-10-16 (Asia/Shanghai), task `ci-deduplicate-20261016`, baseline `dfd0197`. User requests stopping duplicate running checks and preventing repeated branch-push/PR suites. Confirmed three runs on the same ingredient-intake commit: feature-branch push `38856206970`, merged PR `38856280399`, main push `38856396220`. PR #2 is already merged; preserve main's verification and cancel only the two obsolete branch/PR runs, with exact SHA/branch identity checked before mutation. Retain logs/artifacts rather than delete history. Reproduced the old YAML policy with a failing event-matrix regression: feature/codex branch pushes and tags all incorrectly start CI alongside PR, and concurrency lacks a workflow-qualified PR identity.
