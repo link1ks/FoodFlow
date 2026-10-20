@@ -108,31 +108,39 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
   await expect(nutrition).toHaveCount(0);
   if (info.project.name === "desktop") {
     await tomatoCard.hover();
-    await page.waitForTimeout(900);
+    await page.waitForTimeout(2300);
     await expect(nutrition).toHaveCount(0);
-    await expect(nutrition).toBeVisible({ timeout: 1600 });
-  } else {
-    await tomatoCard
-      .getByRole("button", { name: "查看番茄营养价值", exact: true })
-      .click();
-    await expect(nutrition).toBeVisible();
   }
-  await expect(nutrition).toContainText("每 100 克");
-  await expect(nutrition).toContainText("蛋白质");
-  await expect(nutrition.getByRole("link")).toHaveCount(0);
-  await expect(nutrition).not.toContainText("参考值不等于");
-  // Element screenshots can scroll a transient hover preview beneath the
-  // sticky navigation. Capture the page without repositioning the card.
-  await page.screenshot({
-    path: info.outputPath("nutrition-overlay.png"),
-    fullPage: true,
-    animations: "disabled",
+  await expect(tomatoCard.locator(".ff-nutrition-trigger")).toHaveCount(0);
+  await expect(tomatoCard).toHaveClass(/ff-stock-card-priority/);
+  await expect(
+    tomatoCard.locator(".ff-stock-title-row .ff-priority-badge"),
+  ).toHaveText("优先处理");
+  const sizes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => ({
+      w: node.getBoundingClientRect().width,
+      h: node.getBoundingClientRect().height,
+    })),
+  );
+  expect(
+    Math.max(...sizes.map((s) => s.h)) - Math.min(...sizes.map((s) => s.h)),
+  ).toBeLessThan(2);
+  expect(
+    Math.max(...sizes.map((s) => s.w)) - Math.min(...sizes.map((s) => s.w)),
+  ).toBeLessThan(2);
+  await expect(tomatoCard.locator(".ff-expiry-unknown")).toBeVisible();
+  const emptyCard = cards.filter({
+    has: page.getByRole("heading", { name: "黄瓜", exact: true }),
   });
-  await nutrition.getByRole("button", { name: "关闭营养信息" }).click();
-  await page.mouse.move(0, 0);
-  await expect(nutrition).toHaveCount(0);
-  await expect(tomatoCard).toHaveClass(/ff-stock-card-undated/);
-  await expect(tomatoCard.locator(".ff-undated-badge")).toHaveText("优先处理");
+  const lowBox = await emptyCard
+    .getByText("库存偏低", { exact: true })
+    .boundingBox();
+  const emptyBox = await emptyCard
+    .getByText("已用完", { exact: true })
+    .boundingBox();
+  expect(
+    lowBox && emptyBox && emptyBox.y >= lowBox.y + lowBox.height,
+  ).toBeTruthy();
   await expect(tomatoCard.getByLabel("番茄期限与用量")).toContainText(
     "未设期限",
   );
@@ -247,6 +255,19 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
             .id,
           quantity: "100",
           expires_on: "2099-01-01",
+          bought_on: "2026-01-01",
+        },
+      })
+    ).status(),
+  ).toBe(200);
+  expect(
+    (
+      await request.post(root + "/catalog-stock", {
+        headers: { ...headers, "Idempotency-Key": randomUUID() },
+        data: {
+          catalog_id: entries.find((x: { name: string }) => x.name === "食盐")
+            .id,
+          quantity: "200",
         },
       })
     ).status(),
@@ -256,20 +277,117 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
     .getByRole("navigation", { name: "主导航" })
     .getByRole("button", { name: /食材/ })
     .click();
+  const saltCard = page
+    .locator(".ff-stock-card")
+    .filter({ has: page.getByRole("heading", { name: "食盐", exact: true }) });
+  await expect(saltCard.locator(".ff-condiment")).toHaveCount(0);
+  await expect(saltCard.getByLabel("为食盐上传图片")).toBeAttached();
+  const shelf = page.getByRole("region", { name: "常用调味品", exact: true });
+  await expect(
+    shelf.getByRole("heading", { name: "食用油", exact: true }),
+  ).toBeVisible();
+  await expect(
+    shelf.getByRole("heading", { name: "酱油", exact: true }),
+  ).toBeVisible();
+  await expect(
+    shelf.getByRole("img", { name: "食用油容器示意，未添加", exact: true }),
+  ).toBeVisible();
+  await expect(
+    shelf.getByRole("img", { name: "食盐容器示意，待设置容量", exact: true }),
+  ).toBeVisible();
+  await shelf
+    .getByRole("button", { name: "设置食盐容量", exact: true })
+    .click();
+  await shelf.getByLabel("满瓶容量 g", { exact: true }).fill("500");
+  await shelf.getByRole("checkbox", { name: /我确认启用配方估算/ }).check();
+  await shelf.getByRole("button", { name: "确认启用", exact: true }).click();
+  const bottle = shelf
+    .locator(".ff-pantry-bottle")
+    .filter({ has: page.getByRole("heading", { name: "食盐", exact: true }) });
+  await expect(
+    bottle.getByRole("img", { name: /食盐容器示意/ }),
+  ).toHaveAccessibleName(/满瓶容量 500.000 g，40%/);
+  const fill = bottle.locator(".ff-container-fill");
+  const fillOffset = () =>
+    fill.evaluate(
+      (el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42,
+    );
+  await expect.poll(fillOffset).toBeCloseTo(67.2, 1);
+  // A transition event on this same node catches remounts that would jump/restart the fill.
+  await fill.evaluate((el) =>
+    el.addEventListener(
+      "transitionrun",
+      () => el.setAttribute("data-test-transition", "started"),
+      { once: true },
+    ),
+  );
+  await bottle
+    .getByRole("button", { name: "校准 / 管理", exact: true })
+    .click();
+  await bottle.getByLabel("食盐余量校准").press("Home");
+  for (let step = 0; step < 50; step++)
+    await bottle.getByLabel("食盐余量校准").press("ArrowRight");
+  await bottle
+    .getByRole("button", { name: "确认校准为 50%", exact: true })
+    .click();
+  await expect(
+    bottle.getByRole("img", { name: /食盐容器示意/ }),
+  ).toHaveAccessibleName(/剩余 250.000 g，满瓶容量 500.000 g，50%/);
+  await expect(saltCard.locator(".ff-stock-quantity")).toHaveText("250 g");
+  await expect(fill).toHaveAttribute("data-test-transition", "started");
+  await expect.poll(fillOffset).toBeCloseTo(56, 1);
+  await fill.evaluate((el) => {
+    el.removeAttribute("data-test-transition");
+    el.addEventListener(
+      "transitionrun",
+      () => el.setAttribute("data-test-transition", "started"),
+      { once: true },
+    );
+  });
+  await bottle
+    .getByRole("button", { name: "校准 / 管理", exact: true })
+    .click();
+  await bottle.getByLabel("食盐余量校准").press("Home");
+  for (let step = 0; step < 25; step++)
+    await bottle.getByLabel("食盐余量校准").press("ArrowRight");
+  await bottle
+    .getByRole("button", { name: "确认校准为 25%", exact: true })
+    .click();
+  await expect(fill).toHaveAttribute("data-test-transition", "started");
+  await expect.poll(fillOffset).toBeCloseTo(84, 1);
+  await expect(saltCard.locator(".ff-stock-quantity")).toHaveText("125 g");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect
+    .poll(() => fill.evaluate((el) => getComputedStyle(el).transitionDuration))
+    .toBe("0s");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBeTruthy();
+  await page.screenshot({
+    path: info.outputPath("common-seasoning-shelf.png"),
+    fullPage: true,
+  });
   const replenished = page
     .locator(".ff-stock-card")
     .filter({ has: page.getByRole("heading", { name: "大米", exact: true }) });
   await expect(replenished.getByLabel("大米期限与用量")).toContainText(
     "2099-01-01",
   );
-  await expect(replenished.getByRole("meter")).toHaveCount(2);
-  await expect(replenished.getByRole("meter").first()).toHaveAttribute(
-    "aria-valuenow",
-    "100",
-  );
-  await expect(replenished.getByRole("meter").nth(1)).toHaveAttribute(
-    "aria-valuenow",
-    "75",
-  );
+  await expect(
+    replenished.getByRole("meter", { name: /批剩余比例/ }),
+  ).toHaveCount(2);
+  await expect(
+    replenished.getByRole("meter", { name: /批剩余比例/ }).first(),
+  ).toHaveAttribute("aria-valuenow", "100");
+  await expect(
+    replenished.getByRole("meter", { name: /批剩余比例/ }).nth(1),
+  ).toHaveAttribute("aria-valuenow", "75");
+  await expect(
+    replenished.getByRole("meter", { name: /有效期剩余比例/ }),
+  ).toBeVisible();
   await expect(replenished.locator(".ff-stock-details[open]")).toHaveCount(0);
 });

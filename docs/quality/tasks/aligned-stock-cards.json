@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "task": "aligned-stock-cards",
+  "criteria": [
+    {
+      "id": "alignment",
+      "description": "食材卡片等宽等高，手机无横向溢出",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "priority",
+      "description": "优先处理在名称右侧，整卡黄色突出",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "no-hover",
+      "description": "移除悬停营养浮层，详情保留营养入口",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "expiry",
+      "description": "每批期限条直接在卡片主面显示，未知期限不虚构进度",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "condiments",
+      "description": "常见调味品瓶罐表现余量与明确基准",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    }
+  ]
+}

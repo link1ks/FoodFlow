@@ -15,7 +15,7 @@
         "internal/app/jwt.go",
         "internal/app/proxy.go"
       ],
-      "review_digest": "81f40d9b0538330294480b59c8212e3c81fe6c60d815e64b27896ea8045d73ad",
+      "review_digest": "99f24c5a7221edcaf7da5860a8adb7ce82fcf2cbbbd2e1ef3d426c350ccaacd0",
       "browser": [
         "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
         "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
@@ -32,7 +32,7 @@
         "internal/app/personal_kitchen.go",
         "docs/PERSONAL_KITCHENS.md"
       ],
-      "review_digest": "519248c3c727a0c8e2f5215d1f711cdd66c55fcbef8a1694ed597b9a428e3e68",
+      "review_digest": "e7145095fc7403560cd48a6f71b07a3d2e73905b6739e9290bf5dddcef6da8c4",
       "browser": [
         "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
       ],
@@ -56,7 +56,7 @@
         "internal/app/pantry.go",
         "internal/dbgen"
       ],
-      "review_digest": "20f5d097df5f7b0bcba964be24d6f9368a20f0d4fa8e38eb6928fe1093b43ab1",
+      "review_digest": "ddd4e7d7e36e0117dc494cf17a835989dd8954f5357b80f5e986be35b736ec0b",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -74,7 +74,7 @@
         "web/src/catalogPhotos.test.ts",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "064978dfae8a32e641130dc78d7c0b482c2697f06a36f190ab6ed3aa69d1b3aa",
+      "review_digest": "de79ca1105fcb94a7730414d26abfade670fb461f3e7c6c05219ea2c189ae993",
       "browser": [
         "web/e2e/photos.spec.ts#studio catalogue images, family upload priority and failed-image fallback"
       ],
@@ -98,7 +98,7 @@
         "internal/app/recipe_options.go",
         "internal/app/pipeline.go"
       ],
-      "review_digest": "bfc09f8535f49b68f5203f3df149ad22216de9e00c3ff0f6376f746649dd7978",
+      "review_digest": "d96e136cfee7f7f94fcec7e227f2c54b42e5386dcbda9b7d1d543f513f71f380",
       "browser": [
         "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed"
       ],
@@ -115,7 +115,7 @@
         "internal/app/pantry_service.go",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "6ef05aa12f7bde9d52a15352245db3a338ebbc104eee5cdf0918a5d1edecf78c",
+      "review_digest": "054132623f33ce2729817637237387b8f72e8279643434179209db2701d1bfb6",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -134,7 +134,7 @@
         "cmd/intake-eval",
         "docs/INTAKE_SCOPE.md"
       ],
-      "review_digest": "5ac223834a3978c1b5b8e9eada3ad452976e39fc26925665ec96a49aac7c5a19",
+      "review_digest": "5f05f5698cc5b54d1b909308b866a0ecb564f8d57a5ff594f740df9f057825fb",
       "browser": [
         "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections"
       ],
@@ -157,7 +157,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "a83391aab822216d121c788e7d0b549702787ecfef84a57998c020f8ec9a06d2",
+      "review_digest": "c9b7edf25019fca6d03fdacdb6eeb22b123d8300f403082b5f14441bbb202737",
       "browser": [
         "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
       ],
@@ -173,7 +173,7 @@
         "internal/app/community_moderation.go",
         "docs/COMMUNITY.md"
       ],
-      "review_digest": "d3ca3a36a4a0ceee92111d994b980abfaeb531d0cb2623d2c53c0db6f7cd24ee",
+      "review_digest": "411f16f3217c336e9ba3f9410e1146d894ca3560fc31f5d2589e95c79a5acdfc",
       "browser": [
         "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure"
       ],
@@ -196,7 +196,7 @@
         "cmd/insights/main.go",
         "cmd/relay/main.go"
       ],
-      "review_digest": "84a5cced0327845703b2a7be8ccae965e89713a63e7bc11fc94e997041f56597",
+      "review_digest": "6847d0a77ca98e30cdab538e84f4b53679286e823d2dd87c6be703e9c216e2a6",
       "browser": [
         "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
       ],
@@ -219,7 +219,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "a4b2cebbbe3b2987fd794ce8880f9cc37504fd217679e3b48b57efbc1ee1563b",
+      "review_digest": "bc2cc440800857dc629ce246f7b34b9d4a62ac422237e592fb19d9fc97e6b783",
       "browser": [
         "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger"
       ],
@@ -238,7 +238,7 @@
         "docs/ARCHITECTURE.md",
         "cmd/price-sync/main.go"
       ],
-      "review_digest": "7535eca22a6e238081b172734496b207c45ec7a7885842a0352f3c55f92fa1bf",
+      "review_digest": "746ff4cc330e12a1acd56081deff3638f758dc97946395675f101490ced73a61",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
@@ -256,13 +256,14 @@
         "web/e2e",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "f1e077be9fd7f2afe949c710b99d11bb26aa1a9de9f6b5872f0968fd2cba27a6",
+      "review_digest": "79b2c020a09d7c226a41620895fc487967ceb64ab7491990bb168bc886d29db1",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
-        "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states"
+        "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states",
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
       ],
-      "data": "桌面/手机/320px；200项选择器、2秒悬停、点击固定、余量和独立批次。",
+      "data": "桌面/手机/320px；200项选择器、等高卡片、无悬停、余量/期限独立批次、调味品瓶罐基准。",
       "limits": "自动交互不是用户研究，所有业务写入只在虚构账号。"
     },
     {
@@ -279,7 +280,7 @@
         "cmd/recovery/main.go",
         "cmd/recovery/probe.go"
       ],
-      "review_digest": "5594beff456eab37ffd8bae673f12a40288d1de4b0d81fb206926107acc19345",
+      "review_digest": "c0b9b81e93391dd4558676d6476f374f2707daf7e672cd4acbf6b09dd78f315f",
       "browser": [
         "web/e2e/security.spec.ts#gateway security policy blocks injected scripts and permits the app"
       ],
@@ -303,7 +304,7 @@
         "cmd/loadcheck/main.go",
         "cmd/migrate/main.go"
       ],
-      "review_digest": "1de7f6e57b69340981cff44c7288e2a4744077704261d0b219fcadf2ff8d6a70",
+      "review_digest": "75dbf63c8efc062fdb061ba049c48eb820f17cf04d7156283d86cb326e5263aa",
       "browser": [
         "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct"
       ],

@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "task": "stock-cards-seasoning-animation",
+  "criteria": [
+    {
+      "id": "alignment",
+      "description": "食材卡片等宽等高，手机无横向溢出",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "priority",
+      "description": "优先处理在名称右侧，整卡黄色突出",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "no-hover",
+      "description": "移除悬停营养浮层，详情保留营养入口",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "expiry",
+      "description": "每批期限条直接在卡片主面显示，未知期限不虚构进度",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "condiments",
+      "description": "底部常用调味品栏直接展示油盐酱油容器；上方保留食材照片；显式设置容量和校准后同步库存",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    },
+    {
+      "id": "capacity-animation",
+      "description": "启用与余量增加时容器填充平滑上升，减少时下降，减少动态效果设置禁用过渡",
+      "business": [
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+      ]
+    }
+  ]
+}

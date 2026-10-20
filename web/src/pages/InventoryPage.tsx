@@ -1,4 +1,4 @@
-import { StockCardSummary, isUndatedStock } from "../StockCardSummary";
+import { StockCardSummary } from "../StockCardSummary";
 import { useEffect, useState } from "react";
 import {
   ArrowDown,
@@ -17,7 +17,7 @@ import { VoiceUpload } from "../VoiceIntake";
 import { IngredientCatalogPicker } from "../IngredientCatalogPicker";
 import { IngredientDeleteControl } from "../IngredientDeleteControl";
 import { IngredientImageManager } from "../IngredientImages";
-import { NutritionHoverCard } from "../NutritionHoverCard";
+import { NutritionDetails } from "../Nutrition";
 import { Quantity } from "../Quantity";
 import { RecipeExplorer } from "../RecipeExplorer";
 import { VirtualPantry } from "../VirtualPantry";
@@ -257,16 +257,17 @@ export function InventoryPage() {
               visibleItems.length ? (
                 <div className="ff-inventory-grid">
                   {visibleItems.map((i) => (
-                    <NutritionHoverCard
-                      name={i.name}
-                      profile={i.nutrition}
+                    <Card
                       key={i.id}
                       className={
                         "ff-stock-card " +
                         (d.data.batches.some(
-                          (b) => b.ingredient_id === i.id && isUndatedStock(b),
+                          (b) =>
+                            b.ingredient_id === i.id &&
+                            Number(b.quantity) > 0 &&
+                            freshness(b).urgent,
                         )
-                          ? "ff-stock-card-undated "
+                          ? "ff-stock-card-priority "
                           : "") +
                         (selectedIDs.includes(i.id)
                           ? "ff-stock-card-selected"
@@ -286,24 +287,23 @@ export function InventoryPage() {
                         />
                         <div className="ff-stock-copy min-w-0">
                           <div className="flex items-start justify-between gap-2">
-                            <div>
-                              <h3 className="text-lg font-semibold">
-                                {i.name}
-                              </h3>
+                            <div className="ff-stock-identity">
+                              <div className="ff-stock-title-row">
+                                <h3>{i.name}</h3>
+                                {d.data.batches.some(
+                                  (b) =>
+                                    b.ingredient_id === i.id &&
+                                    Number(b.quantity) > 0 &&
+                                    freshness(b).urgent,
+                                ) && (
+                                  <span className="ff-priority-badge">
+                                    优先处理
+                                  </span>
+                                )}
+                              </div>
                               <p className="text-xs text-slate-500">
                                 {i.category || "未分类"}
                               </p>
-                              {d.data.batches.some(
-                                (b) =>
-                                  b.ingredient_id === i.id &&
-                                  Number(b.quantity) > 0 &&
-                                  b.condition === "normal" &&
-                                  !b.expires_at,
-                              ) && (
-                                <span className="ff-undated-badge">
-                                  优先处理
-                                </span>
-                              )}
                             </div>
                             <div className="ff-stock-quantity text-right">
                               <b>
@@ -343,6 +343,7 @@ export function InventoryPage() {
                       />
                       <details className="ff-stock-details">
                         <summary>详情与管理</summary>
+                        <NutritionDetails profile={i.nutrition} />
                         <div className="mt-3 space-y-1">
                           {d.data.batches
                             .filter(
@@ -396,7 +397,7 @@ export function InventoryPage() {
                           </div>
                         )}
                       </details>
-                    </NutritionHoverCard>
+                    </Card>
                   ))}
                 </div>
               ) : (
@@ -534,23 +535,16 @@ export function InventoryPage() {
           </details>
         )}
       </div>
-      <details className="my-5 rounded-2xl border border-slate-200 bg-white p-4">
-        <summary className="cursor-pointer font-semibold">
-          调味品免称重{" "}
-          <span className="ml-2 text-xs font-normal text-slate-500">
-            油盐不用每次称，按配方估算余量
-          </span>
-        </summary>
-        <div className="mt-4">
-          <VirtualPantry
-            token={token}
-            root={p}
-            items={d.data?.items || []}
-            batches={d.data?.batches || []}
-            canEdit={canEdit}
-          />
-        </div>
-      </details>
+      <section className="my-5" aria-label="常用调味品">
+        <VirtualPantry
+          key={p}
+          token={token}
+          root={p}
+          items={d.data?.items || []}
+          batches={d.data?.batches || []}
+          canEdit={canEdit}
+        />
+      </section>
       <div id="recipe-explorer">
         {selectedIDs.length > 0 && <ModelNotice />}
         {selectedIDs.length > 0 ? (

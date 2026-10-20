@@ -1,4 +1,5 @@
 import type { components } from "./generated/api";
+import { freshness } from "./BatchActions";
 import { Quantity } from "./Quantity";
 
 type Batch = components["schemas"]["InventoryBatch"];
@@ -30,6 +31,11 @@ export function StockCardSummary({
                   Math.max(0, Math.round((remaining / stocked) * 100)),
                 )
               : null;
+          const life = freshness(b);
+          const hasTimeline =
+            Number.isFinite(Date.parse(b.expires_at)) &&
+            Number.isFinite(Date.parse(b.bought_on)) &&
+            Date.parse(b.expires_at) > Date.parse(b.bought_on);
           const expired =
             !!b.expires_at && Date.parse(b.expires_at) <= Date.now();
           return (
@@ -44,6 +50,28 @@ export function StockCardSummary({
                     : "未设期限"}
                 </strong>
               </div>
+              <div
+                className={`ff-stock-expiry-track ff-expiry-${life.tone}`}
+                role={hasTimeline ? "meter" : undefined}
+                aria-label={`${name}第${index + 1}批有效期剩余比例`}
+                aria-valuemin={hasTimeline ? 0 : undefined}
+                aria-valuemax={hasTimeline ? 100 : undefined}
+                aria-valuenow={hasTimeline ? life.pct : undefined}
+                aria-valuetext={hasTimeline ? life.label : undefined}
+              >
+                {hasTimeline ? (
+                  <span style={{ width: `${life.pct}%` }} />
+                ) : (
+                  <span className="ff-expiry-unknown" />
+                )}
+              </div>
+              <p className="ff-expiry-caption">
+                {!b.expires_at
+                  ? "未设期限 · 优先处理"
+                  : !hasTimeline
+                    ? `${life.label} · 无起始日期`
+                    : life.label}
+              </p>
               <div className="ff-stock-summary-line">
                 <span>
                   {b.condition === "spoiled"
