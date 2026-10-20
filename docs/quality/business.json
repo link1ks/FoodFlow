@@ -157,7 +157,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "3eb6de45343863f5f1063360df80d3138fb6036c7daf2cb6aba12740edeb6356",
+      "review_digest": "a83391aab822216d121c788e7d0b549702787ecfef84a57998c020f8ec9a06d2",
       "browser": [
         "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
       ],
@@ -219,7 +219,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "b8eb21105a2e270c61e5712da80d0c19a465565427ab4d470655397dd15ab9d6",
+      "review_digest": "a4b2cebbbe3b2987fd794ce8880f9cc37504fd217679e3b48b57efbc1ee1563b",
       "browser": [
         "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger"
       ],

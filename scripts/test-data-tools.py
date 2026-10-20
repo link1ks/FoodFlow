@@ -87,6 +87,8 @@ class NutritionTests(unittest.TestCase):
                 nutrition.build(root, base, ext)
 
     def test_cli_cannot_write_sources_or_migrations(self):
+        self.assertTrue(sys.executable and Path(sys.executable).is_absolute(),
+                        "clean-environment launcher must provide an absolute interpreter")
         result = subprocess.run([sys.executable, "-B", str(HERE / "import-nutrition.py"),
                                  "--sources", "missing", "--out", str(HERE.parent / "sql/schema")],
                                 capture_output=True)

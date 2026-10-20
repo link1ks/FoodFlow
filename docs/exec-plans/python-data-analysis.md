@@ -85,6 +85,46 @@ completion bundle succeed.
 
 ## User hands-on steps after local acceptance passes
 
+### CI failure and follow-up correction
+
+The user committed/pushed `d6d19cfa697d7089dacabee4d59cae104721468e`.
+GitHub run `39422137609` failed: frontend/images passed; backend failed
+`TestPythonNutritionImportContracts`, and platform failed its Go/named-test gates.
+The Python CLI subprocess attempted to execute an empty `sys.executable`.
+The Go test launcher passed a bare `python3` argv[0] while intentionally omitting
+PATH from the child environment. Linux CPython could not resolve its own path;
+the native Windows venv invocation had masked this difference.
+
+Reproduced the exact failure using a cross-compiled Go test binary in a local
+Linux Python 3.13 image, network disabled and repository mounted read-only.
+Corrected only the test launcher: resolve the interpreter using the parent
+environment and pass its absolute path before sanitizing child environment.
+Force bare-name selection in the existing named regression even on Windows and
+assert absolute `sys.executable` before testing the child CLI. No production
+runtime, environment allowlist, provider behavior or nutrition data changes.
+Windows targeted tests and both Linux data-tool contracts now pass. Local Linux
+evidence: `.cache/harness/python-data-linux-fixed.txt`; redacted cloud failure:
+`.cache/harness/python-data-ci-failure.json`. The failed run remains on GitHub.
+
+Fresh correction evidence shares source digest
+`0432cab66243bf39c2459cfc8163468797cf250dd0c4415f1ce50f102dddd73e`:
+
+- `.cache/harness/python-data-ci-fix-full.json`, run
+  `3a9019f6fb9fe9933fe3b8f113ee3c9f`: 18 checks and 157 named results passed.
+  Workload: 10 households/20 clients/30 seconds, 3206 cycles, 22442 requests,
+  zero errors/invariant failures, p95 24.828 ms.
+- `.cache/harness/python-data-ci-fix-acceptance.json`, run
+  `d4872987abb07c879f8285028d3b2768`: 17 checks and all 42 desktop/mobile
+  browser results passed, using installed Edge.
+- `.cache/harness/python-data-ci-fix-diagnose.json` and
+  `.cache/harness/python-data-ci-fix-main.json`: all checks passed, including
+  fresh unauthenticated read-only main-page build verification.
+
+The user subsequently explicitly authorized the assistant to create the local
+fix commit. Push and GitHub Actions webpage inspection remain user hands-on
+steps. The failed cloud run is retained; no fixed-commit cloud success or final
+version-2 completion is claimed before publication and successful CI.
+
 Run in PowerShell from `E:\FoodFlow`. This sequence deliberately keeps publication
 and the CI webpage check with the user. The assistant must first supply actual
 local verification results; these commands alone do not imply verification.
