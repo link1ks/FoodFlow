@@ -26,6 +26,12 @@ scope. `-B` prevents test imports from creating bytecode in the source tree.
 
 Full and fast also run `update-regression` (`pwsh -File tests/update-project.ps1`). This uses disposable local Git repositories to verify check-only/fast-forward updates, preservation of configuration/photos, refusal of local changes/divergence/unfinished operations, locking and failed fetches. Docker restart arguments and retry behavior are mocked; this check does not establish real container rebuild or migration compatibility. On Windows, `powershell -NoProfile -ExecutionPolicy Bypass -File tests/update-project.ps1` additionally verifies the one-click launcher's PowerShell 5.1 compatibility.
 
+The named Go tests `TestPythonNutritionImportContracts` and
+`TestPythonEvaluationAnalysisContracts` run offline data-tool regressions through
+the project Python interpreter. They bind nutrition precision/provenance and
+evaluation denominator/comparison rules to full verification and CI.
+[Python data tools](PYTHON_DATA_TOOLS.md) documents the hands-on workflow.
+
 ## Knowledge freshness
 
 Full, fast and acceptance also run `quality-map` against [business-domain quality](QUALITY.md) and its [machine-readable scenarios/debts](quality/domains.json). Missing domains, owners, scenario references or incomplete debts fail. Full task evidence must include this check. OpenAPI is validated with a standard parser in Go tests, compared against actual API methods/routes, and checked against real main-flow fixture requests/responses. Catalogue photos and the quality map participate in the source digest. These checks do not establish semantic completeness of every API or real model quality.

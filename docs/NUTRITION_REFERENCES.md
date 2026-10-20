@@ -27,13 +27,13 @@ Selected values, source IDs and downloaded file SHA-256 hashes are retained in
 [`reference-records.json`](../internal/nutrition/reference-records.json).
 Original downloads are retained locally in ignored `.cache/nutrition-data`.
 
-To reproduce, first run the existing `node scripts/import-nutrition.cjs <USDA CSV directory>`
-for the original 91 entries. Download/extract the official sources and save the
-selected CFS POST responses as `cfs-<food_id>.html`, then run
-`python scripts/extend-nutrition.py <download directory>`.
-The latter imports exact IDs, validates units/numeric values and produces the
-extended profiles, selected reference records and migration 038. It does not
-fuzzy-match food names or fill missing measurements with zero.
+To reproduce all 200 entries, retain the official sources and selected CFS POST
+responses, then run `python scripts/import-nutrition.py --sources .cache/nutrition-data --out .cache/nutrition-review-01`.
+The unified Python importer uses exact reviewed IDs, validates units and decimal
+strings, and writes candidate profiles, complete reference records and a source
+hash manifest to a new review directory. It does not overwrite migration 038 or
+current profiles, fuzzy-match names, fill missing measurements with zero, or
+access databases. See [Python data tools](PYTHON_DATA_TOOLS.md) for the procedure.
 
 ## Interpretation limits
 

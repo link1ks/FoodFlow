@@ -2,12 +2,12 @@
 
 ## Learning collaboration
 
-The user wants explanations for learning, but has explicitly delegated subsequent
-command execution to the agent (2026-10-20), superseding the earlier manual-command
-handoffs. Execute verification, backups, deployment switching and publication
-within the authorized task; explain significant actions and findings without
-requiring the user to run commands. Inspect actual results before claiming that
-verification, deployment or publication succeeded.
+The user delegates routine, repetitive commands to the agent. Explain significant
+design choices and prepare concrete, reviewed changes first. Leave meaningful
+CI/CD, publication, backup and deployment steps to the user with command-line and
+web instructions for hands-on learning (clarified 2026-10-20). Do not execute these
+learning steps on their behalf unless they delegate them again. Inspect actual
+results before claiming verification, deployment or publication succeeded.
 
 Read `docs/HARNESS.md` for verification commands and `docs/PLATFORM.md` for service ownership.
 

@@ -1,5 +1,14 @@
 # Platform maintenance and delivery
 
+## 2026-10-20 — Python nutrition and offline evaluation analysis
+
+See [the implementation and evidence plan](python-data-analysis.md). Routine
+implementation and testing are delegated; the user has clarified that meaningful
+CI/CD publication and webpage checks remain hands-on learning steps.
+The earlier Agent migration subsequently passed all four cloud jobs at commit
+`2bc22abfe58170a85476c667b2708d07e4b52580` and its version-2 completion gate.
+The older pending wording below records the pre-publication stage.
+
 ## 2026-10-20 — Python Agent migration, hands-on workflow
 
 Task `python-agent-migration` started (feature, baseline unknown). The user

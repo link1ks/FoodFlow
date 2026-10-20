@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "task": "python-data-analysis",
+  "criteria": [
+    {
+      "id": "unified-nutrition",
+      "description": "Python统一导入、精确值和来源、未知与纤维口径保留；只写待审目录。",
+      "business": [
+        "NUTRITION"
+      ],
+      "tests": [
+        "internal/agent/data_tools_test.go#TestPythonNutritionImportContracts",
+        "internal/nutrition/nutrition_test.go#TestReferenceProfiles"
+      ]
+    },
+    {
+      "id": "offline-analysis",
+      "description": "已有评测分析，无模型调用；错误与不确定分母、比较边界、脱敏HTML。",
+      "business": [
+        "AI",
+        "INTAKE"
+      ],
+      "tests": [
+        "internal/agent/data_tools_test.go#TestPythonEvaluationAnalysisContracts"
+      ]
+    },
+    {
+      "id": "business-preservation",
+      "description": "营养批次与识别确认桌面/手机流程保留，完整有界家庭负载。",
+      "business": [
+        "NUTRITION",
+        "INTAKE",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger",
+        "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections",
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox"
+      ]
+    }
+  ]
+}
