@@ -58,7 +58,16 @@ $after=WaitSummary {param($s) $s.items[0].consumed_milli -eq '10000'}
 try{
  dc stop insights | Out-Null
  Call POST ($root+'/stock') @{batch_id=$stock.batch_id;ingredient_id=$stock.ingredient_id;quantity='5';reason='waste'} $user.token|Out-Null
-}finally{dc start insights | Out-Null}
+}finally{
+ # Restart exactly the stopped container. Compose start can revisit completed
+ # dependency jobs without starting this service on some Compose versions.
+ $insightsID=(dc ps --all --quiet insights).Trim()
+ Check ($insightsID -match '^[a-f0-9]{64}$') 'Expected one existing insights container'
+ & docker start $insightsID | Out-Null
+ Check ($LASTEXITCODE -eq 0) 'Insights container restart failed'
+ $running=(& docker inspect --format '{{.State.Running}}' $insightsID).Trim()
+ Check ($LASTEXITCODE -eq 0 -and $running -eq 'true') 'Insights container remained stopped after restart'
+}
 $result=WaitSummary {param($s) $s.items[0].wasted_milli -eq '5000'}
 $raw=dc exec -T db psql -U foodflow -d foodflow -At -c "SELECT payload::text FROM stock_outbox WHERE household_id='$($household.id)' ORDER BY created_at LIMIT 1"
 $beforeRejected=dc exec -T insights-db psql -U insights -d insights -At -c 'SELECT count(*) FROM rejected_events'
