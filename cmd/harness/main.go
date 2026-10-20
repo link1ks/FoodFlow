@@ -147,6 +147,8 @@ func main() {
 	evidence := flag.String("evidence", "", "passing full report for task completion")
 	contract := flag.String("contract", "", "repository task contract for action bind")
 	failureCategory := flag.String("failure-category", "unknown", "product, fixture, infrastructure or unknown for failed/blocked tasks")
+	paid := flag.Bool("paid", false, "explicitly authorized live RAG answer; never used by full/CI")
+	provider := flag.String("provider", "", "vision: explicitly reuse existing vision pair for a RAG answer")
 	flag.Parse()
 	var releaseLock func()
 	if *mode == "full" || *mode == "fast" || *mode == "acceptance" {
@@ -158,13 +160,27 @@ func main() {
 		}
 		defer releaseLock()
 	}
-	if !strings.Contains("|full|fast|architecture|knowledge|business|diagnose|acceptance|main-site|cloud|task|summary|fingerprint|images|", "|"+*mode+"|") {
+	if !strings.Contains("|full|fast|architecture|knowledge|business|diagnose|acceptance|main-site|cloud|task|summary|fingerprint|images|experience|", "|"+*mode+"|") {
 		fmt.Fprintln(os.Stderr, "invalid mode")
 		os.Exit(2)
 	}
 	if *update && *mode != "knowledge" && *mode != "business" {
 		fmt.Fprintln(os.Stderr, "-update is only valid in knowledge/business mode")
 		os.Exit(2)
+	}
+	if *mode == "experience" {
+		var err error
+		if *action == "answer" {
+			err = answerExperience(".", *evidence, *out, *paid, *provider)
+		} else {
+			err = experienceCommand(".", *action, *evidence, *out)
+		}
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		fmt.Println("experience " + *action + " complete")
+		return
 	}
 	if *mode == "task" || *mode == "summary" {
 		var err error
@@ -354,12 +370,19 @@ func main() {
 			toolchain[tool.name] = strings.TrimSpace(value)
 		}
 	}
-	report := Evidence{Version: 1, RunID: runID(), StartedAt: started, RecordedAt: time.Now().UTC(), Revision: strings.TrimSpace(revision), WorktreeDirty: strings.TrimSpace(status) != "", SourceDigest: initialDigest, Toolchain: toolchain, Mode: *mode, IntegrationRequired: *mode == "full" || *mode == "acceptance", Checks: checks, Tests: testOutcomes}
+	report := Evidence{Task: *task, Version: 1, RunID: runID(), StartedAt: started, RecordedAt: time.Now().UTC(), Revision: strings.TrimSpace(revision), WorktreeDirty: strings.TrimSpace(status) != "", SourceDigest: initialDigest, Toolchain: toolchain, Mode: *mode, IntegrationRequired: *mode == "full" || *mode == "acceptance", Checks: checks, Tests: testOutcomes}
 	if err := saveEvidence(*out, report); err != nil {
 		if releaseLock != nil {
 			releaseLock()
 		}
 		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if err := captureFailures(".", report); err != nil {
+		fmt.Fprintln(os.Stderr, "failure capture:", err)
+		if releaseLock != nil {
+			releaseLock()
+		}
 		os.Exit(1)
 	}
 	for _, check := range checks {

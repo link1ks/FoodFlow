@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "required_for_new_contracts": true,
+  "review_period": "weekly",
+  "scope": "Engineering experience only; no production user data",
+  "device_pending_blocks_applicable_completion": true,
+  "cost_unknown_is_not_zero": true
+}

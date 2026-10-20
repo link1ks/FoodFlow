@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-20T16:38:09.349330+00:00",
+  "candidate": "v0.3.0",
+  "live_evaluations": [
+    {
+      "domain": "menu",
+      "samples": 2,
+      "correct": 2,
+      "p95_ms": 1030,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
+      "cost_status": "unknown",
+      "cost": null
+    },
+    {
+      "domain": "rag",
+      "samples": 3,
+      "correct": 3,
+      "p95_ms": 1366,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
+      "cost_status": "unknown",
+      "cost": null
+    },
+    {
+      "domain": "speech",
+      "samples": 2,
+      "correct": 2,
+      "p95_ms": 1324,
+      "model": "qwen3-asr-flash",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
+      "cost_status": "unknown",
+      "cost": null
+    },
+    {
+      "domain": "vision",
+      "samples": 3,
+      "correct": 3,
+      "p95_ms": 12901,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
+      "cost_status": "unknown",
+      "cost": null
+    }
+  ],
+  "all_observed_calls": 23,
+  "all_reported_tokens": 6144,
+  "calls_missing_usage": 0,
+  "cost_status": "unknown",
+  "invoice_verified": false,
+  "physical_device_acceptance": "pending at user request",
+  "corpus_scope": "Small public/synthetic adapter cases; repeated version runs are not independent samples",
+  "rag_scope": "Local domain-concept and lexical retrieval, conservative cited fix selection; not general pretrained embeddings",
+  "full": {
+    "passed": true,
+    "run_id": "df754464a4020df1ef189dc2130f06b6",
+    "checks": 18,
+    "named_tests": 166,
+    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+  },
+  "acceptance": {
+    "passed": true,
+    "run_id": "ed949aaf7df609c493da8381edbb598d",
+    "checks": 17,
+    "browser_results": 44,
+    "browser": "local Edge desktop/mobile",
+    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+  },
+  "deployment": {
+    "passed": true,
+    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+    "database_identity_preserved": true,
+    "configuration_preserved": true,
+    "volumes_preserved": true,
+    "data_and_photos_preserved": true,
+    "ready": true
+  },
+  "cloud": "Pending at source publication; final exact-commit Actions outcome is linked in the prerelease.",
+  "workload": {
+    "households": 10,
+    "concurrent_clients": 20,
+    "completed_cycles": 3165,
+    "request_count": 22155,
+    "errors": 0,
+    "invariant_failures": 0,
+    "p95_ms": 26.153
+  },
+  "completion_gate": "Observed rejection: physical device acceptance pending; no passed outcome recorded",
+  "grounded_rag_workflow": {
+    "state": "returned",
+    "citation": "v03-missing-media",
+    "latency_ms": 13194,
+    "cost_status": "unknown",
+    "scope": "Retrieved actual repaired media failure and generated exact verified historical fix with source citation"
+  },
+  "main_site": {
+    "passed": true,
+    "run_id": "c77bbe5b4fcf7e84756acb38a8f1cd7c",
+    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+  },
+  "diagnose": {
+    "passed": true,
+    "run_id": "f292675a8948df2bce37d259d6391e98",
+    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+  }
+}

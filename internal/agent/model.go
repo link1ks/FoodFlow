@@ -37,6 +37,7 @@ type OpenAIModel struct {
 	Guard               CallGuard
 	Task                string
 	Context             any
+	Observe             Observation
 }
 
 func (m OpenAIModel) Generate(ctx context.Context, messages []*Message) (*Message, error) {
@@ -44,7 +45,7 @@ func (m OpenAIModel) Generate(ctx context.Context, messages []*Message) (*Messag
 	if task == "" {
 		task = "text"
 	}
-	content, err := callPython(ctx, pythonRequest{Task: task, Endpoint: m.Endpoint, Model: m.Name, Key: m.Key, Messages: messages, MaxTokens: m.MaxTokens, Context: m.Context}, m.Guard, nil)
+	content, err := callPython(ctx, pythonRequest{Task: task, Endpoint: m.Endpoint, Model: m.Name, Key: m.Key, Messages: messages, MaxTokens: m.MaxTokens, Context: m.Context}, m.Guard, m.Observe)
 	if err != nil {
 		return nil, err
 	}

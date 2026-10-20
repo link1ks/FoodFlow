@@ -1,5 +1,10 @@
 # Executable engineering harness
 
+The [engineering feedback workflow](ENGINEERING_FEEDBACK.md) adds live
+evaluation, local engineering RAG and history metrics. New task contracts must
+declare feedback applicability; completion bundles include a `feedback` report.
+Use `-task <id>` on verification modes to retain task/run association.
+
 The harness supplies a repository map, explicit architecture constraints, isolated runtime verification and machine-readable evidence. It does not require changing the application's model provider.
 
 ```powershell

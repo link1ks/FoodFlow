@@ -15,6 +15,7 @@ import (
 )
 
 type Evidence struct {
+	Task                string            `json:"task,omitempty"`
 	Version             int               `json:"version"`
 	RunID               string            `json:"run_id"`
 	RecordedAt          time.Time         `json:"recorded_at"`

@@ -11,6 +11,7 @@ const MaxSpeechBytes = 5 << 20
 type SpeechModel struct {
 	Endpoint, Name, Key string
 	Guard               CallGuard
+	Observe             Observation
 }
 
 func SpeechFromEnv() SpeechModel {
@@ -26,5 +27,5 @@ func (m SpeechModel) Transcribe(ctx context.Context, data []byte, mime string) (
 	if len(data) == 0 || len(data) > MaxSpeechBytes {
 		return "", errors.New("录音大小无效")
 	}
-	return callPython(ctx, pythonRequest{Task: "speech", Endpoint: m.Endpoint, Model: m.Name, Key: m.Key, Data: data, MIME: mime}, m.Guard, nil)
+	return callPython(ctx, pythonRequest{Task: "speech", Endpoint: m.Endpoint, Model: m.Name, Key: m.Key, Data: data, MIME: mime}, m.Guard, m.Observe)
 }

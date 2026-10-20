@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "provenance": "Synthetic engineering retrieval acceptance cases, not independent user benchmarks.",
+  "cases": [
+    {"id":"exact","query":"duplicate inventory request","business":"STOCK","expected":"stock-replay"},
+    {"id":"semantic","query":"重复提交","business":"STOCK","expected":"stock-replay"},
+    {"id":"none","query":"galaxy telescope","expected":""},
+    {"id":"filter","query":"duplicate","business":"COMMUNITY","expected":""},
+    {"id":"version","query":"idempotency","business":"STOCK","expected":"stock-replay","mismatch":true}
+  ]
+}

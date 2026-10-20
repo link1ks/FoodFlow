@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: FoodFlow 食光 API
-  version: 0.2.0
+  version: 0.3.0
   description: 家庭食材、菜单、采购和后台任务 API。数量均为最多三位小数的字符串。
 servers:
   - url: http://localhost:8080/api

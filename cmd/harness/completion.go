@@ -17,6 +17,7 @@ type TaskCriterion struct {
 }
 
 type TaskContract struct {
+	Feedback *FeedbackScope  `json:"feedback,omitempty"`
 	Version  int             `json:"version"`
 	Task     string          `json:"task"`
 	BoundAt  time.Time       `json:"bound_at,omitempty"`
@@ -24,6 +25,7 @@ type TaskContract struct {
 }
 
 type CompletionInput struct {
+	Feedback   string `json:"feedback,omitempty"`
 	Version    int    `json:"version"`
 	Full       string `json:"full"`
 	Acceptance string `json:"acceptance"`
@@ -33,6 +35,11 @@ type CompletionInput struct {
 }
 
 func validateTaskContract(root string, c TaskContract) error {
+	if _, err := os.Stat(filepath.Join(root, "docs/quality/feedback-policy.json")); err == nil {
+		if err := validateFeedbackScope(c.Feedback); err != nil {
+			return err
+		}
+	}
 	b, err := readBusiness(root)
 	if err != nil {
 		return err
@@ -165,6 +172,11 @@ func validateCompletion(root string, task TaskRecord, path, digest string) (stri
 	// Legacy bound records must be rebound as a new task; never backdate review.
 	if contract.BoundAt.IsZero() || contract.BoundAt.Before(task.StartedAt) {
 		return "", fmt.Errorf("task contract lacks a valid binding timestamp")
+	}
+	if contract.Feedback != nil {
+		if err := validateFeedback(root, task.ID, contract, input.Feedback, digest); err != nil {
+			return "", err
+		}
 	}
 	var allTests []TestOutcome
 	var fullID string

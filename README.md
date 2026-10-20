@@ -202,7 +202,7 @@ Agent 实现在 `internal/agent/python/runtime.py`，仅使用 Python 标准库�
 - 真实模型准确度、短信送达、S3、公网 HTTPS 与生产高可用仍需验收；应用额度控制不等于服务商账单封顶。
 - 社区初审不替代人工入库审核；举报治理、多账号刷票防护与真实用户体验仍待完善。
 
-完整未完成项见 [质量台账](docs/QUALITY.md)。当前前端与 API 版本为 **v0.2.0**，后续变更见 [更新日志](docs/CHANGELOG.md)。
+完整未完成项见 [质量台账](docs/QUALITY.md)。当前前端与 API 版本为 **v0.3.0**，变更及验收边界见 [更新日志](docs/CHANGELOG.md)。
 
 ## 许可
 
