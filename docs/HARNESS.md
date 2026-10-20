@@ -57,16 +57,21 @@ For each bounded task, record its real start, bind a reviewed requirement contra
 
 ```powershell
 go run ./cmd/harness -mode task -task example-repair -action start -kind regression -baseline reproduced
+# Prepare a reviewed query JSON as described in ENGINEERING_FEEDBACK.md.
+go run ./cmd/harness -mode experience -action index
+go run ./cmd/harness -mode experience -action query -evidence .cache/harness/example-query.json -out .cache/harness/example-retrieval.json
 go run ./cmd/harness -mode task -task example-repair -action bind -contract docs/quality/tasks/example-repair.json
-go run ./cmd/harness -mode full -out .cache/harness/example-full.json
-# Also run acceptance, diagnose, main-site and (after publication/CI) cloud.
+go run ./cmd/harness -mode full -task example-repair -out .cache/harness/example-full.json
+# Also run acceptance, diagnose, main-site and (after publication/CI) cloud with -task.
+# Complete applicable live/device/RAG evidence, resolve failures, then recompute metrics.
+go run ./cmd/harness -mode experience -action metrics -out .cache/harness/example-metrics.json
 go run ./cmd/harness -mode task -task example-repair -action finish -outcome passed -evidence .cache/harness/example-completion.json
 go run ./cmd/harness -mode summary -out .cache/harness/summary.json
 ```
 
 Use `feature`, `regression` or `maintenance` as the task kind; `baseline` is an operator assertion (`reproduced` or `unknown`). Failed/blocked tasks must be recorded too. Starts, bound contracts and outcomes cannot be overwritten through the command. Successful completion requires a version-2 bundle with `full`, `acceptance`, `diagnose`, `main_site` and `cloud` paths under `.cache/harness`. Every report must start after the contract is bound, match current source and include its required passing checks. Full-only, skipped, missing, stale, failed, duplicate and foreign-source evidence is rejected. Cloud must verify clean HEAD published on origin/main with successful backend/frontend/images/platform jobs. This is local evidence validation, not cryptographic attestation.
 
-Example bundle: `{"version":2,"full":".cache/harness/example-full.json","acceptance":".cache/harness/example-acceptance.json","diagnose":".cache/harness/example-diagnose.json","main_site":".cache/harness/example-main.json","cloud":".cache/harness/example-cloud.json"}`. A task contract has version 1, `task`, and `criteria`; each criterion has a unique `id`, user-facing `description`, `business` requirement IDs and exact named `tests`. See the committed [current contract](quality/tasks/harness-business-gates.json).
+Example bundle: `{"version":2,"full":".cache/harness/example-full.json","acceptance":".cache/harness/example-acceptance.json","diagnose":".cache/harness/example-diagnose.json","main_site":".cache/harness/example-main.json","cloud":".cache/harness/example-cloud.json","feedback":".cache/harness/example-feedback.json"}`. A task contract has version 1, `task`, `criteria` and explicit `feedback` scope; each criterion has a unique `id`, user-facing `description`, `business` requirement IDs and exact named `tests`. See the committed [current contract](quality/tasks/harness-v03.json) and [feedback schemas/workflow](ENGINEERING_FEEDBACK.md). Inapplicable checks need reasons; required missing device/model evidence cannot be waived by a successful build.
 
 ## Requirement and business feedback
 

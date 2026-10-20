@@ -22,12 +22,26 @@ func failureFixture(t *testing.T, root string) Failure {
 func TestExperienceLifecycleAndSemanticRetrieval(t *testing.T) {
 	root := t.TempDir()
 	f := failureFixture(t, root)
+	f.ErrorCode = "STOCK_REPLAY"
+	f.ApplicableVersions = []string{"affected-version"}
 	if e := ingestFailure(root, f); e != nil {
 		t.Fatal(e)
 	}
 	q, e := queryExperience(root, QueryRecord{Query: "重复提交库存", Business: "STOCK", CodeVersion: "new"})
 	if e != nil || len(q.Results) != 1 || !q.Results[0].VersionMismatch || len(q.Results[0].Citations) == 0 {
 		t.Fatalf("missing semantic match/provenance: %+v %v", q, e)
+	}
+	q, e = queryExperience(root, QueryRecord{Query: "duplicate", ErrorCode: "OTHER", ApplicableVersion: "affected-version"})
+	if e != nil || len(q.Results) != 0 {
+		t.Fatal("error-code filter ignored")
+	}
+	q, e = queryExperience(root, QueryRecord{Query: "duplicate", ErrorCode: "STOCK_REPLAY", ApplicableVersion: "new-version"})
+	if e != nil || len(q.Results) != 0 {
+		t.Fatal("unknown applicability accepted")
+	}
+	q, e = queryExperience(root, QueryRecord{Query: "duplicate", ErrorCode: "STOCK_REPLAY", ApplicableVersion: "affected-version"})
+	if e != nil || len(q.Results) != 1 {
+		t.Fatal("declared applicability not retrieved")
 	}
 	q, e = queryExperience(root, QueryRecord{Query: "galaxy telescope"})
 	if e != nil || len(q.Results) != 0 {
@@ -75,6 +89,9 @@ func TestExperienceRejectsStaleIndexSecretsAndUnverifiedRepairs(t *testing.T) {
 	if e != nil || len(q.Results) != 0 {
 		t.Fatal("unverified experience treated as verified")
 	}
+	if _, e = queryExperience(root, QueryRecord{Query: "Authorization: Bearer fixture-secret"}); e == nil {
+		t.Fatal("sensitive query admitted")
+	}
 	var index ExperienceIndex
 	_ = readLocalJSON(root, ".cache/harness/experience/index.json", &index)
 	index.Digest = "stale"
@@ -116,6 +133,9 @@ func TestLearningMetricsRetainsFailuresAndUnknownHistory(t *testing.T) {
 	} {
 		_ = saveJSON(filepath.Join(root, ".cache/harness/runs", string(rune('a'+i))+".json"), r)
 	}
+	_ = saveJSON(filepath.Join(root, ".cache/harness/experience/queries/q.json"), map[string]any{"duration_ms": 2, "results": []map[string]bool{{"version_mismatch": true}}})
+	_ = saveJSON(filepath.Join(root, ".cache/harness/experience/answers/a.json"), map[string]any{"state": "returned", "latency_ms": 5, "cost_status": "unknown"})
+	_ = saveJSON(filepath.Join(root, ".cache/harness/experience/evaluations/e.json"), map[string]any{"passed": true, "cases": 8})
 	value, e := learningMetrics(root)
 	if e != nil {
 		t.Fatal(e)
@@ -128,6 +148,10 @@ func TestLearningMetricsRetainsFailuresAndUnknownHistory(t *testing.T) {
 	if f["numerator"] != 0 || f["denominator"] != 1 {
 		t.Fatal("failed first attempt disappeared")
 	}
+	rag := m["rag"].(map[string]any)
+	if rag["queries"] != 1 || rag["version_mismatch_results"] != 1 || rag["generation_unknown_cost"] != 1 || rag["grounded_answers"] != 1 {
+		t.Fatal("RAG history lost", rag)
+	}
 }
 
 func TestFeedbackGateRequiresRecordedQueryAndResolvedFailures(t *testing.T) {
@@ -137,13 +161,16 @@ func TestFeedbackGateRequiresRecordedQueryAndResolvedFailures(t *testing.T) {
 	now := time.Now()
 	c := TaskContract{BoundAt: bound, Feedback: &FeedbackScope{DeviceExemption: "no hardware change", RAGExemption: "fixture", EvaluationExemption: "fixture"}}
 	f := FeedbackReport{Version: 1, Task: "fixture", SourceDigest: "source", StartedAt: now, RecordedAt: now, Metrics: ".cache/harness/metrics.json"}
-	_ = saveJSON(filepath.Join(root, f.Metrics), map[string]any{"version": 1, "recorded_at": now})
+	initialMetrics, _ := learningMetrics(root)
+	_ = saveJSON(filepath.Join(root, f.Metrics), initialMetrics)
 	p := ".cache/harness/feedback.json"
 	_ = saveJSON(filepath.Join(root, p), f)
 	if validateFeedback(root, "fixture", c, p, "source") == nil {
 		t.Fatal("missing historical query accepted")
 	}
 	_ = saveJSON(filepath.Join(root, ".cache/harness/experience/queries/q.json"), QueryRecord{Task: "fixture", Stage: "start", RecordedAt: before, Disposition: "no related evidence"})
+	afterQuery, _ := learningMetrics(root)
+	_ = saveJSON(filepath.Join(root, f.Metrics), afterQuery)
 	if e := validateFeedback(root, "fixture", c, p, "source"); e != nil {
 		t.Fatal(e)
 	}
@@ -171,8 +198,14 @@ func TestFeedbackGateRequiresRecordedQueryAndResolvedFailures(t *testing.T) {
 	}
 	f.Failures = []string{failure.ID}
 	_ = saveJSON(filepath.Join(root, p), f)
+	refreshed, _ := learningMetrics(root)
+	_ = saveJSON(filepath.Join(root, f.Metrics), refreshed)
 	if e := validateFeedback(root, "fixture", c, p, "source"); e != nil {
 		t.Fatal(e)
+	}
+	_ = saveJSON(filepath.Join(root, f.Metrics), map[string]any{"version": 1, "recorded_at": now})
+	if validateFeedback(root, "fixture", c, p, "source") == nil {
+		t.Fatal("placeholder metrics accepted")
 	}
 }
 
@@ -181,7 +214,7 @@ func TestRAGFrozenAcceptance(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err = evaluateRAG(root, filepath.Join(t.TempDir(), "rag.json")); err != nil {
+	if err = evaluateRAG(root, filepath.Join(t.TempDir(), "rag.json"), false); err != nil {
 		t.Fatal(err)
 	}
 }

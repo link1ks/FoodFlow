@@ -30,7 +30,17 @@ Before declaring a change complete, run the harness and relevant integration sce
 
 Bind each user requirement to named tests in an immutable task contract before final verification (`task -action bind -contract ...`). New tests require explicit business bindings. Full verification must record named results and the bounded 10-household/20-client/30-second workload; keep boundary/error/idempotency cases. Recheck linked business pages in isolated desktop/mobile browsers, then open the default main page read-only in a fresh browser and verify served build identity. Never run synthetic business writes or paid model probes against the user's default database.
 
-Successful task finish requires one version-2 completion bundle containing fresh source-matching full, acceptance, diagnose, main-site and current published-commit cloud reports. No full-only completion. Run memory-heavy full and acceptance sequentially; retain failed evidence and fix reproduced bugs with regressions before rerunning.
+Follow `docs/ENGINEERING_FEEDBACK.md`: query engineering experience before binding
+the task, explicitly declare feedback applicability and thresholds, and pass
+`-task <id>` on verification commands. Record failures with reviewed redaction,
+classification and evidence; only resolved, regression-verified experience may
+recommend a fix. Keep error-code/applicable-version filters explicit. Real
+model evaluation requires task authorization and exclusive journals; report
+unknown costs honestly. Recompute metrics from complete retained history after
+verification, including RAG history. Required pending device acceptance blocks
+overall completion; a disclosed prerelease does not override this gate.
+
+Successful task finish requires one version-2 completion bundle containing fresh source-matching full, acceptance, diagnose, main-site, current published-commit cloud reports and the task's feedback report. No full-only completion. Run memory-heavy full and acceptance sequentially; retain failed evidence and fix reproduced bugs with regressions before rerunning.
 
 Record bounded task start/outcome with harness task mode, including failed/blocked outcomes. Use diagnose mode for redacted acceptance-stack feedback and acceptance mode for browser/platform scenarios. Do not claim productivity improvement from a single successful run. Keep generated knowledge current and convert reproduced failures into regression checks.
 

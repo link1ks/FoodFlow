@@ -1,16 +1,16 @@
 {
   "version": 1,
-  "recorded_at": "2026-10-20T16:38:09.349330+00:00",
+  "recorded_at": "2026-10-20T17:27:01.103475+00:00",
   "candidate": "v0.3.0",
   "live_evaluations": [
     {
       "domain": "menu",
       "samples": 2,
       "correct": 2,
-      "p95_ms": 1030,
+      "p95_ms": 2843,
       "model": "qwen3-vl-plus",
       "model_version": "unknown unless reported per row",
-      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
       "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
       "cost_status": "unknown",
       "cost": null
@@ -19,10 +19,10 @@
       "domain": "rag",
       "samples": 3,
       "correct": 3,
-      "p95_ms": 1366,
+      "p95_ms": 12169,
       "model": "qwen3-vl-plus",
       "model_version": "unknown unless reported per row",
-      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
       "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
       "cost_status": "unknown",
       "cost": null
@@ -31,10 +31,10 @@
       "domain": "speech",
       "samples": 2,
       "correct": 2,
-      "p95_ms": 1324,
+      "p95_ms": 1136,
       "model": "qwen3-asr-flash",
       "model_version": "unknown unless reported per row",
-      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
       "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
       "cost_status": "unknown",
       "cost": null
@@ -43,17 +43,17 @@
       "domain": "vision",
       "samples": 3,
       "correct": 3,
-      "p95_ms": 12901,
+      "p95_ms": 12244,
       "model": "qwen3-vl-plus",
       "model_version": "unknown unless reported per row",
-      "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
       "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
       "cost_status": "unknown",
       "cost": null
     }
   ],
-  "all_observed_calls": 23,
-  "all_reported_tokens": 6144,
+  "all_observed_calls": 53,
+  "all_reported_tokens": 15213,
   "calls_missing_usage": 0,
   "cost_status": "unknown",
   "invoice_verified": false,
@@ -62,18 +62,18 @@
   "rag_scope": "Local domain-concept and lexical retrieval, conservative cited fix selection; not general pretrained embeddings",
   "full": {
     "passed": true,
-    "run_id": "df754464a4020df1ef189dc2130f06b6",
+    "run_id": "4961104e891bc41396772bed51a89702",
     "checks": 18,
     "named_tests": 166,
-    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+    "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8"
   },
   "acceptance": {
     "passed": true,
-    "run_id": "ed949aaf7df609c493da8381edbb598d",
+    "run_id": "ce522e481a336899d57e9a08dd49b24c",
     "checks": 17,
     "browser_results": 44,
     "browser": "local Edge desktop/mobile",
-    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+    "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8"
   },
   "deployment": {
     "passed": true,
@@ -82,19 +82,30 @@
     "configuration_preserved": true,
     "volumes_preserved": true,
     "data_and_photos_preserved": true,
-    "ready": true
+    "ready": true,
+    "scope": "Application rebuilt and verified at recorded digest; subsequent changes only affect harness/docs, not deployed application code."
   },
   "cloud": "Pending at source publication; final exact-commit Actions outcome is linked in the prerelease.",
   "workload": {
-    "households": 10,
+    "completed_cycles": 2727,
     "concurrent_clients": 20,
-    "completed_cycles": 3165,
-    "request_count": 22155,
+    "elapsed_ms": 30184,
+    "error_kinds": {},
     "errors": 0,
+    "households": 10,
     "invariant_failures": 0,
-    "p95_ms": 26.153
+    "lock_sampling_ms": 100,
+    "max_request_ms": 315.709,
+    "p50_ms": 13.714,
+    "p95_ms": 38.933,
+    "p95_target_ms": 2000,
+    "p99_ms": 67.84,
+    "peak_sampled_lock_waiters": 3,
+    "request_count": 19089,
+    "requested_duration_seconds": 30,
+    "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls"
   },
-  "completion_gate": "Observed rejection: physical device acceptance pending; no passed outcome recorded",
+  "completion_gate": "Observed rejection: evaluation rag failed thresholds/provenance/cost (holdout 2/3 below required 1.0); physical devices also pending. No passed outcome.",
   "grounded_rag_workflow": {
     "state": "returned",
     "citation": "v03-missing-media",
@@ -104,12 +115,79 @@
   },
   "main_site": {
     "passed": true,
-    "run_id": "c77bbe5b4fcf7e84756acb38a8f1cd7c",
-    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+    "run_id": "57cfe0f95da6a3e3a9c328dafd2003dd",
+    "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8"
   },
   "diagnose": {
     "passed": true,
-    "run_id": "f292675a8948df2bce37d259d6391e98",
-    "source_digest": "40765642382d2863ec59f5d959109c544eab5cc774a415a05933c2369c8fd2e6"
+    "run_id": "896afd6deba0b71ffc4c00c4dfb0fcc2",
+    "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8"
+  },
+  "holdout_evaluations": [
+    {
+      "domain": "menu",
+      "samples": 2,
+      "correct": 2,
+      "p95_ms": 1149,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
+      "corpus_digest": "3076c89bf3ae002652af7db04531d846af481b89f28c93fb2828c7820b8c7d08",
+      "cost_status": "unknown",
+      "cost": null
+    },
+    {
+      "domain": "rag",
+      "samples": 3,
+      "correct": 2,
+      "p95_ms": 1632,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
+      "corpus_digest": "3076c89bf3ae002652af7db04531d846af481b89f28c93fb2828c7820b8c7d08",
+      "cost_status": "unknown",
+      "cost": null
+    },
+    {
+      "domain": "speech",
+      "samples": 2,
+      "correct": 2,
+      "p95_ms": 8320,
+      "model": "qwen3-asr-flash",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
+      "corpus_digest": "3076c89bf3ae002652af7db04531d846af481b89f28c93fb2828c7820b8c7d08",
+      "cost_status": "unknown",
+      "cost": null
+    },
+    {
+      "domain": "vision",
+      "samples": 3,
+      "correct": 3,
+      "p95_ms": 1877,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "source_digest": "ac636432c7c3577cea49e8f0a33e8ead07ca4698c1fe89e26c1408e120072db8",
+      "corpus_digest": "3076c89bf3ae002652af7db04531d846af481b89f28c93fb2828c7820b8c7d08",
+      "cost_status": "unknown",
+      "cost": null
+    }
+  ],
+  "holdout_freeze": {
+    "frozen_at": "2026-10-20T17:15:49.903734+00:00",
+    "corpus_sha256": "3076c89bf3ae002652af7db04531d846af481b89f28c93fb2828c7820b8c7d08",
+    "cases": 10,
+    "rules": "Frozen before first provider call; no label/prompt changes based on these outcomes. Self-labelled version holdout, not representative independent human annotation."
+  },
+  "open_failure": {
+    "id": "v03-rag-conflict-holdout",
+    "category": "model",
+    "status": "open",
+    "case": "holdout-rag-conflict",
+    "correct": false,
+    "root_cause": "unconfirmed; generated answer not retained",
+    "mitigation": "Actual RAG excludes conflict-marked candidates before dispatch and validates exact cited fixes",
+    "owner": "harness",
+    "acceptance": "Retain original failed score; add development regression and new frozen acceptance cases before claiming model conflict handling passes"
   }
 }

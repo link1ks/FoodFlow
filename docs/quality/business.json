@@ -311,7 +311,7 @@
         "cmd/quality-eval",
         "docs/ENGINEERING_FEEDBACK.md"
       ],
-      "review_digest": "79173ef3418ed3677aaadf64603463a9cec7143d192d57883cb4fcecd75f07f1",
+      "review_digest": "9d127bdd16e0dbf5b8b686c636203840f4818fb05b18af2b1d03fa31e783a381",
       "browser": [
         "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct"
       ],

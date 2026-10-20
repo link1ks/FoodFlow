@@ -17,33 +17,35 @@ import (
 )
 
 type Failure struct {
-	ID                string    `json:"id"`
-	Revision          int       `json:"revision"`
-	Task              string    `json:"task"`
-	Category          string    `json:"category"`
-	Business          []string  `json:"business"`
-	Tests             []string  `json:"tests"`
-	CodeVersion       string    `json:"code_version"`
-	ModelVersion      string    `json:"model_version"`
-	Environment       string    `json:"environment"`
-	Conditions        string    `json:"conditions"`
-	Symptom           string    `json:"symptom"`
-	Reproduction      string    `json:"reproduction"`
-	RootCause         string    `json:"root_cause"`
-	Verified          bool      `json:"verified"`
-	Fix               string    `json:"fix"`
-	Scope             string    `json:"scope"`
-	Status            string    `json:"status"`
-	Severity          int       `json:"severity"`
-	Owner             string    `json:"owner"`
-	Evidence          []string  `json:"evidence"`
-	Regression        []string  `json:"regression"`
-	PageEvidence      []string  `json:"page_evidence"`
-	Replaces          string    `json:"replaces,omitempty"`
-	RecurrenceOf      string    `json:"recurrence_of,omitempty"`
-	Conflicts         []string  `json:"conflicts,omitempty"`
-	RedactionReviewed bool      `json:"redaction_reviewed"`
-	RecordedAt        time.Time `json:"recorded_at"`
+	ID                 string    `json:"id"`
+	Revision           int       `json:"revision"`
+	Task               string    `json:"task"`
+	Category           string    `json:"category"`
+	ErrorCode          string    `json:"error_code,omitempty"`
+	ApplicableVersions []string  `json:"applicable_versions,omitempty"`
+	Business           []string  `json:"business"`
+	Tests              []string  `json:"tests"`
+	CodeVersion        string    `json:"code_version"`
+	ModelVersion       string    `json:"model_version"`
+	Environment        string    `json:"environment"`
+	Conditions         string    `json:"conditions"`
+	Symptom            string    `json:"symptom"`
+	Reproduction       string    `json:"reproduction"`
+	RootCause          string    `json:"root_cause"`
+	Verified           bool      `json:"verified"`
+	Fix                string    `json:"fix"`
+	Scope              string    `json:"scope"`
+	Status             string    `json:"status"`
+	Severity           int       `json:"severity"`
+	Owner              string    `json:"owner"`
+	Evidence           []string  `json:"evidence"`
+	Regression         []string  `json:"regression"`
+	PageEvidence       []string  `json:"page_evidence"`
+	Replaces           string    `json:"replaces,omitempty"`
+	RecurrenceOf       string    `json:"recurrence_of,omitempty"`
+	Conflicts          []string  `json:"conflicts,omitempty"`
+	RedactionReviewed  bool      `json:"redaction_reviewed"`
+	RecordedAt         time.Time `json:"recorded_at"`
 }
 
 func hashJSON(v any) string {
@@ -258,24 +260,31 @@ type Retrieval struct {
 	Conflicts       []string `json:"conflicts,omitempty"`
 }
 type QueryRecord struct {
-	Task             string      `json:"task"`
-	Stage            string      `json:"stage"`
-	Query            string      `json:"query"`
-	Business         string      `json:"business"`
-	CodeVersion      string      `json:"code_version"`
-	Category         string      `json:"category,omitempty"`
-	Test             string      `json:"test,omitempty"`
-	VerifiedOnly     bool        `json:"verified_only"`
-	RecordedAt       time.Time   `json:"recorded_at"`
-	IndexDigest      string      `json:"index_digest"`
-	RetrievalVersion string      `json:"retrieval_version"`
-	Results          []Retrieval `json:"results"`
-	DurationMS       int64       `json:"duration_ms"`
-	Disposition      string      `json:"disposition"`
+	Task              string      `json:"task"`
+	Stage             string      `json:"stage"`
+	Query             string      `json:"query"`
+	Business          string      `json:"business"`
+	CodeVersion       string      `json:"code_version"`
+	Category          string      `json:"category,omitempty"`
+	ErrorCode         string      `json:"error_code,omitempty"`
+	ApplicableVersion string      `json:"applicable_version,omitempty"`
+	Test              string      `json:"test,omitempty"`
+	VerifiedOnly      bool        `json:"verified_only"`
+	RecordedAt        time.Time   `json:"recorded_at"`
+	IndexDigest       string      `json:"index_digest"`
+	RetrievalVersion  string      `json:"retrieval_version"`
+	Results           []Retrieval `json:"results"`
+	DurationMS        int64       `json:"duration_ms"`
+	Disposition       string      `json:"disposition"`
 }
 
 func queryExperience(root string, q QueryRecord) (QueryRecord, error) {
 	start := time.Now()
+	for _, marker := range []string{"bearer ", "password=", "authorization:", "-----begin", "sk-"} {
+		if strings.Contains(strings.ToLower(q.Query+" "+q.Disposition), marker) {
+			return q, fmt.Errorf("redact sensitive query before retrieval or generation")
+		}
+	}
 	records, err := knowledgeRecords(root)
 	if err != nil {
 		return q, err
@@ -291,6 +300,12 @@ func queryExperience(root string, q QueryRecord) (QueryRecord, error) {
 	for _, f := range index.Records {
 		if q.Business != "" && !contains(f.Business, q.Business) || q.Category != "" && q.Category != f.Category ||
 			q.Test != "" && !contains(f.Tests, q.Test) || q.VerifiedOnly && (!f.Verified || f.Status != "resolved") {
+			continue
+		}
+		if q.ErrorCode != "" && q.ErrorCode != f.ErrorCode {
+			continue
+		}
+		if q.ApplicableVersion != "" && !contains(f.ApplicableVersions, q.ApplicableVersion) {
 			continue
 		}
 		text := f.Symptom + " " + f.Conditions + " " + f.RootCause + " " + f.Fix
@@ -371,7 +386,7 @@ func captureFailures(root string, r Evidence) error {
 func experienceCommand(root, action, path, out string) error {
 	switch action {
 	case "evaluate":
-		return evaluateRAG(root, out)
+		return evaluateRAG(root, out, true)
 	case "index":
 		return rebuildExperience(root)
 	case "record":
@@ -515,12 +530,17 @@ func learningMetrics(root string) (any, error) {
 		evaluations = append(evaluations, map[string]any{"domain": v["domain"], "samples": v["samples"], "attempted": v["attempted"], "correct": v["correct"],
 			"service_failures": v["service_failures"], "p95_ms": v["p95_ms"], "model": v["model"], "source_digest": v["source_digest"], "corpus_digest": v["corpus_digest"], "cost_status": v["cost_status"], "cost": v["cost"]})
 	}
+	rag, err := ragHistory(root)
+	if err != nil {
+		return nil, err
+	}
 	return map[string]any{"version": 1, "recorded_at": time.Now().UTC(), "runs": total, "unlinked_runs": unknown,
 		"first_pass": map[string]int{"numerator": firstPass, "denominator": eligible}, "additional_full_acceptance_runs": rework,
 		"inconsistent_test_groups": inconsistent, "observed_test_groups": len(groups), "verification_duration_ms": duration,
 		"recurrence":           map[string]int{"linked_recurrences": recurrences, "recorded_failures": len(records), "resolved_failures": resolved},
 		"recurrence_note":      "Linked recurrence / recorded failures is observed recurrence share, not a production incident rate. Missing historical links remain unknown.",
 		"business_evaluations": evaluations,
+		"rag":                  rag,
 		"improvement_backlog":  top, "review_period": "weekly; manual review, no scheduler installed",
 		"interpretation": "First pass requires both full and acceptance first attempts. Additional runs are a rework proxy, not human edits. Inconsistent statuses are candidates for investigation, not proven flaky tests. Old unlinked records are unknown."}, nil
 }

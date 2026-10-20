@@ -198,6 +198,9 @@ func validateCompletion(root string, task TaskRecord, path, digest string) (stri
 		if err := requiredReport(r, gate.mode, digest, contract.BoundAt, gate.checks); err != nil {
 			return "", err
 		}
+		if contract.Feedback != nil && r.Task != task.ID {
+			return "", fmt.Errorf("%s evidence lacks matching task association", gate.mode)
+		}
 		if gate.mode == "full" {
 			if !fullPass(r) {
 				return "", fmt.Errorf("incomplete full evidence")

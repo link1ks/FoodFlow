@@ -187,6 +187,19 @@ func validateFeedback(root, task string, c TaskContract, path, digest string) er
 	if err != nil || when.Before(c.BoundAt) || metrics["version"] != float64(1) {
 		return fmt.Errorf("fresh metrics required")
 	}
+	if when.After(time.Now().Add(time.Minute)) {
+		return fmt.Errorf("future metrics rejected")
+	}
+	current, err := learningMetrics(root)
+	if err != nil {
+		return err
+	}
+	computed := current.(map[string]any)
+	delete(computed, "recorded_at")
+	delete(metrics, "recorded_at")
+	if hashJSON(computed) != hashJSON(metrics) {
+		return fmt.Errorf("metrics must be recomputed from complete current history")
+	}
 	records, err := knowledgeRecords(root)
 	if err != nil {
 		return err

@@ -10,7 +10,8 @@ import (
 
 // Uses a disposable repository-shaped corpus so acceptance never mutates the
 // user's knowledge. Fixtures contain no real user logs or production data.
-func evaluateRAG(root, out string) error {
+func evaluateRAG(root, out string, persist bool) error {
+	started := time.Now()
 	raw, err := os.ReadFile(filepath.Join(root, "docs/quality/rag-eval.json"))
 	if err != nil {
 		return err
@@ -88,9 +89,14 @@ func evaluateRAG(root, out string) error {
 		return err
 	}
 	report := map[string]any{"version": 1, "passed": passed, "source_digest": digest, "corpus_digest": hashJSON(suite), "retrieval_version": retrievalVersion,
-		"cases": len(results), "results": results, "recorded_at": time.Now().UTC(), "scope": "retrieval, citation and lifecycle; live grounded generation is a separate paid evaluation"}
+		"cases": len(results), "results": results, "recorded_at": time.Now().UTC(), "elapsed_ms": time.Since(started).Milliseconds(), "scope": "retrieval, citation and lifecycle; live grounded generation is a separate paid evaluation"}
 	if err = saveJSON(out, report); err != nil {
 		return err
+	}
+	if persist {
+		if err = saveJSON(filepath.Join(root, ".cache/harness/experience/evaluations", runID()+".json"), report); err != nil {
+			return err
+		}
 	}
 	if !passed {
 		return fmt.Errorf("RAG acceptance failed")
