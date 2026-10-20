@@ -10,6 +10,9 @@ go run ./cmd/harness -mode knowledge
 go run ./cmd/harness -mode acceptance
 go run ./cmd/harness -mode diagnose -out .cache/harness/diagnose-run.json
 go run ./cmd/harness -mode summary -out .cache/harness/summary.json
+go run ./cmd/harness -mode business
+go run ./cmd/harness -mode main-site -out .cache/harness/task-main.json
+go run ./cmd/harness -mode cloud -out .cache/harness/task-cloud.json
 ```
 
 Full mode checks AST import rules, Go formatting, vet, all Go tests with required Docker integration, pinned sqlc generation consistency, generated frontend API type freshness, frontend tests and build. Fast mode explicitly uses `-short`; it cannot establish database or messaging acceptance. Results and bounded subprocess output are written to `.cache/harness/latest.json`. The harness clears production test-database and model/cache/service environment overrides from test subprocesses, uses fixed argument vectors and exits nonzero on failed checks.
@@ -32,16 +35,30 @@ Install browser support once: `pnpm --dir web exec playwright install chromium` 
 
 Every verification writes a separate run file under `.cache/harness/runs`, with timestamp, Git revision, worktree status, source digest, results and durations. A final digest check rejects edits made while verification was running. These are local development records, not tamper-proof attestations. GitHub CI attaches reports to its exact commit and uploads only explicitly selected artifacts.
 
-For each bounded task, record its real start and final outcome:
+For each bounded task, record its real start, bind a reviewed requirement contract before final verification, and record the final outcome:
 
 ```powershell
 go run ./cmd/harness -mode task -task example-repair -action start -kind regression -baseline reproduced
+go run ./cmd/harness -mode task -task example-repair -action bind -contract docs/quality/tasks/example-repair.json
 go run ./cmd/harness -mode full -out .cache/harness/example-full.json
-go run ./cmd/harness -mode task -task example-repair -action finish -outcome passed -evidence .cache/harness/example-full.json
+# Also run acceptance, diagnose, main-site and (after publication/CI) cloud.
+go run ./cmd/harness -mode task -task example-repair -action finish -outcome passed -evidence .cache/harness/example-completion.json
 go run ./cmd/harness -mode summary -out .cache/harness/summary.json
 ```
 
-Use `feature`, `regression` or `maintenance` as the task kind; `baseline` is an operator assertion (`reproduced` or `unknown`). Failed/blocked tasks must be recorded too. Starts and outcomes cannot be overwritten through the command. Successful completion requires a passing full report recorded after task start with the current source digest. Reports that skipped frontend or Docker checks cannot satisfy this gate. This does not automatically reproduce a bug or prove every acceptance criterion; run relevant acceptance scenarios as well.
+Use `feature`, `regression` or `maintenance` as the task kind; `baseline` is an operator assertion (`reproduced` or `unknown`). Failed/blocked tasks must be recorded too. Starts, bound contracts and outcomes cannot be overwritten through the command. Successful completion requires a version-2 bundle with `full`, `acceptance`, `diagnose`, `main_site` and `cloud` paths under `.cache/harness`. Every report must start after the contract is bound, match current source and include its required passing checks. Full-only, skipped, missing, stale, failed, duplicate and foreign-source evidence is rejected. Cloud must verify clean HEAD published on origin/main with successful backend/frontend/images/platform jobs. This is local evidence validation, not cryptographic attestation.
+
+Example bundle: `{"version":2,"full":".cache/harness/example-full.json","acceptance":".cache/harness/example-acceptance.json","diagnose":".cache/harness/example-diagnose.json","main_site":".cache/harness/example-main.json","cloud":".cache/harness/example-cloud.json"}`. A task contract has version 1, `task`, and `criteria`; each criterion has a unique `id`, user-facing `description`, `business` requirement IDs and exact named `tests`. See the committed [current contract](quality/tasks/harness-business-gates.json).
+
+## Requirement and business feedback
+
+[Business guide](BUSINESS_GUIDE.md) and [explicit mappings](quality/business.json) retain reviewed behavior, implementation paths, bounded data profiles and browser rechecks. `business-map` runs in full/fast/acceptance. A changed guide or source digest requires semantic review followed by `-mode business -update`; refresh does not infer correctness or invent test mappings. Implementation files under internal/cmd/web/src/sql must belong to reviewed source scopes; newly added files cannot silently evade review. New named Go tests/fuzz entrypoints, frontend tests, browser scenarios and executable PowerShell test scripts must have explicit bindings. Table rows and subtests inherit their named parent. Unsupported modified JavaScript registrations fail inventory discovery until an adapter is added.
+
+Full captures only named Go/Vitest statuses in its evidence; acceptance captures each desktop/mobile Playwright result. Missing, skipped and retried/flaky results cannot satisfy named coverage. Script-level tests are bound to business purpose; their execution is represented by harness checks and the platform CI job, not fabricated per-assertion statuses. Task criteria must name directly recorded Go/frontend/browser cases.
+
+`data-scale` requires the fresh full-run workload: 10 households, 20 clients, 30 seconds, at least 100 completed cycles/700 requests, zero errors/invariant failures and p95 <= 2000 ms. Requirements additionally describe relevant empty/boundary/negative/replay fixtures; volume alone is not a quality measure. Full/fast/acceptance take an exclusive `.cache/harness/verification.lock`; overlapping runs fail before starting. After an interrupted process, inspect its recorded PID and remove only the stale lock after confirming no verification is running. Never clear a live lock to force parallel execution.
+
+`main-site` opens a fresh browser on localhost:5173, permits only same-origin GET/HEAD, verifies login controls, readiness, HTML and JS/CSS hashes against web/dist, and saves an unauthenticated screenshot. It does not sign into private accounts, mutate stock or make paid calls. Actual business interactions are rechecked in the linked isolated acceptance pages. Main-site success establishes frontend build identity and entry availability, not every backend behavior or a completed deployment backup; application updates still require the documented backup/rebuild procedure.
 
 Summary separates verification runs by mode from explicitly completed tasks. Durations include waiting and interruptions. Samples start when this mechanism is adopted; historic runs are not backfilled as fictional task records. Pass counts and task wall-clock time do not establish AI productivity gains or user regression rate. Compare later tasks only with stated scope, environment and baseline. Failures should produce a reproducible case and a regression rule/test, as the login gateway repair did.
 

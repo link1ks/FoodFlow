@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"go/parser"
 	"go/token"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -76,6 +77,10 @@ func importViolation(path, value string) string {
 // Preserve no user-controlled shell execution; all subprocess argument vectors
 // are fixed in code and environment is sanitized to prevent touching live data.
 func command(name string, args ...string) (string, error) {
+	return observedCommand(nil, name, args...)
+}
+
+func observedCommand(observer io.Writer, name string, args ...string) (string, error) {
 	if name == "pwsh" {
 		args = append([]string{"-NoProfile", "-NonInteractive"}, args...)
 	}
@@ -95,6 +100,9 @@ func command(name string, args ...string) (string, error) {
 	cmd.Env = append(cmd.Env, "REQUIRE_INTEGRATION=true")
 	output := new(boundedOutput)
 	cmd.Stdout, cmd.Stderr = output, output
+	if observer != nil {
+		cmd.Stdout = io.MultiWriter(output, observer)
+	}
 	err := cmd.Run()
 	if ctx.Err() != nil {
 		err = fmt.Errorf("verification command timed out: %w", ctx.Err())
@@ -124,6 +132,7 @@ func (b *boundedOutput) Write(p []byte) (int, error) {
 	return n, nil
 }
 func main() {
+	started := time.Now().UTC()
 	mode := flag.String("mode", "full", "full, fast, architecture, knowledge, diagnose, acceptance, task, summary, fingerprint, or images")
 	web := flag.Bool("web", true, "also test and build frontend in full mode")
 	out := flag.String("out", ".cache/harness/latest.json", "evidence path")
@@ -136,20 +145,35 @@ func main() {
 	baseline := flag.String("baseline", "unknown", "reproduced or unknown; records an operator assertion")
 	outcome := flag.String("outcome", "", "passed, failed or blocked")
 	evidence := flag.String("evidence", "", "passing full report for task completion")
+	contract := flag.String("contract", "", "repository task contract for action bind")
 	failureCategory := flag.String("failure-category", "unknown", "product, fixture, infrastructure or unknown for failed/blocked tasks")
 	flag.Parse()
-	if !strings.Contains("|full|fast|architecture|knowledge|diagnose|acceptance|task|summary|fingerprint|images|", "|"+*mode+"|") {
+	var releaseLock func()
+	if *mode == "full" || *mode == "fast" || *mode == "acceptance" {
+		var err error
+		releaseLock, err = verificationLock(".")
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		defer releaseLock()
+	}
+	if !strings.Contains("|full|fast|architecture|knowledge|business|diagnose|acceptance|main-site|cloud|task|summary|fingerprint|images|", "|"+*mode+"|") {
 		fmt.Fprintln(os.Stderr, "invalid mode")
 		os.Exit(2)
 	}
-	if *update && *mode != "knowledge" {
-		fmt.Fprintln(os.Stderr, "-update is only valid in knowledge mode")
+	if *update && *mode != "knowledge" && *mode != "business" {
+		fmt.Fprintln(os.Stderr, "-update is only valid in knowledge/business mode")
 		os.Exit(2)
 	}
 	if *mode == "task" || *mode == "summary" {
 		var err error
 		if *mode == "task" {
-			err = recordTask(".", *task, *action, *kind, *baseline, *outcome, *evidence, *failureCategory)
+			if *action == "bind" {
+				err = bindTask(".", *task, *contract)
+			} else {
+				err = recordTask(".", *task, *action, *kind, *baseline, *outcome, *evidence, *failureCategory)
+			}
 		} else {
 			var summary any
 			summary, err = historySummary(".")
@@ -174,6 +198,7 @@ func main() {
 		return
 	}
 	checks := []Check{}
+	var testOutcomes []TestOutcome
 	run := func(name string, fn func() (string, error)) {
 		start := time.Now()
 		detail, err := fn()
@@ -187,7 +212,10 @@ func main() {
 	run("architecture", func() (string, error) { return "", architecture(".") })
 	run("repository-hygiene", func() (string, error) { return "", repositoryHygiene(".") })
 	if *mode != "architecture" {
-		run("knowledge", func() (string, error) { return "", knowledge(".", *update) })
+		run("knowledge", func() (string, error) { return "", knowledge(".", *update && *mode == "knowledge") })
+	}
+	if *mode == "business" || *mode == "full" || *mode == "fast" || *mode == "acceptance" {
+		run("business-map", func() (string, error) { return "", business(".", *update && *mode == "business") })
 	}
 	if *mode == "full" || *mode == "fast" || *mode == "acceptance" {
 		run("quality-map", func() (string, error) { return "", quality(".") })
@@ -201,6 +229,12 @@ func main() {
 	}
 	if *mode == "diagnose" {
 		run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
+	}
+	if *mode == "main-site" {
+		run("main-site-browser", func() (string, error) { return command("node", "web/scripts/verify-main.mjs") })
+	}
+	if *mode == "cloud" {
+		run("commit-ci", func() (string, error) { return command("pwsh", "-File", "scripts/verify-task-ci.ps1") })
 	}
 	if *mode == "acceptance" {
 		run("read-recovery-regression", func() (string, error) { return command("pwsh", "-File", "tests/read-model-recovery.ps1") })
@@ -220,9 +254,17 @@ func main() {
 			run("kitchen-flow", func() (string, error) {
 				return command("pwsh", "-File", "tests/smoke.ps1", "-Base", "http://127.0.0.1:18080")
 			})
+			run("gateway-fixture", func() (string, error) { return command("pwsh", "-File", "scripts/prepare-browser-fixture.ps1") })
 			run("gateway-recovery", func() (string, error) { return command("pwsh", "-File", "tests/gateway-recovery.ps1") })
 			run("browser-fixture", func() (string, error) { return command("pwsh", "-File", "scripts/prepare-browser-fixture.ps1") })
-			run("browser", func() (string, error) { return command(pnpm, "--dir", "web", "test:e2e") })
+			run("browser", func() (string, error) {
+				detail, err := command(pnpm, "--dir", "web", "test:e2e")
+				if err == nil {
+					testOutcomes, err = browserResults(".")
+				}
+				return detail, err
+			})
+			run("named-tests", func() (string, error) { return "", verifyNamedResults(".", "acceptance", testOutcomes) })
 			run("runtime-diagnostics", func() (string, error) { return command("pwsh", "-File", "scripts/harness-diagnose.ps1") })
 		}
 	}
@@ -257,19 +299,35 @@ func main() {
 		})
 		run("vet", func() (string, error) { return command("go", "vet", "./...") })
 		run("go-tests", func() (string, error) {
-			args := []string{"test", "-count=1", "./..."}
+			args := []string{"test", "-json", "-count=1", "./..."}
 			if *mode == "fast" {
 				args = append(args, "-short")
 			}
-			return command("go", args...)
+			observer := &goResults{}
+			detail, err := observedCommand(observer, "go", args...)
+			if err == nil {
+				testOutcomes, err = observer.outcomes(".")
+			}
+			return detail, err
 		})
 		if *mode == "full" && *web {
 			for _, action := range []string{"api:check", "test", "build"} {
 				step := action
 				run("web-"+strings.ReplaceAll(step, ":", "-"), func() (string, error) {
-					return command(pnpm, "--dir", "web", step)
+					if step != "test" {
+						return command(pnpm, "--dir", "web", step)
+					}
+					detail, err := command(pnpm, "--dir", "web", "exec", "vitest", "run", "src", "--reporter=json", "--outputFile=../.cache/harness/vitest.json")
+					if err == nil {
+						results, parseErr := webResults(".", ".cache/harness/vitest.json")
+						testOutcomes = append(testOutcomes, results...)
+						err = parseErr
+					}
+					return detail, err
 				})
 			}
+			run("named-tests", func() (string, error) { return "", verifyNamedResults(".", "full", testOutcomes) })
+			run("data-scale", func() (string, error) { return validateDataScale(".", started) })
 		}
 	}
 	if !*update {
@@ -296,13 +354,19 @@ func main() {
 			toolchain[tool.name] = strings.TrimSpace(value)
 		}
 	}
-	report := Evidence{Version: 1, RunID: runID(), RecordedAt: time.Now().UTC(), Revision: strings.TrimSpace(revision), WorktreeDirty: strings.TrimSpace(status) != "", SourceDigest: initialDigest, Toolchain: toolchain, Mode: *mode, IntegrationRequired: *mode == "full" || *mode == "acceptance", Checks: checks}
+	report := Evidence{Version: 1, RunID: runID(), StartedAt: started, RecordedAt: time.Now().UTC(), Revision: strings.TrimSpace(revision), WorktreeDirty: strings.TrimSpace(status) != "", SourceDigest: initialDigest, Toolchain: toolchain, Mode: *mode, IntegrationRequired: *mode == "full" || *mode == "acceptance", Checks: checks, Tests: testOutcomes}
 	if err := saveEvidence(*out, report); err != nil {
+		if releaseLock != nil {
+			releaseLock()
+		}
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 	for _, check := range checks {
 		if !check.Passed {
+			if releaseLock != nil {
+				releaseLock()
+			}
 			os.Exit(1)
 		}
 	}

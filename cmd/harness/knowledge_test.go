@@ -127,7 +127,10 @@ func TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite(t *testing.T) {
 	}
 	report.Checks[1].Name = "repository-hygiene"
 	write()
-	if err := recordTask(root, "repair", "finish", "", "", "passed", evidence); err != nil {
+	if err := recordTask(root, "repair", "finish", "", "", "passed", evidence); err == nil {
+		t.Fatal("full-only evidence bypassed unified completion")
+	}
+	if err := recordTask(root, "repair", "finish", "", "", "blocked", ""); err != nil {
 		t.Fatal(err)
 	}
 	if err := recordTask(root, "repair", "finish", "", "", "failed", ""); err == nil {

@@ -1,0 +1,1446 @@
+{
+  "version": 1,
+  "requirements": [
+    {
+      "id": "ACCOUNT",
+      "context": "会话撤销、服务端当前家庭授权、恢复码及短信证明。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/app/recovery_codes.go",
+        "internal/app/account_lifecycle.go",
+        "internal/app/sms_auth.go",
+        "internal/app/phone_auth_test.go",
+        "internal/sms",
+        "docs/ACCOUNT_RECOVERY_AI.md",
+        "internal/app/jwt.go",
+        "internal/app/proxy.go"
+      ],
+      "review_digest": "beb3d9bef42d6f27dde6af2e8b96d98c19daa5fa25434a476dced21cf6a09312",
+      "browser": [
+        "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
+        "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
+        "web/e2e/account.spec.ts#email account merge explains scope and requires configured SMS"
+      ],
+      "data": "多角色/两家庭，失效/重放/并发恢复与错误证明。",
+      "limits": "真实短信送达与邮件所有权未验收。"
+    },
+    {
+      "id": "KITCHEN",
+      "context": "默认个人厨房、可选家庭、所有者隔离与幂等初始化。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/app/personal_kitchen.go",
+        "docs/PERSONAL_KITCHENS.md"
+      ],
+      "review_digest": "8598a250afec82ff35f9799cb454b008a944ff951dd1fc6de3c705b82316c15e",
+      "browser": [
+        "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
+      ],
+      "data": "个人/家庭/合并账号，重复创建、越权与切换。",
+      "limits": "多设备真实用户体验未验收。"
+    },
+    {
+      "id": "STOCK",
+      "context": "精确数量、FEFO、非负库存、修正流水、事务及幂等。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/core",
+        "internal/app/inventory.go",
+        "internal/app/batch_correction.go",
+        "internal/app/ingredient_archive.go",
+        "internal/app/cooking_service.go",
+        "sql",
+        "internal/app/app.go",
+        "docs/ARCHITECTURE.md",
+        "internal/app/ledger.go",
+        "internal/app/pantry.go",
+        "internal/dbgen"
+      ],
+      "review_digest": "719fd18c69229fb7bb98d789ce9c2e03955e3e0a905de677393efc4dc83249ec",
+      "browser": [
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ],
+      "data": "10 家庭/20 并发/30 秒，至少100周期；空、负、三位小数、过期及重复请求。",
+      "limits": "有界本地回归不代表生产容量。"
+    },
+    {
+      "id": "CATALOG",
+      "context": "目录 ID 由服务端解析，200项素材与家庭授权照片。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/app/ingredient_images.go",
+        "internal/app/images.go",
+        "internal/storage",
+        "web/src/catalogPhotos.test.ts",
+        "docs/ARCHITECTURE.md"
+      ],
+      "review_digest": "e8d14ea00458c0e16d775a47a8196ab5c9810b0924df6c30b4650acdb2babe25",
+      "browser": [
+        "web/e2e/photos.spec.ts#studio catalogue images, family upload priority and failed-image fallback"
+      ],
+      "data": "200项目录完整性；照片上传、替换、删除、失效回退与跨家庭访问。",
+      "limits": "参考图不能证明真实照片识别准确度。"
+    },
+    {
+      "id": "MENU",
+      "context": "草案不扣库、显式餐次、确认重算、烹饪一次扣库、取消持久化。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/engine/matcher",
+        "internal/engine/scheduler",
+        "internal/engine/multimeal",
+        "internal/engine/pipeline",
+        "internal/app/plans.go",
+        "internal/app/meal_cooking.go",
+        "internal/app/multi_meal.go",
+        "internal/app/clear_fridge.go",
+        "docs/ARCHITECTURE.md",
+        "internal/app/recipe_options.go",
+        "internal/app/pipeline.go"
+      ],
+      "review_digest": "7061aabbeea526e1b4205fd98a4be323c081c6724b9b60eb42ac00e2b46590d8",
+      "browser": [
+        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed"
+      ],
+      "data": "共享原料冲突、多餐/多人/异单位、超过400用料、搜索预算和取消重放。",
+      "limits": "菜谱时间为参考，不是实际烹饪效果保证。"
+    },
+    {
+      "id": "SHOP",
+      "context": "缺料生成采购；确认实购后入库，软删除保留库存历史。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/app/shopping_delete.go",
+        "internal/app/plans.go",
+        "internal/app/pantry_service.go",
+        "docs/ARCHITECTURE.md"
+      ],
+      "review_digest": "a6e0253afa9aeb1cf6cc5ebdf1528ae54ad5d0703463b05438fa7ed4ff3d345a",
+      "browser": [
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ],
+      "data": "缺料/足量/多买、同键重放、不同键二次确认、删除已入库项目。",
+      "limits": "真实家庭录入负担未测量。"
+    },
+    {
+      "id": "INTAKE",
+      "context": "用户同意的麦克风或图片生成受限草稿，目录匹配与明确确认后才入库。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/engine/intake",
+        "internal/agent/vision.go",
+        "internal/agent/speech.go",
+        "internal/app/voice.go",
+        "cmd/intake-eval",
+        "docs/INTAKE_SCOPE.md"
+      ],
+      "review_digest": "659cfac56984c8fc9bddc8883e023075b1a1883b1806982e7c1824f71b7a6d44",
+      "browser": [
+        "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections"
+      ],
+      "data": "100+60冻结文本；无关/否定/改口/模糊数量与单种/混合图像fixture。",
+      "limits": "合成标签非独立复核；不调用付费模型，物理麦克风未验收。"
+    },
+    {
+      "id": "AI",
+      "context": "Worker租约与取消fencing，收费前持久化额度、拒绝重复派发与不确定退款。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/agent",
+        "internal/app/jobs.go",
+        "internal/app/ai_allowance.go",
+        "docs/ACCOUNT_RECOVERY_AI.md",
+        "cmd/intake-scope-eval/main.go",
+        "cmd/modelcheck/main.go",
+        "cmd/worker/main.go"
+      ],
+      "review_digest": "ed943f3d9ed09cdd7f493e119f1132993ca373845592779cf9a5fc882372d3c9",
+      "browser": [
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
+      ],
+      "data": "本地HTTP供应商，失败/超时/取消/租约失效/月界和并发预算。",
+      "limits": "应用额度不是账单封顶；真实模型质量未验收。"
+    },
+    {
+      "id": "COMMUNITY",
+      "context": "明确同意初审，版本隔离、失败私有、周榜管理员收录与一次积分。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/app/community.go",
+        "internal/app/community_moderation.go",
+        "docs/COMMUNITY.md"
+      ],
+      "review_digest": "f292991831dd202f88928b6e6759bf2613d87b2ccce5032d901a5a72bb49f0bc",
+      "browser": [
+        "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure"
+      ],
+      "data": "同修订并发、重放、撤下、封面重审、周界、积分兑换与角色越权。",
+      "limits": "多账号刷票、举报运营与真实模型判断仍开放。"
+    },
+    {
+      "id": "REPORT",
+      "context": "历史成本与未知覆盖，独立统计投影、事件去重及隔离。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/app/monthly_report.go",
+        "internal/app/batch_cost.go",
+        "internal/app/outbox_test.go",
+        "internal/events",
+        "internal/outbox",
+        "internal/insights",
+        "docs/PLATFORM.md",
+        "internal/app/insights.go",
+        "cmd/insights/main.go",
+        "cmd/relay/main.go"
+      ],
+      "review_digest": "ac78099744b1a16c9981770a4bd13ba5c36d967f663484182fa547c1697b14ff",
+      "browser": [
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
+      ],
+      "data": "跨月/未知成本/大精确数量，重复与冲突事件、Kafka停机恢复。",
+      "limits": "不宣称节省金额或生产高可用，完整投影重建待验收。"
+    },
+    {
+      "id": "NUTRITION",
+      "context": "198/200每100g参考值，未知保留；批次可食重量不扣库、不改历史。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/nutrition",
+        "internal/app/batch_nutrition.go",
+        "internal/app/nutrition_radar.go",
+        "internal/app/nutrition_advice.go",
+        "docs/NUTRITION_REFERENCES.md"
+      ],
+      "review_digest": "4298d8e48c4450bd32ed354a4829ebf5e586006325f0f4db0d27f71c5893c8a9",
+      "browser": [
+        "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger"
+      ],
+      "data": "200目录/198参考、g/ml/个转换、缺失资料、历史快照和批次修正。",
+      "limits": "不是实际摄入或健康评分；泛指鱼/贝仍未知。"
+    },
+    {
+      "id": "MARKET",
+      "context": "官方价格原口径与日期；公共缓存短TTL、权限先校验、故障回源。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/market",
+        "internal/cache",
+        "internal/app/market_prices.go",
+        "internal/app/public_cache.go",
+        "docs/ARCHITECTURE.md",
+        "cmd/price-sync/main.go"
+      ],
+      "review_digest": "19f210d72cd3b4b8ded3b372ecfe811220ba86d6fc7106796b125af8f82c95bb",
+      "browser": [
+        "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+        "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
+        "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states"
+      ],
+      "data": "跨城市/日期/筛选、缺失同比、缓存过期/损坏/停机及恢复。",
+      "limits": "首页复核仅公共读取体验；外部实时数据供应和生产缓存容量不保证。"
+    },
+    {
+      "id": "UI",
+      "context": "主导航闭环、错误/空/未配置状态区分，库存与营养的触摸键盘交互。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "web/src",
+        "web/e2e",
+        "docs/ARCHITECTURE.md"
+      ],
+      "review_digest": "22579ff51348bc1fad813c031e8fb54bc3025c95132cd78dab681d40de9dd1ad",
+      "browser": [
+        "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+        "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
+        "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states"
+      ],
+      "data": "桌面/手机/320px；200项选择器、2秒悬停、点击固定、余量和独立批次。",
+      "limits": "自动交互不是用户研究，所有业务写入只在虚构账号。"
+    },
+    {
+      "id": "RECOVERY",
+      "context": "配套备份、fresh-target恢复与受约束发布，保留配置及真实数据。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "internal/recovery",
+        "scripts/recovery-common.ps1",
+        "scripts/learning-release.ps1",
+        "scripts/release-common.ps1",
+        "scripts/update.ps1",
+        "docs/BACKUP_RECOVERY.md",
+        "cmd/recovery/main.go",
+        "cmd/recovery/probe.go"
+      ],
+      "review_digest": "0992ff0d1907e87f349d42e95d86e84f0ea736189fda4e93a36d414540eadb75",
+      "browser": [
+        "web/e2e/security.spec.ts#gateway security policy blocks injected scripts and permits the app"
+      ],
+      "data": "损坏/路径穿越/重复归档、缺失证据、同版本重建、幂等及照片恢复。",
+      "limits": "浏览器仅验证可访问入口；完整学习恢复由云端platform检查，非跨版本兼容。"
+    },
+    {
+      "id": "HARNESS",
+      "context": "可执行架构、需求测试映射、上下文复核、规模、浏览器及云端完成门禁。",
+      "guide": "docs/BUSINESS_GUIDE.md",
+      "sources": [
+        "cmd/harness",
+        "scripts/verify-task-ci.ps1",
+        "web/scripts",
+        "api/openapi.yaml",
+        ".github/workflows/ci.yml",
+        "scripts/ci-status.ps1",
+        "scripts/prepare-browser-fixture.ps1",
+        "docs/HARNESS.md",
+        "cmd/api/main.go",
+        "cmd/loadcheck/main.go",
+        "cmd/migrate/main.go"
+      ],
+      "review_digest": "4261a0f1e8960c82d4775da9190b8a6c971486750e33aaa20de27bec031ed196",
+      "browser": [
+        "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct"
+      ],
+      "data": "有效/缺失/旧/失败/跳过/不同源码证据与契约；有界混合负载。",
+      "limits": "本地证据非防篡改证明；人工仍负责语义正确性和需求完整性。"
+    }
+  ],
+  "tests": [
+    {
+      "id": "cmd/harness/ci_test.go#TestCIEventPolicyAvoidsDuplicateBranchRuns",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/compose_test.go#TestComposeRequiresRedisForEveryAPI",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/compose_test.go#TestComposeOverlaysPreserveRequiredRedis",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/hygiene_test.go#TestRepositoryPathsKeepFixturesAndRejectPrivateArtifacts",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/hygiene_test.go#TestRepositoryHygieneCatchesForcedIgnoredFileWithoutReadingSecrets",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/images_test.go#TestImageBindingRejectsStaleSourceAndContainerReplacement",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/knowledge_test.go#TestKnowledgeRejectsRouteAndConfigDrift",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/knowledge_test.go#TestKnowledgeRejectsBrokenAndEscapingLinks",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/knowledge_test.go#TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/main_test.go#TestDiagnosticOutputIsBounded",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/main_test.go#TestImportRules",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/quality_test.go#TestQualityRejectsLostScenarioAndEscapingPath",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/quality_test.go#TestTaskFailureClassification",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/request_context_test.go#TestObjectIORejectsPooledRequestContext",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/intake-eval/main_test.go#TestFrozenCorpusAndScoring",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "cmd/intake-eval/main_test.go#TestRecordedWrongIntentCannotPassNumericGroundingAlone",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "cmd/intake-eval/main_test.go#TestBoundedInterpreterOnNewFrozenCases",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/advice_test.go#TestAdviceSchema",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/community_review_test.go#TestCommunityReviewRequiresCoverAndStrictVerdict",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/agent/community_review_test.go#TestCommunityModelChecksImageWithGuardBeforeDispatch",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/agent/community_review_test.go#TestCommunityModelFailureCannotApproveOrRedirect",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/agent/community_review_test.go#TestCommunityReviewPartialCredentialsNeverMixProviders",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/agent/config_test.go#TestDeepSeekOptions",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/config_test.go#TestVisionConfig",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/guard_test.go#TestCallGuardBlocksNetworkAndRedirectsCannotRepeatPaidRequests",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/model_test.go#TestDemoAndSchema",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/model_test.go#TestOpenAIAdapter",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/speech_test.go#TestQwenSpeechRequestAndGuard",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/speech_test.go#TestSpeechFailureDoesNotResendOrExposePayload",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/vision_test.go#TestVisionAdapterAndSchema",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/agent/vision_test.go#TestVisionRejectsUnrelatedUncertainAndMixedResults",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/app/account_lifecycle_test.go#TestAccountRecoveryReplacementAndEpochFences",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/account_lifecycle_test.go#TestComplementaryAccountMergePreservesHistoryAndHouseholds",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/ai_allowance_test.go#TestAIAllowanceSerializesDebitsAndRetainsAmbiguousCalls",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/app/ai_allowance_test.go#TestAIAllowanceRejectsMalformedMoney",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/app/batch_nutrition_test.go#TestConfirmedNutritionBasisPreservesHistoryAndScope",
+      "requirements": [
+        "NUTRITION"
+      ]
+    },
+    {
+      "id": "internal/app/community_moderation_test.go#TestCommunityInitialReviewPrivacyCoverRetryAndRewards",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/app/community_moderation_test.go#TestCommunityReviewFailureWithdrawalAndAmbiguousRestart",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/app/community_test.go#TestCommunityShanghaiWeekAndDraftSafety",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/app/community_test.go#TestCommunityContributionReviewAndAtomicRewards",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox",
+      "requirements": [
+        "STOCK",
+        "REPORT",
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/family_recipes_test.go#TestFamilyRecipesBOMAndScheduling",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/app/fixture_contract_test.go#TestAllSuccessfulContractResponsesHaveTypedMedia",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "internal/app/integration_test.go#TestImageRecognitionConfirmation",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/app/integration_test.go#TestIngredientCatalogSelection",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "internal/app/integration_test.go#TestIngredientArchiveKeepsLedgerAndCanBeRestocked",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/app/integration_test.go#TestIngredientPhotosAndRecipeOptions",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "internal/app/integration_test.go#TestWorkflowAndInvariants",
+      "requirements": [
+        "STOCK",
+        "MENU",
+        "SHOP"
+      ]
+    },
+    {
+      "id": "internal/app/ledger_test.go#TestLedgerHistoryUsesSnapshotsAndHouseholdAuthorization",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/app/market_prices_test.go#TestPriceChange",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/market_prices_test.go#TestRegionalPriceStorage",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/market_prices_test.go#TestDailyPriceStatus",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/market_prices_test.go#TestMarketPricesIntegration",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/monthly_report_test.go#TestMonthlyReportCostsCoverageAndScope",
+      "requirements": [
+        "REPORT"
+      ]
+    },
+    {
+      "id": "internal/app/multi_meal_test.go#TestMultiMealScalingUnitsAndExpiryDisplay",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/app/multi_meal_test.go#TestMultiMealRolloverAdoptionAndFences",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/app/nutrition_advice_test.go#TestNutritionAdviceFlow",
+      "requirements": [
+        "NUTRITION"
+      ]
+    },
+    {
+      "id": "internal/app/nutrition_radar_test.go#TestNutritionRadarSnapshotsCoverageAndScope",
+      "requirements": [
+        "NUTRITION"
+      ]
+    },
+    {
+      "id": "internal/app/nutrition_radar_test.go#TestNutritionRadarThreeDayWindowRequiresCompleteRecords",
+      "requirements": [
+        "NUTRITION"
+      ]
+    },
+    {
+      "id": "internal/app/openapi_test.go#TestOpenAPIDocument",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "internal/app/openapi_test.go#TestContractRejectsQuantityAndRequiredFieldDrift",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "internal/app/outbox_test.go#TestOutboxAtomicRollbackRetryAndProjectionInbox",
+      "requirements": [
+        "REPORT"
+      ]
+    },
+    {
+      "id": "internal/app/pantry_test.go#TestVirtualPantryCookingCalibrationAndReplenishment",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/app/personal_kitchen_test.go#TestPersonalKitchenProvisionIsolationAndLegacyFamily",
+      "requirements": [
+        "KITCHEN"
+      ]
+    },
+    {
+      "id": "internal/app/phone_auth_test.go#TestPhoneJWTFlow",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/phone_auth_test.go#TestJWTValidation",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/pipeline_test.go#TestKitchenPipelineLifecycle",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/app/proxy_test.go#TestProxyIdentityRejectsSpoofingAndSeparatesClients",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/proxy_test.go#TestProxyAuthenticationBudgetsRemainSeparatedAndSpoofResistant",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/proxy_test.go#TestProxyConfigurationRejectsBroadOrInvalidTrust",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/public_cache_test.go#TestPublicRedisCachesShareReferencesAndPreserveAuthorization",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/public_cache_test.go#TestPublicRedisNeverCachesIncompleteRecipeMaterials",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/quantity_bom_regression_test.go#TestMalformedQuantityRejectedWithoutInventoryWrites",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/app/quantity_bom_regression_test.go#TestClearFridgeReadsCompleteCandidateBOM",
+      "requirements": [
+        "MENU",
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/app/recovery_codes_test.go#TestRecoveryCodesRotateExpireConsumeAndRevokeSessions",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/redis_runtime_test.go#TestNewAPIRequiresReachableRedis",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/redis_runtime_test.go#TestNewAPIPingsRedisAndClosesClient",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/redis_runtime_test.go#TestRedisReadinessOutageAndRecovery",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/app/shopping_delete_test.go#TestShoppingArchive",
+      "requirements": [
+        "SHOP"
+      ]
+    },
+    {
+      "id": "internal/app/sms_auth_test.go#TestSMSBindingAndLogin",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/app/v11_integration_test.go#TestMealCompletionFEFOIdempotenceAndReplenishment",
+      "requirements": [
+        "STOCK",
+        "MENU",
+        "SHOP"
+      ]
+    },
+    {
+      "id": "internal/app/v11_integration_test.go#TestMultiDishMealCombinesDemandAndRollsBackOnSharedShortage",
+      "requirements": [
+        "STOCK",
+        "MENU",
+        "SHOP"
+      ]
+    },
+    {
+      "id": "internal/app/v2_snapshots_test.go#TestV2LedgerSnapshotAndOperationIdempotency",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/app/voice_s3_review_test.go#TestVoiceS3CorrectionRequiresReviewAndCleansAudio",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/app/voice_test.go#TestVoiceIntakeConfirmationAuthorizationAndFencing",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/app/workflow_contract_test.go#TestKitchenWorkflowContract",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "internal/cache/catalog_test.go#TestUnavailableRedisHasBoundedFallback",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/cache/public_test.go#TestPublicKeysSeparateResourcesFiltersAndDates",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/cache/public_test.go#TestPublicCacheUnavailableHasSeparateBoundedMetrics",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/core/core_test.go#TestQuantityAndUnits",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/core/core_test.go#TestScale",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/core/core_test.go#TestQuantityDecimalSyntax",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/core/properties_test.go#FuzzQuantityRejectsMalformedDecimals",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/core/properties_test.go#FuzzQuantityRoundTrip",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/core/properties_test.go#FuzzConversionAndServingConservation",
+      "requirements": [
+        "STOCK"
+      ]
+    },
+    {
+      "id": "internal/core/recipe_options_test.go#TestRecipeDependenciesAndExactUnits",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/core/recipe_options_test.go#TestRecipeOptionOrder",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/intake/intake_test.go#TestConservativeSpeechDrafts",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/engine/intake/intake_test.go#TestRetractionsAndCorrectionsNeverPrefillQuantities",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/engine/intake/proposal_test.go#TestProposalGroundingAndReviewBoundary",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/engine/intake/semantic_test.go#TestBoundedIntakeSemantics",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "internal/engine/matcher/matcher_test.go#TestMultiwordMatchAndMissingCounts",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/matcher/matcher_test.go#TestMatchIntoZeroAlloc",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/matcher/matcher_test.go#TestInvalidRecipes",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/multimeal/planner_test.go#TestRolloverExpiryAndConservation",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/multimeal/planner_test.go#TestRepeatedMainPenaltyAndBudget",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/multimeal/planner_test.go#TestEmptyAndValidation",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/pipeline/pipeline_test.go#TestPassiveCookingReleasesHands",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/pipeline/pipeline_test.go#TestRejectInvalidDAG",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/pipeline/pipeline_test.go#TestKernelZeroAlloc",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/scheduler/properties_test.go#FuzzScheduleStockConservation",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/scheduler/scheduler_test.go#TestSharedIngredientConflict",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/scheduler/scheduler_test.go#TestFEFOSplitAndExpiredExcluded",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/scheduler/scheduler_test.go#TestBranchAndBoundChoosesBetterCombination",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/engine/scheduler/scheduler_test.go#TestServingScaleAndNodeLimit",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "internal/events/stock_test.go#TestStockValidation",
+      "requirements": [
+        "REPORT"
+      ]
+    },
+    {
+      "id": "internal/insights/http_test.go#TestInternalAuthorizationAndValidation",
+      "requirements": [
+        "REPORT"
+      ]
+    },
+    {
+      "id": "internal/market/beijing_test.go#TestOfficialFeeds",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/market/regional_test.go#TestNationalReport",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/market/regional_test.go#TestSuzhouReport",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/market/regional_test.go#TestOfficialLinkDiscovery",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/market/regional_test.go#TestFuzhouReport",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "internal/nutrition/nutrition_test.go#TestReferenceProfiles",
+      "requirements": [
+        "NUTRITION"
+      ]
+    },
+    {
+      "id": "internal/nutrition/nutrition_test.go#TestExtendedReferenceProvenance",
+      "requirements": [
+        "NUTRITION"
+      ]
+    },
+    {
+      "id": "internal/recovery/archive_test.go#TestArchiveRoundTripPreservesBinaryPhotosAndRejectsExistingTarget",
+      "requirements": [
+        "RECOVERY"
+      ]
+    },
+    {
+      "id": "internal/recovery/archive_test.go#TestArchiveRejectsTraversalLinksDuplicatesAndTruncation",
+      "requirements": [
+        "RECOVERY"
+      ]
+    },
+    {
+      "id": "internal/sms/aliyun_test.go#TestAliyunRequest",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "internal/storage/sdk_upgrade_test.go#TestS3SDKPutReadDeleteCompatibility",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "internal/storage/sdk_upgrade_test.go#TestOSSObjectAddressingCompatibility",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "internal/storage/storage_test.go#TestLocal",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "web/src/api.test.ts#explains an HTML gateway failure instead of blaming JSON parsing",
+      "requirements": [
+        "UI"
+      ]
+    },
+    {
+      "id": "web/src/api.test.ts#preserves the server credential validation message",
+      "requirements": [
+        "UI"
+      ]
+    },
+    {
+      "id": "web/src/api.test.ts#returns a successful JSON response",
+      "requirements": [
+        "UI"
+      ]
+    },
+    {
+      "id": "web/src/catalogPhotos.test.ts#covers the seeded catalogue with local reviewed generated assets and provenance",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "web/src/ingredientTrie.test.ts#finds single-character name and alias prefixes",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "web/src/ingredientTrie.test.ts#keeps substring matches after prefix matches",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "web/src/inventoryDisplay.test.ts#preserves precision while removing insignificant zeros",
+      "requirements": [
+        "STOCK",
+        "UI"
+      ]
+    },
+    {
+      "id": "web/src/inventoryDisplay.test.ts#distinguishes urgent, expired, unknown and spoiled batches",
+      "requirements": [
+        "STOCK",
+        "UI"
+      ]
+    },
+    {
+      "id": "web/src/marketPrices.test.ts#does not report missing historical comparisons as stable",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "web/src/marketPrices.test.ts#uses latest date rather than source order for catalog badges",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "web/src/marketPrices.test.ts#retains the monitoring period instead of labelling a month as a day",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "web/src/marketPrices.test.ts#labels monthly averages explicitly on ingredient cards",
+      "requirements": [
+        "MARKET"
+      ]
+    },
+    {
+      "id": "web/src/monthlyReport.test.ts#does not round milli quantities beyond JavaScript safe integers",
+      "requirements": [
+        "REPORT"
+      ]
+    },
+    {
+      "id": "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "web/e2e/account.spec.ts#email account merge explains scope and requires configured SMS",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "web/e2e/community.spec.ts#community recipe publishing, private saves and weekly rewards",
+      "requirements": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths",
+      "requirements": [
+        "STOCK",
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+      "requirements": [
+        "STOCK",
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
+      "requirements": [
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states",
+      "requirements": [
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG",
+      "requirements": [
+        "REPORT"
+      ]
+    },
+    {
+      "id": "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger",
+      "requirements": [
+        "NUTRITION"
+      ]
+    },
+    {
+      "id": "web/e2e/permissions.spec.ts#household switching and member downgrade preserve server authorization",
+      "requirements": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock",
+      "requirements": [
+        "KITCHEN"
+      ]
+    },
+    {
+      "id": "web/e2e/photos.spec.ts#studio catalogue images, family upload priority and failed-image fallback",
+      "requirements": [
+        "CATALOG"
+      ]
+    },
+    {
+      "id": "web/e2e/recipes.spec.ts#family recipe preview and scaled procurement",
+      "requirements": [
+        "MENU"
+      ]
+    },
+    {
+      "id": "web/e2e/security.spec.ts#gateway security policy blocks injected scripts and permits the app",
+      "requirements": [
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct",
+      "requirements": [
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation",
+      "requirements": [
+        "INTAKE",
+        "AI"
+      ]
+    },
+    {
+      "id": "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once",
+      "requirements": [
+        "STOCK",
+        "MENU",
+        "SHOP"
+      ]
+    },
+    {
+      "id": "tests/gateway-recovery.ps1#script",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "tests/generated-freshness.ps1#script",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "tests/learning-recovery.ps1#script",
+      "requirements": [
+        "RECOVERY"
+      ]
+    },
+    {
+      "id": "tests/learning-release.ps1#script",
+      "requirements": [
+        "RECOVERY"
+      ]
+    },
+    {
+      "id": "tests/learning-security.ps1#script",
+      "requirements": [
+        "RECOVERY"
+      ]
+    },
+    {
+      "id": "tests/platform.ps1#script",
+      "requirements": [
+        "REPORT"
+      ]
+    },
+    {
+      "id": "tests/read-model-recovery.ps1#script",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "tests/release-bundle.ps1#script",
+      "requirements": [
+        "RECOVERY"
+      ]
+    },
+    {
+      "id": "tests/smoke.ps1#script",
+      "requirements": [
+        "STOCK",
+        "MENU",
+        "SHOP"
+      ]
+    },
+    {
+      "id": "tests/update-project.ps1#script",
+      "requirements": [
+        "RECOVERY"
+      ]
+    },
+    {
+      "id": "tests/worker-recovery.ps1#script",
+      "requirements": [
+        "AI"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestBusinessRejectsContextDriftAndUnboundTests",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestTaskContractRejectsUnrelatedCoverageAndOverwrite",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestCompletionRejectsMissingStaleFailedAndForeignGates",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestNamedResultsRejectMissingSkippedAndOneViewport",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestWorkloadRejectsUndersizedOrUnmeasuredData",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestGoResultsCollectSplitEventsWithoutRawLogs",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestVerificationLockRejectsOverlappingSuites",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestBusinessRejectsUnreviewedImplementation",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/business_test.go#TestUnifiedCompletionAcceptsOnlyAllGatesAfterBinding",
+      "requirements": [
+        "HARNESS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,382 @@
+{
+  "version": 1,
+  "task": "harness-business-gates-final",
+  "criteria": [
+    {
+      "id": "context-account",
+      "description": "复核并保存 ACCOUNT 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "ACCOUNT"
+      ],
+      "tests": [
+        "internal/app/account_lifecycle_test.go#TestAccountRecoveryReplacementAndEpochFences",
+        "internal/app/account_lifecycle_test.go#TestComplementaryAccountMergePreservesHistoryAndHouseholds",
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox",
+        "internal/app/phone_auth_test.go#TestPhoneJWTFlow",
+        "internal/app/phone_auth_test.go#TestJWTValidation",
+        "internal/app/proxy_test.go#TestProxyIdentityRejectsSpoofingAndSeparatesClients",
+        "internal/app/proxy_test.go#TestProxyAuthenticationBudgetsRemainSeparatedAndSpoofResistant",
+        "internal/app/proxy_test.go#TestProxyConfigurationRejectsBroadOrInvalidTrust",
+        "internal/app/recovery_codes_test.go#TestRecoveryCodesRotateExpireConsumeAndRevokeSessions",
+        "internal/app/sms_auth_test.go#TestSMSBindingAndLogin",
+        "internal/sms/aliyun_test.go#TestAliyunRequest",
+        "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
+        "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
+        "web/e2e/account.spec.ts#email account merge explains scope and requires configured SMS",
+        "web/e2e/permissions.spec.ts#household switching and member downgrade preserve server authorization"
+      ]
+    },
+    {
+      "id": "context-kitchen",
+      "description": "复核并保存 KITCHEN 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "KITCHEN"
+      ],
+      "tests": [
+        "internal/app/personal_kitchen_test.go#TestPersonalKitchenProvisionIsolationAndLegacyFamily",
+        "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
+      ]
+    },
+    {
+      "id": "context-stock",
+      "description": "复核并保存 STOCK 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "STOCK"
+      ],
+      "tests": [
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox",
+        "internal/app/integration_test.go#TestIngredientArchiveKeepsLedgerAndCanBeRestocked",
+        "internal/app/integration_test.go#TestWorkflowAndInvariants",
+        "internal/app/ledger_test.go#TestLedgerHistoryUsesSnapshotsAndHouseholdAuthorization",
+        "internal/app/pantry_test.go#TestVirtualPantryCookingCalibrationAndReplenishment",
+        "internal/app/quantity_bom_regression_test.go#TestMalformedQuantityRejectedWithoutInventoryWrites",
+        "internal/app/quantity_bom_regression_test.go#TestClearFridgeReadsCompleteCandidateBOM",
+        "internal/app/v11_integration_test.go#TestMealCompletionFEFOIdempotenceAndReplenishment",
+        "internal/app/v11_integration_test.go#TestMultiDishMealCombinesDemandAndRollsBackOnSharedShortage",
+        "internal/app/v2_snapshots_test.go#TestV2LedgerSnapshotAndOperationIdempotency",
+        "internal/core/core_test.go#TestQuantityAndUnits",
+        "internal/core/core_test.go#TestScale",
+        "internal/core/core_test.go#TestQuantityDecimalSyntax",
+        "internal/core/properties_test.go#FuzzQuantityRejectsMalformedDecimals",
+        "internal/core/properties_test.go#FuzzQuantityRoundTrip",
+        "internal/core/properties_test.go#FuzzConversionAndServingConservation",
+        "web/src/inventoryDisplay.test.ts#preserves precision while removing insignificant zeros",
+        "web/src/inventoryDisplay.test.ts#distinguishes urgent, expired, unknown and spoiled batches",
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths",
+        "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    },
+    {
+      "id": "context-catalog",
+      "description": "复核并保存 CATALOG 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "CATALOG"
+      ],
+      "tests": [
+        "internal/app/integration_test.go#TestIngredientCatalogSelection",
+        "internal/app/integration_test.go#TestIngredientPhotosAndRecipeOptions",
+        "internal/storage/sdk_upgrade_test.go#TestS3SDKPutReadDeleteCompatibility",
+        "internal/storage/sdk_upgrade_test.go#TestOSSObjectAddressingCompatibility",
+        "internal/storage/storage_test.go#TestLocal",
+        "web/src/catalogPhotos.test.ts#covers the seeded catalogue with local reviewed generated assets and provenance",
+        "web/src/ingredientTrie.test.ts#finds single-character name and alias prefixes",
+        "web/src/ingredientTrie.test.ts#keeps substring matches after prefix matches",
+        "web/e2e/photos.spec.ts#studio catalogue images, family upload priority and failed-image fallback"
+      ]
+    },
+    {
+      "id": "context-menu",
+      "description": "复核并保存 MENU 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "MENU"
+      ],
+      "tests": [
+        "internal/app/family_recipes_test.go#TestFamilyRecipesBOMAndScheduling",
+        "internal/app/integration_test.go#TestWorkflowAndInvariants",
+        "internal/app/multi_meal_test.go#TestMultiMealScalingUnitsAndExpiryDisplay",
+        "internal/app/multi_meal_test.go#TestMultiMealRolloverAdoptionAndFences",
+        "internal/app/pipeline_test.go#TestKitchenPipelineLifecycle",
+        "internal/app/quantity_bom_regression_test.go#TestClearFridgeReadsCompleteCandidateBOM",
+        "internal/app/v11_integration_test.go#TestMealCompletionFEFOIdempotenceAndReplenishment",
+        "internal/app/v11_integration_test.go#TestMultiDishMealCombinesDemandAndRollsBackOnSharedShortage",
+        "internal/core/recipe_options_test.go#TestRecipeDependenciesAndExactUnits",
+        "internal/core/recipe_options_test.go#TestRecipeOptionOrder",
+        "internal/engine/matcher/matcher_test.go#TestMultiwordMatchAndMissingCounts",
+        "internal/engine/matcher/matcher_test.go#TestMatchIntoZeroAlloc",
+        "internal/engine/matcher/matcher_test.go#TestInvalidRecipes",
+        "internal/engine/multimeal/planner_test.go#TestRolloverExpiryAndConservation",
+        "internal/engine/multimeal/planner_test.go#TestRepeatedMainPenaltyAndBudget",
+        "internal/engine/multimeal/planner_test.go#TestEmptyAndValidation",
+        "internal/engine/pipeline/pipeline_test.go#TestPassiveCookingReleasesHands",
+        "internal/engine/pipeline/pipeline_test.go#TestRejectInvalidDAG",
+        "internal/engine/pipeline/pipeline_test.go#TestKernelZeroAlloc",
+        "internal/engine/scheduler/properties_test.go#FuzzScheduleStockConservation",
+        "internal/engine/scheduler/scheduler_test.go#TestSharedIngredientConflict",
+        "internal/engine/scheduler/scheduler_test.go#TestFEFOSplitAndExpiredExcluded",
+        "internal/engine/scheduler/scheduler_test.go#TestBranchAndBoundChoosesBetterCombination",
+        "internal/engine/scheduler/scheduler_test.go#TestServingScaleAndNodeLimit",
+        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
+        "web/e2e/recipes.spec.ts#family recipe preview and scaled procurement",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    },
+    {
+      "id": "context-shop",
+      "description": "复核并保存 SHOP 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "SHOP"
+      ],
+      "tests": [
+        "internal/app/integration_test.go#TestWorkflowAndInvariants",
+        "internal/app/shopping_delete_test.go#TestShoppingArchive",
+        "internal/app/v11_integration_test.go#TestMealCompletionFEFOIdempotenceAndReplenishment",
+        "internal/app/v11_integration_test.go#TestMultiDishMealCombinesDemandAndRollsBackOnSharedShortage",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    },
+    {
+      "id": "context-intake",
+      "description": "复核并保存 INTAKE 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "INTAKE"
+      ],
+      "tests": [
+        "cmd/intake-eval/main_test.go#TestFrozenCorpusAndScoring",
+        "cmd/intake-eval/main_test.go#TestRecordedWrongIntentCannotPassNumericGroundingAlone",
+        "cmd/intake-eval/main_test.go#TestBoundedInterpreterOnNewFrozenCases",
+        "internal/agent/config_test.go#TestVisionConfig",
+        "internal/agent/speech_test.go#TestQwenSpeechRequestAndGuard",
+        "internal/agent/speech_test.go#TestSpeechFailureDoesNotResendOrExposePayload",
+        "internal/agent/vision_test.go#TestVisionAdapterAndSchema",
+        "internal/agent/vision_test.go#TestVisionRejectsUnrelatedUncertainAndMixedResults",
+        "internal/app/integration_test.go#TestImageRecognitionConfirmation",
+        "internal/app/voice_s3_review_test.go#TestVoiceS3CorrectionRequiresReviewAndCleansAudio",
+        "internal/app/voice_test.go#TestVoiceIntakeConfirmationAuthorizationAndFencing",
+        "internal/engine/intake/intake_test.go#TestConservativeSpeechDrafts",
+        "internal/engine/intake/intake_test.go#TestRetractionsAndCorrectionsNeverPrefillQuantities",
+        "internal/engine/intake/proposal_test.go#TestProposalGroundingAndReviewBoundary",
+        "internal/engine/intake/semantic_test.go#TestBoundedIntakeSemantics",
+        "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
+      ]
+    },
+    {
+      "id": "context-ai",
+      "description": "复核并保存 AI 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "AI"
+      ],
+      "tests": [
+        "cmd/intake-eval/main_test.go#TestFrozenCorpusAndScoring",
+        "cmd/intake-eval/main_test.go#TestRecordedWrongIntentCannotPassNumericGroundingAlone",
+        "cmd/intake-eval/main_test.go#TestBoundedInterpreterOnNewFrozenCases",
+        "internal/agent/advice_test.go#TestAdviceSchema",
+        "internal/agent/config_test.go#TestDeepSeekOptions",
+        "internal/agent/config_test.go#TestVisionConfig",
+        "internal/agent/guard_test.go#TestCallGuardBlocksNetworkAndRedirectsCannotRepeatPaidRequests",
+        "internal/agent/model_test.go#TestDemoAndSchema",
+        "internal/agent/model_test.go#TestOpenAIAdapter",
+        "internal/agent/speech_test.go#TestQwenSpeechRequestAndGuard",
+        "internal/agent/speech_test.go#TestSpeechFailureDoesNotResendOrExposePayload",
+        "internal/agent/vision_test.go#TestVisionAdapterAndSchema",
+        "internal/agent/vision_test.go#TestVisionRejectsUnrelatedUncertainAndMixedResults",
+        "internal/app/ai_allowance_test.go#TestAIAllowanceSerializesDebitsAndRetainsAmbiguousCalls",
+        "internal/app/ai_allowance_test.go#TestAIAllowanceRejectsMalformedMoney",
+        "internal/app/integration_test.go#TestImageRecognitionConfirmation",
+        "internal/app/voice_s3_review_test.go#TestVoiceS3CorrectionRequiresReviewAndCleansAudio",
+        "internal/app/voice_test.go#TestVoiceIntakeConfirmationAuthorizationAndFencing",
+        "internal/engine/intake/intake_test.go#TestConservativeSpeechDrafts",
+        "internal/engine/intake/intake_test.go#TestRetractionsAndCorrectionsNeverPrefillQuantities",
+        "internal/engine/intake/proposal_test.go#TestProposalGroundingAndReviewBoundary",
+        "internal/engine/intake/semantic_test.go#TestBoundedIntakeSemantics",
+        "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
+      ]
+    },
+    {
+      "id": "context-community",
+      "description": "复核并保存 COMMUNITY 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "COMMUNITY"
+      ],
+      "tests": [
+        "internal/agent/community_review_test.go#TestCommunityReviewRequiresCoverAndStrictVerdict",
+        "internal/agent/community_review_test.go#TestCommunityModelChecksImageWithGuardBeforeDispatch",
+        "internal/agent/community_review_test.go#TestCommunityModelFailureCannotApproveOrRedirect",
+        "internal/agent/community_review_test.go#TestCommunityReviewPartialCredentialsNeverMixProviders",
+        "internal/app/community_moderation_test.go#TestCommunityInitialReviewPrivacyCoverRetryAndRewards",
+        "internal/app/community_moderation_test.go#TestCommunityReviewFailureWithdrawalAndAmbiguousRestart",
+        "internal/app/community_test.go#TestCommunityShanghaiWeekAndDraftSafety",
+        "internal/app/community_test.go#TestCommunityContributionReviewAndAtomicRewards",
+        "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure",
+        "web/e2e/community.spec.ts#community recipe publishing, private saves and weekly rewards"
+      ]
+    },
+    {
+      "id": "context-report",
+      "description": "复核并保存 REPORT 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "REPORT"
+      ],
+      "tests": [
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox",
+        "internal/app/monthly_report_test.go#TestMonthlyReportCostsCoverageAndScope",
+        "internal/app/outbox_test.go#TestOutboxAtomicRollbackRetryAndProjectionInbox",
+        "internal/events/stock_test.go#TestStockValidation",
+        "internal/insights/http_test.go#TestInternalAuthorizationAndValidation",
+        "web/src/monthlyReport.test.ts#does not round milli quantities beyond JavaScript safe integers",
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
+      ]
+    },
+    {
+      "id": "context-nutrition",
+      "description": "复核并保存 NUTRITION 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "NUTRITION"
+      ],
+      "tests": [
+        "internal/app/batch_nutrition_test.go#TestConfirmedNutritionBasisPreservesHistoryAndScope",
+        "internal/app/nutrition_advice_test.go#TestNutritionAdviceFlow",
+        "internal/app/nutrition_radar_test.go#TestNutritionRadarSnapshotsCoverageAndScope",
+        "internal/app/nutrition_radar_test.go#TestNutritionRadarThreeDayWindowRequiresCompleteRecords",
+        "internal/nutrition/nutrition_test.go#TestReferenceProfiles",
+        "internal/nutrition/nutrition_test.go#TestExtendedReferenceProvenance",
+        "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger"
+      ]
+    },
+    {
+      "id": "context-market",
+      "description": "复核并保存 MARKET 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "MARKET"
+      ],
+      "tests": [
+        "internal/app/market_prices_test.go#TestPriceChange",
+        "internal/app/market_prices_test.go#TestRegionalPriceStorage",
+        "internal/app/market_prices_test.go#TestDailyPriceStatus",
+        "internal/app/market_prices_test.go#TestMarketPricesIntegration",
+        "internal/app/public_cache_test.go#TestPublicRedisCachesShareReferencesAndPreserveAuthorization",
+        "internal/app/public_cache_test.go#TestPublicRedisNeverCachesIncompleteRecipeMaterials",
+        "internal/app/redis_runtime_test.go#TestNewAPIRequiresReachableRedis",
+        "internal/app/redis_runtime_test.go#TestNewAPIPingsRedisAndClosesClient",
+        "internal/app/redis_runtime_test.go#TestRedisReadinessOutageAndRecovery",
+        "internal/cache/catalog_test.go#TestUnavailableRedisHasBoundedFallback",
+        "internal/cache/public_test.go#TestPublicKeysSeparateResourcesFiltersAndDates",
+        "internal/cache/public_test.go#TestPublicCacheUnavailableHasSeparateBoundedMetrics",
+        "internal/market/beijing_test.go#TestOfficialFeeds",
+        "internal/market/regional_test.go#TestNationalReport",
+        "internal/market/regional_test.go#TestSuzhouReport",
+        "internal/market/regional_test.go#TestOfficialLinkDiscovery",
+        "internal/market/regional_test.go#TestFuzhouReport",
+        "web/src/marketPrices.test.ts#does not report missing historical comparisons as stable",
+        "web/src/marketPrices.test.ts#uses latest date rather than source order for catalog badges",
+        "web/src/marketPrices.test.ts#retains the monitoring period instead of labelling a month as a day",
+        "web/src/marketPrices.test.ts#labels monthly averages explicitly on ingredient cards"
+      ]
+    },
+    {
+      "id": "context-ui",
+      "description": "复核并保存 UI 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "UI"
+      ],
+      "tests": [
+        "web/src/api.test.ts#explains an HTML gateway failure instead of blaming JSON parsing",
+        "web/src/api.test.ts#preserves the server credential validation message",
+        "web/src/api.test.ts#returns a successful JSON response",
+        "web/src/inventoryDisplay.test.ts#preserves precision while removing insignificant zeros",
+        "web/src/inventoryDisplay.test.ts#distinguishes urgent, expired, unknown and spoiled batches",
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths",
+        "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+        "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
+        "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states",
+        "web/e2e/security.spec.ts#gateway security policy blocks injected scripts and permits the app",
+        "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct"
+      ]
+    },
+    {
+      "id": "context-recovery",
+      "description": "复核并保存 RECOVERY 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "RECOVERY"
+      ],
+      "tests": [
+        "internal/recovery/archive_test.go#TestArchiveRoundTripPreservesBinaryPhotosAndRejectsExistingTarget",
+        "internal/recovery/archive_test.go#TestArchiveRejectsTraversalLinksDuplicatesAndTruncation"
+      ]
+    },
+    {
+      "id": "context-harness",
+      "description": "复核并保存 HARNESS 当前业务上下文、测试目的、数据范围和限制",
+      "business": [
+        "HARNESS"
+      ],
+      "tests": [
+        "cmd/harness/ci_test.go#TestCIEventPolicyAvoidsDuplicateBranchRuns",
+        "cmd/harness/compose_test.go#TestComposeRequiresRedisForEveryAPI",
+        "cmd/harness/compose_test.go#TestComposeOverlaysPreserveRequiredRedis",
+        "cmd/harness/hygiene_test.go#TestRepositoryPathsKeepFixturesAndRejectPrivateArtifacts",
+        "cmd/harness/hygiene_test.go#TestRepositoryHygieneCatchesForcedIgnoredFileWithoutReadingSecrets",
+        "cmd/harness/images_test.go#TestImageBindingRejectsStaleSourceAndContainerReplacement",
+        "cmd/harness/knowledge_test.go#TestKnowledgeRejectsRouteAndConfigDrift",
+        "cmd/harness/knowledge_test.go#TestKnowledgeRejectsBrokenAndEscapingLinks",
+        "cmd/harness/knowledge_test.go#TestTaskRequiresFreshFullEvidenceAndRejectsOverwrite",
+        "cmd/harness/main_test.go#TestDiagnosticOutputIsBounded",
+        "cmd/harness/main_test.go#TestImportRules",
+        "cmd/harness/quality_test.go#TestQualityRejectsLostScenarioAndEscapingPath",
+        "cmd/harness/quality_test.go#TestTaskFailureClassification",
+        "cmd/harness/request_context_test.go#TestObjectIORejectsPooledRequestContext",
+        "internal/app/fixture_contract_test.go#TestAllSuccessfulContractResponsesHaveTypedMedia",
+        "internal/app/openapi_test.go#TestOpenAPIDocument",
+        "internal/app/openapi_test.go#TestContractRejectsQuantityAndRequiredFieldDrift",
+        "internal/app/workflow_contract_test.go#TestKitchenWorkflowContract",
+        "cmd/harness/business_test.go#TestBusinessRejectsContextDriftAndUnboundTests",
+        "cmd/harness/business_test.go#TestTaskContractRejectsUnrelatedCoverageAndOverwrite",
+        "cmd/harness/business_test.go#TestCompletionRejectsMissingStaleFailedAndForeignGates",
+        "cmd/harness/business_test.go#TestNamedResultsRejectMissingSkippedAndOneViewport",
+        "cmd/harness/business_test.go#TestWorkloadRejectsUndersizedOrUnmeasuredData",
+        "cmd/harness/business_test.go#TestGoResultsCollectSplitEventsWithoutRawLogs",
+        "cmd/harness/business_test.go#TestVerificationLockRejectsOverlappingSuites",
+        "cmd/harness/business_test.go#TestBusinessRejectsUnreviewedImplementation",
+        "cmd/harness/business_test.go#TestUnifiedCompletionAcceptsOnlyAllGatesAfterBinding"
+      ]
+    },
+    {
+      "id": "user-2",
+      "description": "每个命名测试绑定需求，记录真实执行结果并在桌面与手机复核关联页面，默认主站另做只读浏览器验证",
+      "business": [
+        "HARNESS"
+      ],
+      "tests": [
+        "cmd/harness/business_test.go#TestNamedResultsRejectMissingSkippedAndOneViewport",
+        "cmd/harness/business_test.go#TestBusinessRejectsContextDriftAndUnboundTests"
+      ]
+    },
+    {
+      "id": "user-3",
+      "description": "规模数据、错误率、延迟和库存流水守恒作为完成条件",
+      "business": [
+        "HARNESS",
+        "STOCK"
+      ],
+      "tests": [
+        "cmd/harness/business_test.go#TestWorkloadRejectsUndersizedOrUnmeasuredData",
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox",
+        "cmd/harness/business_test.go#TestVerificationLockRejectsOverlappingSuites"
+      ]
+    },
+    {
+      "id": "user-7",
+      "description": "统一拒绝缺失、陈旧、失败和外来源证据，所有完成条件必须同时满足",
+      "business": [
+        "HARNESS"
+      ],
+      "tests": [
+        "cmd/harness/business_test.go#TestCompletionRejectsMissingStaleFailedAndForeignGates",
+        "cmd/harness/business_test.go#TestTaskContractRejectsUnrelatedCoverageAndOverwrite",
+        "cmd/harness/business_test.go#TestUnifiedCompletionAcceptsOnlyAllGatesAfterBinding"
+      ]
+    }
+  ]
+}

@@ -18,6 +18,7 @@ type Evidence struct {
 	Version             int               `json:"version"`
 	RunID               string            `json:"run_id"`
 	RecordedAt          time.Time         `json:"recorded_at"`
+	StartedAt           time.Time         `json:"started_at"`
 	Revision            string            `json:"revision"`
 	WorktreeDirty       bool              `json:"worktree_dirty"`
 	SourceDigest        string            `json:"source_digest"`
@@ -25,6 +26,7 @@ type Evidence struct {
 	Mode                string            `json:"mode"`
 	IntegrationRequired bool              `json:"integration_required"`
 	Checks              []Check           `json:"checks"`
+	Tests               []TestOutcome     `json:"tests,omitempty"`
 }
 
 func runID() string {
@@ -40,7 +42,11 @@ func sourceDigest(root string) (string, error) {
 	files := []string{"go.mod", "go.sum", "sql/sqlc.yaml", ".env.example", ".dockerignore", ".gitignore", "AGENTS.md", "README.md", "docs/ARCHITECTURE.md", "api/openapi.yaml", "Dockerfile", "compose.yaml", "deploy/compose.acceptance.yaml", "deploy/compose.platform.yaml", "deploy/compose.trial.yaml", "deploy/compose.trial-deepseek.yaml", "deploy/compose.learning.yaml", ".github/workflows/ci.yml", "web/package.json", "web/pnpm-lock.yaml", "web/Dockerfile", "web/.dockerignore", "web/nginx.conf", "web/playwright.config.ts", "web/tsconfig.json", "web/vite.config.ts", "web/index.html", "web/pnpm-workspace.yaml", "docs/HARNESS.md", "docs/PLATFORM.md", knowledgePath}
 	files = append(files, "deploy/compose.restore.yaml")
 	files = append(files, "docs/CONTRIBUTING.md", "docs/SECURITY.md", "docs/CHANGELOG.md", "docs/README.md")
-	for _, dir := range []string{"cmd", "internal", "sql", "scripts", "tests", "web/src", "web/e2e", "web/public", "docs/quality"} {
+	files = append(files, "docs/BUSINESS_GUIDE.md", "docs/FAMILY_TRIAL.md")
+	for _, dir := range []string{"cmd", "internal", "sql", "scripts", "tests", "web/src", "web/e2e", "web/scripts", "web/public", "docs/quality"} {
+		if _, err := os.Stat(filepath.Join(root, dir)); os.IsNotExist(err) {
+			continue
+		}
 		err := filepath.WalkDir(filepath.Join(root, dir), func(path string, d os.DirEntry, err error) error {
 			if err != nil {
 				return err
@@ -134,26 +140,15 @@ func recordTask(root, id, action, kind, baseline, outcome, evidence string, fail
 		return err
 	}
 	if outcome == "passed" {
-		path := filepath.Clean(evidence)
-		if !strings.HasPrefix(filepath.ToSlash(path), ".cache/harness/") || filepath.IsAbs(path) {
-			return fmt.Errorf("passed task requires a local .cache/harness evidence file")
-		}
-		raw, err := os.ReadFile(filepath.Join(root, path))
-		if err != nil {
-			return err
-		}
-		var report Evidence
-		if err := json.Unmarshal(raw, &report); err != nil {
-			return err
-		}
 		digest, err := sourceDigest(root)
 		if err != nil {
 			return err
 		}
-		if !fullPass(report) || report.SourceDigest != digest || report.RecordedAt.Before(record.StartedAt) {
-			return fmt.Errorf("evidence must be a complete passing full run after task start, matching current source")
+		id, err := validateCompletion(root, record, evidence, digest)
+		if err != nil {
+			return err
 		}
-		record.EvidenceID, record.SourceDigest = report.RunID, digest
+		record.EvidenceID, record.SourceDigest = id, digest
 	}
 	if outcome != "passed" {
 		category := "unknown"
@@ -174,7 +169,7 @@ func fullPass(report Evidence) bool {
 	if report.Version != 1 || report.RunID == "" || report.Mode != "full" || !report.IntegrationRequired {
 		return false
 	}
-	required := map[string]bool{"architecture": false, "repository-hygiene": false, "knowledge": false, "quality-map": false, "dbgen-check": false, "dbgen-regression": false, "format": false, "vet": false, "go-tests": false, "web-api-check": false, "web-test": false, "web-build": false, "source-stable": false}
+	required := map[string]bool{"architecture": false, "repository-hygiene": false, "knowledge": false, "quality-map": false, "business-map": false, "named-tests": false, "data-scale": false, "update-regression": false, "release-regression": false, "dbgen-check": false, "dbgen-regression": false, "format": false, "vet": false, "go-tests": false, "web-api-check": false, "web-test": false, "web-build": false, "source-stable": false}
 	for _, check := range report.Checks {
 		if !check.Passed {
 			return false
