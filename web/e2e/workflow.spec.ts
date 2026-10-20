@@ -40,23 +40,18 @@ test("UI kitchen workflow purchases shortages and consumes exactly once", async 
   await expect(page.getByRole("status")).toContainText("生菜 · 100 g");
   await page.getByRole("button", { name: "关闭食材选择" }).click();
   await nav.getByRole("button", { name: /菜单/ }).click();
-  await page
-    .locator("select")
-    .filter({
-      has: page.locator('option[value="10000000-0000-4000-8000-000000000004"]'),
-    })
-    .first()
-    .selectOption("10000000-0000-4000-8000-000000000004");
-  await page
-    .getByRole("combobox", { name: "餐次", exact: true })
-    .selectOption("dinner");
-  await page.getByRole("button", { name: "用这道菜安排" }).click();
+  await page.getByRole("button", { name: /自己逛菜谱/ }).click();
+  await page.getByLabel("搜索菜名或食材").fill("蒜香生菜");
+  await page.getByRole("button", { name: "加入蒜香生菜", exact: true }).click();
+  await page.getByRole("button", { name: "晚餐", exact: true }).click();
+  await page.getByRole("button", { name: "用这些菜安排一餐" }).click();
   await expect(
     page.getByText("晚餐 · 蒜香生菜", { exact: true }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "确认菜单并生成采购", exact: true })
     .click();
+  await page.getByText("已安排的菜单", { exact: true }).click();
   await expect(page.getByText(/到「今天」查看今日菜单/)).toBeVisible();
   await nav.getByRole("button", { name: /采购/ }).click();
   for (const [name, quantity] of [

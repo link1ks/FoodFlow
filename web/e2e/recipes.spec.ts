@@ -32,25 +32,26 @@ test("family recipe preview and scaled procurement", async ({
     .getByRole("navigation", { name: "主导航" })
     .getByRole("button", { name: /菜单/ })
     .click();
-  await page
-    .getByLabel("选择菜谱手工规划")
-    .selectOption("20000000-0000-4000-8000-000000000001");
+  await page.getByRole("button", { name: /自己逛菜谱/ }).click();
+  await page.getByLabel("搜索菜名或食材").fill("蒜蓉菠菜");
+  await page.getByRole("button", { name: "查看蒜蓉菠菜", exact: true }).click();
   const preview = page.getByRole("region", { name: "所选菜谱详情" });
   await expect(preview).toContainText("蒜蓉菠菜 · 2 人份");
   await expect(preview).toContainText("菠菜 300.000 g");
   await expect(preview).toContainText("菠菜洗净沥干，蒜切末");
   await expect(preview).toContainText("份量和耗时为估计");
+  await page.locator("summary").filter({ hasText: "单道最多" }).click();
   await page.getByLabel("人数", { exact: true }).fill("3");
-  await page
-    .getByRole("combobox", { name: "餐次", exact: true })
-    .selectOption("dinner");
-  await page.getByRole("button", { name: "用这道菜安排" }).click();
+  await page.getByRole("button", { name: "晚餐", exact: true }).click();
+  await page.getByRole("button", { name: "加入蒜蓉菠菜", exact: true }).click();
+  await page.getByRole("button", { name: "用这些菜安排一餐" }).click();
   await expect(
     page.getByText("晚餐 · 蒜蓉菠菜", { exact: true }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "确认菜单并生成采购", exact: true })
     .click();
+  await page.getByText("已安排的菜单", { exact: true }).click();
   await expect(page.getByText(/到「今天」查看今日菜单/)).toBeVisible();
   const response = await request.get(`/api/households/${house.id}/shopping`, {
     headers,

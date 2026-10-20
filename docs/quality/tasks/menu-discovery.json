@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "task": "menu-discovery",
+  "criteria": [
+    {
+      "id": "catalog",
+      "description": "公共参考食谱从16扩至36道，完整精确用料、调味与顺序备餐步骤，新增菜可按人数生成采购",
+      "business": [
+        "MENU",
+        "SHOP"
+      ],
+      "tests": [
+        "internal/app/family_recipes_test.go#TestFamilyRecipesBOMAndScheduling",
+        "web/e2e/recipes.spec.ts#family recipe preview and scaled procurement"
+      ]
+    },
+    {
+      "id": "photos",
+      "description": "36道独立本地写实生成参考图，有来源、摘要、裁切记录和失败回退",
+      "business": [
+        "MENU",
+        "UI"
+      ],
+      "tests": [
+        "web/src/recipeDiscovery.test.ts#covers all 36 reference recipes with distinct local generated photos and provenance",
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal"
+      ]
+    },
+    {
+      "id": "discovery",
+      "description": "默认三道可轮换参考选择，分类和名称食材搜索，忌口与空结果可理解，不自动请求AI",
+      "business": [
+        "MENU",
+        "UI"
+      ],
+      "tests": [
+        "web/src/recipeDiscovery.test.ts#filters search and exclusions and rotates bounded diverse suggestions without stock claims",
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal"
+      ]
+    },
+    {
+      "id": "meal",
+      "description": "多道选择、局部换菜保留其余菜，明确餐次后创建草案，库存只在既有确认烹饪流程扣减；桌面手机无横向溢出",
+      "business": [
+        "MENU",
+        "UI",
+        "STOCK"
+      ],
+      "tests": [
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal",
+        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    }
+  ]
+}

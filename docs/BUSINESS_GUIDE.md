@@ -12,7 +12,7 @@
 | KITCHEN | 登录默认个人厨房；显式幂等创建。家庭共享可选，私有厨房仅所有者访问且不能邀请成员；切换不得串库存。 | [个人厨房](PERSONAL_KITCHENS.md)、`internal/app/personal_kitchen.go` |
 | STOCK | 数量用精确定点数与兼容单位；正常批次按 FEFO 扣减。库存、不可变流水、Outbox 同事务；重放不重复写，修正追加流水。未知期限只提醒，不伪造过期。 | [架构](ARCHITECTURE.md)、`internal/app/inventory.go` |
 | CATALOG | 200 种公共目录，服务端决定名称与单位；目录入库事务化。家庭照片优先，参考图为生成素材，不代表真实库存；图片须经家庭授权。 | [架构](ARCHITECTURE.md)、`internal/app/ingredient_images.go` |
-| MENU | 菜单推荐只生成草案；明确选择餐次，确认重算缺口，烹饪再核对库存并只扣一次。取消推荐持久保留，排程受预算限制。 | [架构](ARCHITECTURE.md)、`internal/app/plans.go` |
+| MENU | 公共自编食谱 36 道，配本地写实生成参考图；默认三道灵感、搜索分类与局部换菜，名称忌口筛选不代替用料核对。默认浏览不调用模型、不宣称库存足够。菜单推荐只生成草案；明确选择餐次，确认重算缺口，烹饪再核对库存并只扣一次。取消推荐持久保留，排程受预算限制。 | [架构](ARCHITECTURE.md)、`internal/app/plans.go` |
 | SHOP | 已买和已入库不同；实际数量确认后才入库；软删除不删除已发生的库存事实；重复确认不得重复增加。 | [架构](ARCHITECTURE.md)、`internal/app/shopping_delete.go` |
 | INTAKE | 麦克风录音经用户同意后转写；本地有界语法生成草稿。图片模型返回 scene/foods，真实单种食材且匹配目录才允许草稿。数量由用户确认，确认前不改库存。 | [范围](INTAKE_SCOPE.md)、[语音](VOICE_INTAKE.md) |
 | AI | Go Worker 约束租约、取消和成员权限；Python Agent 执行提示、模型请求和结构化输出。Python 准备确切请求后须等待 Go 持久化预扣批准；同任务不重复发送，进程取消或结果不明保留额度。程序额度不等于供应商账单上限。 | [额度](ACCOUNT_RECOVERY_AI.md)、[平台](PLATFORM.md)、`internal/app/ai_allowance.go` |

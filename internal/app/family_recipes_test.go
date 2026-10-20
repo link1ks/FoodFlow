@@ -26,8 +26,12 @@ func TestFamilyRecipesBOMAndScheduling(t *testing.T) {
 	house := get(v, "id")
 	root := "/households/" + house
 	expectedItems := []int{2, 2, 3, 3, 2, 2, 2, 2, 3, 4, 3, 4}
+	expectedItems = append(expectedItems, 3, 3, 3, 3, 2, 2, 2, 2, 3, 3, 1, 3, 3, 3, 3, 4, 4, 3, 3, 4)
 	for i, wantItems := range expectedItems {
 		recipe := fmt.Sprintf("20000000-0000-4000-8000-%012d", i+1)
+		if i >= 12 {
+			recipe = fmt.Sprintf("30000000-0000-4000-8000-%012d", i-11)
+		}
 		t.Run(recipe, func(t *testing.T) {
 			var count, invalid, minutes, duration, seasonings int
 			if err := pool.QueryRow(ctx, `SELECT count(*),count(*) FILTER(WHERE c.id IS NULL OR ri.name<>c.name OR ri.unit<>c.default_unit OR ri.quantity_milli<=0)
@@ -39,8 +43,11 @@ func TestFamilyRecipesBOMAndScheduling(t *testing.T) {
 				t.Fatalf("step duration disagrees with advertised estimate: %d/%d %v", duration, minutes, err)
 			}
 			wantSeasonings := 2
-			if i == 10 {
+			if i == 10 || i == 29 || i == 30 {
 				wantSeasonings = 0
+			}
+			if i == 12 || i == 14 || i == 15 || i == 22 || i == 27 || i == 31 {
+				wantSeasonings = 3
 			}
 			if seasonings != wantSeasonings {
 				t.Fatalf("seasoning coverage=%d want=%d", seasonings, wantSeasonings)

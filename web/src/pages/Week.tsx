@@ -1,15 +1,15 @@
 import { Jobs } from "./Jobs";
 import { ModelNotice } from "../app/Capabilities";
 import { Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
-import { PageSwitch } from "../GettingStarted";
+import { useEffect, useRef, useState } from "react";
 import { MultiMealPlanner } from "../MultiMealPlanner";
 import { Quantity } from "../Quantity";
+import { RecipeDiscovery } from "../RecipeDiscovery";
+import { discoverRecipes } from "../recipeSelection";
 import { api } from "../api";
 import {
   ErrorLine,
   Load,
-  Title,
   useBase,
   useData,
   type Meal,
@@ -19,259 +19,307 @@ import {
   type Household,
 } from "../app/shared";
 import { Button, Card, Field, Notice } from "../ui";
+
 export function Week() {
-  const [mode, setMode] = useState("single");
+  const { p } = useBase();
+  return <MenuStudio key={p} />;
+}
+function MenuStudio() {
   const { token, p, q } = useBase();
-  const household = useData<Household>("household", p);
+  const household = useData<Household & { excluded_ingredients: string[] }>(
+    "household",
+    p,
+  );
   const results = useData<Job[]>("jobs", p + "/jobs");
-  const relatedResults =
-    results.data?.filter(
-      (j) => j.kind === "plan" && j.status !== "cancelled",
-    ) || [];
   const plans = useData<{ id: string; status: string; revision: number }[]>(
     "plans",
     p + "/plans",
   );
   const recipes = useData<Recipe[]>("recipes", "/recipes");
   const [day, setDay] = useState(new Date().toLocaleDateString("en-CA")),
-    [meal, setMeal] = useState(""),
-    [servings, setServings] = useState("1"),
-    [max, setMax] = useState("30"),
-    [preference, setPreference] = useState(""),
-    [excluded, setExcluded] = useState(""),
-    [recipe, setRecipe] = useState(""),
-    [err, setErr] = useState(""),
-    [generating, setGenerating] = useState(false);
-  const validArrangement =
+    [meal, setMeal] = useState("");
+  const [servings, setServings] = useState("1"),
+    [max, setMax] = useState("30");
+  const [preference, setPreference] = useState(""),
+    [excluded, setExcluded] = useState("");
+  const [selected, setSelected] = useState<string[]>([]),
+    [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const lock = useRef(false),
+    pending = useRef<{ body: string; key: string } | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const canEdit =
+    household.data?.role === "owner" || household.data?.role === "editor";
+  const exclusions = [
+    ...(household.data?.excluded_ingredients || []),
+    ...excluded
+      .split(/[，,、]/)
+      .map((x) => x.trim())
+      .filter(Boolean),
+  ];
+  const valid =
     !!day &&
     !!meal &&
+    Number.isInteger(Number(servings)) &&
     Number(servings) >= 1 &&
     Number(servings) <= 20 &&
-    Number.isInteger(Number(servings)) &&
+    Number.isInteger(Number(max)) &&
     Number(max) >= 1 &&
-    Number(max) <= 240 &&
-    Number.isInteger(Number(max));
-  const selectedRecipe = recipes.data?.find((r) => r.id === recipe);
+    Number(max) <= 240;
+  const safe = new Set(
+    discoverRecipes(recipes.data || [], "", "全部", exclusions).map(
+      (r) => r.id,
+    ),
+  );
+  const conflict = selected.some((id) => !safe.has(id));
   useEffect(() => {
     if (household.data) setServings(String(household.data.servings));
   }, [household.data?.servings]);
-  async function generate() {
-    if (!validArrangement || generating) return;
-    setGenerating(true);
+  async function create(ai = false) {
+    if (
+      !valid ||
+      !canEdit ||
+      lock.current ||
+      (!ai && (!selected.length || conflict))
+    )
+      return;
+    lock.current = true;
+    setBusy(true);
     setErr("");
+    const body = ai
+      ? {
+          day,
+          meal,
+          servings: Number(servings),
+          max_minutes: Number(max),
+          preference,
+          excluded_ingredients: exclusions,
+        }
+      : {
+          meals: [
+            {
+              day,
+              meal,
+              servings: Number(servings),
+              recipe_id: selected[0],
+              additional_recipe_ids: selected.slice(1),
+            },
+          ],
+        };
+    const identity = JSON.stringify({ ai, body });
+    if (pending.current?.body !== identity)
+      pending.current = { body: identity, key: crypto.randomUUID() };
     try {
-      await api(p + "/jobs/plan", token, "POST", {
-        day,
-        meal,
-        servings: Number(servings),
-        max_minutes: Number(max),
-        preference,
-        excluded_ingredients: excluded
-          .split(/[，,、]/)
-          .map((x) => x.trim())
-          .filter(Boolean),
+      await api(
+        p + (ai ? "/jobs/plan" : "/plans"),
+        token,
+        "POST",
+        body,
+        pending.current.key,
+      );
+      pending.current = null;
+      await q.invalidateQueries();
+      if (!ai) setSelected([]);
+      resultRef.current?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+        block: "start",
       });
-      q.invalidateQueries();
-      document
-        .getElementById("menu-results")
-        ?.scrollIntoView({ behavior: "smooth" });
     } catch (e) {
-      setErr(String(e));
+      setErr(e instanceof Error ? e.message : String(e));
     } finally {
-      setGenerating(false);
-    }
-  }
-  async function manual() {
-    if (!validArrangement || !recipe) return;
-    setErr("");
-    try {
-      await api(p + "/plans", token, "POST", {
-        meals: [{ day, meal, servings: Number(servings), recipe_id: recipe }],
-      });
-      q.invalidateQueries();
-    } catch (e) {
-      setErr(String(e));
+      lock.current = false;
+      setBusy(false);
     }
   }
   return (
-    <>
-      <Title
-        title="安排菜单"
-        subtitle="告诉我们几个人吃、能做多久；确认喜欢的方案后，缺少的食材会加入采购清单"
-      />
-      <ModelNotice />
-      <div id="menu-results" className="mb-5">
-        {(relatedResults.length > 0 || results.error) && (
-          <details
-            open={relatedResults.some((j) =>
-              ["queued", "running", "awaiting_confirmation", "failed"].includes(
-                j.status,
-              ),
-            )}
-            className="rounded-2xl border bg-white p-4"
-          >
-            <summary className="cursor-pointer font-semibold">
-              菜单生成结果 · 继续处理
-            </summary>
-            <div className="mt-4">
-              <Jobs kind="plan" />
-            </div>
-          </details>
-        )}
-      </div>
-      <PageSwitch
-        value={mode}
-        onChange={setMode}
-        options={[
-          {
-            id: "single",
-            title: "安排一顿饭",
-            description: "AI 帮我选菜，或自己挑一道菜",
-          },
-          {
-            id: "multi",
-            title: "连续几餐 · 清冰箱",
-            description: "优先用掉临期食材，安排接下来几餐",
-          },
-        ]}
-      />
-      {mode === "multi" ? (
-        <MultiMealPlanner token={token} root={p} />
-      ) : (
-        <Card className="mb-5">
-          <h2 className="mb-4 font-semibold">这顿饭，怎么安排？</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="menu-studio">
+      <header className="menu-hero">
+        <span className="recipe-eyebrow">FOODFLOW / THE EVERYDAY TABLE</span>
+        <h1>今天，吃点喜欢的。</h1>
+        <p>
+          没想法，就从几道家常好菜开始。想露一手，也可以慢慢逛，把喜欢的搭成一餐。
+        </p>
+      </header>
+      <ErrorLine error={household.error} />
+      {household.data?.role === "viewer" && (
+        <Notice>当前为只读成员，可以浏览菜谱；安排菜单需要编辑权限。</Notice>
+      )}
+      <Load
+        loading={recipes.isLoading || household.isLoading}
+        error={recipes.error || household.error}
+      >
+        <RecipeDiscovery
+          recipes={recipes.data || []}
+          selected={selected}
+          onSelect={setSelected}
+          maxMinutes={Number(max)}
+          excluded={exclusions}
+          disabled={busy || !canEdit}
+        />
+      </Load>
+      <section className="menu-arrangement" aria-label="用餐安排">
+        <div className="menu-meals">
+          <span className="mr-2 text-sm font-semibold text-emerald-950">
+            安排哪一餐？
+          </span>
+          {[
+            ["breakfast", "早餐"],
+            ["lunch", "午餐"],
+            ["dinner", "晚餐"],
+          ].map(([id, label]) => (
+            <button
+              key={id}
+              disabled={busy}
+              aria-pressed={meal === id}
+              onClick={() => setMeal(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <details className="mt-4">
+          <summary>
+            {day} · {servings} 人吃 · 单道最多 {max} 分钟　调整
+          </summary>
+          <div className="menu-arrangement-grid">
             <Field
               label="日期"
               type="date"
               value={day}
+              disabled={busy}
               onChange={(e) => setDay(e.target.value)}
             />
-            <label className="text-sm">
-              餐次
-              <select
-                className="mt-1 w-full rounded-xl border p-2.5"
-                value={meal}
-                onChange={(e) => setMeal(e.target.value)}
-              >
-                <option value="" disabled>
-                  请选择餐次
-                </option>
-                <option value="breakfast">早餐</option>
-                <option value="lunch">午餐</option>
-                <option value="dinner">晚餐</option>
-              </select>
-            </label>
             <Field
               label="人数"
               type="number"
               min="1"
               max="20"
               value={servings}
+              disabled={busy}
               onChange={(e) => setServings(e.target.value)}
             />
             <Field
-              label="最长烹饪时间（分钟）"
+              label="单道最多分钟"
               type="number"
               min="1"
               max="240"
               value={max}
+              disabled={busy}
               onChange={(e) => setMax(e.target.value)}
             />
-          </div>
-          <div className="mt-3">
             <Field
-              label="其他偏好"
-              value={preference}
-              onChange={(e) => setPreference(e.target.value)}
+              label="这餐避开的食材"
+              placeholder="如：虾、鸡蛋"
+              value={excluded}
+              disabled={busy}
+              onChange={(e) => setExcluded(e.target.value)}
             />
-            <div className="mt-3">
-              <Field
-                label="这顿饭不能吃什么（用逗号隔开）"
-                value={excluded}
-                onChange={(e) => setExcluded(e.target.value)}
-              />
-            </div>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Button
-              onClick={generate}
-              disabled={!validArrangement || generating}
-            >
-              <Sparkles size={16} /> {generating ? "正在提交…" : "帮我推荐菜单"}
-            </Button>
-            <select
-              aria-label="选择菜谱手工规划"
-              className="rounded-xl border p-2 text-sm"
-              value={recipe}
-              onChange={(e) => setRecipe(e.target.value)}
-            >
-              <option value="">选择菜谱手工规划</option>
-              {recipes.data?.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.title} · {r.minutes} 分钟
-                </option>
-              ))}
-            </select>
-            <Button
-              variant="outline"
-              disabled={!recipe || !validArrangement}
-              onClick={manual}
-            >
-              用这道菜安排
-            </Button>
-          </div>
-          {selectedRecipe && (
-            <section
-              aria-label="所选菜谱详情"
-              className="mt-4 rounded-xl bg-slate-50 p-4 text-sm"
-            >
-              <h3 className="font-semibold">
-                {selectedRecipe.title} · {selectedRecipe.servings} 人份
-              </h3>
-              <p className="mt-2">
-                {selectedRecipe.ingredients
-                  .map((x) => `${x.name} ${x.quantity} ${x.unit}`)
-                  .join(" · ")}
-              </p>
-              <ol className="mt-3 list-decimal space-y-1 pl-5">
-                {selectedRecipe.steps.map((step, i) => (
-                  <li key={i}>{step}</li>
-                ))}
-              </ol>
-              <p className="mt-3 text-xs text-slate-500">
-                {selectedRecipe.source}
-                。以上为基准份量，菜单按人数换算；调味用量另按估算扣减，需先在厨房常备调味品中确认。计时结束仍需检查食物熟透。
-              </p>
-            </section>
-          )}
-          <p className="mt-3 text-xs text-slate-500">
-            {!meal
-              ? "请先选择餐次，再推荐或安排菜单。"
-              : "生成后可取消方案，确认满意再加入菜单。做饭完成后才扣库存。"}
+        </details>
+        <p className="mt-3 text-xs text-slate-500">
+          {exclusions.length
+            ? "已避开：" + exclusions.join("、")
+            : "未设置忌口，可在「调整」中添加。"}{" "}
+          搜索按食材名称筛选，请在详情中核对用料。
+        </p>
+      </section>
+      {selected.length > 0 && (
+        <div className="menu-submit">
+          <Button
+            disabled={busy || !valid || !canEdit || conflict}
+            onClick={() => create()}
+          >
+            {busy ? "正在安排…" : "用这些菜安排一餐"}
+          </Button>
+          <p>
+            {conflict
+              ? "已选菜含避开的食材，请移除或换菜。"
+              : !meal
+                ? "选一下早餐、午餐或晚餐，就可以安排了。"
+                : "先生成草案核对缺料，确认后加入菜单；做好后才扣库存。"}
           </p>
-        </Card>
-      )}
-      {err && (
-        <div className="mb-4">
-          <Notice tone="error">{err}</Notice>
         </div>
       )}
-      <h2 className="mb-3 text-lg font-semibold">最近方案</h2>
-      <Load loading={plans.isLoading} error={plans.error}>
-        {plans.data?.some((x) => x.status !== "rejected") ? (
-          <div className="space-y-4">
-            {plans.data
-              .filter((x) => x.status !== "rejected")
-              .map((x) => (
-                <PlanCard key={x.id} id={x.id} />
-              ))}
-          </div>
-        ) : (
-          <Card>还没有菜单方案。</Card>
+      {err && <Notice tone="error">{err}</Notice>}
+      <div ref={resultRef} id="menu-results" className="my-6">
+        {(results.data?.some(
+          (j) => j.kind === "plan" && j.status !== "cancelled",
+        ) ||
+          results.error) && (
+          <details open className="mb-4 rounded-2xl border bg-white p-4">
+            <summary className="cursor-pointer font-semibold">
+              AI 菜单生成结果 · 继续处理
+            </summary>
+            <Jobs kind="plan" />
+          </details>
         )}
-      </Load>
-    </>
+        <Load loading={plans.isLoading} error={plans.error}>
+          {plans.data?.some((x) => x.status === "draft") && (
+            <>
+              <h2 className="mb-3 text-xl font-semibold text-emerald-950">
+                这一餐，核对一下
+              </h2>
+              <div className="space-y-4">
+                {plans.data
+                  .filter((x) => x.status === "draft")
+                  .map((x) => (
+                    <PlanCard key={x.id} id={x.id} />
+                  ))}
+              </div>
+            </>
+          )}
+          {plans.data?.some(
+            (x) => !["draft", "rejected"].includes(x.status),
+          ) && (
+            <details className="mt-5 rounded-2xl border bg-white p-4">
+              <summary className="cursor-pointer font-semibold">
+                已安排的菜单
+              </summary>
+              <div className="mt-4 space-y-4">
+                {plans.data
+                  .filter((x) => !["draft", "rejected"].includes(x.status))
+                  .map((x) => (
+                    <PlanCard key={x.id} id={x.id} />
+                  ))}
+              </div>
+            </details>
+          )}
+        </Load>
+      </div>
+      <details className="my-5 rounded-2xl border border-stone-200 p-5">
+        <summary className="cursor-pointer text-sm font-semibold text-slate-600">
+          想按特别的要求搭配？让 AI 帮忙
+        </summary>
+        <div className="mt-4">
+          <ModelNotice />
+          <Field
+            label="其他偏好"
+            value={preference}
+            onChange={(e) => setPreference(e.target.value)}
+            placeholder="比如：想吃清淡一点"
+          />
+          <Button
+            className="mt-4"
+            disabled={!valid || busy || !canEdit}
+            onClick={() => create(true)}
+          >
+            <Sparkles size={16} />
+            帮我推荐菜单
+          </Button>
+          <p className="mt-2 text-xs text-slate-500">
+            沿用上面的日期、餐次、人数与忌口；点击才会提交推荐请求。
+          </p>
+        </div>
+      </details>
+      <details className="my-5 text-sm text-slate-500">
+        <summary className="cursor-pointer">需要安排接下来几餐？</summary>
+        <div className="mt-4">
+          <MultiMealPlanner token={token} root={p} />
+        </div>
+      </details>
+    </div>
   );
 }
 

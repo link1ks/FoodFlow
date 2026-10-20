@@ -1,0 +1,614 @@
+[
+  {
+    "id": "10000000-0000-4000-8000-000000000001",
+    "name": "番茄炒蛋",
+    "src": "/recipe-photos/576f18824476.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "f57a169cd6e615fca8d3bbe99610207bc2a0281c7737e10402674e716c8889ee",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      0,
+      2,
+      483,
+      335
+    ]
+  },
+  {
+    "id": "10000000-0000-4000-8000-000000000002",
+    "name": "清炒西兰花",
+    "src": "/recipe-photos/4b2f94c54b02.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "967916178fcd23dad0a5791af5568b1cbc1f2b1ec31a1dd68192a849d19c8fe5",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      483,
+      2,
+      965,
+      335
+    ]
+  },
+  {
+    "id": "10000000-0000-4000-8000-000000000003",
+    "name": "土豆炖鸡",
+    "src": "/recipe-photos/471568220011.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "0a544213559c98df3a136ee0810a8f3355c848c47b169841d12bf9d11779f759",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      965,
+      2,
+      1448,
+      335
+    ]
+  },
+  {
+    "id": "10000000-0000-4000-8000-000000000004",
+    "name": "蒜香生菜",
+    "src": "/recipe-photos/6789912c6209.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "ac67a8ccffe85a7a4017988a9068ab138e2a936ca7b0fe16f61e37e9cfa3f501",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      0,
+      339,
+      483,
+      675
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000001",
+    "name": "蒜蓉菠菜",
+    "src": "/recipe-photos/95eb2692c90e.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "fe8d1f9b35c61d10431448a51336fc35bb5a4523a6dba94d429806e90de44c7e",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      483,
+      339,
+      965,
+      675
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000002",
+    "name": "清炒小白菜",
+    "src": "/recipe-photos/951c747b3afc.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "6f7af07e417449979865fbf90349f142b911aa8953bb8ef9022fd5032b57fe3a",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      965,
+      339,
+      1448,
+      675
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000003",
+    "name": "香菇炒青椒",
+    "src": "/recipe-photos/1f21f388670e.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "57beb0c557407af9941af4bc4dbd336ef4bb050f7ecc95560d37f2196f29bc95",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      0,
+      679,
+      483,
+      1084
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000004",
+    "name": "番茄豆腐汤",
+    "src": "/recipe-photos/a6c21b366ef0.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "3c40e06a6de857b65619e115bdc1b0f8e63e1c4016f66f67f3bc19436de0f8f7",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      483,
+      679,
+      965,
+      1084
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000005",
+    "name": "黄瓜炒鸡蛋",
+    "src": "/recipe-photos/76a206b4b1ca.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "db36d6b27b06a6d21740d1b18c0adfcfdb6adf49f5daa0a674ebad3c1321b8ab",
+    "source_asset": "call_06bcf820cb914f6eb9f63e48e62a968f.png",
+    "source_sha256": "71d82097190ddd466d5d70dfb24b2a1eb25011ba0d6d81e95498b4a1d87d2a6d",
+    "crop": [
+      965,
+      679,
+      1448,
+      1084
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000006",
+    "name": "胡萝卜炒鸡蛋",
+    "src": "/recipe-photos/9629ac3b5cbd.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "786b8355530d840599c316c7e603ee0eeec548ce427cb193272550724f11e99f",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      0,
+      2,
+      483,
+      343
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000007",
+    "name": "芹菜炒豆干",
+    "src": "/recipe-photos/928f3942242e.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "0e395826d3dc9d02c15d249f52df7cbde821f095fb5bf287a999a363311fffdc",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      483,
+      2,
+      965,
+      343
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000008",
+    "name": "卷心菜炒胡萝卜",
+    "src": "/recipe-photos/ea973d2e85db.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "ddd8f774122819c6fb75692c367fd4bde3ab185fdda025bd1edb7a459d6d6e5a",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      965,
+      2,
+      1448,
+      343
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000009",
+    "name": "冬瓜虾汤",
+    "src": "/recipe-photos/f1b61a0f1e75.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "d3f26e081dfe99adff58571c8c5e1ba8149bf76942007f45ab70d8f23b28ee6e",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      0,
+      347,
+      483,
+      698
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000010",
+    "name": "土豆炖牛肉",
+    "src": "/recipe-photos/a9fbe3957b41.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "5f432de913bed557e3a8251e48cc083f4ca6ce61dce21e9e12427aa879b24031",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      483,
+      347,
+      965,
+      698
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000011",
+    "name": "南瓜米粥",
+    "src": "/recipe-photos/d6d5df481fb3.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "475588a9a79938c01c0971b01d7deb121d53b2a9f816b5a0cb421cdc68eef2c1",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      965,
+      347,
+      1448,
+      698
+    ]
+  },
+  {
+    "id": "20000000-0000-4000-8000-000000000012",
+    "name": "番茄鸡蛋面",
+    "src": "/recipe-photos/fa52d2eb9ccc.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "d76ab958fb13d25a0625102f569e4cd813fd575d9c1657a3d17a348c5d2cda91",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      0,
+      702,
+      483,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000001",
+    "name": "青椒肉丝",
+    "src": "/recipe-photos/b4b6412c243e.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "09368e9875728afcbc2d385b1a222e66067237dc18f3dbdd16640770b113b2e3",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      483,
+      702,
+      965,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000002",
+    "name": "西兰花炒虾仁",
+    "src": "/recipe-photos/15dc18308a11.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "2a7c5567ff374223e01650a1402a4088dcf5007c31870e41f158ba2667fa4fc3",
+    "source_asset": "exec-56acd206-db8e-429e-a955-0c2a10f9c4e6.png",
+    "source_sha256": "4333913b1770d6ae6dd5acaa4f0a55df1d6b0f29bfe249aaa3952d79b091ba3c",
+    "crop": [
+      965,
+      702,
+      1448,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000003",
+    "name": "洋葱炒牛肉",
+    "src": "/recipe-photos/b62b874557d6.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "692ce4dd8cf32c0c134a9829af1438731faddf773069d50c6c75356c3f7df472",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      0,
+      2,
+      483,
+      346
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000004",
+    "name": "香菇鸡丁",
+    "src": "/recipe-photos/36f351e7fa6d.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "77bfa4d0fc6b0e1ccaf784996784da9d84eb725d3cfdeaa217dac6413d6280f7",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      483,
+      2,
+      965,
+      346
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000005",
+    "name": "西葫芦炒鸡蛋",
+    "src": "/recipe-photos/3cad5aaf3039.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "e17d198aaeff6b18a8ace22e43a73bdd18b7ba6199ba5a5e0c33f429f0cdac85",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      965,
+      2,
+      1448,
+      346
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000006",
+    "name": "韭菜炒鸡蛋",
+    "src": "/recipe-photos/7dc72e4b21f5.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "1a79d9b3ec2c79437f228072ea729c4940b5056933d5eabec700d98165d1b83e",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      0,
+      350,
+      483,
+      698
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000007",
+    "name": "蒜蓉油麦菜",
+    "src": "/recipe-photos/664427e40194.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "26a6a361d48580ddbb4f92c2e9499bdfe70b46fbc4ff5de4e2ac72b360de1016",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      483,
+      350,
+      965,
+      698
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000008",
+    "name": "清炒芦笋",
+    "src": "/recipe-photos/0f7ab02fb6dc.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "5aec0165e0a8704f97c920ac99396b97c1be448251d97c09d3812b39d30376ea",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      965,
+      350,
+      1448,
+      698
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000009",
+    "name": "荷兰豆炒胡萝卜",
+    "src": "/recipe-photos/325c97b86b50.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "28a21a2830f31b1f8a1e0b00fdd5899283f9a48ac8b37748e83742a5ed0d4345",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      0,
+      702,
+      483,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000010",
+    "name": "白菜炖豆腐",
+    "src": "/recipe-photos/bd25d2ab7f43.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "9d1e714d24b3a0e35516813311de6bcbb26971d28d97d19b9d71e311a672973e",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      483,
+      702,
+      965,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000011",
+    "name": "香煎豆腐",
+    "src": "/recipe-photos/f84b21106573.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "df6b9db8eb21910749b266fee5fa16b3212285d782b3f89ede7ecc767684e5ee",
+    "source_asset": "exec-b50bd0c7-8823-494c-a7c6-994f6394c725.png",
+    "source_sha256": "06ec866077939d166d0c69e16ffdf69ceec5541c22348f3e184e4da23229d7c0",
+    "crop": [
+      965,
+      702,
+      1448,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000012",
+    "name": "番茄炒西葫芦",
+    "src": "/recipe-photos/7f8b660c9af3.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "5be24526017f7e20d097de6616551970e45b38f03e75d9b26a3a06406bb05902",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      0,
+      2,
+      483,
+      344
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000013",
+    "name": "冬瓜香菇汤",
+    "src": "/recipe-photos/96e923e3a78d.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "858ec4584e576b739b3b855edff44a7f72e4e26bad2b4cd071a309541125614a",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      483,
+      2,
+      965,
+      344
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000014",
+    "name": "菠菜蛋花汤",
+    "src": "/recipe-photos/a29f961f7c66.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "52d07af7b050389364637f30c0d7d3130c15e11fd01cdb3f504b93ae0c1ce4ab",
+    "source_asset": "exec-de7a396c-76be-4b55-8bb5-be72eb193321.png",
+    "source_sha256": "459c6fa36a7725051dc8575f92bd9daac63c936f6c34c6ea0182496689c76b5c",
+    "crop": [
+      0,
+      0,
+      1448,
+      1086
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000015",
+    "name": "玉米胡萝卜汤",
+    "src": "/recipe-photos/02710ca65e66.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "58be6ace3b8b8bd7a32c33eca0842b12334195d73f403c18c364564d72ba55cc",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      0,
+      348,
+      483,
+      696
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000016",
+    "name": "香菇鸡肉面",
+    "src": "/recipe-photos/299f7e5d5a42.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "72540453a718c23838f9cc0444964813a06722d00e476352066603930cc34cd4",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      483,
+      348,
+      965,
+      696
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000017",
+    "name": "青菜鸡蛋面",
+    "src": "/recipe-photos/f047ccf9483b.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "ca6ce25e92ba9585514b47bc4c05b8d9098a4e0783546cb79017f392e8f19deb",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      965,
+      348,
+      1448,
+      696
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000018",
+    "name": "小米南瓜粥",
+    "src": "/recipe-photos/01c56cb26676.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "09f392fb0cc92c51618036009cda6a2875d3a59189234e6dde1b63988f15ebb9",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      0,
+      700,
+      483,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000019",
+    "name": "山药大米粥",
+    "src": "/recipe-photos/559c6005fbcb.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "f8e504e3c2b20b28f41debb01500e2dd0766cb5ee051a16825b17b88fca160c2",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      483,
+      700,
+      965,
+      1084
+    ]
+  },
+  {
+    "id": "30000000-0000-4000-8000-000000000020",
+    "name": "土豆胡萝卜焖饭",
+    "src": "/recipe-photos/1cbe07816f43.webp",
+    "generated": true,
+    "width": 480,
+    "height": 360,
+    "sha256": "bfc9e3db2b8062899bf0522901bffc02596384ccd22ff8166ffd86b251ecefab",
+    "source_asset": "exec-e3cbfc75-f285-485c-a949-6a3b4f639627.png",
+    "source_sha256": "042e593c63882ed1f433c25590f54cac533d093c4c983bfe34da430329174957",
+    "crop": [
+      965,
+      700,
+      1448,
+      1084
+    ]
+  }
+]

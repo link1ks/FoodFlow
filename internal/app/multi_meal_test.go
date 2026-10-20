@@ -140,4 +140,24 @@ func TestMultiMealRolloverAdoptionAndFences(t *testing.T) {
 	if err := pool.QueryRow(ctx, "SELECT quantity_milli FROM batches WHERE id=$1", batch).Scan(&eggs); err != nil || eggs != 2000 {
 		t.Fatal("wrong remaining quantity", eggs, err)
 	}
+	// A growing public catalogue must not disable planning. More than twenty
+	// stock-relevant candidates remain bounded and explicitly mark truncation.
+	for i := 0; i < 25; i++ {
+		id := core.ID()
+		if _, err := pool.Exec(ctx, `INSERT INTO recipes(id,title,servings,minutes,steps,source) VALUES($1,'候选预算 fixture',2,1,ARRAY['test'],'fixture')`, id); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := pool.Exec(ctx, `INSERT INTO recipe_items(recipe_id,name,quantity_milli,unit,catalog_id) SELECT $1,'番茄',1000,'g',id FROM ingredient_catalog WHERE name='番茄'`, id); err != nil {
+			t.Fatal(err)
+		}
+	}
+	code, v = h.call("POST", root+"/multi-meal", token, core.ID(), body)
+	must(t, code, 200, v)
+	bounded := v["result"].(map[string]any)
+	if bounded["truncated"] != true || bounded["meals"].([]any)[0].(map[string]any)["recipe_id"] == "" {
+		t.Fatal("candidate budget must return an explicitly limited feasible proposal", bounded)
+	}
+	if err := pool.QueryRow(ctx, "SELECT quantity_milli FROM batches WHERE id=$1", batch).Scan(&eggs); err != nil || eggs != 2000 {
+		t.Fatal("bounded preview deducted stock", eggs, err)
+	}
 }

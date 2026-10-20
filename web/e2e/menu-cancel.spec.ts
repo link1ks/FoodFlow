@@ -33,6 +33,9 @@ test("menu requires a deliberate meal selection and cancelled recommendations st
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "主导航" });
   await nav.getByRole("button", { name: /菜单/ }).click();
+  await page
+    .getByText("想按特别的要求搭配？让 AI 帮忙", { exact: true })
+    .click();
   const recommend = page.getByRole("button", {
     name: "帮我推荐菜单",
     exact: true,
@@ -41,9 +44,7 @@ test("menu requires a deliberate meal selection and cancelled recommendations st
   expect(await (await request.get(root + "/jobs", { headers })).json()).toEqual(
     [],
   );
-  await page
-    .getByRole("combobox", { name: "餐次", exact: true })
-    .selectOption("dinner");
+  await page.getByRole("button", { name: "晚餐", exact: true }).click();
   await expect(recommend).toBeEnabled();
   await recommend.click();
   await page

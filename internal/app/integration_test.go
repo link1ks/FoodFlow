@@ -831,7 +831,8 @@ func TestWorkflowAndInvariants(t *testing.T) {
 	if e = pool.QueryRow(context.Background(), "SELECT count(*) FROM recipe_items WHERE recipe_id=$1 AND name='生菜'", allowed).Scan(&prohibited); e != nil || prohibited != 0 {
 		t.Fatal("agent selected an explicitly excluded ingredient", prohibited, e)
 	}
-	_, _, e = a.chooseRecipe(context.Background(), claimed{ID: job, Household: house, Creator: userID}, planJob{Day: day, Meal: "dinner", Servings: 2, MaxMinutes: 10, ExcludedIngredients: []string{"生菜", "菠菜"}})
+	// All three current <=10 minute reference recipes must be excluded.
+	_, _, e = a.chooseRecipe(context.Background(), claimed{ID: job, Household: house, Creator: userID}, planJob{Day: day, Meal: "dinner", Servings: 2, MaxMinutes: 10, ExcludedIngredients: []string{"生菜", "菠菜", "油麦菜"}})
 	if e == nil {
 		t.Fatal("agent must reject when all eligible recipes are excluded")
 	}

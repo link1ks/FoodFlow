@@ -15,7 +15,7 @@
         "internal/app/jwt.go",
         "internal/app/proxy.go"
       ],
-      "review_digest": "99f24c5a7221edcaf7da5860a8adb7ce82fcf2cbbbd2e1ef3d426c350ccaacd0",
+      "review_digest": "c6ee87e5d0337549174e953cec0ef61a924699de8a31830e4828733035bbf2cd",
       "browser": [
         "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
         "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
@@ -32,7 +32,7 @@
         "internal/app/personal_kitchen.go",
         "docs/PERSONAL_KITCHENS.md"
       ],
-      "review_digest": "e7145095fc7403560cd48a6f71b07a3d2e73905b6739e9290bf5dddcef6da8c4",
+      "review_digest": "f55f62f7d23bd05bbb166e7409ecb459fd933ce08950905843f2e3f3ec782586",
       "browser": [
         "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
       ],
@@ -56,7 +56,7 @@
         "internal/app/pantry.go",
         "internal/dbgen"
       ],
-      "review_digest": "ddd4e7d7e36e0117dc494cf17a835989dd8954f5357b80f5e986be35b736ec0b",
+      "review_digest": "9fe0c6f515ca3d12bee8f7e34d0197d48256298bd8732bc9177658e07110e08b",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -74,7 +74,7 @@
         "web/src/catalogPhotos.test.ts",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "de79ca1105fcb94a7730414d26abfade670fb461f3e7c6c05219ea2c189ae993",
+      "review_digest": "28f7606de5820e998cf81bf338dcb2ec8d68a0c6d697531029e0559d1d1431b5",
       "browser": [
         "web/e2e/photos.spec.ts#studio catalogue images, family upload priority and failed-image fallback"
       ],
@@ -83,7 +83,7 @@
     },
     {
       "id": "MENU",
-      "context": "草案不扣库、显式餐次、确认重算、烹饪一次扣库、取消持久化。",
+      "context": "36 道自编参考菜谱与生成参考图；默认三道灵感、搜索分类和局部换菜，名称忌口筛选；草案不扣库、显式餐次、确认重算、烹饪一次扣库、取消持久化。",
       "guide": "docs/BUSINESS_GUIDE.md",
       "sources": [
         "internal/engine/matcher",
@@ -96,11 +96,15 @@
         "internal/app/clear_fridge.go",
         "docs/ARCHITECTURE.md",
         "internal/app/recipe_options.go",
-        "internal/app/pipeline.go"
+        "internal/app/pipeline.go",
+        "web/public/recipe-photos",
+        "scripts/photos/recipe-sources.json",
+        "scripts/photos/render.py"
       ],
-      "review_digest": "d96e136cfee7f7f94fcec7e227f2c54b42e5386dcbda9b7d1d543f513f71f380",
+      "review_digest": "0a62ec954fc3eeebcb9afbbdc58f191a88e8fc5b37358a216f58fda40b0bcf0f",
       "browser": [
-        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed"
+        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal"
       ],
       "data": "共享原料冲突、多餐/多人/异单位、超过400用料、搜索预算和取消重放。",
       "limits": "菜谱时间为参考，不是实际烹饪效果保证。"
@@ -115,7 +119,7 @@
         "internal/app/pantry_service.go",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "054132623f33ce2729817637237387b8f72e8279643434179209db2701d1bfb6",
+      "review_digest": "47c8b7eb43e97e3b9806ad682b5178285bc9c4f1c75f5bda684aee200dc8eba9",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -134,7 +138,7 @@
         "cmd/intake-eval",
         "docs/INTAKE_SCOPE.md"
       ],
-      "review_digest": "5f05f5698cc5b54d1b909308b866a0ecb564f8d57a5ff594f740df9f057825fb",
+      "review_digest": "99910bc4508ffe88e5dc8d166ce572dc89bde074fdd81d3b53b3c44c0bb92dd4",
       "browser": [
         "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections"
       ],
@@ -157,7 +161,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "c9b7edf25019fca6d03fdacdb6eeb22b123d8300f403082b5f14441bbb202737",
+      "review_digest": "1a9de782d11de7d1b57a7dae377e017ebe75320dcfc2e19b54feb19655e8a619",
       "browser": [
         "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
       ],
@@ -173,7 +177,7 @@
         "internal/app/community_moderation.go",
         "docs/COMMUNITY.md"
       ],
-      "review_digest": "411f16f3217c336e9ba3f9410e1146d894ca3560fc31f5d2589e95c79a5acdfc",
+      "review_digest": "63f38c620a3eaa1b3643793d089188e292e7221f70b27ea8add5987f85f2056f",
       "browser": [
         "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure"
       ],
@@ -196,7 +200,7 @@
         "cmd/insights/main.go",
         "cmd/relay/main.go"
       ],
-      "review_digest": "6847d0a77ca98e30cdab538e84f4b53679286e823d2dd87c6be703e9c216e2a6",
+      "review_digest": "75b684916254562724f5893d5fc4384e305e94546b45a02333ff6bebf93df7f7",
       "browser": [
         "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
       ],
@@ -219,7 +223,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "bc2cc440800857dc629ce246f7b34b9d4a62ac422237e592fb19d9fc97e6b783",
+      "review_digest": "939f0feafbc9f1219b665fc4f74e0f9d8a43fee7a26cc8435aee05a8fc696c75",
       "browser": [
         "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger"
       ],
@@ -238,7 +242,7 @@
         "docs/ARCHITECTURE.md",
         "cmd/price-sync/main.go"
       ],
-      "review_digest": "746ff4cc330e12a1acd56081deff3638f758dc97946395675f101490ced73a61",
+      "review_digest": "c4bab64b7a6a34782c1f8f68ae2b3d67f30130430bd2cdd27c92c1f5b79dda32",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
@@ -256,12 +260,13 @@
         "web/e2e",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "79b2c020a09d7c226a41620895fc487967ceb64ab7491990bb168bc886d29db1",
+      "review_digest": "ea0ee378c4f754e44b12e388cb5cab447e21124b8760c2f39b1a1ca036553231",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
         "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states",
-        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths"
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths",
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal"
       ],
       "data": "桌面/手机/320px；200项选择器、等高卡片、无悬停、余量/期限独立批次、调味品瓶罐基准。",
       "limits": "自动交互不是用户研究，所有业务写入只在虚构账号。"
@@ -280,7 +285,7 @@
         "cmd/recovery/main.go",
         "cmd/recovery/probe.go"
       ],
-      "review_digest": "c0b9b81e93391dd4558676d6476f374f2707daf7e672cd4acbf6b09dd78f315f",
+      "review_digest": "06f0fd09bc24fc2599ca6040857bb057d6939c55b97cd288f9303a975f427407",
       "browser": [
         "web/e2e/security.spec.ts#gateway security policy blocks injected scripts and permits the app"
       ],
@@ -304,7 +309,7 @@
         "cmd/loadcheck/main.go",
         "cmd/migrate/main.go"
       ],
-      "review_digest": "75dbf63c8efc062fdb061ba049c48eb820f17cf04d7156283d86cb326e5263aa",
+      "review_digest": "cec6995547bbe18e643750a192da57679294c17eb79433dc6d194001da32577f",
       "browser": [
         "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct"
       ],
@@ -1293,7 +1298,8 @@
     {
       "id": "web/e2e/recipes.spec.ts#family recipe preview and scaled procurement",
       "requirements": [
-        "MENU"
+        "MENU",
+        "SHOP"
       ]
     },
     {
@@ -1485,6 +1491,28 @@
       "requirements": [
         "AI",
         "INTAKE"
+      ]
+    },
+    {
+      "id": "web/src/recipeDiscovery.test.ts#filters search and exclusions and rotates bounded diverse suggestions without stock claims",
+      "requirements": [
+        "MENU",
+        "UI"
+      ]
+    },
+    {
+      "id": "web/src/recipeDiscovery.test.ts#covers all 36 reference recipes with distinct local generated photos and provenance",
+      "requirements": [
+        "MENU",
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal",
+      "requirements": [
+        "MENU",
+        "UI",
+        "SHOP"
       ]
     }
   ]

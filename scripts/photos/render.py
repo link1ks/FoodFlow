@@ -5,24 +5,29 @@ This crops/resizes generated sheets only; never calls a model or edits user phot
 import argparse, hashlib, json
 from io import BytesIO
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--sources',type=Path,required=True)
     parser.add_argument('--out',type=Path,required=True)
+    parser.add_argument('--kind',choices=['ingredient','recipe'],default='ingredient')
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[2]
-    if args.out.resolve()==root/'web/public/ingredient-photos':
+    if args.out.resolve() in [root/'web/public/ingredient-photos',root/'web/public/recipe-photos']:
         raise ValueError('Render to a scratch directory for review')
     args.out.mkdir(parents=True,exist_ok=True)
-    entries=json.loads((root/'web/public/ingredient-photos/manifest.json').read_text('utf-8-sig'))
+    entries=json.loads((root/f'web/public/{args.kind}-photos/manifest.json').read_text('utf-8-sig'))
     for entry in entries:
         raw=(args.sources/entry['source_asset']).read_bytes()
         if hashlib.sha256(raw).hexdigest()!=entry['source_sha256']:
             raise ValueError('Source hash mismatch: '+entry['name'])
-        img=Image.open(BytesIO(raw)).convert('RGB').crop(entry['crop']).resize((464,348),Image.Resampling.LANCZOS)
-        canvas=Image.new('RGB',(480,360),'#faf8f3');canvas.paste(img,(8,6))
+        img=Image.open(BytesIO(raw)).convert('RGB').crop(entry['crop'])
+        if args.kind=='recipe':
+            canvas=ImageOps.fit(img,(480,360),method=Image.Resampling.LANCZOS)
+        else:
+            img=img.resize((464,348),Image.Resampling.LANCZOS)
+            canvas=Image.new('RGB',(480,360),'#faf8f3');canvas.paste(img,(8,6))
         output=BytesIO();canvas.save(output,format='WEBP',quality=88,method=6)
         data=output.getvalue()
         if hashlib.sha256(data).hexdigest()!=entry['sha256']:

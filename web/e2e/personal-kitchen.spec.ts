@@ -50,7 +50,7 @@ test("personal kitchen is default, with optional family creation, join and isola
   const nav = page.getByRole("navigation", { name: "主导航" });
   await nav.getByRole("button", { name: /菜单/ }).click();
   await expect(page.getByLabel("人数", { exact: true })).toHaveValue("1");
-  await page.getByRole("button", { name: /连续几餐/ }).click();
+  await page.getByText("需要安排接下来几餐？", { exact: true }).click();
   await page.getByRole("button", { name: /展开规划/ }).click();
   await expect(page.getByLabel("每餐人数", { exact: true })).toHaveValue("1");
   await nav.getByRole("button", { name: /采购/ }).click();

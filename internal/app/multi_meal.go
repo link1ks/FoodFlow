@@ -40,10 +40,11 @@ type multiBatch struct {
 	Expires             *time.Time
 }
 type multiSnapshot struct {
-	Recipes  []multiRecipe
-	Batches  []multiBatch
-	Excluded []string
-	Timezone string
+	Recipes             []multiRecipe
+	Batches             []multiBatch
+	Excluded            []string
+	Timezone            string
+	CandidatesTruncated bool
 }
 type multiUse struct {
 	BatchID    string `json:"batch_id"`
@@ -76,10 +77,22 @@ func loadMultiSnapshot(c *gin.Context, tx pgx.Tx) (multiSnapshot, error) {
 		return s, err
 	}
 	var raw []byte
-	err = tx.QueryRow(c, `SELECT COALESCE(jsonb_agg(v ORDER BY v->>'ID'),'[]'::jsonb) FROM (
+	err = tx.QueryRow(c, `SELECT COALESCE(jsonb_agg(v ORDER BY (v->>'Minutes')::int,v->>'ID'),'[]'::jsonb) FROM (
  SELECT jsonb_build_object('ID',r.id,'Title',r.title,'Servings',r.servings,'Minutes',r.minutes,'Items',
  (SELECT jsonb_agg(jsonb_build_object('Key',COALESCE(ri.catalog_id::text,ic.id::text,ri.name),'Name',ri.name,'Unit',ri.unit,'Quantity',ri.quantity_milli) ORDER BY ri.name,ri.unit) FROM recipe_items ri LEFT JOIN ingredient_catalog ic ON ic.name=ri.name WHERE ri.recipe_id=r.id)) v
- FROM recipes r WHERE NOT EXISTS(SELECT 1 FROM recipe_items ri WHERE ri.recipe_id=r.id AND ri.name=ANY($1::text[])) ORDER BY r.id LIMIT 21) selected`, s.Excluded).Scan(&raw)
+ FROM recipes r WHERE NOT EXISTS(SELECT 1 FROM recipe_items ri WHERE ri.recipe_id=r.id AND ri.name=ANY($1::text[]))
+ AND EXISTS(SELECT 1 FROM recipe_items ri WHERE ri.recipe_id=r.id)
+ AND NOT EXISTS(
+   SELECT 1 FROM recipe_items ri LEFT JOIN ingredient_catalog rc ON rc.name=ri.name
+   WHERE ri.recipe_id=r.id AND NOT EXISTS(
+     SELECT 1 FROM ingredients i LEFT JOIN ingredient_catalog ic ON ic.name=i.name
+     JOIN batches b ON b.ingredient_id=i.id AND b.household_id=i.household_id
+     WHERE i.household_id=$2 AND i.archived_at IS NULL AND b.quantity_milli>0 AND b.condition='normal'
+       AND (b.expires_at IS NULL OR b.expires_at>now())
+       AND COALESCE(i.catalog_id::text,ic.id::text,i.name)=COALESCE(ri.catalog_id::text,rc.id::text,ri.name)
+   )
+ )
+ ORDER BY r.minutes,r.id LIMIT 21) selected`, s.Excluded, hid(c)).Scan(&raw)
 	if err != nil {
 		return s, err
 	}
@@ -87,7 +100,8 @@ func loadMultiSnapshot(c *gin.Context, tx pgx.Tx) (multiSnapshot, error) {
 		return s, err
 	}
 	if len(s.Recipes) > 20 {
-		return s, conflict("当前规划最多支持 20 道候选菜谱")
+		s.CandidatesTruncated = true
+		s.Recipes = s.Recipes[:20]
 	}
 	rows, err := tx.Query(c, `SELECT b.id,COALESCE(i.catalog_id::text,ic.id::text,i.name),i.name,i.unit,b.quantity_milli,b.expires_at,b.expiry_kind
  FROM batches b JOIN ingredients i ON i.id=b.ingredient_id AND i.household_id=b.household_id LEFT JOIN ingredient_catalog ic ON ic.name=i.name
@@ -209,7 +223,7 @@ func multiInput(s multiSnapshot, request multiRequest, now time.Time) (engine.In
 	return in, nil
 }
 func multiOutput(s multiSnapshot, request multiRequest, in engine.Input, plan engine.Result) multiResult {
-	out := multiResult{Meals: []multiMeal{}, Truncated: plan.Truncated, Nodes: plan.Nodes, Score: plan.Score}
+	out := multiResult{Meals: []multiMeal{}, Truncated: plan.Truncated || s.CandidatesTruncated, Nodes: plan.Nodes, Score: plan.Score}
 	for i, slot := range request.Slots {
 		choice := plan.Meals[i]
 		meal := multiMeal{multiSlot: slot, Uses: []multiUse{}, Rollover: []multiUse{}, AtRisk: []multiUse{}}

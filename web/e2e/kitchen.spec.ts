@@ -140,7 +140,7 @@ test("real login, stocked inventory and primary navigation", async ({
   ).toBeVisible();
   for (const [label, heading] of [
     ["食材", "食材库存"],
-    ["菜单", "安排菜单"],
+    ["菜单", "今天，吃点喜欢的。"],
     ["采购", "共享采购清单"],
     ["记录", "厨房记录"],
   ]) {
@@ -344,13 +344,14 @@ test("onboarding, continuous stock and configured capability states", async ({
   );
   await page.reload();
   await nav.getByRole("button", { name: /菜单/ }).click();
+  await page
+    .getByText("想按特别的要求搭配？让 AI 帮忙", { exact: true })
+    .click();
   await expect(page.getByText(/演示模式：使用示例方案/)).toBeVisible();
   await expect(
     page.getByRole("button", { name: "帮我推荐菜单" }),
   ).toBeDisabled();
-  await page
-    .getByRole("combobox", { name: "餐次", exact: true })
-    .selectOption("dinner");
+  await page.getByRole("button", { name: "晚餐", exact: true }).click();
   await page.getByRole("button", { name: "帮我推荐菜单" }).click();
   await expect(
     page.getByRole("heading", { name: "菜单规划 · 等待确认" }),
