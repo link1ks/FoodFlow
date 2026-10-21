@@ -530,8 +530,8 @@ Task `v030-release-repair-20261021` follows the request to repair the preview an
 prepare stable publication. The actual existing release is **v0.3.0**, still a
 prerelease at commit `f13fd5e`; current main also includes the subsequent Python
 RAG work. The user explicitly cannot perform physical camera/microphone acceptance
-now and requires that release blocker to remain. No new paid model authorization
-has been received. The original model-conflict failure remains unresolved; a new
+now and requires that release blocker to remain. At task start, no new paid model
+authorization had been received; subsequent authorization/results are below. The original model-conflict failure remains unresolved; a new
 prompt alone is not evidence that the model passes.
 
 Review reproduced an additional evaluation-integrity bug: struct-based Go JSON
@@ -582,9 +582,39 @@ HTML/JS/CSS identity. Private reports are `v030-repair-deployment.json` and
 `v030-repair-main.json` under `.cache/harness`; backups and preserved environment
 overlays remain private. No paid probe or synthetic default-database write ran.
 
-[Redacted local results](../evidence/v030-repair-summary.json) preserve the
-boundaries: no live model calls in this task, the new prompt unproven against a
-provider, and physical device acceptance explicitly deferred. Source sync and
+[Redacted results](../evidence/v030-repair-summary.json) preserve the
+boundaries: the original raw-model failure is not erased, and physical device
+acceptance is explicitly deferred. Source sync and
 exact-commit cloud checks follow these local results. The published v0.3.0 tag
 and prerelease must remain unchanged while those release blockers exist; no
 overall passed task or stable publication is claimed.
+
+Subsequently the user explicitly authorized at most 20 calls / CNY 1. The reviewed
+private wrapper preflighted all inputs and Beijing model/endpoint identities,
+then durably reserved CNY 0.07 for each of 13 fixed calls, CNY 0.91 total, before
+starting the exclusive CLI journals. Reservations are permanently retained,
+including uncertain outcomes; the fixed task directory refuses resume/replay.
+There were no retries, configuration edits or default-database writes.
+
+Live results at the same verified source: vision 3/3 (P95 12,749 ms), speech 2/2
+(1,092 ms), menu 2/2 (1,314 ms), **raw strict RAG 4/6 (2,445 ms)**. In the missing
+conflict-peer case the provider returned `restart / Restart immediately.`; in the
+mutual-conflict case it returned `enable / Enable retries.` instead of abstaining.
+These reviewed synthetic answers are retained in the public summary; authenticated
+envelopes and all private journals remain local. This confirms current raw-model
+noncompliance with the explicit conflict rule, not a provider-internal root cause.
+New failure `v030-rag-conflict-strict` remains open. The old 2/3 score and new 4/6
+score are different frozen sets and must not be presented as an improvement.
+
+The 13 calls reported 3,696 tokens. At the reviewed
+[official prices](https://help.aliyun.com/zh/model-studio/model-pricing), observed
+text/image usage plus conservatively rounded speech gives a list-price estimate
+upper bound of CNY 0.006439; the preflight bound was CNY 0.140814. These are
+calculations, not an invoice or free-quota claim. The CNY 0.91 reservation was not
+refunded to fund more experiments. No further paid calls are planned.
+
+Code commit `95d3413` completed all four cloud jobs successfully in
+[run 39607926213](https://github.com/link1ks/FoodFlow/actions/runs/39607926213).
+This evidence-only continuation preserves the source digest; final exact-commit
+cloud evidence is checked after its publication. Required model accuracy and
+real device evidence still block successful task completion and stable release.

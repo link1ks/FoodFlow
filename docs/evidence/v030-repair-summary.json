@@ -41,10 +41,10 @@
     "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls"
   },
   "scoring_failure": "Reproduced extra-field false positive; strict shape regression and full/browser verification passed",
-  "model_conflict_failure": "Original RAG holdout 2/3 retained; strict prompt is not yet live-verified",
+  "model_conflict_failure": "Original RAG holdout 2/3 retained; new strict raw-model corpus 4/6, both conflict cases returned disqualified repairs. Internal provider cause unknown; no verified raw-model fix.",
   "new_corpus_sha256": "1accd80ff0d13fbf8ac94b2c9a1f5d3438a5b9baa6b34e89788345011244e90e",
   "new_corpus_scope": "1 development regression and 5 frozen synthetic holdout cases; not independently labelled",
-  "paid_calls_this_task": 0,
+  "paid_calls_this_task": 13,
   "physical_device_acceptance": "pending; user explicitly unable to perform now",
   "stable_release_published": false,
   "main_site": {
@@ -60,5 +60,94 @@
     "configuration_preserved": true,
     "paid_probe": false,
     "data_and_photos_preserved": true
-  }
+  },
+  "live_evaluations": [
+    {
+      "domain": "vision",
+      "samples": 3,
+      "correct": 3,
+      "p95_ms": 12749,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
+      "prompt_digest": "34373b97581b4a8582bc6f2525d4932bb10dd079925761069ebeec8d997ee56d",
+      "cost_status": "unknown"
+    },
+    {
+      "domain": "speech",
+      "samples": 2,
+      "correct": 2,
+      "p95_ms": 1092,
+      "model": "qwen3-asr-flash",
+      "model_version": "unknown unless reported per row",
+      "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
+      "prompt_digest": "34373b97581b4a8582bc6f2525d4932bb10dd079925761069ebeec8d997ee56d",
+      "cost_status": "unknown"
+    },
+    {
+      "domain": "menu",
+      "samples": 2,
+      "correct": 2,
+      "p95_ms": 1314,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "corpus_digest": "814798450618bd293c0621a59b42334f9b31a9ebabf4f91f41e5ad3eac902d6c",
+      "prompt_digest": "34373b97581b4a8582bc6f2525d4932bb10dd079925761069ebeec8d997ee56d",
+      "cost_status": "unknown"
+    },
+    {
+      "domain": "rag",
+      "samples": 6,
+      "correct": 4,
+      "p95_ms": 2445,
+      "model": "qwen3-vl-plus",
+      "model_version": "unknown unless reported per row",
+      "corpus_digest": "1accd80ff0d13fbf8ac94b2c9a1f5d3438a5b9baa6b34e89788345011244e90e",
+      "prompt_digest": "34373b97581b4a8582bc6f2525d4932bb10dd079925761069ebeec8d997ee56d",
+      "cost_status": "unknown"
+    }
+  ],
+  "paid_budget": {
+    "permanent_reserved_cny": 0.91,
+    "conservative_preflight_upper_cny": 0.140814,
+    "automatic_retries": 0,
+    "authorized_cny": 1,
+    "authorized_calls": 20,
+    "invoice_cost": null,
+    "cost_status": "unknown",
+    "pricing_source": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "observed_usage_list_price_upper_cny": 0.006439,
+    "actual_dispatches": 13,
+    "reported_tokens": 3696
+  },
+  "retained_conflict_answers": [
+    {
+      "case": "repair-conflict-absent-peer",
+      "expected": {
+        "answer": "insufficient_evidence",
+        "citation": ""
+      },
+      "actual": {
+        "answer": "Restart immediately.",
+        "citation": "restart"
+      }
+    },
+    {
+      "case": "repair-mutual-conflicts",
+      "expected": {
+        "answer": "insufficient_evidence",
+        "citation": ""
+      },
+      "actual": {
+        "answer": "Enable retries.",
+        "citation": "enable"
+      }
+    }
+  ],
+  "cloud_code": {
+    "status": "success",
+    "revision": "95d341308952c459279f30267b0b41327885f76c",
+    "url": "https://github.com/link1ks/FoodFlow/actions/runs/39607926213"
+  },
+  "recorded_at": "2026-10-21T13:38:43.6219075Z"
 }
