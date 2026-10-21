@@ -7,13 +7,13 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"math"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
 	"time"
-	"unicode"
+
+	"foodflow/internal/agent"
 )
 
 type Failure struct {
@@ -164,63 +164,7 @@ func ingestFailure(root string, f Failure) error {
 	return rebuildExperience(root)
 }
 
-// Explicit local domain-concept vectors provide bounded semantic matching,
-// alongside lexical overlap. This is not a pretrained general embedding model.
-var concepts = [][]string{
-	{"duplicate", "replay", "idempotency", "重复", "重放", "幂等"},
-	{"quantity", "decimal", "precision", "数量", "小数", "精度"},
-	{"speech", "audio", "microphone", "voice", "语音", "录音", "麦克风"},
-	{"image", "photo", "vision", "图片", "照片", "视觉", "拍照"},
-	{"menu", "recipe", "plan", "菜单", "菜谱", "配方"},
-	{"timeout", "latency", "slow", "超时", "延迟", "缓慢"},
-	{"permission", "authorization", "权限", "越权", "授权"},
-	{"cache", "redis", "缓存"},
-	{"database", "transaction", "数据库", "事务"},
-	{"environment", "docker", "infrastructure", "环境", "容器"},
-}
-
-const retrievalVersion = "concept-vector-v1+lexical-v1"
-
-func lexical(s string) map[string]float64 {
-	out := map[string]float64{}
-	for _, word := range strings.FieldsFunc(strings.ToLower(s), func(r rune) bool { return !unicode.IsLetter(r) && !unicode.IsDigit(r) }) {
-		out[word]++
-		r := []rune(word)
-		for i := 0; i+1 < len(r); i++ {
-			if r[i] > 127 {
-				out[string(r[i:i+2])]++
-			}
-		}
-	}
-	return out
-}
-func semantic(s string) map[string]float64 {
-	out := map[string]float64{}
-	s = strings.ToLower(s)
-	for i, words := range concepts {
-		for _, w := range words {
-			if strings.Contains(s, w) {
-				out[fmt.Sprint(i)] = 1
-				break
-			}
-		}
-	}
-	return out
-}
-func cosine(a, b map[string]float64) float64 {
-	var dot, x, y float64
-	for k, v := range a {
-		dot += v * b[k]
-		x += v * v
-	}
-	for _, v := range b {
-		y += v * v
-	}
-	if x*y == 0 {
-		return 0
-	}
-	return dot / math.Sqrt(x*y)
-}
+const retrievalVersion = agent.RetrievalVersion
 
 type ExperienceIndex struct {
 	Version string    `json:"version"`
@@ -233,19 +177,11 @@ func rebuildExperience(root string) error {
 	if err != nil {
 		return err
 	}
-	active := []Failure{}
-	replaced := map[string]bool{}
-	for _, f := range records {
-		if f.Status != "deleted" && f.Status != "obsolete" && f.Replaces != "" {
-			replaced[f.Replaces] = true
-		}
+	var metadata map[string]any
+	if err := agent.RunRAG(map[string]any{"action": "build", "path": filepath.Join(root, ".cache/harness/experience/index.sqlite"), "records": records, "digest": hashJSON(records)}, &metadata); err != nil {
+		return err
 	}
-	for _, f := range records {
-		if f.Status != "deleted" && f.Status != "obsolete" && !replaced[f.ID] {
-			active = append(active, f)
-		}
-	}
-	return saveJSON(filepath.Join(root, ".cache/harness/experience/index.json"), ExperienceIndex{retrievalVersion, hashJSON(records), active})
+	return saveJSON(filepath.Join(root, ".cache/harness/experience/index.json"), ExperienceIndex{Version: retrievalVersion, Digest: hashJSON(records)})
 }
 
 type Retrieval struct {
@@ -296,24 +232,11 @@ func queryExperience(root string, q QueryRecord) (QueryRecord, error) {
 	if index.Digest != hashJSON(records) || index.Version != retrievalVersion {
 		return q, fmt.Errorf("stale experience index; rebuild required")
 	}
-	q.Results = []Retrieval{}
-	for _, f := range index.Records {
-		if q.Business != "" && !contains(f.Business, q.Business) || q.Category != "" && q.Category != f.Category ||
-			q.Test != "" && !contains(f.Tests, q.Test) || q.VerifiedOnly && (!f.Verified || f.Status != "resolved") {
-			continue
-		}
-		if q.ErrorCode != "" && q.ErrorCode != f.ErrorCode {
-			continue
-		}
-		if q.ApplicableVersion != "" && !contains(f.ApplicableVersions, q.ApplicableVersion) {
-			continue
-		}
-		text := f.Symptom + " " + f.Conditions + " " + f.RootCause + " " + f.Fix
-		score := 0.55*cosine(lexical(q.Query), lexical(text)) + 0.45*cosine(semantic(q.Query), semantic(text))
-		if score < 0.15 {
-			continue
-		}
-		for _, p := range f.Evidence {
+	if err = agent.RunRAG(map[string]any{"action": "query", "path": filepath.Join(root, ".cache/harness/experience/index.sqlite"), "digest": index.Digest, "query": q}, &q.Results); err != nil {
+		return q, err
+	}
+	for _, result := range q.Results {
+		for _, p := range result.Citations {
 			path, e := repositoryFile(root, p)
 			if e != nil {
 				return q, e
@@ -322,22 +245,6 @@ func queryExperience(root string, q QueryRecord) (QueryRecord, error) {
 				return q, fmt.Errorf("retrieved source evidence unavailable")
 			}
 		}
-		cause, fix := f.RootCause, f.Fix
-		repairVerified := f.Verified && f.Status == "resolved"
-		if !repairVerified {
-			cause = "Unverified hypothesis: " + cause
-			fix = "Requires diagnosis; no verified repair"
-		}
-		q.Results = append(q.Results, Retrieval{f.ID, score, repairVerified, cause, fix, f.Scope, f.Evidence, f.CodeVersion != q.CodeVersion, f.Conflicts})
-	}
-	sort.Slice(q.Results, func(i, j int) bool {
-		if q.Results[i].Score == q.Results[j].Score {
-			return q.Results[i].ID < q.Results[j].ID
-		}
-		return q.Results[i].Score > q.Results[j].Score
-	})
-	if len(q.Results) > 5 {
-		q.Results = q.Results[:5]
 	}
 	q.IndexDigest = index.Digest
 	q.RetrievalVersion = index.Version

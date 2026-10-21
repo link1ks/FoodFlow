@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "task": "python-rag-industrial-eval",
+  "criteria": [
+    {
+      "id": "python-agent-rag",
+      "description": "Python owns model execution and RAG indexing/ranking/grounding; Go retains business transactions and evidence gates.",
+      "business": [
+        "AI",
+        "HARNESS"
+      ],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentContracts",
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts",
+        "cmd/harness/learning_test.go#TestExperienceLifecycleAndSemanticRetrieval",
+        "cmd/harness/learning_test.go#TestExperienceRejectsStaleIndexSecretsAndUnverifiedRepairs",
+        "cmd/harness/learning_test.go#TestRAGFrozenAcceptance"
+      ]
+    },
+    {
+      "id": "measured-scale-and-cost",
+      "description": "Retain frozen 100000-document/10000-query synthetic scale, broad/bridge latency and 40 live cases. Named regressions protect measurement/budget semantics; large reports supplement them.",
+      "business": [
+        "AI",
+        "HARNESS",
+        "STOCK"
+      ],
+      "tests": [
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts",
+        "cmd/harness/learning_test.go#TestLearningMetricsRetainsFailuresAndUnknownHistory",
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox"
+      ]
+    },
+    {
+      "id": "preserve-business-boundaries",
+      "description": "Preserve authorization, cancellation, uncertain debit, explicit atomic confirmation and desktop/mobile behavior.",
+      "business": [
+        "AI",
+        "INTAKE",
+        "STOCK"
+      ],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentCancellationPreservesUncertainDebit",
+        "internal/agent/python_bridge_test.go#TestPythonAgentGuardMatchesExactUTF8RequestAndRejectsUnsafeRecipe",
+        "internal/agent/python_bridge_test.go#TestPythonAgentEnvironmentDoesNotInheritApplicationSecrets",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    },
+    {
+      "id": "bounded-industrial-live-evaluation",
+      "description": "Up to 8500 cumulative real requests and CNY 5 list-price budget including earlier 85; shared durable concurrent reservation, no retries, unknown outcome retention, 8000 frozen synthetic holdout permutations over 20 issues and 10 strata, with raw failures retained and no real-user accuracy claim.",
+      "business": [
+        "AI",
+        "HARNESS"
+      ],
+      "tests": [
+        "internal/agent/rag_test.go#TestPythonRAGBatchBudgetContracts",
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts"
+      ]
+    }
+  ],
+  "feedback": {
+    "evaluations": [
+      {
+        "domain": "rag",
+        "live": true,
+        "minimum_samples": 8000,
+        "minimum_accuracy": 0.95,
+        "max_p95_ms": 30000
+      }
+    ],
+    "device_required": false,
+    "device_exemption": "Engineering RAG and text-only evaluation; no new camera/microphone change. Prior pending physical-device evidence remains pending.",
+    "rag_required": true
+  }
+}

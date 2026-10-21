@@ -29,6 +29,23 @@ actual embedded Python runtime against local fixtures. Python sources under
 `internal/agent/python` participate in source digests and the reviewed AI source
 scope. `-B` prevents test imports from creating bytecode in the source tree.
 
+`TestPythonRAGIndexAndGroundingContracts` runs Python index, lifecycle, exact-score,
+grounding and evaluation-budget regressions. RAG uses a derived SQLite index;
+rebuild with experience/index after upgrading. `scripts/benchmark-rag.py` measures
+frozen synthetic data; `scripts/benchmark-rag-bridge.py` includes audit scans and
+process overhead. Neither establishes production capacity. The explicit paid
+`scripts/evaluate-python-rag.py` reserves budget before dispatch and retains
+exclusive private journals, without retries.
+
+The explicitly authorized large run uses `scripts/generate-rag-evaluation.py`
+to freeze synthetic permutations and `scripts/evaluate-rag-batch.py` for bounded
+concurrency. One durable task ledger includes prior calls, reserves input/output
+list-price cost before permit, and retains uncertain reservations. Its task cap
+is 8,500 cumulative calls / CNY 5; this is not an authorization for other tasks.
+`TestPythonRAGBatchBudgetContracts` covers concurrent caps, unreclaimed unknowns,
+exclusive ownership, replay refusal, code/version eligibility and label isolation.
+Keep semantic-family counts separate from generated request counts.
+
 Full and fast also run `update-regression` (`pwsh -File tests/update-project.ps1`). This uses disposable local Git repositories to verify check-only/fast-forward updates, preservation of configuration/photos, refusal of local changes/divergence/unfinished operations, locking and failed fetches. Docker restart arguments and retry behavior are mocked; this check does not establish real container rebuild or migration compatibility. On Windows, `powershell -NoProfile -ExecutionPolicy Bypass -File tests/update-project.ps1` additionally verifies the one-click launcher's PowerShell 5.1 compatibility.
 
 The named Go tests `TestPythonNutritionImportContracts` and

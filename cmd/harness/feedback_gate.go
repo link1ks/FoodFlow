@@ -197,7 +197,18 @@ func validateFeedback(root, task string, c TaskContract, path, digest string) er
 	computed := current.(map[string]any)
 	delete(computed, "recorded_at")
 	delete(metrics, "recorded_at")
-	if hashJSON(computed) != hashJSON(metrics) {
+	// The fresh value includes typed backlog structs; the saved JSON decodes to
+	// maps. Normalize both to the same representation before comparing content,
+	// because struct declaration order is not JSON object semantics.
+	raw, err := json.Marshal(computed)
+	if err != nil {
+		return err
+	}
+	var normalized map[string]any
+	if err = json.Unmarshal(raw, &normalized); err != nil {
+		return err
+	}
+	if hashJSON(normalized) != hashJSON(metrics) {
 		return fmt.Errorf("metrics must be recomputed from complete current history")
 	}
 	records, err := knowledgeRecords(root)

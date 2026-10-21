@@ -1,0 +1,528 @@
+{
+  "version": 2,
+  "task": "python-rag-metrics-closure",
+  "source_digest": "bc857cf89612080a0af0e7aa7fde3cae6e16097a876ac8a6da583c78c9a474ce",
+  "synthetic_engine": {
+    "manifest": {
+      "seed": 20261021,
+      "documents": 100000,
+      "queries": 10000,
+      "corpus_sha256": "314e9a8ef56ff05a776eed54591ff6a9f8ce1dacbca275a1548d31b4884c5104",
+      "queries_sha256": "5996a45fabf917e10d0fadcf8bb282fa3d5cd22119d17dedabac65799b3a2213",
+      "scope": "synthetic templates with unique identifiers; not independent human relevance labels",
+      "thresholds": {
+        "hit_at_5": 0.99,
+        "no_answer_accuracy": 1,
+        "p95_ms": 2000
+      },
+      "engine_sha256": "cfd8858548f20bf404e6e5bd7678a570a73b3e6a8446161acde1090d9125f927"
+    },
+    "python": "3.13.11",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "cpu_count": 20,
+    "retrieval_version": "python-sqlite-cosine-v2",
+    "build_seconds": 10.844773199999963,
+    "index_bytes": 121954304,
+    "query_seconds": 49.77201859999991,
+    "sequential_queries_per_second": 200.916102687465,
+    "latency": {
+      "count": 10000,
+      "p50_ms": 0.2728500001012435,
+      "p95_ms": 31.409700000040175,
+      "p99_ms": 34.309699999994336,
+      "max_ms": 52.32660000001488
+    },
+    "by_query_kind": {
+      "no-answer": {
+        "count": 500,
+        "p50_ms": 0.06929999995008984,
+        "p95_ms": 0.1403000001118926,
+        "p99_ms": 0.23259999989022617,
+        "max_ms": 0.36399999999048305
+      },
+      "identifier": {
+        "count": 8000,
+        "p50_ms": 0.2650999999787018,
+        "p95_ms": 0.4384999999729189,
+        "p99_ms": 0.592299999880197,
+        "max_ms": 1.628900000014255
+      },
+      "filtered-paraphrase": {
+        "count": 1500,
+        "p50_ms": 30.896600000005492,
+        "p95_ms": 35.649100000000544,
+        "p99_ms": 44.15910000011536,
+        "max_ms": 52.32660000001488
+      }
+    },
+    "broad_unfiltered_latency": {
+      "count": 30,
+      "p50_ms": 1250.4076500000565,
+      "p95_ms": 1525.8803000001535,
+      "p99_ms": 1649.425199999996,
+      "max_ms": 1649.425199999996
+    },
+    "hit_at_5": {
+      "numerator": 9500,
+      "denominator": 9500,
+      "value": 1.0
+    },
+    "mrr_at_5": 1.0,
+    "no_answer": {
+      "numerator": 500,
+      "denominator": 500,
+      "value": 1.0
+    },
+    "scope": "warm read-only Python SQLite engine; excludes Go audit scan/process startup, HTTP, LLM and concurrent users",
+    "passed": true
+  },
+  "live_evaluations": [
+    {
+      "source_digest": "03480cc9f91e54cbe5f6201af424c4eaed37976d29a2c889a5af0cb34fe27a9c",
+      "corpus_digest": "3d2b5f6c62cf1c03e5967f286fc0c36861ce2ece1a148448d3218f499cd33a46",
+      "prompt_digest": "311b207f83bc8e7e44bb2c5cd0cfa546a6c2bd9cfab7cfe2aada173c362228f1",
+      "model": "qwen3-vl-plus",
+      "samples": 40,
+      "dispatched": 40,
+      "correct": 30,
+      "accuracy": 0.75,
+      "p95_ms": 12329,
+      "usage": {
+        "total_tokens": 4916
+      },
+      "by_kind": {
+        "answerable": {
+          "samples": 10,
+          "correct": 10
+        },
+        "conflict": {
+          "samples": 10,
+          "correct": 0
+        },
+        "injection": {
+          "samples": 10,
+          "correct": 10
+        },
+        "no-answer": {
+          "samples": 10,
+          "correct": 10
+        }
+      },
+      "cost_status": "unknown",
+      "estimated_list_price_cny": 0.010271,
+      "complete": true,
+      "service_failures": 0,
+      "evaluation": "python-rag-scale-live-1"
+    },
+    {
+      "source_digest": "fe7d5c7bfb83a015af41bc3e03114197d52f24fbb2cdfb554a0676e860e8abdf",
+      "corpus_digest": "5c0583203fc708c09b659beea79f08a1a7388c2da00c402a819b5d09281127bc",
+      "prompt_digest": "f015e59fa9fa27c626947ab36de9e14eb75af58d9fea6a237a576986eac2288b",
+      "model": "qwen3-vl-plus",
+      "samples": 5,
+      "dispatched": 5,
+      "correct": 3,
+      "accuracy": 0.6,
+      "p95_ms": 12177,
+      "usage": {
+        "total_tokens": 792
+      },
+      "by_kind": {
+        "conflict": {
+          "samples": 5,
+          "correct": 3
+        }
+      },
+      "cost_status": "unknown",
+      "estimated_list_price_cny": 0.001269,
+      "complete": true,
+      "service_failures": 0,
+      "evaluation": "python-rag-scale-conflict-2"
+    },
+    {
+      "source_digest": "ac6d9e30a6890322407dc25ec74771fbc1599046f3cb5883d2736ef492ed6aec",
+      "corpus_digest": "6a3c5325da99ca1f90187cee61dfb9dec65688496796cc999ee7eae9975e1908",
+      "prompt_digest": "cc33f0c4861456ceb7919674089cb3b1102121048063a1455f69ee0565969ff3",
+      "model": "qwen3-vl-plus",
+      "samples": 40,
+      "dispatched": 40,
+      "correct": 40,
+      "accuracy": 1.0,
+      "p95_ms": 7984,
+      "usage": {
+        "total_tokens": 6140
+      },
+      "by_kind": {
+        "answerable": {
+          "samples": 10,
+          "correct": 10
+        },
+        "conflict": {
+          "samples": 10,
+          "correct": 10
+        },
+        "injection": {
+          "samples": 10,
+          "correct": 10
+        },
+        "no-answer": {
+          "samples": 10,
+          "correct": 10
+        }
+      },
+      "cost_status": "unknown",
+      "estimated_list_price_cny": 0.010856,
+      "complete": true,
+      "service_failures": 0,
+      "evaluation": "python-rag-scale-holdout-3"
+    },
+    {
+      "source_digest": "dcab24cec27f3338318b3f029d44ae2763954008908d7b655caec0d4d303c836",
+      "corpus_digest": "37223a808b987817bb4c53978f029f430d51bce0abda1cfd83bfeecdb49a1b1a",
+      "prompt_digest": "b36e752c4e75312f38540dedd08fb5badd61ebb07bdf8368b708f37bd526625b",
+      "model": "qwen3-vl-plus",
+      "samples": 200,
+      "attempted": 200,
+      "correct": 200,
+      "accuracy": 1.0,
+      "p95_ms": 13083,
+      "usage": {
+        "total_tokens": 47635
+      },
+      "by_kind": {
+        "conflict": {
+          "samples": 20,
+          "correct": 20
+        },
+        "evidence-injection": {
+          "samples": 20,
+          "correct": 20
+        },
+        "exact-code": {
+          "samples": 20,
+          "correct": 20
+        },
+        "multiple-sources": {
+          "samples": 20,
+          "correct": 20
+        },
+        "no-answer": {
+          "samples": 20,
+          "correct": 20
+        },
+        "question-injection": {
+          "samples": 20,
+          "correct": 20
+        },
+        "semantic-en": {
+          "samples": 20,
+          "correct": 20
+        },
+        "semantic-zh": {
+          "samples": 20,
+          "correct": 20
+        },
+        "unverified": {
+          "samples": 20,
+          "correct": 20
+        },
+        "version": {
+          "samples": 20,
+          "correct": 20
+        }
+      },
+      "cost_status": "unknown",
+      "complete": true,
+      "service_failures": 0,
+      "evaluation": "python-rag-development-run-1"
+    },
+    {
+      "source_digest": "021bc46f7cc890966a353570a518305fa3364c5825c60b0ff0d3741e6269fc4a",
+      "corpus_digest": "658afb155b530d8001d6824cd1a754966841b6fe58e14283898f20a9b9555b1e",
+      "prompt_digest": "b36e752c4e75312f38540dedd08fb5badd61ebb07bdf8368b708f37bd526625b",
+      "model": "qwen3-vl-plus",
+      "samples": 8000,
+      "attempted": 8000,
+      "correct": 7999,
+      "accuracy": 0.999875,
+      "p95_ms": 9985,
+      "usage": {
+        "total_tokens": 1905862
+      },
+      "by_kind": {
+        "conflict": {
+          "samples": 800,
+          "correct": 800
+        },
+        "evidence-injection": {
+          "samples": 800,
+          "correct": 800
+        },
+        "exact-code": {
+          "samples": 800,
+          "correct": 800
+        },
+        "multiple-sources": {
+          "samples": 800,
+          "correct": 799
+        },
+        "no-answer": {
+          "samples": 800,
+          "correct": 800
+        },
+        "question-injection": {
+          "samples": 800,
+          "correct": 800
+        },
+        "semantic-en": {
+          "samples": 800,
+          "correct": 800
+        },
+        "semantic-zh": {
+          "samples": 800,
+          "correct": 800
+        },
+        "unverified": {
+          "samples": 800,
+          "correct": 800
+        },
+        "version": {
+          "samples": 800,
+          "correct": 800
+        }
+      },
+      "cost_status": "unknown",
+      "complete": true,
+      "service_failures": 0,
+      "passed": true,
+      "evaluation": "python-rag-industrial-holdout-run-1"
+    },
+    {
+      "source_digest": "bc857cf89612080a0af0e7aa7fde3cae6e16097a876ac8a6da583c78c9a474ce",
+      "corpus_digest": "ec75b61d68a789d6f50438c38890b50fde17a864db25d3bc34c133404ed3adcf",
+      "prompt_digest": "b36e752c4e75312f38540dedd08fb5badd61ebb07bdf8368b708f37bd526625b",
+      "model": "qwen3-vl-plus",
+      "samples": 200,
+      "attempted": 200,
+      "correct": 200,
+      "accuracy": 1.0,
+      "p95_ms": 13262,
+      "usage": {
+        "total_tokens": 47577
+      },
+      "by_kind": {
+        "conflict": {
+          "samples": 20,
+          "correct": 20
+        },
+        "evidence-injection": {
+          "samples": 20,
+          "correct": 20
+        },
+        "exact-code": {
+          "samples": 20,
+          "correct": 20
+        },
+        "multiple-sources": {
+          "samples": 20,
+          "correct": 20
+        },
+        "no-answer": {
+          "samples": 20,
+          "correct": 20
+        },
+        "question-injection": {
+          "samples": 20,
+          "correct": 20
+        },
+        "semantic-en": {
+          "samples": 20,
+          "correct": 20
+        },
+        "semantic-zh": {
+          "samples": 20,
+          "correct": 20
+        },
+        "unverified": {
+          "samples": 20,
+          "correct": 20
+        },
+        "version": {
+          "samples": 20,
+          "correct": 20
+        }
+      },
+      "cost_status": "unknown",
+      "complete": true,
+      "service_failures": 0,
+      "passed": true,
+      "evaluation": "python-rag-metrics-closure-run-1"
+    }
+  ],
+  "live_total": {
+    "requests": 8485,
+    "reported_tokens": 2012922,
+    "estimated_list_price_cny": 3.476439,
+    "actual_invoice_cny": null,
+    "free_quota_applied": "unknown",
+    "pending_reservations_cny": 0,
+    "max_requests": 8500,
+    "max_cny": 5
+  },
+  "interpretation": [
+    "All earlier failures remain in the evaluation history; different corpora/runtimes are not an improvement comparison.",
+    "The 8000-call holdout has 20 synthetic semantic families and ten strata; permutations are not independent human annotations.",
+    "The 100000-document/10000-query scale test and supplied-evidence live generation test are separate experiments.",
+    "The correct-answer rate includes one rejected incorrect citation as a failure. Guard containment is verified; model copying behavior is not repaired.",
+    "The 31.410 ms mixed engine P95 excludes Go history scans, process launch, HTTP and model time. Broad unfiltered and full bridge results remain separately visible.",
+    "No real-user scale, production SLA, high availability or productivity improvement is established."
+  ],
+  "delivery_status": "Current source passed full, acceptance, diagnose, RAG lifecycle and 200-call closure evaluation. The unchanged Python runtime retains the separate 8000-call holdout result. User explicitly redelegated delivery. Paired default backup and rollout passed with database identity, configuration, volumes, data and photos preserved. Fresh read-only main-site run 97ef8179c3e7a853203236294e0c3552 passed all five checks with matching served source. Publication and exact-commit cloud results are recorded subsequently in the private version-2 completion bundle; not asserted in this pre-publication snapshot.",
+  "full_bridge": {
+    "documents": 100000,
+    "queries": 20,
+    "latency": {
+      "count": 20,
+      "p50_ms": 8182.848049999961,
+      "p95_ms": 13090.620899999976,
+      "p99_ms": 21433.765900000253,
+      "max_ms": 21433.765900000253
+    },
+    "build_seconds": 20.948911599999974,
+    "scope": "Go executable + complete immutable JSON history scan/hash + Python process + SQLite query + citation checks + query journal; synthetic files only",
+    "environment_note": "Docker Desktop was started during later samples; report includes observed local resource contention. Not an uncontended production latency claim."
+  },
+  "holdout_scope": {
+    "semantic_issue_families": 20,
+    "strata": 10,
+    "calls": 8000,
+    "seed": 2026102197,
+    "labels": "synthetic and self-labelled",
+    "unit": "supplied-evidence eligibility, live model generation and strict citation validation",
+    "retrieval_from_scale_corpus": false,
+    "correct": 7999,
+    "accuracy": 0.999875,
+    "p95_ms": 9985
+  },
+  "retained_model_failure": {
+    "count": 1,
+    "kind": "multiple-sources",
+    "observation": "The model omitted one character from a supplied citation ID.",
+    "classification": "model",
+    "guard_rejected": true,
+    "offline_replay_passed": true,
+    "model_copying_behavior_fixed": false,
+    "correctness_denominator_includes_failure": true,
+    "redaction_reviewed": true
+  },
+  "local_verification": {
+    "full": {
+      "run_id": "675314f8f14270f0304d41e81a717ea1",
+      "checks": 18,
+      "passed_checks": 18,
+      "named_results": 169,
+      "source_digest": "bc857cf89612080a0af0e7aa7fde3cae6e16097a876ac8a6da583c78c9a474ce"
+    },
+    "acceptance": {
+      "run_id": "c5c034a879befd0210fc7d39174c3e88",
+      "checks": 17,
+      "passed_checks": 17,
+      "named_results": 44,
+      "source_digest": "bc857cf89612080a0af0e7aa7fde3cae6e16097a876ac8a6da583c78c9a474ce"
+    },
+    "diagnose": {
+      "run_id": "a2e019ad5e3a836c5022b1bb564b3d23",
+      "checks": 5,
+      "passed_checks": 5,
+      "named_results": 0,
+      "source_digest": "bc857cf89612080a0af0e7aa7fde3cae6e16097a876ac8a6da583c78c9a474ce"
+    },
+    "rag_lifecycle": {
+      "cases": 8,
+      "passed": 8
+    }
+  },
+  "business_load": {
+    "completed_cycles": 3291,
+    "concurrent_clients": 20,
+    "elapsed_ms": 30207,
+    "error_kinds": {},
+    "errors": 0,
+    "households": 10,
+    "invariant_failures": 0,
+    "lock_sampling_ms": 100,
+    "max_request_ms": 114.631,
+    "p50_ms": 10.408,
+    "p95_ms": 23.434,
+    "p95_target_ms": 2000,
+    "p99_ms": 29.853,
+    "peak_sampled_lock_waiters": 7,
+    "request_count": 23037,
+    "requested_duration_seconds": 30,
+    "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls"
+  },
+  "previous_tasks": [
+    "python-rag-scale",
+    "python-rag-industrial-eval"
+  ],
+  "prior_local_verification": {
+    "full": {
+      "run_id": "52c763d8672ced1849548034d9f391ec",
+      "checks": 18,
+      "passed_checks": 18,
+      "named_results": 168,
+      "source_digest": "021bc46f7cc890966a353570a518305fa3364c5825c60b0ff0d3741e6269fc4a"
+    },
+    "acceptance": {
+      "run_id": "17b01f29c0af84eb7700f6b4620e9262",
+      "checks": 17,
+      "passed_checks": 17,
+      "named_results": 44,
+      "source_digest": "021bc46f7cc890966a353570a518305fa3364c5825c60b0ff0d3741e6269fc4a"
+    },
+    "diagnose": {
+      "run_id": "5e677256dec3178b29f2d911f469cf64",
+      "checks": 5,
+      "passed_checks": 5,
+      "named_results": 0,
+      "source_digest": "021bc46f7cc890966a353570a518305fa3364c5825c60b0ff0d3741e6269fc4a"
+    },
+    "rag_lifecycle": {
+      "cases": 8,
+      "passed": 8
+    }
+  },
+  "prior_business_load": {
+    "completed_cycles": 3459,
+    "concurrent_clients": 20,
+    "elapsed_ms": 30163,
+    "error_kinds": {},
+    "errors": 0,
+    "households": 10,
+    "invariant_failures": 0,
+    "lock_sampling_ms": 100,
+    "max_request_ms": 128.235,
+    "p50_ms": 9.137,
+    "p95_ms": 21.583,
+    "p95_target_ms": 2000,
+    "p99_ms": 29.427,
+    "peak_sampled_lock_waiters": 3,
+    "request_count": 24213,
+    "requested_duration_seconds": 30,
+    "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls"
+  },
+  "component_provenance": {
+    "unchanged_python_runtime_sha256": "b36e752c4e75312f38540dedd08fb5badd61ebb07bdf8368b708f37bd526625b",
+    "large_holdout_source_digest": "021bc46f7cc890966a353570a518305fa3364c5825c60b0ff0d3741e6269fc4a",
+    "current_source_digest": "bc857cf89612080a0af0e7aa7fde3cae6e16097a876ac8a6da583c78c9a474ce",
+    "closure_change": "Metrics JSON canonicalization and task association only; 200-call closure check reported separately from the 8000-call holdout."
+  },
+  "retained_completion_failure": {
+    "error": "False stale-metrics rejection with an unrelated open backlog item",
+    "classification": "code",
+    "root_cause": "Struct field order vs decoded map order in JSON hashing",
+    "fixed": true,
+    "regression": "TestFeedbackMetricsCanonicalizationKeepsUnrelatedOpenFailures",
+    "older_open_model_issue_preserved": true
+  }
+}

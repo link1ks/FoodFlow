@@ -209,6 +209,40 @@ func TestFeedbackGateRequiresRecordedQueryAndResolvedFailures(t *testing.T) {
 	}
 }
 
+func TestFeedbackMetricsCanonicalizationKeepsUnrelatedOpenFailures(t *testing.T) {
+	root := t.TempDir()
+	now := time.Now().UTC()
+	c := TaskContract{BoundAt: now.Add(-time.Minute), Feedback: &FeedbackScope{DeviceExemption: "no hardware", RAGExemption: "metrics only", EvaluationExemption: "metrics only"}}
+	f := FeedbackReport{Version: 1, Task: "fixture", SourceDigest: "source", StartedAt: now, RecordedAt: now, Metrics: ".cache/harness/metrics.json"}
+	old := failureFixture(t, root)
+	old.Task, old.Status, old.Verified = "other-task", "open", false
+	if err := ingestFailure(root, old); err != nil {
+		t.Fatal(err)
+	}
+	_ = saveJSON(filepath.Join(root, ".cache/harness/experience/queries/q.json"), QueryRecord{Task: "fixture", Stage: "start", RecordedAt: now.Add(-2 * time.Minute), Disposition: "unrelated open issue retained"})
+	metrics, err := learningMetrics(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_ = saveJSON(filepath.Join(root, f.Metrics), metrics)
+	path := ".cache/harness/feedback.json"
+	_ = saveJSON(filepath.Join(root, path), f)
+	if err := validateFeedback(root, "fixture", c, path, "source"); err != nil {
+		t.Fatalf("identical metrics with retained unrelated failure rejected: %v", err)
+	}
+	// Semantic normalization must still reject a missing backlog or changed count.
+	for _, key := range []string{"improvement_backlog", "runs", "rag"} {
+		changed := metrics.(map[string]any)
+		previous := changed[key]
+		delete(changed, key)
+		_ = saveJSON(filepath.Join(root, f.Metrics), changed)
+		if validateFeedback(root, "fixture", c, path, "source") == nil {
+			t.Fatalf("incomplete %s accepted", key)
+		}
+		changed[key] = previous
+	}
+}
+
 func TestRAGFrozenAcceptance(t *testing.T) {
 	root, err := filepath.Abs("../..")
 	if err != nil {

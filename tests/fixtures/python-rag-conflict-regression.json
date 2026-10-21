@@ -1,0 +1,107 @@
+[
+  {
+    "id": "conflict-0",
+    "kind": "conflict",
+    "context": {
+      "question": "duplicate stock",
+      "evidence": [
+        {
+          "id": "fact-0",
+          "fix": "Check transaction idempotency key.",
+          "verified": true,
+          "conflicts": [
+            "other"
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "citation": "",
+      "answer": ""
+    }
+  },
+  {
+    "id": "conflict-1",
+    "kind": "conflict",
+    "context": {
+      "question": "stale worker",
+      "evidence": [
+        {
+          "id": "fact-1",
+          "fix": "Compare the current lease token.",
+          "verified": true,
+          "conflicts": [
+            "other"
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "citation": "",
+      "answer": ""
+    }
+  },
+  {
+    "id": "conflict-2",
+    "kind": "conflict",
+    "context": {
+      "question": "unauthorized household",
+      "evidence": [
+        {
+          "id": "fact-2",
+          "fix": "Verify current household membership.",
+          "verified": true,
+          "conflicts": [
+            "other"
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "citation": "",
+      "answer": ""
+    }
+  },
+  {
+    "id": "conflict-3",
+    "kind": "conflict",
+    "context": {
+      "question": "decimal drift",
+      "evidence": [
+        {
+          "id": "fact-3",
+          "fix": "Use exact scaled integers.",
+          "verified": true,
+          "conflicts": [
+            "other"
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "citation": "",
+      "answer": ""
+    }
+  },
+  {
+    "id": "conflict-4",
+    "kind": "conflict",
+    "context": {
+      "question": "stale cache",
+      "evidence": [
+        {
+          "id": "fact-4",
+          "fix": "Invalidate the public cache key.",
+          "verified": true,
+          "conflicts": [
+            "other"
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "citation": "",
+      "answer": ""
+    }
+  }
+]

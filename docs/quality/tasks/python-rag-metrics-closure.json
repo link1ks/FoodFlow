@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "task": "python-rag-metrics-closure",
+  "criteria": [
+    {
+      "id": "python-agent-rag",
+      "description": "Python owns model execution and RAG indexing/ranking/grounding; Go retains business transactions and evidence gates.",
+      "business": [
+        "AI",
+        "HARNESS"
+      ],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentContracts",
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts",
+        "cmd/harness/learning_test.go#TestExperienceLifecycleAndSemanticRetrieval",
+        "cmd/harness/learning_test.go#TestExperienceRejectsStaleIndexSecretsAndUnverifiedRepairs",
+        "cmd/harness/learning_test.go#TestRAGFrozenAcceptance"
+      ]
+    },
+    {
+      "id": "measured-scale-and-cost",
+      "description": "Retain frozen 100000-document/10000-query synthetic scale, broad/bridge latency and 40 live cases. Named regressions protect measurement/budget semantics; large reports supplement them.",
+      "business": [
+        "AI",
+        "HARNESS",
+        "STOCK"
+      ],
+      "tests": [
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts",
+        "cmd/harness/learning_test.go#TestLearningMetricsRetainsFailuresAndUnknownHistory",
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox"
+      ]
+    },
+    {
+      "id": "preserve-business-boundaries",
+      "description": "Preserve authorization, cancellation, uncertain debit, explicit atomic confirmation and desktop/mobile behavior.",
+      "business": [
+        "AI",
+        "INTAKE",
+        "STOCK"
+      ],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentCancellationPreservesUncertainDebit",
+        "internal/agent/python_bridge_test.go#TestPythonAgentGuardMatchesExactUTF8RequestAndRejectsUnsafeRecipe",
+        "internal/agent/python_bridge_test.go#TestPythonAgentEnvironmentDoesNotInheritApplicationSecrets",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    },
+    {
+      "id": "bounded-industrial-live-evaluation",
+      "description": "Preserve the completed 8000-call frozen experiment and its failed citation; run 200 new synthetic post-fix samples within the SAME cumulative 8500-request/CNY-5 ledger. This smaller check covers a harness-only closure, does not replace or relabel the original large evaluation, and the Python runtime hash must remain identical.",
+      "business": [
+        "AI",
+        "HARNESS"
+      ],
+      "tests": [
+        "internal/agent/rag_test.go#TestPythonRAGBatchBudgetContracts",
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts"
+      ]
+    },
+    {
+      "id": "canonical-metrics",
+      "description": "Compare complete retained metrics by JSON content; keep unrelated open failures and reject missing backlog, run counts or RAG history.",
+      "business": [
+        "HARNESS"
+      ],
+      "tests": [
+        "cmd/harness/learning_test.go#TestFeedbackMetricsCanonicalizationKeepsUnrelatedOpenFailures",
+        "cmd/harness/learning_test.go#TestFeedbackGateRequiresRecordedQueryAndResolvedFailures"
+      ]
+    }
+  ],
+  "feedback": {
+    "evaluations": [
+      {
+        "domain": "rag",
+        "live": true,
+        "minimum_samples": 200,
+        "minimum_accuracy": 0.95,
+        "max_p95_ms": 30000
+      }
+    ],
+    "device_required": false,
+    "device_exemption": "Engineering RAG and text-only evaluation; no new camera/microphone change. Prior pending physical-device evidence remains pending.",
+    "rag_required": true
+  }
+}

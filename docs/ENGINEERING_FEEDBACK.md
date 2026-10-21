@@ -18,6 +18,8 @@
 
 ## 失败知识与 RAG
 
+RAG 核心现在由嵌入的 Python 执行，使用 SQLite 倒排索引预计算归一权重；仍为 0.55 关键词 + 0.45 领域概念，阈值 0.15，最多五条，先过滤后精确排序。派生文件为 `index.sqlite`，升级需重新 index，历史 JSON 不迁移或删除。Python 同时拥有生成提示和严格引用/原文修复验证。Go 验证完整历史摘要和证据文件；纯索引延迟不能代替完整调用路径。规模/真实调用口径见 [执行计划](exec-plans/python-rag-scale.md)。
+
 `go run ./cmd/harness -mode experience -action record -evidence .cache/harness/failure-input.json` 追加不可覆盖的修订。结构见 `cmd/harness/learning.go` 的 Failure：唯一 ID、任务、分类、需求/测试、数据条件、复现、代码/模型版本、环境、影响、负责人、证据和脱敏复核。resolved 还需确认的根因、修复、回归及页面证据。
 
 `.cache/harness/experience/records` 是本地权威历史，禁止整体发布。公开内容只能另行审查后放入 docs/evidence。凭据模式检测不能替代人工脱敏；权限继承操作系统工作区账户，不提供多人共享服务或公开接口。
@@ -36,7 +38,11 @@ query 输入包含 task、stage（start/failure/repair）、query、code_version
 
 ## 指标与每周复盘
 
+批量真实 RAG 评测仅在明确授权后执行。`evaluate-rag-batch.py` 以同一私有账本串行预扣并发请求的费用上界，以供应商实际 token 用量按标价结算；不确定结果不释放占额，累计调用次数不退款，也不自动重试。实际账单与免费额度仍未知。评测带错误码/适用版本时，Python 在发送前及输出校验时使用相同资格规则。生成的数千种排列必须同时披露基础语义题目数量，不得称为数千条独立人工标注。
+
 `-action metrics -out .cache/harness/metrics.json` 保留全部运行。旧报告无 task 时计入未知，禁止猜测归属。
+
+完成门禁按规范化后的 JSON 内容比较指标，忽略对象键的序列化顺序；未关闭的其他任务问题仍保留在待办列表中，不能为了通过门禁而删除。缺失待办、RAG 历史或运行计数仍会被拒绝。批量脚本可用 `--task` 关联后续修复任务，但始终复用同一累计预算账本，不重置费用或请求数。
 
 - 首次通过：同时观察到 full、acceptance 的任务为分母，两者首次均通过为分子。
 - 返工代理：同任务额外 full/acceptance 次数，不声称等于人工修改次数。

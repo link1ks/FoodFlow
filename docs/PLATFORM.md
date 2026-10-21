@@ -25,6 +25,12 @@ missing/uncertain results retain the debit. There are no provider retries or
 redirects. `FOODFLOW_PYTHON` can select a native interpreter; Docker and CI pin
 Python 3.13. The source is embedded in Go so deployed agent code matches the binary.
 
+Engineering RAG executes embedded Python: exact lexical/concept cosine, SQLite
+inverted postings, lifecycle filtering and grounded citation validation. Go
+retains immutable evidence storage and completion gates. Derived indexes bind
+history digest/version; rebuild them after upgrading. Full queries include an
+audit scan. [Engine and bridge measurement scope](exec-plans/python-rag-scale.md).
+
 Kitchen API also owns recovery-code hashes tied to credential epochs and durable AI policy allowances. Worker commits a unique job debit under the service-wide PostgreSQL lock before each outbound paid request. Model adapters receive a guard callback, never a database client. Unknown outcomes retain debit/concurrency until explicit operator review; this ledger is an application policy, not provider invoicing. [Account and allowance guide](ACCOUNT_RECOVERY_AI.md) records the learning boundary.
 
 Kitchen API owns [voice ingredient intake](VOICE_INTAKE.md): consented recordings use the shared private object store and a single-attempt Worker job. The independently configured Qwen ASR adapter transcribes under the same durable paid-call guard; pure `internal/engine/intake.Interpret` enforces a bounded addition grammar, resolves explicit correction/retraction targets, and prepares catalogue drafts without I/O. Out-of-scope results cannot be confirmed. Recognition changes no stock. Explicit confirmation commits all batches, immutable ledger facts and outbox events in one kitchen transaction. Image intake also requires a photo observation with exactly one visible ingredient and a unique current catalogue match, rechecked during confirmation. [Scope evaluation](INTAKE_SCOPE.md) records false accepts, conservative rejection and model-call latency. Representative recognition quality and interrupted-job audio cleanup remain documented limits.
