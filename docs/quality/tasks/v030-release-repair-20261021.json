@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "task": "v030-release-repair-20261021",
+  "criteria": [
+    {
+      "id": "evaluation-integrity",
+      "description": "Strict RAG scoring, retained failure diagnostics and nonzero failure outcomes; original holdout remains historical evidence",
+      "business": ["HARNESS", "AI"],
+      "tests": [
+        "cmd/quality-eval/main_test.go#TestRAGEvaluationRejectsMalformedAndUnsupportedAnswers",
+        "cmd/quality-eval/main_test.go#TestEvaluationFailureAndIncompleteCoverageReturnError",
+        "cmd/quality-eval/main_test.go#TestQualityCorpusPreflightRejectsMissingMediaBeforeDispatch",
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts",
+        "cmd/harness/learning_test.go#TestRAGFrozenAcceptance"
+      ]
+    },
+    {
+      "id": "project-regression",
+      "description": "Preserve transactional stock, idempotency, authorization and desktop/mobile intake and menu flows",
+      "business": ["STOCK", "INTAKE", "MENU", "UI"],
+      "tests": [
+        "internal/app/v11_integration_test.go#TestMealCompletionFEFOIdempotenceAndReplenishment",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation",
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal"
+      ]
+    },
+    {
+      "id": "honest-release-gates",
+      "description": "Stable publication requires actual device acceptance, fresh complete reports and exact published commit CI; pending evidence blocks release",
+      "business": ["HARNESS"],
+      "tests": [
+        "cmd/harness/learning_test.go#TestFeedbackGateRejectsPendingDevicesAndMissingMetrics",
+        "cmd/harness/business_test.go#TestUnifiedCompletionAcceptsOnlyAllGatesAfterBinding",
+        "cmd/harness/learning_test.go#TestFeedbackGateRequiresRecordedQueryAndResolvedFailures"
+      ]
+    }
+  ],
+  "feedback": {
+    "evaluations": [
+      {"domain": "vision", "live": true, "minimum_samples": 3, "minimum_accuracy": 1, "max_p95_ms": 15000},
+      {"domain": "speech", "live": true, "minimum_samples": 2, "minimum_accuracy": 1, "max_p95_ms": 65000},
+      {"domain": "menu", "live": true, "minimum_samples": 2, "minimum_accuracy": 1, "max_p95_ms": 30000},
+      {"domain": "rag", "live": true, "minimum_samples": 6, "minimum_accuracy": 1, "max_p95_ms": 30000}
+    ],
+    "device_required": true,
+    "rag_required": true
+  }
+}

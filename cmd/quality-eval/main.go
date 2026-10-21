@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"net/url"
 	"os"
 	"os/exec"
@@ -38,9 +39,51 @@ type Row struct {
 	InputDigest   string         `json:"input_digest"`
 	Usage         map[string]any `json:"usage"`
 	ReportedModel string         `json:"reported_model"`
+	OutputDigest  string         `json:"output_digest,omitempty"`
+	RAGResponse   *ragResponse   `json:"rag_response,omitempty"`
+}
+
+type ragResponse struct {
+	Citation string `json:"citation"`
+	Answer   string `json:"answer"`
 }
 
 func digest(b []byte) string { h := sha256.Sum256(b); return hex.EncodeToString(h[:]) }
+
+func scoreRAG(content string, s Sample) bool {
+	a, err := parseRAG(content)
+	return err == nil && a.Citation == s.Expected && a.Answer == fmt.Sprint(s.Context["expected_answer"])
+}
+
+// Decoder.DisallowUnknownFields alone does not reject duplicate JSON keys.
+func parseRAG(content string) (*ragResponse, error) {
+	d := json.NewDecoder(strings.NewReader(content))
+	if t, err := d.Token(); err != nil || t != json.Delim('{') {
+		return nil, fmt.Errorf("RAG answer must be an object")
+	}
+	values := map[string]string{}
+	for d.More() {
+		t, err := d.Token()
+		key, ok := t.(string)
+		_, duplicate := values[key]
+		if err != nil || !ok || duplicate || key != "citation" && key != "answer" {
+			return nil, fmt.Errorf("invalid RAG answer fields")
+		}
+		value, err := d.Token()
+		text, ok := value.(string)
+		if err != nil || !ok || len(text) > 4096 {
+			return nil, fmt.Errorf("invalid RAG answer text")
+		}
+		values[key] = text
+	}
+	if t, err := d.Token(); err != nil || t != json.Delim('}') || len(values) != 2 {
+		return nil, fmt.Errorf("incomplete RAG answer")
+	}
+	if _, err := d.Token(); err != io.EOF {
+		return nil, fmt.Errorf("trailing RAG answer")
+	}
+	return &ragResponse{Citation: values["citation"], Answer: values["answer"]}, nil
+}
 func main() {
 	if err := run(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -54,7 +97,12 @@ func run() error {
 	corpus := flag.String("corpus", "tests/fixtures/quality-eval.json", "frozen public/synthetic corpus")
 	maxCalls := flag.Int("max-calls", 4, "bounded number of calls; no automatic retries")
 	provider := flag.String("provider", "", "optional existing vision credential pair for menu/rag evaluation only")
+	ragPrompt := flag.String("rag-prompt", "strict", "strict or baseline; baseline preserves the original v0.3 raw-model prompt")
+	retainRAG := flag.Bool("retain-rag-response", false, "retain bounded structured RAG answers in the private journal for reviewed diagnostics")
 	flag.Parse()
+	if !strings.Contains("|vision|speech|menu|rag|", "|"+*domain+"|") || *ragPrompt != "strict" && *ragPrompt != "baseline" {
+		return fmt.Errorf("unsupported domain or RAG prompt version")
+	}
 	raw, err := os.ReadFile(*corpus)
 	if err != nil {
 		return fmt.Errorf("corpus unavailable")
@@ -131,6 +179,10 @@ func run() error {
 		"corpus_digest": digest(raw), "model": name, "model_version": "unknown unless reported per row", "prompt_digest": agent.RuntimeDigest(),
 		"config_digest": configHash, "cost_status": "unknown", "cost": nil, "cost_basis": "provider invoice not available; tokens are not currency",
 		"live": true, "max_calls": *maxCalls, "scope": "public/synthetic adapter cases; no physical-device or stock-write claim"}
+	if *domain == "rag" {
+		report["rag_prompt"] = *ragPrompt
+		report["retained_rag_response"] = *retainRAG
+	}
 	save := func() error {
 		report["rows"] = rows
 		b, _ := json.MarshalIndent(report, "", "  ")
@@ -182,6 +234,15 @@ func run() error {
 				}
 				r.ReportedModel = envelope.Model
 				if len(envelope.Choices) == 1 {
+					content := envelope.Choices[0].Message.Content
+					r.OutputDigest = digest([]byte(content))
+					if *domain == "rag" && *retainRAG {
+						// Save only bounded structured fields, never the authenticated envelope.
+						redacted := strings.ReplaceAll(content, key, "[redacted]")
+						if !containsCredentialMarker(redacted) {
+							r.RAGResponse, _ = parseRAG(redacted)
+						}
+					}
 					var observation struct {
 						Scene string   `json:"scene"`
 						Foods []string `json:"foods"`
@@ -223,17 +284,15 @@ func run() error {
 					contextOnly[key] = value
 				}
 			}
-			m := agent.OpenAIModel{Endpoint: endpoint, Name: name, Key: key, Guard: guard, Observe: observe, MaxTokens: 500, Task: "rag_eval", Context: contextOnly}
+			task := "rag_eval_strict"
+			if *ragPrompt == "baseline" {
+				task = "rag_eval"
+			}
+			m := agent.OpenAIModel{Endpoint: endpoint, Name: name, Key: key, Guard: guard, Observe: observe, MaxTokens: 500, Task: task, Context: contextOnly}
 			got, e := m.Generate(ctx, nil)
 			err = e
 			if e == nil {
-				var a struct {
-					Citation string `json:"citation"`
-					Answer   string `json:"answer"`
-				}
-				if json.Unmarshal([]byte(got.Content), &a) == nil {
-					r.Correct = a.Citation == s.Expected && a.Answer == fmt.Sprint(s.Context["expected_answer"])
-				}
+				r.Correct = scoreRAG(got.Content, s)
 			}
 		default:
 			return fmt.Errorf("unsupported domain")
@@ -277,7 +336,27 @@ func run() error {
 	report["usage"] = usage
 	report["recorded_at"] = time.Now().UTC()
 	report["journal"] = filepath.ToSlash(*out)
-	return save()
+	if err := save(); err != nil {
+		return err
+	}
+	return evaluationOutcome(correct, len(rows), len(samples))
+}
+
+func evaluationOutcome(correct, attempted, samples int) error {
+	if samples <= 0 || correct != samples || attempted != samples {
+		return fmt.Errorf("evaluation failed: %d/%d correct, %d attempted; original journal retained", correct, samples, attempted)
+	}
+	return nil
+}
+
+func containsCredentialMarker(value string) bool {
+	value = strings.ToLower(value)
+	for _, marker := range []string{"bearer ", "api_key", "password=", "authorization:", "-----begin", "sk-"} {
+		if strings.Contains(value, marker) {
+			return true
+		}
+	}
+	return false
 }
 
 func validateInputs(samples []Sample, live bool) error {

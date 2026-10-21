@@ -25,6 +25,23 @@ def fixture(name="stock"):
 
 
 class RAGTests(unittest.TestCase):
+    def test_raw_evaluation_versions_preserve_conflicting_input(self):
+        # Raw model evaluation must measure abstention rather than prefilter the
+        # failing record or leak the evaluator's gold answer into the request.
+        context = {"records": [dict(id="conflict", verified=True,
+                                    conflicts=["missing"], fix="Restart.")]}
+        request = dict(endpoint="https://example.com/v1", model="fixture", key="fixture", context=context)
+        messages = []
+        for task in ("rag_eval", "rag_eval_strict"):
+            body, _ = runtime.prepare(dict(request, task=task))
+            value = json.loads(body)["messages"]
+            self.assertEqual(json.loads(value[1]["content"]), context)
+            messages.append(value[0]["content"])
+        self.assertNotEqual(*messages)
+        # Diagnostic raw output is intentionally not repaired by the runtime.
+        unsupported = '{"citation":"conflict","answer":"Restart."}'
+        self.assertEqual(runtime.validate(unsupported, "rag_eval_strict", context), unsupported)
+
     def test_live_budget_and_failure_denominators(self):
         path = Path(__file__).resolve().parents[3]/"scripts/evaluate-python-rag.py"
         spec = importlib.util.spec_from_file_location("live_evaluation", path)

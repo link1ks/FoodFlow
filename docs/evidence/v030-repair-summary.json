@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "task": "v030-release-repair-20261021",
+  "candidate": "v0.3.0",
+  "source_digest": "6532d353402b6cd56fe123d9174cc5990ff6f92382764b28ea36a3d3c78c30a9",
+  "full": {
+    "named_tests": 171,
+    "passed": true,
+    "run_id": "73060d6a0a8568d855c9842923dbafe1",
+    "checks": 18
+  },
+  "acceptance": {
+    "browser_results": 44,
+    "browser": "installed Edge; isolated desktop and mobile; deterministic providers",
+    "passed": true,
+    "run_id": "2d06e94e4e92953aae6bb12d23c54445",
+    "checks": 17
+  },
+  "diagnose": {
+    "passed": true,
+    "run_id": "2a30f6191aaf6dbdf03b2d1961e40304",
+    "checks": 5
+  },
+  "workload": {
+    "completed_cycles": 2934,
+    "concurrent_clients": 20,
+    "elapsed_ms": 30243,
+    "error_kinds": {},
+    "errors": 0,
+    "households": 10,
+    "invariant_failures": 0,
+    "lock_sampling_ms": 100,
+    "max_request_ms": 155.694,
+    "p50_ms": 12.868,
+    "p95_ms": 29.364,
+    "p95_target_ms": 2000,
+    "p99_ms": 40.01,
+    "peak_sampled_lock_waiters": 3,
+    "request_count": 20538,
+    "requested_duration_seconds": 30,
+    "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls"
+  },
+  "scoring_failure": "Reproduced extra-field false positive; strict shape regression and full/browser verification passed",
+  "model_conflict_failure": "Original RAG holdout 2/3 retained; strict prompt is not yet live-verified",
+  "new_corpus_sha256": "1accd80ff0d13fbf8ac94b2c9a1f5d3438a5b9baa6b34e89788345011244e90e",
+  "new_corpus_scope": "1 development regression and 5 frozen synthetic holdout cases; not independently labelled",
+  "paid_calls_this_task": 0,
+  "physical_device_acceptance": "pending; user explicitly unable to perform now",
+  "stable_release_published": false,
+  "main_site": {
+    "checks": 5,
+    "passed": true,
+    "run_id": "06e145278012b6b575cfb8f22ffda807"
+  },
+  "deployment": {
+    "volumes_preserved": true,
+    "passed": true,
+    "database_identity_preserved": true,
+    "ready": true,
+    "configuration_preserved": true,
+    "paid_probe": false,
+    "data_and_photos_preserved": true
+  }
+}

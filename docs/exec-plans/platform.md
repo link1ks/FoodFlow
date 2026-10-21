@@ -515,3 +515,76 @@ Across retained task journals: 53 actual model dispatches, 15,213 reported token
 The gate actually rejected the final holdout report (`evaluation rag failed thresholds/provenance/cost`, accuracy 2/3 below required 1.0). Physical camera/microphone acceptance also remains pending at the user's request. This is a prerelease, not an all-passed delivery. Cloud status at source publication remains pending; the release must link successful CI for the exact final commit.
 
 Open improvement task: owner **harness**, priority **model conflict handling**. Preserve this failed holdout as regression evidence, diagnose with explicitly retained redacted model responses in a subsequent development evaluation, and verify conflict/no-answer/injection behavior on a newly frozen set without weakening the existing score threshold. Recheck actual RAG workflow, full regressions and related page behavior after any implementation change. Physical acceptance requires real ingredients, camera and spoken microphone input; synthetic audio cannot close it.
+
+## Storage housekeeping — 2026-10-21
+
+Task `storage-cleanup-20261021` records local storage maintenance. After the deletion dry run, automatic approval review rejected the original combined scope; the user explicitly approved only temporary tools and C-drive caches and required every benchmark index to remain. The executed allowlist therefore excluded all benchmark indexes and frontend build/dependency caches. It removed 3,542,172,380 bytes of temporary Office tools/profiles and 1,870,943,361 bytes of aged user temporary files, shader caches and pip downloads, across 38,320 files. Seven-day temporary-file and one-day regenerable-cache thresholds were applied; ten undeleted candidates and inaccessible Windows Temp were retained. Source, document outputs, credentials, photos, backups, authoritative engineering history and all benchmark indexes remain. No live model probes or business writes were performed.
+
+The user separately authorized starting Docker. Official `docker builder prune --all --force --filter until=24h` reported 12.7 GB reclaimed from unused build-cache records. Docker's data disk is on E, and this logical accounting is not a C-drive or Windows physical-space claim. Before/after manifests confirm the same 31 container IDs and 31 volume names. No images, containers or volumes were deleted. A final disk sample showed C free space increasing from 12,370,882,560 to 14,126,243,840 bytes and E from 13,084,983,296 to 19,691,696,128 bytes; concurrent application activity can change these measurements.
+
+Offline engineering-history retrieval preceded immutable task binding; its unrelated historical benchmark-path repair was excluded. Model evaluation, physical-device acceptance and RAG evaluation are explicitly inapplicable to this housekeeping scope. Task-associated architecture, repository hygiene, knowledge freshness and source stability passed. Named regressions `TestRepositoryHygieneCatchesForcedIgnoredFileWithoutReadingSecrets` and `TestLearningMetricsRetainsFailuresAndUnknownHistory` passed. Private manifests and reviewed summary remain in `.cache/storage-cleanup-20261021/` and `.cache/harness/storage-cleanup-20261021-maintenance.json`. Full/acceptance/diagnose/main-site/current-cloud reports were not produced, so this is not an all-passed application delivery or version-2 completion bundle; the formal harness task is recorded blocked/unknown. No application update, backup, deployment or publication is claimed. The learning-collaboration boundary leaves remote publication to the user.
+
+## v0.3.0 stable-release repair — 2026-10-21
+
+Task `v030-release-repair-20261021` follows the request to repair the preview and
+prepare stable publication. The actual existing release is **v0.3.0**, still a
+prerelease at commit `f13fd5e`; current main also includes the subsequent Python
+RAG work. The user explicitly cannot perform physical camera/microphone acceptance
+now and requires that release blocker to remain. No new paid model authorization
+has been received. The original model-conflict failure remains unresolved; a new
+prompt alone is not evidence that the model passes.
+
+Review reproduced an additional evaluation-integrity bug: struct-based Go JSON
+decoding scored an answer with an extra field as correct. Duplicate keys could
+also overwrite prior values. The retained failing regression is
+`.cache/harness/v030-rag-scoring-before.txt`. Exact two-string-field token parsing
+now rejects unknown/duplicate/missing fields, nulls and trailing values. Incorrect
+or incomplete live evaluations retain their journals and exit nonzero. Optional
+private structured-response diagnostics redact the configured key and reject
+common credential markers; no authenticated response envelope is retained.
+
+Raw evaluation now offers a separately identified strict prompt explaining
+nonempty conflict lists, including missing referenced records; the original
+prompt remains available as `-rag-prompt baseline`. Both retain conflicting
+input, so deterministic prefiltering cannot manufacture model success. Production
+RAG filtering/citation enforcement stays independently covered. The new frozen
+[six-case corpus](../evidence/v030-rag-repair-corpus.json) contains one development
+regression and five synthetic holdout cases; it is not independent human-labelled
+evidence. Its SHA256 is
+`1accd80ff0d13fbf8ac94b2c9a1f5d3438a5b9baa6b34e89788345011244e90e`.
+
+The new immutable contract preserves live vision/speech/menu thresholds, requires
+six exact RAG cases at 100% and retains mandatory physical acceptance. Offline
+quality-eval and Python agent suites passed before final verification; business
+semantics and named-test bindings were reviewed before digest refresh. The full
+and isolated acceptance suites run sequentially. Final observed results and
+remaining delivery blockers are recorded below; no stable release is authorized
+by missing evidence or by the version number alone.
+
+Final local source `6532d353402b6cd56fe123d9174cc5990ff6f92382764b28ea36a3d3c78c30a9`
+passed full run `73060d6a0a8568d855c9842923dbafe1`: 18/18 checks and 171/171
+named tests. Acceptance run `2d06e94e4e92953aae6bb12d23c54445` passed 17/17
+checks and 44/44 desktop/mobile Edge scenarios, with no skips or retries.
+The 10-household/20-client/30-second workload completed 2,934 cycles / 20,538
+requests, zero errors/invariant failures, P95 29.364 ms. Independent diagnose
+passed 5/5 and offline RAG retrieval/lifecycle passed 8/8. Menu and voice-draft
+screenshots were inspected in both viewports. The scoring failure now has a
+resolved revision linked to the final full and acceptance evidence; the separate
+model abstention failure remains open.
+
+Automatic approval initially rejected default deployment under the learning
+collaboration rule; the user then explicitly authorized the concrete paired
+backup and default deployment update. The reviewed helper validated database and
+photo archives before recreating API/Worker/Web. Database identity, original
+configuration, mounts and complete data/photo fingerprints were preserved.
+Fresh unauthenticated main-site verification passed all five checks, including
+HTML/JS/CSS identity. Private reports are `v030-repair-deployment.json` and
+`v030-repair-main.json` under `.cache/harness`; backups and preserved environment
+overlays remain private. No paid probe or synthetic default-database write ran.
+
+[Redacted local results](../evidence/v030-repair-summary.json) preserve the
+boundaries: no live model calls in this task, the new prompt unproven against a
+provider, and physical device acceptance explicitly deferred. Source sync and
+exact-commit cloud checks follow these local results. The published v0.3.0 tag
+and prerelease must remain unchanged while those release blockers exist; no
+overall passed task or stable publication is claimed.
