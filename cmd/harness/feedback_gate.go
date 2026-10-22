@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -235,21 +236,11 @@ func validateFeedback(root, task string, c TaskContract, path, digest string) er
 				if e := readLocalJSON(root, p, &r); e != nil {
 					continue
 				}
-				if e := requiredReport(r, group.mode, digest, c.BoundAt, []string{"named-tests"}); e != nil {
+				if e := requiredReport(r, group.mode, digest, c.BoundAt, []string{"named-tests"}); e != nil || r.Task != task {
 					continue
 				}
-				if group.mode == "full" {
-					executed := map[string]bool{}
-					for _, test := range r.Tests {
-						executed[test.ID] = test.Status == "pass"
-					}
-					matched := true
-					for _, id := range record.Tests {
-						matched = matched && executed[id]
-					}
-					if !matched {
-						continue
-					}
+				if !failureTestsPassed(record.Tests, group.mode, r.Tests) {
+					continue
 				}
 				verified = true
 			}
@@ -277,4 +268,32 @@ func validateFeedback(root, task string, c TaskContract, path, digest string) er
 		return fmt.Errorf("pre-binding historical experience query required")
 	}
 	return nil
+}
+
+// Full reports record Go/Vitest cases; acceptance reports record both browser
+// projects. Require each regression in its executing mode, without letting a
+// later passing row erase a failure or a duplicate within the same report.
+func failureTestsPassed(required []string, mode string, results []TestOutcome) bool {
+	if len(results) == 0 {
+		return false
+	}
+	actual := map[string]bool{}
+	for _, result := range results {
+		key := result.ID + "#" + result.Project
+		if actual[key] || result.Status != "pass" {
+			return false
+		}
+		actual[key] = true
+	}
+	for _, id := range required {
+		browser := strings.HasPrefix(id, "web/e2e/")
+		if browser && mode == "acceptance" {
+			if !actual[id+"#desktop"] || !actual[id+"#mobile"] {
+				return false
+			}
+		} else if !browser && mode == "full" && !actual[id+"#"] {
+			return false
+		}
+	}
+	return true
 }

@@ -1,5 +1,5 @@
 import { NutritionDetails } from "./Nutrition";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Check, Leaf, Search, X } from "lucide-react";
@@ -29,10 +29,14 @@ export function IngredientCatalogPicker({
   token,
   household,
   inventory,
+  open,
+  onOpenChange,
 }: {
   token: string;
   household: string;
   inventory: InventoryItem[];
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }) {
   const queryClient = useQueryClient();
   const catalog = useQuery({
@@ -40,8 +44,7 @@ export function IngredientCatalogPicker({
     queryFn: () => api<CatalogItem[]>("/ingredient-catalog", token),
     staleTime: 60 * 60 * 1000,
   });
-  const [open, setOpen] = useState(false),
-    [category, setCategory] = useState(""),
+  const [category, setCategory] = useState(""),
     [search, setSearch] = useState(""),
     [unitFilter, setUnitFilter] = useState("all"),
     [stockFilter, setStockFilter] = useState(false);
@@ -57,6 +60,9 @@ export function IngredientCatalogPicker({
   const [busy, setBusy] = useState(false),
     [error, setError] = useState("");
   const last = useRef<{ signature: string; key: string } | null>(null);
+  useEffect(() => {
+    if (open) setAdded([]);
+  }, [open]);
   const stockByName = useMemo(
     () => new Map(inventory.map((item) => [item.name + "|" + item.unit, item])),
     [inventory],
@@ -145,7 +151,7 @@ export function IngredientCatalogPicker({
       setLocation("");
       setBoughtOn("");
       setExpiresOn("");
-      if (!keepAdding) setOpen(false);
+      if (!keepAdding) onOpenChange(false);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -165,7 +171,7 @@ export function IngredientCatalogPicker({
         className="mt-4 w-full"
         onClick={() => {
           setAdded([]);
-          setOpen(true);
+          onOpenChange(true);
         }}
       >
         ＋ 添加食材
@@ -173,7 +179,7 @@ export function IngredientCatalogPicker({
       <Dialog.Root
         open={open}
         onOpenChange={(value) => {
-          setOpen(value);
+          onOpenChange(value);
           if (!value) {
             setSelected(null);
             setShowDetail(false);

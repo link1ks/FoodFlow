@@ -179,6 +179,18 @@ test("real login, stocked inventory and primary navigation", async ({
       });
     }
     if (label === "记录") {
+      const switcher = page.getByLabel("选择使用方式");
+      await expect(switcher.getByRole("button").first()).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+      if (info.project.name === "mobile") {
+        const bounds = await switcher.boundingBox();
+        expect(
+          bounds!.height,
+          "record navigation leaves room for its content at 320px",
+        ).toBeLessThan(250);
+      }
       await page.getByRole("button", { name: /食材用量/ }).click();
       await expect(
         page.getByRole("heading", { name: "食材用量", exact: true }),
@@ -290,7 +302,9 @@ test("onboarding, continuous stock and configured capability states", async ({
   ).toHaveCount(0);
   const nav = page.getByRole("navigation", { name: "主导航" });
   await nav.getByRole("button", { name: /食材/ }).click();
-  await page.getByRole("button", { name: "＋ 添加食材" }).click();
+  await page.getByRole("button", { name: "开始添加", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "选择食材" })).toHaveCount(1);
+  await expect(page.getByRole("dialog", { name: "选择食材" })).toBeVisible();
   for (const name of ["番茄", "黄瓜"]) {
     await page
       .getByRole("button", { name: `选择${name}`, exact: true })

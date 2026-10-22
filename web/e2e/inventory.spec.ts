@@ -219,8 +219,13 @@ test("inventory filters preserve meal selection and stock at narrow widths", asy
       fullPage: true,
     });
   }
-  await page.getByRole("button", { name: "＋ 添加食材", exact: true }).click();
+  await page.getByRole("button", { name: "添加新食材", exact: true }).click();
   const picker = page.getByRole("dialog", { name: "选择食材" });
+  await expect(picker).toHaveCount(1);
+  await expect(picker).toBeVisible();
+  await picker.getByRole("button", { name: "关闭食材选择" }).click();
+  await page.getByRole("button", { name: "＋ 添加食材", exact: true }).click();
+  await expect(picker).toHaveCount(1);
   await picker.getByRole("button", { name: "蔬菜", exact: true }).click();
   await expect(
     picker.getByRole("button", { name: "蔬菜", exact: true }),

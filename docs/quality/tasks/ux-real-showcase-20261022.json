@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "task": "ux-real-showcase-20261022",
+  "criteria": [
+    {
+      "id": "complete-user-walkthrough",
+      "description": "以隔离虚构账号覆盖登录、个人与家庭、食材、菜单、采购烹饪、记录和社区，分别保留桌面与手机命名结果；查菜价的来源与未知值由现有规则回归及实际页面走查补充。记录实际反馈与未验收范围。",
+      "business": ["ACCOUNT", "KITCHEN", "STOCK", "MENU", "SHOP", "REPORT", "NUTRITION", "MARKET", "COMMUNITY", "INTAKE", "UI"],
+      "tests": [
+        "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+        "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
+        "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states",
+        "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
+        "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
+        "web/e2e/account.spec.ts#email account merge explains scope and requires configured SMS",
+        "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock",
+        "web/e2e/permissions.spec.ts#household switching and member downgrade preserve server authorization",
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal",
+        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
+        "web/e2e/recipes.spec.ts#family recipe preview and scaled procurement",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once",
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG",
+        "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation",
+        "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections",
+        "web/e2e/community.spec.ts#community recipe publishing, private saves and weekly rewards",
+        "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure",
+        "web/src/marketPrices.test.ts#does not report missing historical comparisons as stable",
+        "web/src/marketPrices.test.ts#retains the monitoring period instead of labelling a month as a day"
+      ]
+    },
+    {
+      "id": "direct-inventory-entry",
+      "description": "食材顶部与空库存主入口直接打开同一目录选择器，底部添加方式仍可用；窄屏筛选、选菜及库存数量保留。",
+      "business": ["UI", "CATALOG", "STOCK"],
+      "tests": [
+        "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths",
+        "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states"
+      ]
+    },
+    {
+      "id": "readable-records-and-month",
+      "description": "记录默认选项与排列一致，手机切换区不占满首屏；月报月份与实际报表相符，切换、清空和刷新保持一致，未知历史金额与PNG导出保留。",
+      "business": ["UI", "REPORT"],
+      "tests": [
+        "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
+      ]
+    },
+    {
+      "id": "settings-save-feedback",
+      "description": "设置明确显示保存中和保存成功，失败可重试且旧错误被清除；后台刷新不覆盖未保存编辑，切换厨房重置为目标厨房数据。",
+      "business": ["KITCHEN", "UI"],
+      "tests": [
+        "web/e2e/settings.spec.ts#kitchen settings preserve unsaved edits during refresh and reset on kitchen switch",
+        "web/e2e/settings.spec.ts#kitchen settings report save progress, recover from errors and confirm persisted values"
+      ]
+    },
+    {
+      "id": "module-aligned-real-showcase",
+      "description": "GitHub README按实际模块位置展示真实浏览器操作，移除虚拟界面动画；以下命名场景验证对应业务语义，独立录制清单、关键帧及人工审查另外证明素材来源和放置，不能互相替代。",
+      "business": ["STOCK", "MENU", "SHOP", "REPORT", "COMMUNITY", "KITCHEN"],
+      "tests": [
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once",
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG",
+        "web/e2e/community.spec.ts#community recipe publishing, private saves and weekly rewards",
+        "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
+      ]
+    },
+    {
+      "id": "feedback-regression-evidence",
+      "description": "纯浏览器及混合故障按实际执行模式验证回归；必须同时保留同任务同源码的新鲜full及acceptance报告，浏览器必须桌面与手机均通过，缺失、跳过、失败、重复和错误归属均拒绝。",
+      "business": ["HARNESS"],
+      "tests": [
+        "cmd/harness/learning_test.go#TestFeedbackGateMatchesRegressionsAcrossFullAndBrowserReports",
+        "cmd/harness/learning_test.go#TestFeedbackGateRequiresRecordedQueryAndResolvedFailures",
+        "cmd/harness/learning_test.go#TestFeedbackMetricsCanonicalizationKeepsUnrelatedOpenFailures"
+      ]
+    },
+    {
+      "id": "bounded-safe-delivery",
+      "description": "保留精确库存、服务端权限、显式确认和幂等；全量执行10家庭20客户端30秒负载、至少100周期700请求、错误和不变量失败为0且p95不超过2000ms。配套备份后更新默认部署、只读验证5173构建身份并同步GitHub当前提交CI；这些运行结果必须另有完整完成包。",
+      "business": ["STOCK", "ACCOUNT", "HARNESS"],
+      "tests": [
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once",
+        "cmd/harness/business_test.go#TestUnifiedCompletionAcceptsOnlyAllGatesAfterBinding",
+        "cmd/harness/business_test.go#TestCompletionRejectsMissingStaleFailedAndForeignGates"
+      ]
+    }
+  ],
+  "feedback": {
+    "evaluations": [],
+    "evaluation_exemption": "本任务修改界面交互、展示素材及工程反馈证据匹配，使用确定性模型fixture，不改变模型提示、适配器或质量阈值；没有付费调用授权，不把界面成功等同真实模型正确。",
+    "device_required": false,
+    "device_exemption": "本任务要求隔离桌面与手机浏览器布局及交互验证，不修改相机、麦克风或短信集成；浏览器模拟不冒充物理设备验收，既有真实设备待办与稳定版阻塞继续保留。",
+    "rag_required": false,
+    "rag_exemption": "本任务查询历史经验但不修改检索、索引、生成或引用策略；修正的是故障回归证据门禁，由命名Go测试验证。完整历史指标仍须在所有验证后重新计算。"
+  }
+}

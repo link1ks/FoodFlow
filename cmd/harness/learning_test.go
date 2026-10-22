@@ -187,7 +187,7 @@ func TestFeedbackGateRequiresRecordedQueryAndResolvedFailures(t *testing.T) {
 	failure.Verified = true
 	failure.Revision++
 	for _, mode := range []string{"full", "acceptance"} {
-		report := Evidence{Version: 1, RunID: mode, Mode: mode, SourceDigest: "source", StartedAt: now, RecordedAt: now,
+		report := Evidence{Version: 1, Task: "fixture", RunID: mode, Mode: mode, SourceDigest: "source", StartedAt: now, RecordedAt: now,
 			Checks: []Check{{Name: "named-tests", Passed: true}}, Tests: []TestOutcome{{ID: "stock#replay", Status: "pass"}}}
 		_ = saveJSON(filepath.Join(root, ".cache/harness/"+mode+".json"), report)
 	}
@@ -240,6 +240,110 @@ func TestFeedbackMetricsCanonicalizationKeepsUnrelatedOpenFailures(t *testing.T)
 			t.Fatalf("incomplete %s accepted", key)
 		}
 		changed[key] = previous
+	}
+}
+
+func TestFeedbackGateMatchesRegressionsAcrossFullAndBrowserReports(t *testing.T) {
+	root := t.TempDir()
+	now := time.Now().UTC()
+	bound := now.Add(-time.Minute)
+	const browserID = "web/e2e/settings.spec.ts#unsaved draft survives refresh"
+	const fullID = "internal/app/settings_test.go#TestSettingsAuthorization"
+	contract := TaskContract{BoundAt: bound, Feedback: &FeedbackScope{DeviceExemption: "browser fixture", RAGExemption: "no retrieval change", EvaluationExemption: "no model calls"}}
+	baseFailure := failureFixture(t, root)
+	baseFailure.Tests = []string{browserID}
+	baseFailure.Regression = []string{".cache/harness/full.json"}
+	baseFailure.PageEvidence = []string{".cache/harness/acceptance.json"}
+	feedback := FeedbackReport{Version: 1, Task: "fixture", SourceDigest: "source", StartedAt: now, RecordedAt: now,
+		Metrics: ".cache/harness/metrics.json", Failures: []string{baseFailure.ID}}
+	write := func(path string, value any) {
+		t.Helper()
+		if err := saveJSON(filepath.Join(root, path), value); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write(".cache/harness/feedback.json", feedback)
+	write(".cache/harness/experience/queries/start.json", QueryRecord{Task: "fixture", Stage: "start", RecordedAt: bound.Add(-time.Second), Disposition: "no earlier related evidence"})
+	for _, name := range []string{
+		"browser-only", "mixed", "full-only", "missing-desktop", "missing-mobile", "skipped-mobile", "failed-desktop",
+		"failed-then-passed", "duplicate-browser", "missing-full-test", "failed-full-test", "duplicate-full-test",
+		"browser-in-full-only", "full-in-browser-only", "foreign-full-task", "foreign-browser-task", "stale-full",
+		"stale-browser", "foreign-source", "missing-full-gate", "missing-browser-gate", "failed-full-gate",
+	} {
+		t.Run(name, func(t *testing.T) {
+			failure := baseFailure
+			full := Evidence{Version: 1, Task: "fixture", RunID: "full", Mode: "full", SourceDigest: "source", StartedAt: now, RecordedAt: now,
+				Checks: []Check{{Name: "named-tests", Passed: true}}, Tests: []TestOutcome{{ID: fullID, Status: "pass"}}}
+			browser := Evidence{Version: 1, Task: "fixture", RunID: "browser", Mode: "acceptance", SourceDigest: "source", StartedAt: now, RecordedAt: now,
+				Checks: []Check{{Name: "named-tests", Passed: true}}, Tests: []TestOutcome{{ID: browserID, Project: "desktop", Status: "pass"}, {ID: browserID, Project: "mobile", Status: "pass"}}}
+			wantPass := false
+			switch name {
+			case "browser-only":
+				wantPass = true
+			case "mixed":
+				failure.Tests = []string{fullID, browserID}
+				wantPass = true
+			case "full-only":
+				failure.Tests = []string{fullID}
+				wantPass = true
+			case "missing-desktop":
+				browser.Tests = browser.Tests[1:]
+			case "missing-mobile":
+				browser.Tests = browser.Tests[:1]
+			case "skipped-mobile":
+				browser.Tests[1].Status = "skip"
+			case "failed-desktop":
+				browser.Tests[0].Status = "fail"
+			case "failed-then-passed":
+				browser.Tests = append([]TestOutcome{{ID: browserID, Project: "desktop", Status: "fail"}}, browser.Tests...)
+			case "duplicate-browser":
+				browser.Tests = append(browser.Tests, browser.Tests[0])
+			case "missing-full-test":
+				failure.Tests = []string{fullID, browserID}
+				full.Tests = nil
+			case "failed-full-test":
+				failure.Tests = []string{fullID, browserID}
+				full.Tests[0].Status = "fail"
+			case "duplicate-full-test":
+				failure.Tests = []string{fullID, browserID}
+				full.Tests = append(full.Tests, full.Tests[0])
+			case "browser-in-full-only":
+				full.Tests = append(full.Tests, browser.Tests...)
+				browser.Tests = nil
+			case "full-in-browser-only":
+				failure.Tests = []string{fullID, browserID}
+				browser.Tests = append(browser.Tests, full.Tests...)
+				full.Tests = nil
+			case "foreign-full-task":
+				full.Task = "other-task"
+			case "foreign-browser-task":
+				browser.Task = "other-task"
+			case "stale-full":
+				full.StartedAt = bound.Add(-time.Second)
+			case "stale-browser":
+				browser.StartedAt = bound.Add(-time.Second)
+			case "foreign-source":
+				browser.SourceDigest = "other-source"
+			case "missing-full-gate":
+				full.Checks = nil
+			case "missing-browser-gate":
+				browser.Checks = nil
+			case "failed-full-gate":
+				full.Checks[0].Passed = false
+			}
+			write(".cache/harness/full.json", full)
+			write(".cache/harness/acceptance.json", browser)
+			write(".cache/harness/experience/records/stock-replay-000001.json", failure)
+			metrics, err := learningMetrics(root)
+			if err != nil {
+				t.Fatal(err)
+			}
+			write(feedback.Metrics, metrics)
+			err = validateFeedback(root, "fixture", contract, ".cache/harness/feedback.json", "source")
+			if (err == nil) != wantPass {
+				t.Fatalf("pass = %v, want %v: %v", err == nil, wantPass, err)
+			}
+		})
 	}
 }
 

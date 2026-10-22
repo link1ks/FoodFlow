@@ -1,5 +1,18 @@
 # Platform maintenance and delivery
 
+## 2026-10-22 — Complete delivery and real operation showcase
+
+Task `ux-real-showcase-20261022` covers a user/developer/tester walkthrough,
+recorded visual and usability feedback, reviewed UI fixes, and GitHub examples
+captured from actual module operations. The user explicitly superseded the
+earlier learning handoff: the agent now performs backup, default deployment,
+publication and exact-commit CI verification. Earlier handoff wording below
+remains historical. Paid model calls still require separate task authorization;
+this walkthrough uses isolated synthetic accounts and deterministic fixtures.
+
+Scope, actual local verification results and limitations are recorded in the
+[walkthrough execution plan](ux-real-showcase.md).
+
 ## 2026-10-20 — Python nutrition and offline evaluation analysis
 
 See [the implementation and evidence plan](python-data-analysis.md). Routine

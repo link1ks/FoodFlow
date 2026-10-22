@@ -73,7 +73,7 @@ their input hashes retained; differences are descriptive, not causal or
 statistically significant claims. Offline rules cannot be compared as though
 they were live model results. Empty or malformed input fails.
 
-## Verification and hands-on delivery
+## Verification and delivery
 
 ```powershell
 & $py -B scripts/test-data-tools.py
@@ -86,8 +86,8 @@ meaning, source-write refusal, duplicate samples, partial runs, incompatible
 comparisons and HTML escaping. Actual source reproduction is recorded separately
 because private official downloads are not CI fixtures.
 
-Routine implementation and verification are delegated. The user performs the
-meaningful report inspection, publication and CI webpage steps. Commit/push and
-cloud completion evidence must wait for that hands-on step. These tools change
+Implementation, verification, report inspection, publication and CI checks are
+delegated to the agent under the current [delivery convention](../AGENTS.md).
+The agent must inspect actual results before claiming success. These tools change
 no application data or UI; no database migration or application switch is needed
 merely to inspect their candidate files and HTML.

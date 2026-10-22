@@ -15,21 +15,22 @@ export function Records() {
     <>
       <Title
         title="厨房记录"
-        subtitle="回顾当前厨房的营养、食材用量和生成记录"
+        subtitle="回顾当前厨房的营养、金额、食材用量与操作记录"
       />
       <PageSwitch
+        compact
         value={view}
         onChange={setView}
         options={[
           {
-            id: "monthly",
-            title: "金额月报",
-            description: "查看成本覆盖、已知报损金额并导出图片",
-          },
-          {
             id: "nutrition",
             title: "营养记录",
             description: "已完成餐次的营养估算与数据覆盖率",
+          },
+          {
+            id: "monthly",
+            title: "金额月报",
+            description: "查看成本覆盖、已知报损金额并导出图片",
           },
           {
             id: "usage",

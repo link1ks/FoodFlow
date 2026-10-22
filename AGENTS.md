@@ -1,13 +1,16 @@
 # FoodFlow repository map
 
-## Learning collaboration
+## Delivery collaboration
 
-The user delegates routine, repetitive commands to the agent. Explain significant
-design choices and prepare concrete, reviewed changes first. Leave meaningful
-CI/CD, publication, backup and deployment steps to the user with command-line and
-web instructions for hands-on learning (clarified 2026-10-20). Do not execute these
-learning steps on their behalf unless they delegate them again. Inspect actual
-results before claiming verification, deployment or publication succeeded.
+The user delegates complete delivery to the agent, including routine commands,
+CI/CD verification, GitHub publication, backups and default deployment updates
+(clarified 2026-10-22, replacing the earlier hands-on learning handoff). Explain
+significant design choices and prepare concrete, reviewed changes, then execute
+the required delivery steps without handing them back by default. Preserve
+configuration, credentials and development data; back up the database and photos
+before recreating the default deployment. Inspect actual results before claiming
+verification, deployment or publication succeeded. Paid model calls still require
+explicit task authorization.
 
 Read `docs/HARNESS.md` for verification commands and `docs/PLATFORM.md` for service ownership.
 

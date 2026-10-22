@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "task": "ux-real-showcase-20261022",
+  "recorded_at": "2026-10-22T10:34:23.2001975+00:00",
+  "source_digest": "84742deae4569f9534ae514b6227600eb6ab608e2179a9de111b075a6c7873ab",
+  "scope": "Reviewed local verification before publication; final published-HEAD CI and task completion are recorded separately after push.",
+  "full": {
+    "named_tests": 172,
+    "run_id": "49ed19c1d5c408273724daeeba400a19",
+    "checks": 18,
+    "passed": true
+  },
+  "acceptance": {
+    "first_run": {
+      "cause": "Shared gateway authentication budget exhausted by test setup; retained original failure, reused real API sessions for settings setup, then all 48 passed. Production throttling unchanged.",
+      "passed": 45,
+      "failed": 3
+    },
+    "checks": 16,
+    "passed": true,
+    "desktop": 24,
+    "mobile": 24,
+    "run_id": "ae7384bc93aab8ecb9f872d86fc58efa"
+  },
+  "load": {
+    "completed_cycles": 3183,
+    "concurrent_clients": 20,
+    "elapsed_ms": 30201,
+    "error_kinds": {},
+    "errors": 0,
+    "households": 10,
+    "invariant_failures": 0,
+    "lock_sampling_ms": 100,
+    "max_request_ms": 153.449,
+    "p50_ms": 11.178,
+    "p95_ms": 25.45,
+    "p95_target_ms": 2000,
+    "p99_ms": 31.638,
+    "peak_sampled_lock_waiters": 4,
+    "request_count": 22281,
+    "requested_duration_seconds": 30,
+    "scope": "isolated in-process API plus real PostgreSQL; no gateway/cache/Kafka or model calls"
+  },
+  "diagnose": "passed",
+  "main_site": {
+    "scope": "Fresh unauthenticated read-only browser",
+    "readiness": 200,
+    "verified_assets": 3,
+    "homepage": 200
+  },
+  "default_deployment": {
+    "database_identity_preserved": true,
+    "paired_backup_validated": true,
+    "restoration_drill_performed": false,
+    "data_and_photos_preserved": true,
+    "volumes_preserved": true,
+    "configuration_preserved": true
+  },
+  "recordings": {
+    "visually_sampled_frames": 44,
+    "keyframes": 23,
+    "manifest": "../assets/demos/manifest.json",
+    "modules": 7,
+    "decoded_gif_frames": 548,
+    "source_matches": true
+  },
+  "limitations": [
+    "Isolated synthetic accounts only; no synthetic writes to default database.",
+    "Deterministic local community review; no paid model calls.",
+    "Browser mobile layout is not physical-device, microphone, SMS or provider acceptance.",
+    "Existing cross-form settings concurrency concern remains unverified and unfixed.",
+    "Historical stable-release model/device blockers remain."
+  ]
+}

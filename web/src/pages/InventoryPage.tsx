@@ -53,12 +53,14 @@ export function InventoryPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [onlyStocked, setOnlyStocked] = useState(false);
+  const [catalogOpen, setCatalogOpen] = useState(false);
   useEffect(() => {
     setSelected("");
     setSelectedIDs([]);
     setSearch("");
     setCategory("");
     setOnlyStocked(false);
+    setCatalogOpen(false);
   }, [p]);
   async function stock() {
     setBusy(true);
@@ -116,14 +118,7 @@ export function InventoryPage() {
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {canEdit && (
-              <Button
-                variant="default"
-                onClick={() =>
-                  document
-                    .getElementById("inventory-add")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-              >
+              <Button variant="default" onClick={() => setCatalogOpen(true)}>
                 <ShoppingBasket size={16} aria-hidden="true" /> 添加新食材
               </Button>
             )}
@@ -425,11 +420,7 @@ export function InventoryPage() {
                 {canEdit && (
                   <Button
                     variant="outline"
-                    onClick={() =>
-                      document
-                        .getElementById("inventory-add")
-                        ?.scrollIntoView({ behavior: "smooth" })
-                    }
+                    onClick={() => setCatalogOpen(true)}
                   >
                     开始添加
                   </Button>
@@ -454,6 +445,8 @@ export function InventoryPage() {
               token={token}
               household={p.slice("/households/".length)}
               inventory={d.data?.items || []}
+              open={catalogOpen}
+              onOpenChange={setCatalogOpen}
             />
           )}
           {canEdit && (

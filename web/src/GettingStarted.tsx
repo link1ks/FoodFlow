@@ -112,16 +112,20 @@ export function PageSwitch({
   value,
   onChange,
   options,
+  compact = false,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: { id: string; title: string; description: string }[];
+  compact?: boolean;
 }) {
   return (
     <div
       className={
-        "ff-page-switch mb-6 grid grid-cols-2 gap-2 " +
-        (options.length > 3 ? "lg:grid-cols-5" : "")
+        "ff-page-switch mb-6 gap-2 " +
+        (compact
+          ? "ff-page-switch-compact flex flex-wrap"
+          : "grid grid-cols-2 " + (options.length > 3 ? "lg:grid-cols-5" : ""))
       }
       aria-label="选择使用方式"
     >
@@ -129,9 +133,11 @@ export function PageSwitch({
         <button
           key={o.id}
           aria-pressed={value === o.id}
+          title={compact ? o.description : undefined}
           onClick={() => onChange(o.id)}
           className={
-            "min-w-0 rounded-2xl border p-3 text-left transition focus-visible:outline-2 focus-visible:outline-emerald-600 sm:p-4 " +
+            "min-w-0 rounded-2xl border text-left transition focus-visible:outline-2 focus-visible:outline-emerald-600 " +
+            (compact ? "min-h-11 px-3 py-2 " : "p-3 sm:p-4 ") +
             (value === o.id
               ? "border-emerald-600 bg-emerald-50"
               : "border-transparent hover:border-emerald-300")
@@ -145,11 +151,25 @@ export function PageSwitch({
           >
             {o.title}
           </span>
-          <span className="mt-1 block text-xs leading-5 text-slate-500">
+          <span
+            className={
+              compact
+                ? "sr-only"
+                : "mt-1 block text-xs leading-5 text-slate-500"
+            }
+          >
             {o.description}
           </span>
         </button>
       ))}
+      {compact && (
+        <p
+          className="basis-full px-2 pt-1 text-sm leading-6 text-slate-600"
+          aria-live="polite"
+        >
+          {options.find((option) => option.id === value)?.description}
+        </p>
+      )}
     </div>
   );
 }

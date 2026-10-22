@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "task": "ux-real-showcase-20261022",
+  "captured_at": "2026-10-22T10-21-01-870Z",
+  "source_digest": "84742deae4569f9534ae514b6227600eb6ab608e2179a9de111b075a6c7873ab",
+  "browser": "155.0.4283.62",
+  "channel": "msedge",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "fps": 8,
+  "playback_speed": 1,
+  "fixture_setup": "API creates account, personal kitchen and labelled starting inventory/cost history; all demonstrated business steps use real UI and API",
+  "model_scope": "no menu model dispatch; community uses local deterministic review fixture",
+  "limitations": "Desktop recording, synthetic data; no real provider, microphone, SMS, physical device, administrator admission or production acceptance claim",
+  "review": {
+    "status": "reviewed",
+    "scope": "All 23 keyframes and the downloaded report PNG visually reviewed. All 548 GIF frames decoded; 44 temporal samples (every 2 seconds, first and last) visually reviewed in 14 contact sheets. All GIF and keyframe hashes matched. Docker source labels verified. Sampled review, not frame-by-frame inspection.",
+    "limitations": "Brief original loading backgrounds are retained. Isolated desktop instance, synthetic data and deterministic local community review only."
+  },
+  "scenes": [
+    {
+      "name": "intake",
+      "description": "食材：真实目录选生菜、输入50g、确认入库",
+      "file": "intake.gif",
+      "bytes": 3800320,
+      "sha256": "70214a185152806675f5346d74f7ecdff01bea74bd91c5d8e739e2616622f5fa",
+      "checkpoints": [
+        "食材库存与现有番茄",
+        "核对生菜50g，尚未入库",
+        "确认后库存出现50g生菜"
+      ]
+    },
+    {
+      "name": "plan",
+      "description": "菜单：搜索菜谱、安排晚餐、核对并确认采购缺口",
+      "file": "plan.gif",
+      "bytes": 3789830,
+      "sha256": "dcf28d7f4d8f3c32771e48d65bda3a0f78ed8a0416b34537f593dee7d4b57647",
+      "checkpoints": [
+        "菜单灵感与菜谱入口",
+        "1人晚餐等待核对确认",
+        "菜单确认，采购缺口已生成，库存未扣减"
+      ]
+    },
+    {
+      "name": "shopping",
+      "description": "采购：核对实际买入数量、确认入库",
+      "file": "shopping.gif",
+      "bytes": 2442724,
+      "sha256": "3f3bf116fb0fac6487d327b077223120cf32b8a103ac50271b539f2dcc06f308",
+      "checkpoints": [
+        "真实计算的生菜100g与蒜10g缺口",
+        "生菜采购入库确认",
+        "蒜采购入库确认",
+        "两项采购均已入库"
+      ]
+    },
+    {
+      "name": "today",
+      "description": "今天：确认烹饪完成、准确扣库、刷新保留结果",
+      "file": "today.gif",
+      "bytes": 3935496,
+      "sha256": "b85b52ee764d7a3ea10a9ad887addb8f60cbff03916103b96c8868408f8e2581",
+      "checkpoints": [
+        "今天已安排的蒜香生菜",
+        "完成前再次明确确认扣库",
+        "刷新后仍是已完成，库存精确扣减"
+      ]
+    },
+    {
+      "name": "report",
+      "description": "记录：库存流水、成本覆盖与实际PNG下载",
+      "file": "report.gif",
+      "bytes": 2961548,
+      "sha256": "fd0c901da316b37c69bb127e4f248856a5d70b13753919b34c0d02b49ce883fa",
+      "checkpoints": [
+        "实际采购与烹饪流水",
+        "已知金额与未知成本同时保留",
+        "点击导出，实际下载的PNG保留在录制目录"
+      ]
+    },
+    {
+      "name": "community",
+      "description": "社区：真实填写配方、同意本地初审、收藏与查看",
+      "file": "community.gif",
+      "bytes": 4161963,
+      "sha256": "e797fe75ab32dcc7e7d3374c82abf0989b6a2e46e5a58a3ee0769b9a1d84cf78",
+      "checkpoints": [
+        "实际编辑配方，尚未确认发布",
+        "本地确定性审核通过后的真实动态",
+        "实际收藏并查看配方详情"
+      ]
+    },
+    {
+      "name": "kitchen",
+      "description": "个人中心：创建共享家庭、验证隔离、切回个人库存",
+      "file": "kitchen.gif",
+      "bytes": 6392432,
+      "sha256": "d85198363acf069d80de62620a06a6978d737d46b9691a0bee9f1b6c938e3ae7",
+      "checkpoints": [
+        "个人厨房与可选家庭",
+        "填写新家庭，个人数据仍独立",
+        "新家庭为空，没有混入个人库存",
+        "切回个人厨房，原有番茄40g仍保留"
+      ]
+    }
+  ]
+}

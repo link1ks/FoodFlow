@@ -70,6 +70,11 @@ test("monthly costs keep unknown history and export a PNG", async ({
   await expect(
     page.getByRole("heading", { name: "家庭金额月报", exact: true }),
   ).toBeVisible();
+  const current = await request.get(root + "/monthly-report", { headers });
+  const currentMonth = (await current.json()).month;
+  await expect(page.getByLabel("月报月份", { exact: true })).toHaveValue(
+    currentMonth,
+  );
   await expect(page.getByText("¥5.00", { exact: true })).toBeVisible();
   await expect(page.getByText("¥1.00", { exact: true })).toBeVisible();
   await expect(page.getByText("¥1.50", { exact: true })).toBeVisible();
@@ -89,4 +94,15 @@ test("monthly costs keep unknown history and export a PNG", async ({
   expect(png.readUInt32BE(16)).toBe(1000);
   expect(png.readUInt32BE(20)).toBeGreaterThan(500);
   await info.attach("monthly-report", { path, contentType: "image/png" });
+  await page.getByLabel("月报月份", { exact: true }).fill("2020-01");
+  await expect(page.getByText(/2020-01 · Asia\/Shanghai/)).toBeVisible();
+  await page.getByRole("button", { name: "刷新月报", exact: true }).click();
+  await expect(page.getByLabel("月报月份", { exact: true })).toHaveValue(
+    "2020-01",
+  );
+  await page.getByLabel("月报月份", { exact: true }).fill("");
+  await expect(page.getByLabel("月报月份", { exact: true })).toHaveValue(
+    currentMonth,
+  );
+  await expect(page.getByText("¥5.00", { exact: true })).toBeVisible();
 });

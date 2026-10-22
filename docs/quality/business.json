@@ -15,7 +15,7 @@
         "internal/app/jwt.go",
         "internal/app/proxy.go"
       ],
-      "review_digest": "944456232bb555b9bea1fd895fb024f062e7083e3ab6b0856f411a53590aedd5",
+      "review_digest": "7ab095d793d077a5a7275ecfa965682e86ffa1ac437730e893a82cd3a2d100e5",
       "browser": [
         "web/e2e/account.spec.ts#saved recovery code resets an email account and revokes all previous sessions",
         "web/e2e/account.spec.ts#account recovery is unavailable without SMS and never resets on a checkbox alone",
@@ -26,15 +26,17 @@
     },
     {
       "id": "KITCHEN",
-      "context": "默认个人厨房、可选家庭、所有者隔离与幂等初始化。",
+      "context": "默认个人厨房、可选家庭、所有者隔离与幂等初始化；厨房设置保存反馈、未保存草稿保护与切换重置。",
       "guide": "docs/BUSINESS_GUIDE.md",
       "sources": [
         "internal/app/personal_kitchen.go",
         "docs/PERSONAL_KITCHENS.md"
       ],
-      "review_digest": "ca8abf3d5d3e19bcc19501dd228ac490029bec6b54c11ea21f341d65e6b06791",
+      "review_digest": "04232e778bbc0c2cafbd2bb9b68ee229e2fb5adc96319850ca1adce31425a950",
       "browser": [
-        "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
+        "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock",
+        "web/e2e/settings.spec.ts#kitchen settings preserve unsaved edits during refresh and reset on kitchen switch",
+        "web/e2e/settings.spec.ts#kitchen settings report save progress, recover from errors and confirm persisted values"
       ],
       "data": "个人/家庭/合并账号，重复创建、越权与切换。",
       "limits": "多设备真实用户体验未验收。"
@@ -56,7 +58,7 @@
         "internal/app/pantry.go",
         "internal/dbgen"
       ],
-      "review_digest": "5e292eb1fd509bdc5a25122205aa86838ac35db460d5b1563aca4eca3188a7cd",
+      "review_digest": "9d166955465e0d362d927a3fcb56345b84dd7cbdf1e651048585cf3bbf6cf98d",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -74,7 +76,7 @@
         "web/src/catalogPhotos.test.ts",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "e5d5807fb96be6641e3c57eb2e8077294206ab6a8208ab8b0762b9d11c3b5db9",
+      "review_digest": "b2da5b8d23ee99d393c1b603d04e5891214ddf3ad578f049cf23c88b52cbaa2a",
       "browser": [
         "web/e2e/photos.spec.ts#studio catalogue images, family upload priority and failed-image fallback"
       ],
@@ -101,7 +103,7 @@
         "scripts/photos/recipe-sources.json",
         "scripts/photos/render.py"
       ],
-      "review_digest": "262353703dde81e2446f5e24e4a3cc249d30776cfc12091f27f40b61e8c4e119",
+      "review_digest": "250adfc95ddf4b3da3ad7799468325501bfb66402d95704ab576176bcad05094",
       "browser": [
         "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
         "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal"
@@ -119,7 +121,7 @@
         "internal/app/pantry_service.go",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "a8d44688728ab52ac9c49299843f055f3cec1f7469e805ef526e5d6f322bbdc7",
+      "review_digest": "b8985598fa713efd2983097c9242d6b88ca46452fe99801f515ed7980cd0da15",
       "browser": [
         "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
       ],
@@ -138,7 +140,7 @@
         "cmd/intake-eval",
         "docs/INTAKE_SCOPE.md"
       ],
-      "review_digest": "f2d3a7e608e489f43c00a65d96081e536758dea6c7617cb6cf6d5f85b88ac226",
+      "review_digest": "f795339d92335783bdc9d4429581029f75f74f4a211d39837934d706192467c9",
       "browser": [
         "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections"
       ],
@@ -161,7 +163,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "7ae78dcf63490989c2bfd0acb590b4d4d4afa7c4df37fce8407cd786d3222ec6",
+      "review_digest": "cc1342f43e825450801f034389e9a5f7c9dfd805a4c96c0c6454b9ad78a1718a",
       "browser": [
         "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation"
       ],
@@ -177,7 +179,7 @@
         "internal/app/community_moderation.go",
         "docs/COMMUNITY.md"
       ],
-      "review_digest": "6951618412d18c3c36d0f1f14cf1db9eae861f252629f955bfaab67d6833ba63",
+      "review_digest": "a4da28344aa63efe28d1c7fd1606959192784469c5522ba11296e859f17e8ac6",
       "browser": [
         "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure"
       ],
@@ -200,7 +202,7 @@
         "cmd/insights/main.go",
         "cmd/relay/main.go"
       ],
-      "review_digest": "f84d4b12c2b54c0bf6b47e81ff9ab8bff446701e2e4f9059ee8442062fc1e0cd",
+      "review_digest": "f9f99ea413075cfb246f2678366425c5f87bb19f125a211181ce43576596f3a3",
       "browser": [
         "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
       ],
@@ -223,7 +225,7 @@
         "scripts/test-data-tools.py",
         "docs/PYTHON_DATA_TOOLS.md"
       ],
-      "review_digest": "e4b3f18afded1ab46e513d54b127c14920b060e87a1fc7bdf3720561118c5dc3",
+      "review_digest": "9f60f12ed01e96c3660f425e36744275ff67cfcbf0dbbf8becb867f7158cef46",
       "browser": [
         "web/e2e/nutrition-basis.spec.ts#batch edible mass confirmation preserves stock and ledger"
       ],
@@ -242,7 +244,7 @@
         "docs/ARCHITECTURE.md",
         "cmd/price-sync/main.go"
       ],
-      "review_digest": "e990afd32ef12b94c7670155dcc18f78d68fc801e958fe577b3f4f3bf288b7cb",
+      "review_digest": "a15eec7ca7fceeed4e2ca63120b337ee2d7770bda723457a3a07711af80ce690",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
@@ -253,20 +255,23 @@
     },
     {
       "id": "UI",
-      "context": "主导航闭环、错误/空/未配置状态区分，库存与营养的触摸键盘交互。",
+      "context": "主导航闭环、错误/空/未配置状态区分，库存直接添加入口、紧凑记录导航、月份显示与设置保存反馈；触摸键盘交互。",
       "guide": "docs/BUSINESS_GUIDE.md",
       "sources": [
         "web/src",
         "web/e2e",
         "docs/ARCHITECTURE.md"
       ],
-      "review_digest": "5700b390480e179e22e7dee9d14f4a77ad59dc62b77d9ace80716881a95b0790",
+      "review_digest": "4a7acd9617adce7992306cf0432988add6b9c0cb3abfede65c7a5a2cf6f4dc57",
       "browser": [
         "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
         "web/e2e/kitchen.spec.ts#gateway HTML failure is readable and login can retry",
         "web/e2e/kitchen.spec.ts#onboarding, continuous stock and configured capability states",
         "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths",
-        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal"
+        "web/e2e/menu-discovery.spec.ts#menu discovery browses 36 photos and replaces one dish without losing the meal",
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG",
+        "web/e2e/settings.spec.ts#kitchen settings preserve unsaved edits during refresh and reset on kitchen switch",
+        "web/e2e/settings.spec.ts#kitchen settings report save progress, recover from errors and confirm persisted values"
       ],
       "data": "桌面/手机/320px；200项选择器、等高卡片、无悬停、余量/期限独立批次、调味品瓶罐基准。",
       "limits": "自动交互不是用户研究，所有业务写入只在虚构账号。"
@@ -285,7 +290,7 @@
         "cmd/recovery/main.go",
         "cmd/recovery/probe.go"
       ],
-      "review_digest": "4ad3a86d0cd08082f7a109ea0ed91885a4cda80ea6ced4b6efb5333a9b9e20c0",
+      "review_digest": "51993d386a47f5ed1c64dbd05a2f8f00ddef825e7af1bc0affebf0ceb6b71156",
       "browser": [
         "web/e2e/security.spec.ts#gateway security policy blocks injected scripts and permits the app"
       ],
@@ -316,7 +321,7 @@
         "scripts/evaluate-rag-batch.py",
         "scripts/generate-rag-evaluation.py"
       ],
-      "review_digest": "f0c887733fd976082a4b44bcae95171ae0521d6cb765c468a090a37b9b5081d0",
+      "review_digest": "1655a734f354d8f7adc9384b19e8a381112c67fccb5bc79023b494bb91e54133",
       "browser": [
         "web/e2e/visual-clarity.spec.ts#login text, field outlines and secondary actions stay distinct"
       ],
@@ -1244,7 +1249,8 @@
       "id": "web/e2e/inventory.spec.ts#inventory filters preserve meal selection and stock at narrow widths",
       "requirements": [
         "STOCK",
-        "UI"
+        "UI",
+        "CATALOG"
       ]
     },
     {
@@ -1275,7 +1281,8 @@
     {
       "id": "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG",
       "requirements": [
-        "REPORT"
+        "REPORT",
+        "UI"
       ]
     },
     {
@@ -1556,6 +1563,26 @@
       "id": "cmd/harness/learning_test.go#TestFeedbackMetricsCanonicalizationKeepsUnrelatedOpenFailures",
       "requirements": [
         "HARNESS"
+      ]
+    },
+    {
+      "id": "cmd/harness/learning_test.go#TestFeedbackGateMatchesRegressionsAcrossFullAndBrowserReports",
+      "requirements": [
+        "HARNESS"
+      ]
+    },
+    {
+      "id": "web/e2e/settings.spec.ts#kitchen settings preserve unsaved edits during refresh and reset on kitchen switch",
+      "requirements": [
+        "KITCHEN",
+        "UI"
+      ]
+    },
+    {
+      "id": "web/e2e/settings.spec.ts#kitchen settings report save progress, recover from errors and confirm persisted values",
+      "requirements": [
+        "KITCHEN",
+        "UI"
       ]
     },
     {

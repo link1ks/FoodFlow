@@ -53,7 +53,7 @@ export function MonthlyReport({ personal = false }: { personal?: boolean }) {
             aria-label="月报月份"
             type="month"
             className="ml-2 rounded-lg border p-2"
-            value={month}
+            value={month || report?.month || ""}
             onChange={(e) => {
               setMonth(e.target.value);
               setPage(0);

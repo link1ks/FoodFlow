@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MemberRoleControl } from "../MemberRoleControl";
 import { api } from "../api";
 import { Title, qc, useBase, useData, type Household } from "../app/shared";
@@ -25,14 +25,35 @@ export function Settings() {
     [role, setRole] = useState("editor"),
     [code, setCode] = useState(""),
     [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false),
+    [saved, setSaved] = useState(false);
+  const dirty = useRef(false),
+    saving = useRef(false),
+    draftKitchen = useRef(p);
   useEffect(() => {
-    if (d.data) {
+    if (draftKitchen.current !== p) {
+      draftKitchen.current = p;
+      dirty.current = false;
+      setSaved(false);
+      setErr("");
+    }
+    if (d.data && !dirty.current) {
       setName(d.data.name);
       setServings(String(d.data.servings));
       setPreferences(d.data.preferences);
     }
-  }, [d.data]);
+  }, [d.data, p]);
+  function edit() {
+    dirty.current = true;
+    setSaved(false);
+    setErr("");
+  }
   async function save() {
+    if (saving.current || d.data?.role !== "owner") return;
+    saving.current = true;
+    setBusy(true);
+    setSaved(false);
+    setErr("");
     try {
       await api(p, token, "PATCH", {
         name,
@@ -40,9 +61,15 @@ export function Settings() {
         preferences,
         excluded_ingredients: d.data?.excluded_ingredients || [],
       });
-      q.invalidateQueries();
+      // Keep the submitted draft visible while the saved server state refreshes.
+      await q.invalidateQueries();
+      dirty.current = false;
+      setSaved(true);
     } catch (e) {
       setErr(String(e));
+    } finally {
+      saving.current = false;
+      setBusy(false);
     }
   }
   async function invite() {
@@ -74,6 +101,7 @@ export function Settings() {
             <select
               className="mt-1 w-full rounded-xl border p-2"
               value={house}
+              disabled={busy}
               onChange={(e) => useUI.getState().setHousehold(e.target.value)}
             >
               {houses.data?.map((h) => (
@@ -88,7 +116,11 @@ export function Settings() {
             <Field
               label="名称"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              disabled={busy}
+              onChange={(e) => {
+                edit();
+                setName(e.target.value);
+              }}
             />
             <Field
               label="默认用餐人数"
@@ -96,15 +128,30 @@ export function Settings() {
               min="1"
               max="20"
               value={servings}
-              onChange={(e) => setServings(e.target.value)}
+              disabled={busy}
+              onChange={(e) => {
+                edit();
+                setServings(e.target.value);
+              }}
             />
             <Field
               label="饮食偏好与忌口"
               value={preferences}
-              onChange={(e) => setPreferences(e.target.value)}
+              disabled={busy}
+              onChange={(e) => {
+                edit();
+                setPreferences(e.target.value);
+              }}
             />
             {d.data?.role === "owner" && (
-              <Button onClick={save}>保存设置</Button>
+              <Button onClick={save} disabled={busy}>
+                {busy ? "保存中…" : "保存设置"}
+              </Button>
+            )}
+            {saved && (
+              <div role="status">
+                <Notice tone="success">厨房设置已保存</Notice>
+              </div>
             )}
           </div>
         </Card>
