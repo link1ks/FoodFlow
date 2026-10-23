@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "task": "readme-progressive-layout-20261022",
+  "criteria": [
+    {
+      "id": "progressive-module-presentation",
+      "description": "README 的功能说明放在阅读中段，真实操作展示随对应模块分散放置并可逐步展开，读者不必先经过连续大图才能找到启动说明。现有导航与记录场景只验证文案所述界面语义；模块顺序、展开交互、链接及桌面和窄屏 Markdown 可读性必须另有实际渲染人工审查，不能由业务测试替代。",
+      "business": ["UI", "REPORT"],
+      "tests": [
+        "web/e2e/kitchen.spec.ts#real login, stocked inventory and primary navigation",
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG"
+      ]
+    },
+    {
+      "id": "retain-real-showcase-semantics",
+      "description": "README 与 SHOWCASE 仅重排说明和已有真实操作素材，保持模块对应、操作顺序、预置数据及确定性模型 fixture 的边界准确；不把演示扩大为物理设备、真实模型或完整生产验收。命名场景保留库存、菜单、采购、月报、社区和个人厨房的业务依据，素材来源与放置由独立清单和文档渲染检查证明。",
+      "business": ["STOCK", "MENU", "SHOP", "REPORT", "COMMUNITY", "KITCHEN"],
+      "tests": [
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once",
+        "web/e2e/monthly-report.spec.ts#monthly costs keep unknown history and export a PNG",
+        "web/e2e/community.spec.ts#community recipe publishing, private saves and weekly rewards",
+        "web/e2e/personal-kitchen.spec.ts#personal kitchen is default, with optional family creation, join and isolated stock"
+      ]
+    },
+    {
+      "id": "fresh-complete-documentation-delivery",
+      "description": "文档维护仍按仓库完成门禁提供绑定后同任务、同源码的新鲜 full、acceptance、diagnose、main-site、已发布当前提交 cloud 和 feedback 证据。full 与 acceptance 顺序执行并保留实际命名结果及规定负载；重新统计完整历史，所有本任务故障闭环后才写版本2完成包。应用未修改，不将默认部署重建或数据库操作作为文档排版步骤。",
+      "business": ["HARNESS"],
+      "tests": [
+        "cmd/harness/business_test.go#TestUnifiedCompletionAcceptsOnlyAllGatesAfterBinding",
+        "cmd/harness/business_test.go#TestCompletionRejectsMissingStaleFailedAndForeignGates"
+      ]
+    }
+  ],
+  "feedback": {
+    "evaluations": [],
+    "evaluation_exemption": "仅调整 README 与 SHOWCASE 的文档布局和说明，不修改应用、模型提示、适配器、语料或质量阈值；不新增模型调用，既有确定性 fixture 演示不等于真实模型质量验收。",
+    "device_required": false,
+    "device_exemption": "仅修改 Markdown 排版，不修改应用布局、相机、麦克风、短信或设备集成。桌面与窄屏文档渲染另做人工审查，不冒充物理手机验收；历史设备待办保持原状态。",
+    "rag_required": false,
+    "rag_exemption": "本任务只查询既有工程经验，不修改检索、索引、生成或引用策略，不需新增 RAG 质量实验；最终指标仍从完整保留的验证与 RAG 历史重新计算。"
+  }
+}
