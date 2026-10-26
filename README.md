@@ -10,7 +10,6 @@
   <a href="#快速开始">快速开始</a> ·
   <a href="#从食材开始">功能介绍</a> ·
   <a href="#架构与技术栈">技术栈</a> ·
-  <a href="#学习-agent闭环工具上下文与记忆">Agent 学习</a> ·
   <a href="#下载一次后续一键更新">一键更新</a> ·
   <a href="docs/README.md">项目文档</a>
 </p>
@@ -249,54 +248,6 @@ Python 与 [锁定的 Agent 依赖](requirements-agent.txt)。
 | `docs` | 项目设计、使用、维护和质量说明 |
 
 更多入口：[文档导航](docs/README.md) · [开发与贡献](docs/CONTRIBUTING.md) · [安全说明](docs/SECURITY.md)。
-
-## 学习 Agent：闭环、工具、上下文与记忆
-
-项目使用 **LangGraph 管理状态和执行顺序，LangChain 定义有参数约束的只读工具**。
-Go Worker 负责鉴权、读取业务数据、持久化模型额度和最终业务校验。
-当前是一条有界工作流：程序按任务类型安排工具，每个任务最多读取 3 次工具、发送 1 次模型请求，
-没有启用模型自主选工具的 ReAct 循环、自动重试或跨会话 checkpoint。
-
-以菜单推荐为例：
-
-```mermaid
-flowchart TD
-    A[Go 鉴权并读取厨房数据快照] --> B[LangGraph 初始化本次状态]
-    B --> C{还有待读工具吗}
-    C -->|有| D[LangChain 工具读取允许字段]
-    D --> E[观察结果合并到上下文]
-    E --> C
-    C -->|没有| F[构造请求并等待 Go 额度批准]
-    F --> G[单次模型调用与结果校验]
-    G --> H[Go 再校验并保存建议草案]
-    H --> I[用户核对并明确确认]
-    I --> J[Go 重读当前业务数据并事务提交]
-```
-
-图中工具循环完成信息收集；业务闭环还需要用户确认。确认菜单计算缺料，
-确认采购才入库，确认烹饪完成才扣库。演示模式会直接返回演示结果，不发送模型请求；
-工具异常、额度拒绝或模型结果无效会停止本次流程。
-
-| 想弄清楚的问题 | 当前实现与阅读入口 |
-| --- | --- |
-| 闭环如何建立？ | `AgentState` 保存本次工作状态，节点处理数据，条件边决定继续读工具或调用模型。见 [runtime.py](internal/agent/python/runtime.py) 的 `build_agent`。 |
-| 工具如何处理？ | `context_tools` 用 LangChain `@tool` 包装库存、偏好、候选菜谱等读取操作；只接受固定的 `current_request` 范围，拒绝额外参数。工具读取 Go 已授权的快照。 |
-| 上下文从哪里来？ | Go 按当前厨房权限读取本次输入、已保存偏好、库存和候选菜谱，通过私有管道交给 Python。见 [jobs.go](internal/app/jobs.go) 的 `chooseRecipe` 与 [python_bridge.go](internal/agent/python_bridge.go)。 |
-| 记忆如何产生？ | 图状态随本次进程结束而消失；长期偏好来自用户明确保存到 PostgreSQL。任务历史记录执行事实；工程经验经脱敏、复核和回归后进入独立 RAG，不会自动混入用户菜谱建议。 |
-
-先按上方开发步骤准备 Python 环境，再运行这个离线例子：
-
-```powershell
-.cache/python-agent-venv/Scripts/python.exe -I -B internal/agent/python/learn.py
-```
-
-它使用虚构厨房与固定模型函数，运行同一张图并输出节点顺序和上下文字段，
-不读取 `.env`、不连接数据库，也不调用真实模型。输出中的 `model_calls` 应为 `1`，
-`other_household_has_memory` 和 `model_output_saved_as_memory` 均为 `false`。
-例子中的 `InMemoryStore` 演示显式保存与读取，退出后消失；生产偏好仍由 PostgreSQL 保存，
-模型回答不会自动成为可信记忆。
-
-完整流程、边界测试和三个动手练习见 [Agent 学习指南](docs/AGENT_LEARNING.md)。
 
 ## 当前范围
 

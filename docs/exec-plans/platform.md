@@ -829,3 +829,15 @@ main-site, cloud or paid-model run is required for this documentation-only scope
 No default deployment recreation or synthetic database write was performed.
 Publish with `[skip ci]` under the user's policy; the previous green run is the
 baseline, not a claim that the new documentation commit has passed CI.
+
+### README audience correction — 2026-10-26
+
+The user clarified that the Agent lesson is for personal study. Removed the
+README's learning navigation and tutorial section, retaining the factual
+LangChain/LangGraph stack description and the separate learning guide. This is
+a documentation-only follow-up to `23c036a`, with last green application CI at
+`a057aee` / run `40333228875`. Verification is limited to local document targets,
+navigation anchors, removal/retention checks and `git diff --check`; no application
+tests, long acceptance or deployment is warranted. Publish with `[skip ci]`.
+All 56 local link targets, removal/retention assertions and the diff check passed;
+evidence: `.cache/harness/readme-remove-personal-lesson.json`.
