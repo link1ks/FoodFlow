@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.13'}
+      - run: python -m pip install -r requirements-agent.txt && python -m pip check
       - uses: actions/setup-go@v5
         with: {go-version-file: go.mod, cache: true}
       - run: go vet ./...
@@ -60,6 +61,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.13'}
+      - run: python -m pip install -r requirements-agent.txt && python -m pip check
       - uses: actions/setup-go@v5
         with: {go-version-file: go.mod, cache: true}
       - uses: pnpm/action-setup@v4

@@ -42,6 +42,7 @@ func runID() string {
 func sourceDigest(root string) (string, error) {
 	files := []string{"go.mod", "go.sum", "sql/sqlc.yaml", ".env.example", ".dockerignore", ".gitignore", "AGENTS.md", "README.md", "docs/ARCHITECTURE.md", "api/openapi.yaml", "Dockerfile", "compose.yaml", "deploy/compose.acceptance.yaml", "deploy/compose.platform.yaml", "deploy/compose.trial.yaml", "deploy/compose.trial-deepseek.yaml", "deploy/compose.learning.yaml", ".github/workflows/ci.yml", "web/package.json", "web/pnpm-lock.yaml", "web/Dockerfile", "web/.dockerignore", "web/nginx.conf", "web/playwright.config.ts", "web/tsconfig.json", "web/vite.config.ts", "web/index.html", "web/pnpm-workspace.yaml", "docs/HARNESS.md", "docs/PLATFORM.md", knowledgePath}
 	files = append(files, "deploy/compose.restore.yaml")
+	files = append(files, "requirements-agent.txt", "docs/AGENT_LEARNING.md")
 	files = append(files, "docs/CONTRIBUTING.md", "docs/SECURITY.md", "docs/CHANGELOG.md", "docs/README.md")
 	files = append(files, "docs/BUSINESS_GUIDE.md", "docs/FAMILY_TRIAL.md")
 	for _, dir := range []string{"cmd", "internal", "sql", "scripts", "tests", "web/src", "web/e2e", "web/scripts", "web/public", "docs/quality"} {

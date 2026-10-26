@@ -129,6 +129,18 @@ func contractInventory(root string) ([]byte, error) {
 		}
 	}
 	section("Go version and direct dependencies", deps)
+	pythonDeps, err := os.ReadFile(filepath.Join(root, "requirements-agent.txt"))
+	if err != nil {
+		return nil, err
+	}
+	deps = nil
+	for _, line := range strings.Split(string(pythonDeps), "\n") {
+		line = strings.TrimSpace(line)
+		if line != "" && !strings.HasPrefix(line, "#") {
+			deps = append(deps, line)
+		}
+	}
+	section("Python agent pinned dependencies", deps)
 	var pkg struct {
 		Dependencies    map[string]string `json:"dependencies"`
 		DevDependencies map[string]string `json:"devDependencies"`

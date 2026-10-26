@@ -22,7 +22,10 @@ go run ./cmd/harness -mode cloud -out .cache/harness/task-cloud.json
 
 Full mode checks AST import rules, Go formatting, vet, all Go tests with required Docker integration, pinned sqlc generation consistency, generated frontend API type freshness, frontend tests and build. Fast mode explicitly uses `-short`; it cannot establish database or messaging acceptance. Results and bounded subprocess output are written to `.cache/harness/latest.json`. The harness clears production test-database and model/cache/service environment overrides from test subprocesses, uses fixed argument vectors and exits nonzero on failed checks.
 
-Agent tests require Python 3.13. `TestPythonAgentContracts` runs the offline
+Agent tests require Python 3.13 and `pip install -r requirements-agent.txt`.
+`TestLangGraphAgentContracts` runs the actual compiled graph, scoped tools,
+request isolation, single-dispatch/error boundaries and the offline learning
+example. `TestPythonAgentContracts` runs the offline
 Python unittest suite; its named Go result is the harness binding, and a failed
 Python assertion fails that Go test. Model adapter/integration tests execute the
 actual embedded Python runtime against local fixtures. Python sources under

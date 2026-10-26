@@ -14,7 +14,13 @@ flowchart LR
 
 The API owns users, permissions, inventory, procurement, menus and authoritative writes. Model Worker keeps its existing PostgreSQL queue and lease fencing. Insights is a separate executable and database owner; its only kitchen input is the versioned stock event. API checks current household membership before forwarding a request authenticated with an internal service token. Statistics cannot mutate inventory.
 
-The Go Worker invokes an embedded Python 3.13 agent in a bounded child process.
+The Go Worker invokes an embedded Python 3.13 LangChain/LangGraph agent in a bounded child process.
+LangGraph runs a maximum-three-step snapshot tool loop, preparation, authorization,
+one provider call and validation. LangChain tools accept only the current request
+scope and expose allowlisted Go-authorized fields. The model cannot choose external
+tools. No checkpoint, provider retry or automatic memory write is enabled.
+User-saved preferences remain in Go-owned PostgreSQL; engineering RAG remains
+separate from household recommendations. See [the learning guide](AGENT_LEARNING.md).
 Python owns prompts, provider HTTP requests and structured model outputs for
 planning, nutrition advice, vision, speech and community review; demo selection
 also executes Python. Go retains database authorization, deterministic quantities,
@@ -23,7 +29,8 @@ Its private JSON pipe reports the exact UTF-8 provider request size before the
 Worker's durable allowance guard authorizes dispatch. Cancellation kills the child;
 missing/uncertain results retain the debit. There are no provider retries or
 redirects. `FOODFLOW_PYTHON` can select a native interpreter; Docker and CI pin
-Python 3.13. The source is embedded in Go so deployed agent code matches the binary.
+Python 3.13 and install the same `requirements-agent.txt` dependency pins.
+The source is embedded in Go so deployed agent code matches the binary.
 
 Engineering RAG executes embedded Python: exact lexical/concept cosine, SQLite
 inverted postings, lifecycle filtering and grounded citation validation. Go

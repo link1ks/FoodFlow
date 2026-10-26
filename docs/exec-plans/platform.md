@@ -641,3 +641,49 @@ Official Docker build-cache pruning with `--all --force --filter until=24h` repo
 Offline engineering-history retrieval preceded immutable task binding; the unrelated historical benchmark-path repair was excluded. Task-associated architecture, repository hygiene, knowledge freshness and source stability passed, as did `TestRepositoryHygieneCatchesForcedIgnoredFileWithoutReadingSecrets` and `TestLearningMetricsRetainsFailuresAndUnknownHistory`. A protected-file snapshot initially failed on a private report's permissions; the explicit replacement baseline was captured during cleanup, and all 1,977 selected protected hashes were unchanged afterward. This is not represented as a complete pre-cleanup content snapshot. Existing README/showcase/layout-task edits were preserved. Reviewed private manifests and the maintenance summary remain under `.cache/storage-cleanup-20261023/` and `.cache/harness/storage-cleanup-20261023-maintenance.json`.
 
 This filesystem maintenance made no application source changes and no paid model calls. Full/acceptance/diagnose/main-site/current-cloud evidence for the dirty application worktree was not produced, so no version-2 application completion is claimed; the formal task is recorded blocked/unknown. Only this redacted housekeeping record is published; unrelated pending work and all private artifacts remain local.
+
+## LangChain / LangGraph Agent migration — 2026-10-26
+
+Task `langgraph-agent-migration` migrates the embedded Python execution path to
+LangGraph StateGraph and LangChain scoped snapshot tools. Go keeps household
+permissions, durable allowance authorization, lease cancellation, transaction
+writes and explicit user confirmation. The graph runs at most three read tools
+and one provider call; it rejects unexpected provider tool calls and invalid
+results without retrying. No checkpoint, automatic preference inference or
+production conversation memory is introduced. Dependency pins are installed by
+native setup, Docker and both Python-using CI jobs and included in source and
+knowledge freshness checks.
+
+The Chinese `docs/AGENT_LEARNING.md` traces execution, tool schemas, authorized
+context reads and the separate provenance of user-saved preferences and reviewed
+engineering experience. `internal/agent/python/learn.py` uses the production graph
+with a deterministic model and a fictional process-local InMemoryStore; it makes
+no provider calls or business writes. It demonstrates explicit memory creation,
+namespace separation and refusal to automatically persist generated output.
+
+The pre-binding engineering query returned no verified relevant historical
+records. The frozen contract requires full/acceptance/diagnose/main-site/current
+cloud/feedback evidence; offline RAG evaluation is required. No paid evaluation
+was authorized and no real model quality improvement is claimed. Existing
+physical-device limitations remain; microphone/camera capture was not changed.
+
+The first eight-test graph run found three failed assertions: LangChain Core
+1.7.0 bypasses parsing for an empty tool schema, so extra input was silently
+ignored. Require the literal current_request scope with extra fields forbidden;
+five invalid-input cases now fail closed. Nine offline graph/learning tests and
+the existing agent fixture suite passed after this repair. The redacted original
+failure and reviewed history are retained privately. First full run
+`4636c4bdbbaadf06e2238530cc74a057` failed because Docker Desktop was stopped;
+required integration/data-scale checks correctly rejected missing evidence.
+Docker was started and a fresh full run follows; no earlier pass substitutes for
+that result. Both failures remain open until fresh full and linked desktop/mobile
+acceptance establish their regressions.
+
+Fresh full report `a60c48fbac46eb7f62b400a8dda6092f` passed all 18 checks and
+173 named results with source digest
+`312a083f92a2a061f44f372f7338121fc2d879426bd068ed19b750db1a1ffbfd`.
+The bounded workload completed 3,857 cycles / 26,999 requests across 10 households
+and 20 clients in 30.160 seconds: zero errors/invariant failures, p95 15.235 ms.
+This measures an isolated in-process API plus real PostgreSQL, excluding model,
+gateway, cache and Kafka. Docker/browser acceptance and deployment remain pending
+at this publication checkpoint; no version-2 completion is yet claimed.

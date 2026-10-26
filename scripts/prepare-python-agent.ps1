@@ -38,4 +38,8 @@ if ($LASTEXITCODE -ne 0) {
 if ($LASTEXITCODE -ne 0) {
     throw 'pip is unavailable in the project environment.'
 }
-Write-Output 'Python agent environment ready. No provider requests, database access or deployment changes were made.'
+& $environmentPython -m pip install -r (Join-Path $repoRoot 'requirements-agent.txt')
+if ($LASTEXITCODE -ne 0) { throw 'Pinned agent dependency installation failed.' }
+& $environmentPython -m pip check
+if ($LASTEXITCODE -ne 0) { throw 'Agent dependency compatibility check failed.' }
+Write-Output 'LangChain/LangGraph agent environment ready. No provider requests, database access or deployment changes were made.'

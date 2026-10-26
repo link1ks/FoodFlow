@@ -26,6 +26,17 @@ func TestPythonAgentContracts(t *testing.T) {
 	}
 }
 
+func TestLangGraphAgentContracts(t *testing.T) {
+	_, file, _, _ := runtime.Caller(0)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, pythonExecutable(), "-I", "-B", filepath.Join(filepath.Dir(file), "python", "test_graph.py"))
+	cmd.Env = pythonEnvironment()
+	if output, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("LangGraph offline contracts failed: %v\n%s", err, output)
+	}
+}
+
 func TestPythonAgentCancellationPreservesUncertainDebit(t *testing.T) {
 	entered := make(chan struct{})
 	release := make(chan struct{})

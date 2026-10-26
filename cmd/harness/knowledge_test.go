@@ -11,6 +11,7 @@ import (
 func knowledgeFixture(t *testing.T) string {
 	t.Helper()
 	root := t.TempDir()
+	writeFixture(t, root, "requirements-agent.txt", "langchain==1.4.7\nlanggraph==1.2.17\n")
 	for _, path := range []string{"internal/app/app.go", "internal/insights/http.go", "internal/events/stock.go", "go.mod", "web/package.json", ".env.example", "deploy/compose.acceptance.yaml", "deploy/compose.platform.yaml", "deploy/compose.trial.yaml", "deploy/compose.trial-deepseek.yaml", "deploy/compose.learning.yaml", "deploy/compose.restore.yaml", "sql/schema/028_stock_outbox.sql"} {
 		raw, err := os.ReadFile(filepath.Join("../..", path))
 		if err != nil {
@@ -41,7 +42,7 @@ func writeFixture(t *testing.T, root, path, content string) {
 }
 
 func TestKnowledgeRejectsRouteAndConfigDrift(t *testing.T) {
-	for _, changed := range []string{"route", "config"} {
+	for _, changed := range []string{"route", "config", "python-dependency"} {
 		t.Run(changed, func(t *testing.T) {
 			root := knowledgeFixture(t)
 			if err := knowledge(root, true); err != nil {
@@ -53,6 +54,8 @@ func TestKnowledgeRejectsRouteAndConfigDrift(t *testing.T) {
 			if changed == "route" {
 				raw, _ := os.ReadFile(filepath.Join(root, "internal/app/app.go"))
 				writeFixture(t, root, "internal/app/app.go", strings.Replace(string(raw), `v.Group("/households/:household")`, `v.Group("/families/:household")`, 1))
+			} else if changed == "python-dependency" {
+				writeFixture(t, root, "requirements-agent.txt", "langchain==1.4.8\n")
 			} else {
 				writeFixture(t, root, ".env.example", "NEW_KEY=never-export-this-value\n")
 			}

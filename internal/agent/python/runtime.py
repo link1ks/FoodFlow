@@ -1,6 +1,7 @@
 """FoodFlow's bounded Python agent. stdin/stdout is a private worker protocol.
 
-No database access, retries, redirects, external packages or inherited credentials.
+LangGraph owns execution; LangChain tools read an authorized, request-local snapshot.
+No database access, retries, redirects or inherited credentials.
 The parent must authorize the exact prepared request before any network operation.
 """
 import base64
@@ -8,7 +9,14 @@ import http.client
 import json
 import ssl
 import sys
+from copy import deepcopy
+from typing import Literal, TypedDict
 from urllib.parse import urlsplit
+
+from langchain.tools import tool
+from langgraph.graph import StateGraph, START, END
+from langsmith import tracing_context
+from pydantic import BaseModel, ConfigDict
 
 sys.stdout.reconfigure(encoding="utf-8", errors="strict", newline="\n")
 
@@ -182,58 +190,159 @@ def prepare(request):
     return dump(payload).encode("utf-8"), None
 
 
+class SnapshotArguments(BaseModel):
+    # Callers cannot smuggle a different household, SQL, URL or file into a tool.
+    model_config = ConfigDict(extra="forbid")
+    scope: Literal["current_request"]
+
+
+def context_tools(request):
+    """Expose only this request's Go-authorized snapshot, never live DB access."""
+    snapshot = deepcopy(request.get("context") or {})
+    task = request["task"]
+    groups = {}
+    if task in ("plan", "advice", "demo_advice"):
+        groups = {
+            "read_preferences": ("user_preference", "household_preferences", "excluded_ingredients", "meal", "servings", "goal"),
+            "read_inventory": ("available_inventory", "selected_inventory"),
+            "read_recipes": ("allowed_recipes",),
+        }
+    elif task == "review":
+        groups = {"read_submission": ("title", "story", "servings", "minutes", "tags", "ingredients", "steps")}
+    elif task == "rag":
+        snapshot["evidence"] = rag_evidence(snapshot)
+        groups = {"read_verified_memory": ("question", "error_code", "applicable_version", "evidence")}
+    elif task in ("rag_eval", "rag_eval_strict"):
+        # Raw model evaluation intentionally retains ineligible candidates.
+        groups = {"read_evaluation_fixture": tuple(snapshot)}
+
+    def make_reader(name, fields):
+        @tool(name, args_schema=SnapshotArguments)
+        def reader(scope: Literal["current_request"]) -> dict:
+            """Read allowed fields from the current authorized input snapshot."""
+            return deepcopy({key: snapshot[key] for key in fields if key in snapshot})
+        return reader
+
+    return {name: make_reader(name, fields) for name, fields in groups.items()}
+
+
+class AgentState(TypedDict, total=False):
+    pending: list[str]
+    context: dict
+    tool_steps: int
+    body: bytes | None
+    content: str
+    demo: bool
+    authorized: bool
+
+
+def dispatch(request, body, progress):
+    """Single HTTP attempt. Accounting survives schema errors after a response."""
+    endpoint = urlsplit(request["endpoint"])
+    timeout = 60 if request["task"] == "speech" else 12 if request["task"] == "vision" else 25
+    if endpoint.scheme == "https":
+        connection = http.client.HTTPSConnection(endpoint.hostname, endpoint.port, timeout=timeout, context=ssl.create_default_context())
+    else:
+        connection = http.client.HTTPConnection(endpoint.hostname, endpoint.port, timeout=timeout)
+    try:
+        connection.request("POST", endpoint.path.rstrip("/") + "/chat/completions", body=body,
+                           headers={"Authorization": "Bearer " + request["key"], "Content-Type": "application/json"})
+        response = connection.getresponse()
+        progress["status"] = response.status
+        if response.status != 200:
+            progress["known_complete"] = True
+            raise ValueError("provider status")
+        data = response.read(65537)
+        progress["known_complete"] = len(data) <= 65536 or request["task"] == "speech"
+        if len(data) > 65536:
+            raise ValueError("oversized response")
+        raw = data.decode("utf-8")
+        if request.get("observe"):
+            progress["provider_response"] = raw
+        choices = loads(raw)["choices"]
+        if type(choices) is not list or len(choices) != 1:
+            raise ValueError("invalid choices")
+        message = choices[0]["message"]
+        # This bounded workflow does not grant model-selected external tools.
+        if message.get("tool_calls") or message.get("function_call"):
+            raise ValueError("unexpected model tool call")
+        content = message["content"]
+        if type(content) is not str:
+            raise ValueError("invalid content")
+        return content
+    finally:
+        connection.close()
+
+
+def parent_permission(body):
+    emit({"phase": "prepared", "request_bytes": len(body)})
+    permit = read_frame()
+    exact(permit, ["version", "allow"])
+    return permit["allow"] is True
+
+
+def build_agent(request, progress, permission=parent_permission, transport=dispatch):
+    """Compile a bounded tool loop and one model step. No checkpoint or retry."""
+    # Credentials stay in this closure, outside graph state and tool schemas.
+    request = deepcopy(request)
+    readers = context_tools(request)
+
+    def load_context(_state):
+        return {"pending": list(readers), "context": {}, "tool_steps": 0}
+
+    def read_tool(state):
+        if state["tool_steps"] >= 3:
+            raise ValueError("tool budget exhausted")
+        name = state["pending"][0]
+        observation = readers[name].invoke({"scope": "current_request"})
+        return {"context": {**state["context"], **observation},
+                "pending": state["pending"][1:], "tool_steps": state["tool_steps"] + 1}
+
+    def route_tools(state):
+        return "read_tool" if state["pending"] else "prepare_model"
+
+    def prepare_model(state):
+        body, demo = prepare({**request, "context": state["context"]})
+        return {"body": body, "demo": demo is not None, "content": demo or ""}
+
+    def authorize(state):
+        return {"authorized": permission(state["body"]) is True}
+
+    def call_model(state):
+        if state.get("authorized") is not True:
+            raise ValueError("not authorized")
+        return {"content": transport(request, state["body"], progress)}
+
+    def validate_result(state):
+        return {"content": validate(state["content"], request["task"], state["context"], bool(request.get("data")))}
+
+    graph = StateGraph(AgentState)
+    for name, node in (("load_context", load_context), ("read_tool", read_tool),
+                       ("prepare_model", prepare_model), ("authorize", authorize),
+                       ("call_model", call_model), ("validate_result", validate_result)):
+        graph.add_node(name, node)
+    graph.add_edge(START, "load_context")
+    graph.add_conditional_edges("load_context", route_tools, ["read_tool", "prepare_model"])
+    graph.add_conditional_edges("read_tool", route_tools, ["read_tool", "prepare_model"])
+    graph.add_conditional_edges("prepare_model", lambda s: END if s["demo"] else "authorize", [END, "authorize"])
+    graph.add_conditional_edges("authorize", lambda s: "call_model" if s["authorized"] else END, ["call_model", END])
+    graph.add_edge("call_model", "validate_result")
+    graph.add_edge("validate_result", END)
+    return graph.compile()
+
+
 def run():
-    known = False
-    status = 0
-    raw = ""
+    progress = {"known_complete": False, "status": 0, "provider_response": ""}
     try:
         request = read_frame()
-        body, demo = prepare(request)
-        if demo is not None:
-            emit({"phase": "result", "content": demo, "known_complete": False})
-            return
-        emit({"phase": "prepared", "request_bytes": len(body)})
-        permit = read_frame()
-        exact(permit, ["version", "allow"])
-        if permit["allow"] is not True:
-            return
-        endpoint = urlsplit(request["endpoint"])
-        timeout = 60 if request["task"] == "speech" else 12 if request["task"] == "vision" else 25
-        if endpoint.scheme == "https":
-            connection = http.client.HTTPSConnection(endpoint.hostname, endpoint.port, timeout=timeout, context=ssl.create_default_context())
-        else:
-            connection = http.client.HTTPConnection(endpoint.hostname, endpoint.port, timeout=timeout)
-        try:
-            connection.request("POST", endpoint.path.rstrip("/") + "/chat/completions", body=body,
-                               headers={"Authorization": "Bearer " + request["key"], "Content-Type": "application/json"})
-            response = connection.getresponse()
-            status = response.status
-            if status != 200:
-                known = True
-                raise ValueError("provider status")
-            data = response.read(65537)
-            # Keep original conservative accounting: speech settles oversized replies.
-            known = len(data) <= 65536 or request["task"] == "speech"
-            if len(data) > 65536:
-                raise ValueError("oversized response")
-            raw = data.decode("utf-8")
-            envelope = loads(raw)
-            choices = envelope["choices"]
-            if type(choices) is not list or len(choices) != 1:
-                raise ValueError("invalid choices")
-            content = choices[0]["message"]["content"]
-            if type(content) is not str:
-                raise ValueError("invalid content")
-            content = validate(content, request["task"], request.get("context") or {}, bool(request.get("data")))
-            emit({"phase": "result", "content": content, "known_complete": known,
-                  "status": status, "provider_response": raw if request.get("observe") else ""})
-        finally:
-            connection.close()
+        # Also disable telemetry for standalone callers with inherited LangSmith env.
+        with tracing_context(enabled=False):
+            state = build_agent(request, progress).invoke({}, {"recursion_limit": 12})
+        if state["demo"] or state.get("authorized"):
+            emit({"phase": "result", "content": state["content"], **progress})
     except Exception:
         # Never print exception strings, provider bodies, URLs, keys or tracebacks.
-        emit({"phase": "result", "error": "Python agent rejected or could not complete the request",
-              "known_complete": known, "status": status,
-              "provider_response": raw if 'request' in locals() and request.get("observe") else ""})
+        emit({"phase": "result", "error": "Python agent rejected or could not complete the request", **progress})
 
 
 # Prompt constants are kept here, in the Python agent, before its entrypoint.

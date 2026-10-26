@@ -9,6 +9,8 @@ ARG FOODFLOW_SOURCE_DIGEST=unbound
 LABEL io.foodflow.source-digest=$FOODFLOW_SOURCE_DIGEST
 RUN apk add --no-cache ca-certificates tzdata
 WORKDIR /app
+COPY requirements-agent.txt /app/requirements-agent.txt
+RUN python -m pip install --no-cache-dir -r /app/requirements-agent.txt && python -m pip check
 COPY --from=build /out/ /app/
 COPY sql/schema /app/sql/schema
 EXPOSE 8080

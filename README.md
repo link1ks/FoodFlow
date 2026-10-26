@@ -230,11 +230,11 @@ go run ./cmd/harness -mode acceptance
 
 `full` 检查源码约束、数据库集成、生成契约、前端测试与构建；`acceptance` 在独立环境验证浏览器、厨房流程和平台恢复。模型测试使用确定性 fixture。最新提交的云端结果见 [GitHub Actions](https://github.com/link1ks/FoodFlow/actions/workflows/ci.yml)，验证范围见 [验证说明](docs/VERIFICATION.md)。
 
-Agent 实现在 `internal/agent/python/runtime.py`，仅使用 Python 标准库，
-没有额外 pip 依赖。Go 桥接将版本一致的 Python 源码嵌入二进制，
+Agent 实现在 `internal/agent/python/runtime.py`，使用 LangGraph 编排有界流程、
+LangChain 定义读取工具；依赖锁定在 `requirements-agent.txt`。Go 桥接将版本一致的 Python 源码嵌入二进制，
 使用独立子进程执行；本地优先使用 `.cache/python-agent-venv`，
 也可用 `FOODFLOW_PYTHON` 指定解释器。Docker 镜像已包含 Python。
-具体调用顺序和学习步骤见 [Python Agent 迁移计划](docs/exec-plans/python-agent-migration.md)。
+执行闭环、工具、上下文与记忆的代码导读及不收费练习见 [Agent 学习指南](docs/AGENT_LEARNING.md)。
 
 | 目录 | 内容 |
 | --- | --- |

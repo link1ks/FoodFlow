@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "task": "langgraph-agent-migration",
+  "criteria": [
+    {
+      "id": "langchain-langgraph-runtime",
+      "description": "现有 Agent 路径迁移到真实 LangGraph 状态图与 LangChain 有范围约束的工具，保留所有能力、单次发送和严格结果验证。",
+      "business": ["AI", "MENU", "INTAKE", "COMMUNITY", "NUTRITION"],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestLangGraphAgentContracts",
+        "internal/agent/python_bridge_test.go#TestPythonAgentContracts",
+        "internal/agent/model_test.go#TestOpenAIAdapter",
+        "internal/agent/vision_test.go#TestVisionAdapterAndSchema",
+        "internal/agent/speech_test.go#TestQwenSpeechRequestAndGuard",
+        "internal/agent/community_review_test.go#TestCommunityModelChecksImageWithGuardBeforeDispatch",
+        "internal/app/nutrition_advice_test.go#TestNutritionAdviceFlow"
+      ]
+    },
+    {
+      "id": "tool-context-and-memory-learning",
+      "description": "提供中文代码导读和离线可运行示例，解释循环终止、工具观察合并、上下文来源、明确保存偏好与工程经验记忆；示例不收费，验证跨请求隔离和无自动记忆写入。",
+      "business": ["AI", "HARNESS"],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestLangGraphAgentContracts",
+        "internal/agent/rag_test.go#TestPythonRAGIndexAndGroundingContracts",
+        "cmd/harness/learning_test.go#TestExperienceLifecycleAndSemanticRetrieval",
+        "cmd/harness/learning_test.go#TestExperienceRejectsStaleIndexSecretsAndUnverifiedRepairs",
+        "cmd/harness/knowledge_test.go#TestKnowledgeRejectsRouteAndConfigDrift"
+      ]
+    },
+    {
+      "id": "preserve-authority-and-business-loop",
+      "description": "保留当前权限、确切请求预扣、取消不确定占额、无重试、库存事务幂等；完整有界10家庭20客户端30秒负载及桌面手机业务复核。",
+      "business": ["AI", "STOCK", "INTAKE", "MENU", "COMMUNITY"],
+      "tests": [
+        "internal/agent/python_bridge_test.go#TestPythonAgentGuardMatchesExactUTF8RequestAndRejectsUnsafeRecipe",
+        "internal/agent/python_bridge_test.go#TestPythonAgentCancellationPreservesUncertainDebit",
+        "internal/agent/python_bridge_test.go#TestPythonAgentEnvironmentDoesNotInheritApplicationSecrets",
+        "internal/agent/guard_test.go#TestCallGuardBlocksNetworkAndRedirectsCannotRepeatPaidRequests",
+        "internal/app/ai_allowance_test.go#TestAIAllowanceSerializesDebitsAndRetainsAmbiguousCalls",
+        "internal/app/integration_test.go#TestWorkflowAndInvariants",
+        "internal/app/family_load_test.go#TestFamilyMixedLoadConservesStockLedgerAndOutbox",
+        "web/e2e/intake-scope.spec.ts#intake rejects unrelated voice and image and confirms explicit corrections",
+        "web/e2e/voice-intake.spec.ts#voice intake requires consent, editable quantities and explicit atomic confirmation",
+        "web/e2e/community-review.spec.ts#community cover rejection, explicit resubmission and private service failure",
+        "web/e2e/menu-cancel.spec.ts#menu requires a deliberate meal selection and cancelled recommendations stay dismissed",
+        "web/e2e/workflow.spec.ts#UI kitchen workflow purchases shortages and consumes exactly once"
+      ]
+    }
+  ],
+  "feedback": {
+    "evaluations": [],
+    "evaluation_exemption": "Framework orchestration migration with unchanged model prompts and deterministic local HTTP fixtures. No paid model evaluation is authorized; model quality improvement is not claimed. Named graph/schema/bridge regressions and full/acceptance must all pass.",
+    "device_required": false,
+    "device_exemption": "No microphone/camera capture changes; desktop/mobile browser regressions cover affected flows. Existing physical-device limitations remain unchanged.",
+    "rag_required": true
+  }
+}
