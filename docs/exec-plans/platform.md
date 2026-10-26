@@ -766,3 +766,66 @@ The pre-binding history query found no relevant verified record. Final task
 completion additionally requires the published documentation commit's successful
 CI, resolved maintenance-failure records and complete-history metrics in
 `.cache/harness/actions-cleanup-completion.json`; it is not predeclared here.
+
+The maintenance subsequently passed its version-2 completion gate at
+2026-10-26 22:06 Shanghai time. Commit `a057aee` passed all four jobs in CI run
+`40333228875`; cloud report `af4f5c748dfa51fb63db9122dec1be0a` verified that
+published revision. Both archive-helper failures have retained resolved revisions,
+and the completed task includes metrics recomputed from the full retained history.
+
+## README Agent overview — 2026-10-26
+
+Task `readme-agent-overview-20261026` updates the user-facing repository overview
+after the LangChain/LangGraph migration. The README now names both libraries in
+the stack and architecture diagram, provides a direct learning navigation entry,
+and explains the bounded snapshot-tool loop, Go-authorized context, explicit
+preference persistence and separate engineering memory. A compact Mermaid flow
+distinguishes recommendation generation from user-confirmed business writes.
+The offline command includes observable expected values; the development section
+links to the complete verification workflow rather than implying two commands
+alone complete a task.
+
+Reviewed `runtime.py`, `learn.py`, the Go bridge, platform ownership and current
+business guide before writing these claims. The pre-binding AI history query
+returned no relevant verified result, so no historical fix was inferred. Existing
+business mappings and generated contracts remain semantically current; no review
+digest refresh was needed. Bound the existing graph-contract and broken-link
+regressions, with explicit model/device/RAG exemptions for documentation changes.
+
+The README's offline lesson ran successfully with three tool observations,
+`model_calls=1`, isolated household memory and no automatic model-output memory.
+During verification, the user explicitly changed the delivery policy: recent
+successful CI should not be repeated for small changes that do not affect long-test
+coverage. Updated `AGENTS.md` accordingly and aligned the README's verification
+guidance. Lightweight tasks now use relevant short checks and a reviewed scope
+record; full delivery retains its stricter gate when warranted by actual risk.
+
+Baseline: published commit `a057aee9f097bae212c7f0f82be25624571f6bab`, successful
+CI run `40333228875`. The diff is limited to README, AGENTS and this execution
+record; no application, dependencies, schema, workflows or test implementation
+changed. The already-started full run was interrupted on the user's instruction
+during Go integration testing. It has no completed passing report. The immutable
+original start/contract and interrupted lock-owner record remain local; after
+confirming that process had stopped, only its stale verification lock was removed.
+This policy update supersedes that task's full-completion requirement without
+fabricating a version-2 pass or changing the completion validator.
+
+Two automatic permission reviews timed out before launching the planned Go
+knowledge/targeted checks. A sandboxed retry could not initialize the shared Go
+module cache. These are execution limitations, not failed assertions; the Go
+checks are not claimed as passed. The existing Python graph suite was instead
+executed directly: all 9 tests passed in 0.117 seconds, covering the offline
+lesson, bounded dispatch, tool arguments, rejection/invalid-output boundaries
+and request/memory isolation. Output is retained at
+`.cache/harness/readme-agent-python-short.txt`. The standalone lesson also passed.
+
+All 61 local document targets/navigation anchors passed the scoped link check;
+`git diff --check` also passed. Link evidence is retained at
+`.cache/harness/readme-agent-document-links.json`. The lightweight documentation
+task is complete under the user's revised scope; its local completion record is
+`.cache/harness/readme-agent-lightweight-completion.json`, not a full-gate bundle.
+No new full, load, browser/platform acceptance, diagnose,
+main-site, cloud or paid-model run is required for this documentation-only scope.
+No default deployment recreation or synthetic database write was performed.
+Publish with `[skip ci]` under the user's policy; the previous green run is the
+baseline, not a claim that the new documentation commit has passed CI.
