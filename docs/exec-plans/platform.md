@@ -687,3 +687,35 @@ and 20 clients in 30.160 seconds: zero errors/invariant failures, p95 15.235 ms.
 This measures an isolated in-process API plus real PostgreSQL, excluding model,
 gateway, cache and Kafka. Docker/browser acceptance and deployment remain pending
 at this publication checkpoint; no version-2 completion is yet claimed.
+
+Local delivery evidence for the unchanged source digest:
+- acceptance `da0ed7b8530d6954d7cf842c6a9e1352`: 16/16 checks, 48/48 desktop/mobile
+  browser results, zero skipped, unexpected or flaky outcomes. The first browser
+  run could not launch because bundled Chromium 1243 was missing; its report and
+  artifacts are retained. A slow browser download prompted the documented
+  Windows fallback: Edge 155.0.4283.62. Cloud continues to use bundled Chromium.
+- diagnose `8b8c9abf45d79b068ee253ba3b4e7f68`: 5/5 checks.
+- main-site `f7c1d03adad8f97ea48e3141b72e4fea`: 5/5 checks, fresh unauthenticated
+  Edge with same-origin GET/HEAD only and served HTML/JS/CSS matching web/dist.
+- offline engineering RAG: 8/8 exact, semantic, no-answer, filtering, version,
+  conflict, hypothesis and stale-index cases; no live generation or paid calls.
+
+Default API/Worker/Web were rebuilt and started after a validated paired backup
+at `.cache/default-backups/pre-langgraph-agent-20261026T124410Z`. PostgreSQL custom
+archive listing, photo file/byte/hash checks and repeated quiesced snapshots
+passed. Existing database identity, configuration, mounts, data and photos were
+preserved. The image imports LangChain 1.4.7 / LangGraph 1.2.17 on Python 3.13.10.
+`langgraph-agent-deployment.json` records the redacted result. No synthetic writes
+or model probes were sent to the default database. The main site remains running.
+
+The tool-schema issue and Docker/browser environment failures now have reviewed
+resolved revisions backed by the fresh full and linked browser acceptance reports.
+Initial failures remain in retained history and must remain in aggregate metrics.
+The implementation commit `55d762b` passed backend, frontend and image CI jobs;
+platform was still running when this evidence-only update was prepared. Final
+completion still requires the **current published commit's** successful cloud
+report plus recomputed complete-history metrics, feedback and the version-2
+bundle at `.cache/harness/langgraph-agent-completion.json`. This publication
+checkpoint does not predeclare that final gate passed. Model quality, production
+capacity and physical-device behavior remain outside this offline migration's
+verified scope.
