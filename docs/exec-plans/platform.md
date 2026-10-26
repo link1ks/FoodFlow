@@ -719,3 +719,50 @@ bundle at `.cache/harness/langgraph-agent-completion.json`. This publication
 checkpoint does not predeclare that final gate passed. Model quality, production
 capacity and physical-device behavior remain outside this offline migration's
 verified scope.
+
+The LangGraph migration subsequently completed its version-2 gate successfully
+at 2026-10-26 21:04 Shanghai time. Published commit `06f844f` passed all four jobs
+in CI run `40325372109`; its successful run and artifacts are retained by the
+following maintenance. The local passed task outcome and completion bundle remain
+under `.cache/harness/tasks` and `.cache/harness/langgraph-agent-completion.json`.
+
+## GitHub Actions history maintenance — 2026-10-26
+
+Task `actions-cleanup-20261026` follows the user's request to clean Actions and
+update GitHub. Inventory found 75 completed runs (59 success, 8 failure, 8
+cancelled), 117 artifacts and 3 dependency caches. The frozen cleanup scope was
+only the 16 obsolete failed/cancelled runs and unused Go cache `8920016554`.
+No workflow configuration, application source, release, branch, database or photo
+was deleted or changed. Current successful CI and every successful historical
+run were explicitly protected.
+
+All 16 selected runs' logs and available artifacts were privately downloaded,
+ZIP structure checked and bytes/SHA-256 recorded before any remote deletion.
+Backups and original manifests remain at `.cache/actions-cleanup-20261026`, never
+in Git. A transfer interruption left partial evidence intact; bounded parallel
+resume completed it. The private helper's first resume check also detected an
+extra empty .NET task-return object in its serialized metadata. Suppressing that
+return and accepting exactly one original hash record after comparing it with
+the actual file resolved the metadata shape issue; original manifests were kept.
+Neither failure caused a remote deletion before complete archive verification.
+
+At the final API reread, all 16 selected run IDs and their 27 artifacts were
+absent, all 59 protected runs remained, and two current dependency caches remained.
+Deleted artifact accounting was 391,627,702 bytes; the obsolete cache was
+773,746,174 bytes, totaling 1,165,373,876 bytes of GitHub-reported object sizes.
+This is removal accounting, not a promise about immediate billing or physical
+storage reclamation. The frozen before/archive/after manifests and per-deletion
+journals stay local; `.cache/harness/actions-cleanup-remote-result.json` is the
+redacted result. A following documentation commit can create a new successful
+run and new artifacts; that does not change what this cleanup removed.
+
+Fresh source-matching task evidence: full `91de246d8b1bb0434f74ca6238f1c1b0`
+passed 18 checks and 173 named results; acceptance
+`c4cfb510c5a9a40e6015a2208a979c48` passed 16 checks and all 48 desktop/mobile
+scenarios using the documented Edge fallback. Diagnose
+`062fcd3e2531075090c6dcc9e7f6127f` and read-only main-site
+`96b27f382f02b6e688caba21014cc40e` each passed 5 checks. No paid calls were made.
+The pre-binding history query found no relevant verified record. Final task
+completion additionally requires the published documentation commit's successful
+CI, resolved maintenance-failure records and complete-history metrics in
+`.cache/harness/actions-cleanup-completion.json`; it is not predeclared here.
